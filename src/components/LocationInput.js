@@ -1,18 +1,18 @@
-// LocationInput.js
+// src/components/LocationInput.js
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 
-const LocationInput = ({ onSearch }) => {
+const LocationInput = ({ onDraw }) => {
   const [location, setLocation] = useState({ lat: '', lng: '' });
 
   const handleInputChange = (event, value, field) => {
     setLocation({ ...location, [field]: value });
   };
 
-  const handleSearch = () => {
-    onSearch(location.lat, location.lng);
+  const handleDraw = () => {
+    onDraw(location.lat, location.lng);
   };
 
   return (
@@ -45,8 +45,8 @@ const LocationInput = ({ onSearch }) => {
           />
         )}
       />
-      <Button variant="contained" color="primary" onClick={handleSearch}>
-        Search
+      <Button variant="contained" color="primary" onClick={handleDraw}>
+        Draw
       </Button>
     </div>
   );
