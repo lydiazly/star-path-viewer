@@ -5,13 +5,14 @@ import DOMPurify from 'dompurify';
 import LocationInput from './LocationInput';
 import Config from '../Config';
 
-const DiagramFetcher = ({ setSvgData, setErrorMessage }) => {
+const DiagramFetcher = ({ setSvgData, setErrorMessage, clearSvgData }) => {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
   const day = now.getDate();
 
   const handleDraw = async (lat, lng) => {
+    clearSvgData(); // Clear the SVG data before making the API call
     try {
       const response = await axios.get(`${Config.serverUrl}/diagram`, {
         params: { year, month, day, lat, lng }
@@ -44,7 +45,7 @@ const DiagramFetcher = ({ setSvgData, setErrorMessage }) => {
       } else {
         setErrorMessage('Error: ' + error.message);
       }
-      setSvgData(''); // Clear SVG on error
+      clearSvgData(); // Clear SVG on error
     }
   };
 

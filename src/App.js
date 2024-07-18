@@ -9,6 +9,8 @@ const App = () => {
   const [svgData, setSvgData] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const clearSvgData = () => setSvgData('');
+
   return (
     <div className="App">
       {/* <header className="App-header">
@@ -16,7 +18,7 @@ const App = () => {
       </header> */}
 
       <h1>Star Trail</h1>
-      <DiagramFetcher setSvgData={setSvgData} setErrorMessage={setErrorMessage} />
+      <DiagramFetcher setSvgData={setSvgData} setErrorMessage={setErrorMessage} clearSvgData={clearSvgData} />
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       {svgData && (
         <>
