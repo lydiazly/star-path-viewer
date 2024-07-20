@@ -22,21 +22,21 @@ const App = () => {
 
       <h1>Star Trail</h1>
       <DiagramFetcher setDiagramId={setDiagramId} setSvgData={setSvgData} setAnno={setAnno} setErrorMessage={setErrorMessage} clearImage={clearImage} />
-      <br></br>
+      <br />
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <br></br>
+      <br />
       {svgData && (
         <>
           <div id="svg-container">
             <ImageDisplay svgData={svgData} />
           </div>
-          <br></br>
+          <br />
           <DownloadManager svgData={svgData} filenameBase={`st_${diagramId}`} dpi="300" />
-          <br></br>
+          <br />
           <div id="annotations">
             <AnnoDisplay anno={anno} />
           </div>
-          <br></br>
+          <br />
         </>
       )}
     </div>
