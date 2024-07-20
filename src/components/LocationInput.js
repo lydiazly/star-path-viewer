@@ -16,7 +16,7 @@ const LocationInput = ({ onDraw }) => {
     const year = now.getFullYear();
     const month = now.getMonth() + 1;
     const day = now.getDate();
-    onDraw(year, month, day, location.lat, location.lng);
+    onDraw({year, month, day, lat: location.lat, lng: location.lng, planet: 'mars'});
   };
 
   return (

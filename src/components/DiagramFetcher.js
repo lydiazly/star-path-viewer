@@ -6,38 +6,50 @@ import LocationInput from './LocationInput';
 import Config from '../Config';
 
 const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, clearImage }) => {
-  const handleDraw = async (year, month, day, lat, lng) => {
+  const handleDraw = async ({year, month = 1, day = 1, lat, lng, planet = null, hip = -1, ra = null, dec = null}) => {
     clearImage(); // Clear the SVG data before making the API call
-    console.log(`year: ${year}`);
+    
+    const params = { year, month, day, lat, lng };
+
+    if (planet) {
+      params.planet = planet;
+    } else if (parseInt(hip) > 0) {
+      params.hip = parseInt(hip);
+    } else if (ra && dec) {
+      params.ra = parseFloat(ra);
+      params.dec = parseFloat(dec);
+    } else {
+      setErrorMessage('Either planet name, Hipparchus catalogue number, or (ra, dec) is invalid.');
+      return;
+    }
     
     try {
       const response = await axios.get(`${Config.serverUrl}/diagram`, {
-        params: { year, month, day, lat, lng }
+        params: params
       });
 
-      const id = response.data.diagramId;
-      const annotations = response.data.annotations;
-      console.log(`annotations: ${annotations}`);
-      const svgBase64 = response.data.svgData;
+      const _diagramId = response.data.diagramId;
+      const _anno = response.data.annotations;
+      const _svgBase64 = response.data.svgData;
       // Decode base64 to binary string
-      const binaryString = atob(svgBase64);
+      const _svgBinaryString = atob(_svgBase64);
       // Convert binary string to an array of char codes
-      const charCodes = new Uint8Array(binaryString.length);
-      for (let i = 0; i < binaryString.length; i++) {
-        charCodes[i] = binaryString.charCodeAt(i);
+      const _charCodes = new Uint8Array(_svgBinaryString.length);
+      for (let i = 0; i < _svgBinaryString.length; i++) {
+        _charCodes[i] = _svgBinaryString.charCodeAt(i);
       }
       // Decode UTF-8 from char codes
-      const decoder = new TextDecoder('utf-8');
-      const svgDecoded = decoder.decode(charCodes);
+      const _decoder = new TextDecoder('utf-8');
+      const _svgDecoded = _decoder.decode(_charCodes);
       // Sanitize the SVG content using DOMPurify
-      const sanitizedSvg = DOMPurify.sanitize(svgDecoded, {
+      const _sanitizedSvg = DOMPurify.sanitize(_svgDecoded, {
         ADD_TAGS: ['use', 'clipPath'],
         ADD_ATTR: ['id', 'xlink:href', 'clip-path']
       });
 
-      setDiagramId(id);
-      setSvgData(sanitizedSvg);
-      setAnno(annotations);
+      setDiagramId(_diagramId);
+      setSvgData(_sanitizedSvg);
+      setAnno(_anno);
       setErrorMessage(''); // Clear any previous error message
     
     } catch (error) {

@@ -37,10 +37,14 @@ const formatTime = (time) => {
   const second = parseFloat(time[5]);
   const dateTimeStrList = formatTimeList(year, month, day, hour, minute, second);
   return `${dateTimeStrList[0]} ${dateTimeStrList[1]}`;
-};
+}
 
 const AnnoDisplay = ({ anno }) => {
   const filteredAnno = anno.filter(item => item.is_displayed);
+  const formatFloat = (number => {
+    let str = number.toFixed(3).padStart(8, ' ');
+    return str;
+  })
 
   return (
     <div>
@@ -59,8 +63,8 @@ const AnnoDisplay = ({ anno }) => {
           {filteredAnno.map((item, index) => (
             <tr key={index}>
               <td>{item.name}</td>
-              <td>{item.alt}</td>
-              <td>{item.az}</td>
+              <td>{formatFloat(parseFloat(item.alt))}</td>
+              <td>{formatFloat(parseFloat(item.az))}</td>
               <td>{formatTime(item.time_ut1)}</td>
               <td>{formatTime(item.time_local)}</td>
               <td>{item.time_zone}</td>

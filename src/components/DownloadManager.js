@@ -13,7 +13,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
 
     const widthPx = parseFloat(svgElement.width.baseVal.value);  // 720 pt (= 10 inch = 960 px)
     const heightPx = parseFloat(svgElement.height.baseVal.value);  // 720 pt (= 10 inch = 960 px)
-    console.log(`width: ${widthPx}, height: ${heightPx}`);
+    // console.log(`width: ${widthPx}, height: ${heightPx}`);
 
     const filename = `${filenameBase}.${format}`;
     //-------------------------------------------------------------------------|
