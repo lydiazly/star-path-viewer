@@ -1,23 +1,23 @@
 // src/components/DiagramFetcher.js
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import LocationInput from './LocationInput';
 import Config from '../Config';
 
-const DiagramFetcher = ({ setSvgData, setErrorMessage, clearSvgData }) => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const day = now.getDate();
-
-  const handleDraw = async (lat, lng) => {
-    clearSvgData(); // Clear the SVG data before making the API call
+const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, clearImage }) => {
+  const handleDraw = async (year, month, day, lat, lng) => {
+    clearImage(); // Clear the SVG data before making the API call
+    console.log(`year: ${year}`);
+    
     try {
       const response = await axios.get(`${Config.serverUrl}/diagram`, {
         params: { year, month, day, lat, lng }
       });
 
+      const id = response.data.diagramId;
+      const annotations = response.data.annotations;
+      console.log(`annotations: ${annotations}`);
       const svgBase64 = response.data.svgData;
       // Decode base64 to binary string
       const binaryString = atob(svgBase64);
@@ -35,8 +35,11 @@ const DiagramFetcher = ({ setSvgData, setErrorMessage, clearSvgData }) => {
         ADD_ATTR: ['id', 'xlink:href', 'clip-path']
       });
 
+      setDiagramId(id);
       setSvgData(sanitizedSvg);
+      setAnno(annotations);
       setErrorMessage(''); // Clear any previous error message
+    
     } catch (error) {
       if (error.response && error.response.data.error) {
         setErrorMessage(error.response.data.error);  // Print the error message from the server
@@ -45,13 +48,14 @@ const DiagramFetcher = ({ setSvgData, setErrorMessage, clearSvgData }) => {
       } else {
         setErrorMessage('Error: ' + error.message);
       }
-      clearSvgData(); // Clear SVG on error
+      clearImage(); // Clear SVG on error
     }
   };
 
   return (
     <div>
       <LocationInput onDraw={handleDraw} />
+      {/* DateInput */}
     </div>
   );
 };

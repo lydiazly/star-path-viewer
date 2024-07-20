@@ -2,17 +2,21 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { saveAs } from 'file-saver';
-import { toCanvas } from 'html-to-image';
+import { Canvg } from 'canvg';
 import { jsPDF } from 'jspdf';
 import 'svg2pdf.js';
 
-const DownloadManager = ({ svgData }) => {
+const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) => {
   const handleDownload = async (format) => {
     const svgElement = document.getElementById('svg-container').querySelector('svg');
     if (!svgElement) return;
 
-    const filename = 'star_trail';
+    const widthPx = parseFloat(svgElement.width.baseVal.value);  // 720 pt (= 10 inch = 960 px)
+    const heightPx = parseFloat(svgElement.height.baseVal.value);  // 720 pt (= 10 inch = 960 px)
+    console.log(`width: ${widthPx}, height: ${heightPx}`);
 
+    const filename = `${filenameBase}.${format}`;
+    //-------------------------------------------------------------------------|
     if (format === 'svg') {
       // Define XML and DOCTYPE headers
       const xmlHeader = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
@@ -20,34 +24,51 @@ const DownloadManager = ({ svgData }) => {
       const svgWithHeaders = xmlHeader + svgData;
 
       const blob = new Blob([svgWithHeaders], { type: 'image/svg+xml' });
-      saveAs(blob, `${filename}.svg`);
-
+      saveAs(blob, filename);
+    //-------------------------------------------------------------------------|
     } else if (format === 'png') {
-      const canvas = await toCanvas(svgElement, { pixelRatio: 2 });
-      canvas.toBlob((blob) => {
-        saveAs(blob, `${filename}.png`);
+      // Assuming the current DPI is 96 (standard for SVGs)
+      const scaleFactor = parseFloat(dpi) / 96;
+      const newWidthPx = widthPx * scaleFactor;
+      const newHeightPx = heightPx * scaleFactor;
+
+      const canvas = await document.createElement('canvas')
+      canvas.width = newWidthPx;
+      canvas.height = newHeightPx;
+      const ctx = canvas.getContext('2d');
+      // Center the SVG on the canvas
+      ctx.translate((newWidthPx - widthPx) / 2, (newHeightPx - heightPx) / 2);
+
+      // Render the SVG onto the canvas
+      const v = await Canvg.fromString(ctx, svgData, {
+        ignoreDimensions: true, // Ignore the SVG's width and height attributes
+        scaleWidth: newWidthPx,
+        scaleHeight: newHeightPx
       });
+      await v.render();
 
+      canvas.toBlob((blob) => {
+        saveAs(blob, filename);
+      });
+    //-------------------------------------------------------------------------|
     } else if (format === 'pdf') {
-      const width = svgElement.width.baseVal.value;
-      const height = svgElement.height.baseVal.value;
-
       const pdfDoc = new jsPDF({
         unit: 'pt',
-        format: [width, height]
+        format: [widthPx, heightPx]
       });
 
       pdfDoc
         .svg(svgElement, {
           x: 0,
           y: 0,
-          width: width,
-          height: height
+          width: widthPx,
+          height: heightPx
         })
         .then(() => {
-          pdfDoc.save(`${filename}.pdf`)
+          pdfDoc.save(filename)
         })
     }
+    //-------------------------------------------------------------------------|
   };
 
   const handleDownloadSVG = () => handleDownload('svg');

@@ -12,7 +12,11 @@ const LocationInput = ({ onDraw }) => {
   };
 
   const handleDraw = () => {
-    onDraw(location.lat, location.lng);
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    onDraw(year, month, day, location.lat, location.lng);
   };
 
   return (
@@ -31,6 +35,7 @@ const LocationInput = ({ onDraw }) => {
           />
         )}
       />
+      <br></br>
       <Autocomplete
         freeSolo
         id="lng-autocomplete"
@@ -45,6 +50,7 @@ const LocationInput = ({ onDraw }) => {
           />
         )}
       />
+      <br></br>
       <Button variant="contained" color="primary" onClick={handleDraw}>
         Draw
       </Button>
