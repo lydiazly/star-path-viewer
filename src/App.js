@@ -12,7 +12,7 @@ const App = () => {
   const [anno, setAnno] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const clearImage = () => {setSvgData(''); setAnno('')}
+  const clearImage = () => { setSvgData(''); setAnno(''); }
 
   return (
     <div className="App">

@@ -1,15 +1,20 @@
 // src/components/LocationInput.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from 'react-autocomplete';
+// import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 
-const LocationInput = ({ onDraw }) => {
+const LocationInput = ({ onLocationChange }) => {
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [inputType, setInputType] = useState('city'); // 'city' or 'manual'
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+
+  useEffect(() => {
+    onLocationChange(location);
+  }, [location, onLocationChange]);
 
   const handleInputChange = (event, field) => {
     setLocation({ ...location, [field]: event.target.value });
@@ -47,14 +52,6 @@ const LocationInput = ({ onDraw }) => {
       setSearchTerm(val);
       setSuggestions([]);
     }
-  };
-
-  const handleDraw = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1;
-    const day = now.getDate();
-    onDraw({ year, month, day, lat: location.lat, lng: location.lng, planet: 'mars' });
   };
 
   return (
@@ -114,10 +111,6 @@ const LocationInput = ({ onDraw }) => {
           />
         </>
       )}
-      <br />
-      <Button variant="contained" color="primary" onClick={handleDraw}>
-        Draw
-      </Button>
     </div>
   );
 };

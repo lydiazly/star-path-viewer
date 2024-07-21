@@ -1,32 +1,32 @@
 // src/components/DiagramFetcher.js
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
+import Button from '@mui/material/Button';
 import LocationInput from './LocationInput';
+import DateInput from './DateInput';
 import Config from '../Config';
 
 const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, clearImage }) => {
-  const handleDraw = async ({year, month = 1, day = 1, lat, lng, planet = null, hip = -1, ra = null, dec = null}) => {
-    clearImage(); // Clear the SVG data before making the API call
-    
-    const params = { year, month, day, lat, lng };
+  const [date, setDate] = useState({ year: '', month: '', day: '' });
+  const [location, setLocation] = useState({ lat: '', lng: '' });
 
-    if (planet) {
-      params.planet = planet;
-    } else if (parseInt(hip) > 0) {
-      params.hip = parseInt(hip);
-    } else if (ra && dec) {
-      params.ra = parseFloat(ra);
-      params.dec = parseFloat(dec);
-    } else {
-      setErrorMessage('Either planet name, Hipparchus catalogue number, or (ra, dec) is invalid.');
+  const handleDraw = async () => {
+    clearImage();  // Clear the SVG data before making the API call
+    setErrorMessage('');  // Clear any previous error message before making the API call
+
+    const { year, month, day } = date;
+    const { lat, lng } = location;
+
+    if (!year || !month || !day || !lat || !lng) {
+      setErrorMessage('Please provide all date and location inputs.');
       return;
     }
-    
+
+    const params = { year, month, day, lat, lng, planet: 'mars' };
+
     try {
-      const response = await axios.get(`${Config.serverUrl}/diagram`, {
-        params: params
-      });
+      const response = await axios.get(`${Config.serverUrl}/diagram`, { params });
 
       const _diagramId = response.data.diagramId;
       const _anno = response.data.annotations;
@@ -50,8 +50,8 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
       setDiagramId(_diagramId);
       setSvgData(_sanitizedSvg);
       setAnno(_anno);
-      setErrorMessage(''); // Clear any previous error message
-    
+      setErrorMessage('');  // Clear any previous error message
+
     } catch (error) {
       if (error.response && error.response.data.error) {
         setErrorMessage(error.response.data.error);  // Print the error message from the server
@@ -60,14 +60,18 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
       } else {
         setErrorMessage('Error: ' + error.message);
       }
-      clearImage(); // Clear SVG on error
+      clearImage();  // Clear SVG on error
     }
   };
 
   return (
     <div>
-      <LocationInput onDraw={handleDraw} />
-      {/* DateInput */}
+      <LocationInput onLocationChange={setLocation} />
+      <DateInput onDateChange={setDate} />
+      <br />
+      <Button variant="contained" color="primary" onClick={handleDraw}>
+        Draw
+      </Button>
     </div>
   );
 };
