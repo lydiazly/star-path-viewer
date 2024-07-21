@@ -1,6 +1,6 @@
 // src/components/AnnoDisplay.js
 import React from 'react';
-import { formatTime } from './DateFormat';
+import { DateTimeListToStr } from './DateFormat';
 
 const AnnoDisplay = ({ anno }) => {
   const filteredAnno = anno.filter(item => item.is_displayed);
@@ -28,8 +28,8 @@ const AnnoDisplay = ({ anno }) => {
               <td>{item.name}</td>
               <td>{formatFloat(parseFloat(item.alt))}</td>
               <td>{formatFloat(parseFloat(item.az))}</td>
-              <td>{formatTime(item.time_ut1)}</td>
-              <td>{formatTime(item.time_local)}</td>
+              <td>{DateTimeListToStr(item.time_ut1)}</td>
+              <td>{DateTimeListToStr(item.time_local)}</td>
               <td>{item.time_zone}</td>
             </tr>
           ))}

@@ -11,10 +11,12 @@ import Config from '../Config';
 const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, clearImage }) => {
   const [date, setDate] = useState({ year: '', month: '', day: '' });
   const [location, setLocation] = useState({ lat: '', lng: '' });
+  const [showDateLocation, setShowDateLocation] = useState(false);
 
   const handleDraw = async () => {
     clearImage();  // Clear the SVG data before making the API call
     setErrorMessage('');  // Clear any previous error message before making the API call
+    setShowDateLocation(false);  // Hide the date and location display initially
 
     const { year, month, day } = date;
     const { lat, lng } = location;
@@ -52,6 +54,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
       setSvgData(_sanitizedSvg);
       setAnno(_anno);
       setErrorMessage('');  // Clear any previous error message
+      setShowDateLocation(true);  // Show the date and location display
 
     } catch (error) {
       if (error.response && error.response.data.error) {
@@ -70,11 +73,15 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
       <LocationInput onLocationChange={setLocation} />
       <DateInput onDateChange={setDate} />
       <br />
-      <DateLocationDisplay date={[date.year, date.month, date.day]} location={location} />
-      <br />
       <Button variant="contained" color="primary" onClick={handleDraw}>
         Draw
       </Button>
+      {showDateLocation && (
+        <>
+          <br />
+          <DateLocationDisplay date={[date.year, date.month, date.day]} location={location} />
+        </>
+      )}
     </div>
   );
 };

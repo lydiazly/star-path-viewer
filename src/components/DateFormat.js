@@ -16,36 +16,43 @@ const MONTHS = [
 ];
 
 /**
- * Formats the date and time into strings.
+ * Formats the date and time into strings as '1 Jan 2000 CE' and '12:00:00[.000]'
  *
- * @param {Number} year - 0 is 1 BCE
- * @param {Number} month - starts from 1, default is 1
- * @param {Number} day - default is 1
- * @param {Number} hour - 24-hour format, default is 12
- * @param {Number} minute - default is 0
- * @param {Number} second - default is 0
- * @returns {Array.<string>} An array containing two strings: the formatted date and the formatted time.
+ * @param {Object} params - The parameters for the function.
+ * @param {number} params.year - 0 is 1 BCE
+ * @param {number} [params.month=1] - Starts from 1
+ * @param {number} [params.day=1] - Day of the month
+ * @param {number} [params.hour=12] - 24-hour format
+ * @param {number} [params.minute=0] - Minutes
+ * @param {number} [params.second=0] - Seconds (can be an integer or float)
+ * @returns {string[]} An array containing two strings: the formatted date and the formatted time.
  */
-const formatTimeList = (year, month = 1, day = 1, hour = 12, minute = 0, second = 0) => {
-    const pad = number => number.toString().padStart(2, '0');
-    const yearStr = year > 0 ? `${year} CE` : `${-year + 1} BCE`;
-    const monthStr = MONTHS[month].abbr;
-    const dateStr = `${day} ${monthStr} ${yearStr}`;
-    const secondStr = Number.isInteger(second) ? pad(second) : second.toFixed(3).padStart(6, '0');
-    const timeStr = `${pad(hour)}:${pad(minute)}:${secondStr}`;
-    return [dateStr, timeStr];
+const formatDateTime = ({ year, month = 1, day = 1, hour = 12, minute = 0, second = 0 }) => {
+  const pad = number => number.toString().padStart(2, '0');
+  const yearStr = year > 0 ? `${year} CE` : `${-year + 1} BCE`;
+  const monthStr = MONTHS[month].abbr;
+  const dateStr = `${day} ${monthStr} ${yearStr}`;
+  const secondStr = Number.isInteger(second) ? pad(second) : second.toFixed(3).padStart(6, '0');
+  const timeStr = `${pad(hour)}:${pad(minute)}:${secondStr}`;
+  return [dateStr, timeStr];
 };
 
-const formatTime = (time) => {
-  if (!time) return 'N/A';
-  const year = parseInt(time[0]);
-  const month = parseInt(time[1]);
-  const day = parseInt(time[2]);
-  const hour = parseInt(time[3]);
-  const minute = parseInt(time[4]);
-  const second = parseFloat(time[5]);
-  const dateTimeStrList = formatTimeList(year, month, day, hour, minute, second);
-  return `${dateTimeStrList[0]} ${dateTimeStrList[1]}`;
+/**
+ * Converts a date and time array into a formatted string.
+ * 
+ * @param {number[]} time - An array containing [year, month, day, hour, minute, second]
+ * @returns {string} The formatted date and time string.
+ */
+const DateTimeListToStr = (time) => {
+  if (!Array.isArray(time) || time.length < 6) return '';
+
+  const [year, month, day, hour, minute, second] = time.map((value, index) => {
+    if (index === 5) return parseFloat(value);  // Parse the second as float
+    return parseInt(value, 10);  // Parse other values as int
+  });
+  
+  const dateTimeStrList = formatDateTime({ year, month, day, hour, minute, second });
+  return `${dateTimeStrList[0]}, ${dateTimeStrList[1]}`;
 };
 
-export { formatTimeList, formatTime };
+export { formatDateTime, DateTimeListToStr };
