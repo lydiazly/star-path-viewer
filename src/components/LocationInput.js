@@ -1,8 +1,7 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
-import Autocomplete from 'react-autocomplete';
-// import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 
@@ -20,13 +19,13 @@ const LocationInput = ({ onLocationChange }) => {
     setLocation({ ...location, [field]: event.target.value });
   };
 
-  const handleSearchChange = async (event) => {
-    setSearchTerm(event.target.value);
-    if (event.target.value.length > 2) {
+  const handleSearchChange = async (event, newInputValue) => {
+    setSearchTerm(newInputValue);
+    if (newInputValue.length > 2) {
       try {
         const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
           params: {
-            q: event.target.value,
+            q: newInputValue,
             format: 'json',
             addressdetails: 1,
           },
@@ -40,16 +39,16 @@ const LocationInput = ({ onLocationChange }) => {
     }
   };
 
-  const handleSelect = (val) => {
+  const handleSelect = (event, value) => {
     const selectedSuggestion = suggestions.find(
-      (suggestion) => `${suggestion.display_name}` === val
+      (suggestion) => `${suggestion.display_name}` === value
     );
     if (selectedSuggestion) {
       setLocation({
         lat: selectedSuggestion.lat,
         lng: selectedSuggestion.lon,
       });
-      setSearchTerm(val);
+      setSearchTerm(value);
       setSuggestions([]);
     }
   };
@@ -65,32 +64,19 @@ const LocationInput = ({ onLocationChange }) => {
 
       {inputType === 'city' ? (
         <Autocomplete
-          getItemValue={(item) => item.display_name}
-          items={suggestions}
-          renderItem={(item, isHighlighted) =>
-            <div key={item.place_id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
-              {item.display_name}
-            </div>
-          }
-          value={searchTerm}
-          onChange={handleSearchChange}
-          onSelect={handleSelect}
-          inputProps={{
-            label: 'Search City',
-            variant: 'outlined',
-            fullWidth: true,
-          }}
-          wrapperStyle={{ position: 'relative', zIndex: 1 }}
-          menuStyle={{
-            border: 'solid 1px #ccc',
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            right: 0,
-            maxHeight: '300px',
-            overflowY: 'auto',
-            backgroundColor: 'white',
-          }}
+          freeSolo
+          options={suggestions.map((suggestion) => suggestion.display_name)}
+          inputValue={searchTerm}
+          onInputChange={handleSearchChange}
+          onChange={handleSelect}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search City"
+              variant="outlined"
+              fullWidth
+            />
+          )}
         />
       ) : (
         <>
@@ -100,6 +86,8 @@ const LocationInput = ({ onLocationChange }) => {
             value={location.lat}
             onChange={(e) => handleInputChange(e, 'lat')}
             type="number"
+            fullWidth
+            margin="normal"
           />
           <br />
           <TextField
@@ -108,6 +96,8 @@ const LocationInput = ({ onLocationChange }) => {
             value={location.lng}
             onChange={(e) => handleInputChange(e, 'lng')}
             type="number"
+            fullWidth
+            margin="normal"
           />
         </>
       )}

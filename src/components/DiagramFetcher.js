@@ -5,6 +5,7 @@ import DOMPurify from 'dompurify';
 import Button from '@mui/material/Button';
 import LocationInput from './LocationInput';
 import DateInput from './DateInput';
+import DateLocationDisplay from './DateLocationDisplay';
 import Config from '../Config';
 
 const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, clearImage }) => {
@@ -68,6 +69,8 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
     <div>
       <LocationInput onLocationChange={setLocation} />
       <DateInput onDateChange={setDate} />
+      <br />
+      <DateLocationDisplay date={[date.year, date.month, date.day]} location={location} />
       <br />
       <Button variant="contained" color="primary" onClick={handleDraw}>
         Draw
