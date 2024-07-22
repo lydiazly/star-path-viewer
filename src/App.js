@@ -24,7 +24,7 @@ const App = () => {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="sm" sx={{ marginY: 2 }}>
+      <Container maxWidth="sm" sx={{ paddingY: 2 }}>
         <Box
           sx={{
             display: 'flex',

@@ -1,9 +1,10 @@
 // src/components/ImageDisplay.js
 import React from 'react';
+import { Box } from '@mui/material';
 
 const ImageDisplay = ({ svgData }) => {
   return (
-    <div dangerouslySetInnerHTML={{ __html: svgData }} />
+    <Box id="svg-container" dangerouslySetInnerHTML={{ __html: svgData }} />
   );
 };
 

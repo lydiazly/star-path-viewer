@@ -1,6 +1,6 @@
 // src/components/DownloadManager.js
 import React from 'react';
-import Button from '@mui/material/Button';
+import { Button, Stack } from '@mui/material';
 import { saveAs } from 'file-saver';
 import { Canvg } from 'canvg';
 import { jsPDF } from 'jspdf';
@@ -11,23 +11,23 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
     const svgElement = document.getElementById('svg-container').querySelector('svg');
     if (!svgElement) return;
 
-    const widthPx = parseFloat(svgElement.width.baseVal.value);  // 720 pt (= 10 inch = 960 px)
-    const heightPx = parseFloat(svgElement.height.baseVal.value);  // 720 pt (= 10 inch = 960 px)
+    const widthPx = parseFloat(svgElement.width.baseVal.value);
+    const heightPx = parseFloat(svgElement.height.baseVal.value);
     // console.log(`width: ${widthPx}, height: ${heightPx}`);
 
     const filename = `${filenameBase}.${format}`;
-    //-------------------------------------------------------------------------|
+    /* ---------------------------------------------------------------------- */
     if (format === 'svg') {
-      // Define XML and DOCTYPE headers
+      /* Define XML and DOCTYPE headers */
       const xmlHeader = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
-      // Concatenate headers with sanitized SVG data
+      /* Concatenate headers with sanitized SVG data */
       const svgWithHeaders = xmlHeader + svgData;
 
       const blob = new Blob([svgWithHeaders], { type: 'image/svg+xml' });
       saveAs(blob, filename);
-    //-------------------------------------------------------------------------|
+    /* ---------------------------------------------------------------------- */
     } else if (format === 'png') {
-      // Assuming the current DPI is 96 (standard for SVGs)
+      /* Assuming the current DPI is 96 (standard for SVGs) */
       const scaleFactor = parseFloat(dpi) / 96;
       const newWidthPx = widthPx * scaleFactor;
       const newHeightPx = heightPx * scaleFactor;
@@ -36,12 +36,12 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
       canvas.width = newWidthPx;
       canvas.height = newHeightPx;
       const ctx = canvas.getContext('2d');
-      // Center the SVG on the canvas
+      /* Center the SVG on the canvas */
       ctx.translate((newWidthPx - widthPx) / 2, (newHeightPx - heightPx) / 2);
 
-      // Render the SVG onto the canvas
+      /* Render the SVG onto the canvas */
       const v = await Canvg.fromString(ctx, svgData, {
-        ignoreDimensions: true, // Ignore the SVG's width and height attributes
+        ignoreDimensions: true,  // Ignore the SVG's width and height attributes
         scaleWidth: newWidthPx,
         scaleHeight: newHeightPx
       });
@@ -50,7 +50,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
       canvas.toBlob((blob) => {
         saveAs(blob, filename);
       });
-    //-------------------------------------------------------------------------|
+    /* ---------------------------------------------------------------------- */
     } else if (format === 'pdf') {
       const pdfDoc = new jsPDF({
         unit: 'pt',
@@ -65,28 +65,24 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
           height: heightPx
         })
         .then(() => {
-          pdfDoc.save(filename)
-        })
+          pdfDoc.save(filename);
+        });
     }
-    //-------------------------------------------------------------------------|
+    /* ---------------------------------------------------------------------- */
   };
 
-  const handleDownloadSVG = () => handleDownload('svg');
-  const handleDownloadPNG = () => handleDownload('png');
-  const handleDownloadPDF = () => handleDownload('pdf');
-
   return (
-    <div>
-      <Button variant="contained" onClick={handleDownloadSVG}>
+    <Stack direction="row" spacing={2}>
+      <Button variant="contained" onClick={() => handleDownload('svg')}>
         Download SVG
       </Button>
-      <Button variant="contained" onClick={handleDownloadPNG}>
+      <Button variant="contained" onClick={() => handleDownload('png')}>
         Download PNG
       </Button>
-      <Button variant="contained" onClick={handleDownloadPDF}>
+      <Button variant="contained" onClick={() => handleDownload('pdf')}>
         Download PDF
       </Button>
-    </div>
+    </Stack>
   );
 };
 
