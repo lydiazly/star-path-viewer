@@ -18,13 +18,12 @@ const App = () => {
     setDiagramId(null);
     setSvgData(null);
     setAnno(null);
-    setErrorMessage(null);
   };
 
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="sm" sx={{ paddingY: 2 }}>
+      <Container maxWidth="md" sx={{ paddingY: 2 }}>
         <Box
           sx={{
             display: 'flex',
@@ -40,16 +39,19 @@ const App = () => {
             Ancient Sky
           </Typography>
           <Box sx={{ width: '100%', justifyContent: 'center' }}>
-            <DiagramFetcher 
-              setDiagramId={setDiagramId} 
-              setSvgData={setSvgData} 
-              setAnno={setAnno} 
-              setErrorMessage={setErrorMessage} 
-              clearImage={clearImage} 
+            <DiagramFetcher
+              setDiagramId={setDiagramId}
+              setSvgData={setSvgData}
+              setAnno={setAnno}
+              setErrorMessage={setErrorMessage}
+              clearImage={clearImage}
             />
           </Box>
           {errorMessage && (
-            <Typography variant="body1" color="error">
+            <Typography
+              variant="body1"
+              color="error"
+            >
               {errorMessage}
             </Typography>
           )}
@@ -59,7 +61,7 @@ const App = () => {
                 <ImageDisplay svgData={svgData} />
               </Box>
               <DownloadManager svgData={svgData} filenameBase={`st_${diagramId}`} dpi="300" />
-              <Box id="annotations">
+              <Box id="annotations" mt={2}>
                 <AnnoDisplay anno={anno} />
               </Box>
             </Box>

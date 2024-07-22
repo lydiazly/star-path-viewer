@@ -4,7 +4,17 @@ import { Box } from '@mui/material';
 
 const ImageDisplay = ({ svgData }) => {
   return (
-    <Box id="svg-container" dangerouslySetInnerHTML={{ __html: svgData }} />
+    <Box
+      id="svg-container"
+      sx={{
+        width: '100%',
+        '& svg': {
+          width: '100%',
+          height: 'auto'
+        }
+      }}
+      dangerouslySetInnerHTML={{ __html: svgData }}
+    />
   );
 };
 

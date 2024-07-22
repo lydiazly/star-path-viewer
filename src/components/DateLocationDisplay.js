@@ -12,7 +12,7 @@ const DateLocationDisplay = ({ date, location }) => {
   const lngStr = formatCoordinate(parseFloat(location.lng), 'lng');
 
   return (
-    <Box>
+    <Box mt={4}>
       <Typography variant="body1">
         [DATE] {dateStr}&nbsp;&nbsp;&nbsp;&nbsp;[LAT/LNG] {latStr} / {lngStr}
       </Typography>

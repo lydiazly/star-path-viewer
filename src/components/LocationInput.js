@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Stack, Autocomplete, Button } from '@mui/material';
 import axios from 'axios';
 
-const LocationInput = ({ onLocationChange }) => {
+const LocationInput = ({ onLocationChange, setErrorMessage }) => {
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [inputType, setInputType] = useState('city'); // 'city' or 'manual'
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,7 +30,7 @@ const LocationInput = ({ onLocationChange }) => {
         });
         setSuggestions(response.data);
       } catch (error) {
-        console.error('Error fetching location suggestions:', error);
+        setErrorMessage('Error fetching location suggestions:');
       }
     } else {
       setSuggestions([]);

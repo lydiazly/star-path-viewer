@@ -32,7 +32,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
       const newWidthPx = widthPx * scaleFactor;
       const newHeightPx = heightPx * scaleFactor;
 
-      const canvas = await document.createElement('canvas')
+      const canvas = await document.createElement('canvas');
       canvas.width = newWidthPx;
       canvas.height = newHeightPx;
       const ctx = canvas.getContext('2d');
@@ -73,13 +73,13 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
 
   return (
     <Stack direction="row" spacing={2}>
-      <Button variant="contained" onClick={() => handleDownload('svg')}>
+      <Button variant="contained" onClick={() => handleDownload('svg')} fullWidth>
         Download SVG
       </Button>
-      <Button variant="contained" onClick={() => handleDownload('png')}>
+      <Button variant="contained" onClick={() => handleDownload('png')} fullWidth>
         Download PNG
       </Button>
-      <Button variant="contained" onClick={() => handleDownload('pdf')}>
+      <Button variant="contained" onClick={() => handleDownload('pdf')} fullWidth>
         Download PDF
       </Button>
     </Stack>

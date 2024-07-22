@@ -15,7 +15,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
 
   const handleDraw = async () => {
     clearImage();  // Clear the SVG data before making the API call
-    setErrorMessage('');  // Clear any previous error message before making the API call
+    setErrorMessage(null);  // Clear any previous error message before making the API call
     setShowDateLocation(false);  // Hide the date and location display initially
 
     const { year, month, day } = date;
@@ -51,7 +51,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
       setDiagramId(response.data.diagramId);
       setSvgData(sanitizedSvg);
       setAnno(response.data.annotations);
-      setErrorMessage('');  // Clear any previous error message
+      setErrorMessage(null);  // Clear any previous error message
       setShowDateLocation(true);  // Show the date and location display
 
     } catch (error) {
@@ -68,7 +68,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
 
   return (
     <Stack direction='column' spacing={2}>
-      <LocationInput onLocationChange={setLocation} />
+      <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} />
       <DateInput onDateChange={setDate} />
       <Button variant="contained" color="primary" onClick={handleDraw}>
         Draw Star Trail

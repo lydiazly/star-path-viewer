@@ -19,8 +19,8 @@ const MONTHS = [
 ];
 
 const PT_NAMES = {
-  R: 'Rising Point',
-  S: 'Setting Point',
+  R: 'Rising',
+  S: 'Setting',
 };
 
 export { EPH_DATE_MIN, EPH_DATE_MAX, MONTHS, PT_NAMES };
