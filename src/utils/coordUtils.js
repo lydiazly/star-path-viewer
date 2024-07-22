@@ -1,32 +1,56 @@
 // src/utils/coordUtils.js
+import { hmsToDecimal, decimalToHMS } from './dateUtils';
 
 /**
  * Converts DMS (Degrees, Minutes, Seconds) to decimal degrees.
  * 
- * @param {Object} dms - An object containing degrees, minutes, and seconds
- * @param {number} dms.degrees - The degrees component
- * @param {number} dms.minutes - The minutes component
- * @param {number} dms.seconds - The seconds component
- * @returns {number} The decimal representation of the given DMS value
+ * @param {Object} params - An object containing degrees, minutes, and seconds
+ * @param {number} params.degrees - The degrees component
+ * @param {number} params.minutes - The minutes component
+ * @param {number} params.seconds - The seconds component
+ * @returns {number} The decimal degrees of the given DMS values
  */
 const dmsToDecimal = ({ degrees, minutes, seconds }) => {
   const sign = degrees < 0 ? -1 : 1;
-  const absDegrees = Math.abs(degrees);
-  const decimal = absDegrees + minutes / 60 + seconds / 3600;
-  return sign * decimal;
+  const decimalDegrees = Math.abs(degrees) + (minutes / 60) + (seconds / 3600);
+  return sign * decimalDegrees;
 };
 
 /**
- * Converts a decimal value to DMS (Degrees, Minutes, Seconds).
+ * Converts decimal hours to DMS (Degrees, Minutes, Seconds).
  * 
- * @param {number} value - Positive decimal value
+ * @param {number} decimalDegrees - Decimal degrees
  * @returns {Object} An object containing degrees, minutes, and seconds
  */
-const decimalToDMS = (value) => {
-  const degrees = Math.floor(value);
-  const minutes = Math.floor((value - degrees) * 60);
-  const seconds = ((value - degrees) * 60 - minutes) * 60;
-  return { degrees, minutes, seconds };
+const decimalToDMS = (decimalDegrees) => {
+  const sign = decimalDegrees < 0 ? -1 : 1;
+  const absdecimalDegrees = Math.abs(decimalDegrees);
+  const absDegrees = Math.floor(absdecimalDegrees);
+  const minutes = Math.floor((absdecimalDegrees - absDegrees) * 60);
+  const seconds = ((absdecimalDegrees - absDegrees) * 60 - minutes) * 60;
+  return { degrees: sign * absDegrees, minutes, seconds };
+};
+
+/**
+ * 
+ * @param {Object} dms - An object containing degrees, minutes, and seconds
+ * @returns {Object} An object containing hours, minutes, and seconds
+ */
+const dmsToHMS = (dms) => {
+  const decimalDegrees = dmsToDecimal(dms);
+  const decimalHours = decimalDegrees / 15;
+  return decimalToHMS(decimalHours);
+};
+
+/**
+ * 
+ * @param {Object} hms - An object containing hours, minutes, and seconds
+ * @returns {Object} An object containing degrees, minutes, and seconds
+ */
+const hmsToDMS = (hms) => {
+  const decimalHours = hmsToDecimal(hms);
+  const decimalDegrees = decimalHours * 15;
+  return decimalToDMS(decimalDegrees);
 };
 
 /**
@@ -41,8 +65,7 @@ const formatCoordinate = (coordinate, type) => {
   const direction = type === 'lat'
     ? coordinate >= 0 ? 'N' : 'S'
     : coordinate >= 0 ? 'E' : 'W';
-  
-  return `${degrees}°${minutes}'${Number.isInteger(seconds) ? seconds : seconds.toFixed(2)}" ${direction}`;
+  return `${degrees}°${minutes}'${seconds.toFixed(2)}" ${direction}`;
 };
 
-export { formatCoordinate, dmsToDecimal, decimalToDMS };
+export { dmsToDecimal, decimalToDMS, dmsToHMS, hmsToDMS, formatCoordinate };

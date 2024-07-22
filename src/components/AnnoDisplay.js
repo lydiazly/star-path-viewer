@@ -9,13 +9,13 @@ const AnnoDisplay = ({ anno }) => {
   const redAsterisk = <span style={{ color: 'red' }}>*</span>;
   
   const formatFloat = (number) => {
-    const str = number.toFixed(3).padStart(8, 0);
+    const str = number.toFixed(3);
     return str;
   };
 
   return (
     <div>
-      <table border="1" style={{ margin: '0 auto', borderCollapse: 'collapse' }} >
+      <table border="1" style={{ borderCollapse: 'collapse' }} >
         <thead>
           <tr>
             <th rowSpan="2">Name</th>
@@ -45,7 +45,7 @@ const AnnoDisplay = ({ anno }) => {
           ))}
         </tbody>
       </table>
-      <div class="footnote" style={{ margin: '0.5rem 9rem', textAlign: "left" }}>
+      <div className="footnote" style={{ textAlign: "left" }}>
         {redAsterisk} Values are in local standard time, not Daylight Saving Time.
       </div>
     </div>
