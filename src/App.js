@@ -37,7 +37,7 @@ const App = () => {
           }}
         >
           <Typography variant="h2" component="h1" gutterBottom>
-            Star Trail
+            Ancient Sky
           </Typography>
           <Box sx={{ width: '100%' }}>
             <DiagramFetcher 

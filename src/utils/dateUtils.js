@@ -4,6 +4,45 @@ import { MONTHS } from './constants';
 const pad = number => number.toString().padStart(2, '0');
 
 /**
+ * Converts HMS (Hours, Minutes, Seconds) to decimal hours.
+ * 
+ * @param {Object} params - An object containing hours, minutes, and seconds
+ * @param {number} params.hours - The hours component
+ * @param {number} params.minutes - The minutes component
+ * @param {number} params.seconds - The seconds component
+ * @returns {number} The decimal degrees of the given HMS values
+ */
+const hmsToDecimal = ({ hours, minutes, seconds }) => {
+  const sign = hours < 0 ? -1 : 1;
+  const decimalHours = Math.abs(hours) + (minutes / 60) + (seconds / 3600);
+  return sign * decimalHours;
+};
+
+/**
+ * Converts decimal hours to HMS (Hours, Minutes, Seconds).
+ * 
+ * @param {number} decimalHours - Decimal hours
+ * @returns {Object} An object containing hours, minutes, and seconds
+ */
+const decimalToHMS = (decimalHours) => {
+  const sign = decimalHours < 0 ? -1 : 1;
+  const absDecimalHours = Math.abs(decimalHours);
+  const absHours = Math.floor(absDecimalHours);
+  const minutes = Math.floor((absDecimalHours - absHours) * 60);
+  const seconds = ((absDecimalHours - absHours) * 60 - minutes) * 60;
+  return { hours: sign * absHours, minutes, seconds };
+};
+
+const formatHMS = ({ hours, minutes, seconds }) => {
+  return `${hours < 0 ? '-' : '+'}${Math.abs(hours)}h ${minutes}m ${seconds.toFixed(2)}s`;
+};
+
+const formatDecimalHours = (decimalHours) => {
+  const hms = decimalToHMS(decimalHours);
+  return formatHMS(hms);
+};
+
+/**
  * Formats the date and time into strings as '1 Jan 2000 CE' and '12:00:00[.000]'
  *
  * @param {Object} params - An object containing year, month, day, hour, minute, second
@@ -43,36 +82,6 @@ const dateTimeToStr = (dateTime) => {
 };
 
 /**
- * Converts HMS (Hours, Minutes, Seconds) to decimal hours.
- * 
- * @param {Object} params - An object containing hours, minutes, and seconds
- * @param {number} params.hours - The hours component
- * @param {number} params.minutes - The minutes component
- * @param {number} params.seconds - The seconds component
- * @returns {number} The decimal degrees of the given HMS values
- */
-const hmsToDecimal = ({ hours, minutes, seconds }) => {
-  const sign = hours < 0 ? -1 : 1;
-  const decimalHours = Math.abs(hours) + (minutes / 60) + (seconds / 3600);
-  return sign * decimalHours;
-};
-
-/**
- * Converts decimal hours to HMS (Hours, Minutes, Seconds).
- * 
- * @param {number} decimalHours - Decimal hours
- * @returns {Object} An object containing hours, minutes, and seconds
- */
-const decimalToHMS = (decimalHours) => {
-  const sign = decimalHours < 0 ? -1 : 1;
-  const absDecimalHours = Math.abs(decimalHours);
-  const absHours = Math.floor(absDecimalHours);
-  const minutes = Math.floor((absDecimalHours - absHours) * 60);
-  const seconds = ((absDecimalHours - absHours) * 60 - minutes) * 60;
-  return { hours: sign * absHours, minutes, seconds };
-};
-
-/**
  * Formats a decimal UTC offset into a string.
  * 
  * @param {number} tz - Decimal UTC offset
@@ -84,9 +93,11 @@ const formatTimezone = (tz) => {
 };
 
 export {
-  formatDateTime,
-  dateTimeToStr,
   decimalToHMS,
   hmsToDecimal,
+  formatHMS,
+  formatDecimalHours,
+  formatDateTime,
+  dateTimeToStr,
   formatTimezone
 };

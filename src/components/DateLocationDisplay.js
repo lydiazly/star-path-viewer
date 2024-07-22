@@ -12,7 +12,7 @@ const DateLocationDisplay = ({ date, location }) => {
 
   return (
     <p>
-      Date: {dateStr}, Latitude: {latStr}, Longitude: {lngStr}
+      [DATE] {dateStr}&nbsp;&nbsp;&nbsp;&nbsp;[LAT/LNG] {latStr} / {lngStr}
     </p>
   );
 };

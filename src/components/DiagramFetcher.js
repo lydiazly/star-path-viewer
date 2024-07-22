@@ -72,7 +72,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
       <DateInput onDateChange={setDate} />
       <br />
       <Button variant="contained" color="primary" onClick={handleDraw}>
-        Draw
+        Draw Star Trail
       </Button>
       {showDateLocation && (
         <>

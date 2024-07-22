@@ -28,7 +28,16 @@ const decimalToDMS = (decimalDegrees) => {
   const absDegrees = Math.floor(absdecimalDegrees);
   const minutes = Math.floor((absdecimalDegrees - absDegrees) * 60);
   const seconds = ((absdecimalDegrees - absDegrees) * 60 - minutes) * 60;
-  return { degrees: sign * absDegrees, minutes, seconds };
+  return { degrees: parseInt(sign * absDegrees), minutes, seconds };
+};
+
+const formatDMS = ({ degrees, minutes, seconds }) => {
+  return `${degrees < 0 ? '-' : '+'}${Math.abs(degrees)}° ${minutes}' ${seconds.toFixed(2)}"`;
+};
+
+const formatDecimalDgrees = (decimalDegrees) => {
+  const dms = decimalToDMS(decimalDegrees);
+  return formatDMS(dms);
 };
 
 /**
@@ -61,11 +70,19 @@ const hmsToDMS = (hms) => {
  * @returns {string} The formatted geographic coordinate string
  */
 const formatCoordinate = (coordinate, type) => {
-  const { degrees, minutes, seconds } = decimalToDMS(Math.abs(coordinate));
+  const { degrees, minutes, seconds } = decimalToDMS(coordinate);
   const direction = type === 'lat'
     ? coordinate >= 0 ? 'N' : 'S'
     : coordinate >= 0 ? 'E' : 'W';
-  return `${degrees}°${minutes}'${seconds.toFixed(2)}" ${direction}`;
+  return `${Math.abs(degrees)}° ${minutes}' ${seconds.toFixed(2)}" ${direction}`;
 };
 
-export { dmsToDecimal, decimalToDMS, dmsToHMS, hmsToDMS, formatCoordinate };
+export {
+  dmsToDecimal,
+  decimalToDMS,
+  formatDMS,
+  formatDecimalDgrees,
+  dmsToHMS,
+  hmsToDMS,
+  formatCoordinate
+};

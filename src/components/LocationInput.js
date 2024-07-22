@@ -28,7 +28,7 @@ const LocationInput = ({ onLocationChange }) => {
           params: {
             q: newInputValue,
             format: 'json',
-            addressdetails: 1,
+            // addressdetails: 1,
           },
         });
         setSuggestions(response.data);
