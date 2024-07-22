@@ -1,6 +1,7 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import axios from 'axios';
@@ -61,45 +62,47 @@ const LocationInput = ({ onLocationChange }) => {
       <Button onClick={() => setInputType('manual')} variant={inputType === 'manual' ? 'contained' : 'outlined'}>
         Enter Coordinates
       </Button>
+      <br />
 
       {inputType === 'city' ? (
-        <Autocomplete
-          freeSolo
-          options={suggestions.map((suggestion) => suggestion.display_name)}
-          inputValue={searchTerm}
-          onInputChange={handleSearchChange}
-          onChange={handleSelect}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Search City"
-              variant="outlined"
-              fullWidth
-            />
-          )}
-        />
-      ) : (
         <>
+          <br />
+          <Autocomplete
+            freeSolo
+            options={suggestions.map((suggestion) => suggestion.display_name)}
+            inputValue={searchTerm}
+            onInputChange={handleSearchChange}
+            onChange={handleSelect}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Search City"
+                variant="outlined"
+                fullWidth
+              />
+            )}
+          />
+          <br />
+        </>
+      ) : (
+        <Stack spacing={2} direction="row">
           <TextField
             label="Latitude"
             variant="outlined"
             value={location.lat}
             onChange={(e) => handleInputChange(e, 'lat')}
             type="number"
-            fullWidth
-            margin="normal"
           />
-          <br />
+          &nbsp;
           <TextField
             label="Longitude"
             variant="outlined"
             value={location.lng}
             onChange={(e) => handleInputChange(e, 'lng')}
             type="number"
-            fullWidth
-            margin="normal"
           />
-        </>
+          <br />
+        </Stack>
       )}
     </div>
   );

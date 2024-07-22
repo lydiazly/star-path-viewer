@@ -31,28 +31,26 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
     try {
       const response = await axios.get(`${Config.serverUrl}/diagram`, { params });
 
-      const _diagramId = response.data.diagramId;
-      const _anno = response.data.annotations;
-      const _svgBase64 = response.data.svgData;
-      // Decode base64 to binary string
-      const _svgBinaryString = atob(_svgBase64);
-      // Convert binary string to an array of char codes
-      const _charCodes = new Uint8Array(_svgBinaryString.length);
-      for (let i = 0; i < _svgBinaryString.length; i++) {
-        _charCodes[i] = _svgBinaryString.charCodeAt(i);
+      const svgBase64 = response.data.svgData;
+      /* Decode base64 to binary string */
+      const svgBinaryString = atob(svgBase64);
+      /* Convert binary string to an array of char codes */
+      const charCodes = new Uint8Array(svgBinaryString.length);
+      for (let i = 0; i < svgBinaryString.length; i++) {
+        charCodes[i] = svgBinaryString.charCodeAt(i);
       }
-      // Decode UTF-8 from char codes
-      const _decoder = new TextDecoder('utf-8');
-      const _svgDecoded = _decoder.decode(_charCodes);
-      // Sanitize the SVG content using DOMPurify
-      const _sanitizedSvg = DOMPurify.sanitize(_svgDecoded, {
+      /* Decode UTF-8 from char codes */
+      const decoder = new TextDecoder('utf-8');
+      const svgDecoded = decoder.decode(charCodes);
+      /* Sanitize the SVG content using DOMPurify */
+      const sanitizedSvg = DOMPurify.sanitize(svgDecoded, {
         ADD_TAGS: ['use', 'clipPath'],
         ADD_ATTR: ['id', 'xlink:href', 'clip-path']
       });
 
-      setDiagramId(_diagramId);
-      setSvgData(_sanitizedSvg);
-      setAnno(_anno);
+      setDiagramId(response.data.diagramId);
+      setSvgData(sanitizedSvg);
+      setAnno(response.data.annotations);
       setErrorMessage('');  // Clear any previous error message
       setShowDateLocation(true);  // Show the date and location display
 

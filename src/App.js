@@ -2,54 +2,71 @@
 // import logo from './logo.svg';
 import './App.css';
 import React, { useState } from 'react';
-import AnnoDisplay from './components/AnnoDisplay';
+import { Container, CssBaseline, Typography, Box } from '@mui/material';
 import DiagramFetcher from './components/DiagramFetcher';
 import ImageDisplay from './components/ImageDisplay';
 import DownloadManager from './components/DownloadManager';
+import AnnoDisplay from './components/AnnoDisplay';
 
 const App = () => {
-  const [diagramId, setDiagramId] = useState('');
-  const [svgData, setSvgData] = useState('');
-  const [anno, setAnno] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [diagramId, setDiagramId] = useState(null);
+  const [svgData, setSvgData] = useState(null);
+  const [anno, setAnno] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const clearImage = () => {
-    setSvgData('');
-    setAnno('');
+    setDiagramId(null);
+    setSvgData(null);
+    setAnno(null);
+    setErrorMessage(null);
   };
 
   return (
-    <div className="App">
-    {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header> */}
-
-      <h1>Star Trail</h1>
-      <DiagramFetcher 
-        setDiagramId={setDiagramId} 
-        setSvgData={setSvgData} 
-        setAnno={setAnno} 
-        setErrorMessage={setErrorMessage} 
-        clearImage={clearImage} 
-      />
-      <br />
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <br />
-      {svgData && (
-        <>
-          <div id="svg-container">
-            <ImageDisplay svgData={svgData} />
-          </div>
-          <br />
-          <DownloadManager svgData={svgData} filenameBase={`st_${diagramId}`} dpi="300" />
-          <br />
-          <div id="annotations">
-            <AnnoDisplay anno={anno} />
-          </div>
-          <br />
-        </>
-      )}
-    </div>
+    <>
+      <CssBaseline />
+      <Container maxWidth="sm">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '100vh',
+            textAlign: 'center',
+            gap: 2, // Default MUI spacing (8px)
+          }}
+        >
+          <Typography variant="h2" component="h1" gutterBottom>
+            Star Trail
+          </Typography>
+          <Box sx={{ width: '100%' }}>
+            <DiagramFetcher 
+              setDiagramId={setDiagramId} 
+              setSvgData={setSvgData} 
+              setAnno={setAnno} 
+              setErrorMessage={setErrorMessage} 
+              clearImage={clearImage} 
+            />
+          </Box>
+          {errorMessage && (
+            <Typography variant="body1" color="error">
+              {errorMessage}
+            </Typography>
+          )}
+          {svgData && (
+            <Box sx={{ width: '100%' }}>
+              <Box id="svg-container">
+                <ImageDisplay svgData={svgData} />
+              </Box>
+              <DownloadManager svgData={svgData} filenameBase={`st_${diagramId}`} dpi="300" />
+              <Box id="annotations">
+                <AnnoDisplay anno={anno} />
+              </Box>
+            </Box>
+          )}
+        </Box>
+      </Container>
+    </>
   );
 };
 

@@ -2,9 +2,6 @@
 import React from 'react';
 import { dateTimeToStr, formatTimezone } from '../utils/dateUtils';
 import { PT_NAMES } from '../utils/constants';
-import { TextAlignment } from 'pdf-lib';
-
-// const pointNameMap = 
 
 const AnnoDisplay = ({ anno }) => {
   const filteredAnno = anno.filter(item => item.is_displayed);
