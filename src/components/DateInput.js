@@ -1,6 +1,6 @@
 // src/components/DateInput.js
 import React, { useState } from 'react';
-import { TextField, MenuItem, Stack, Box } from '@mui/material';
+import { TextField, MenuItem, Stack } from '@mui/material';
 import { MONTHS } from '../utils/constants';
 
 const DateInput = ({ onDateChange }) => {
@@ -14,8 +14,8 @@ const DateInput = ({ onDateChange }) => {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Stack spacing={2} direction="row" sx={{ width: '100%', marginTop: 2, justifyContent: 'center' }}>
+    <Stack direction='column' spacing={2}>
+      <Stack direction="row" spacing={2}>
         <TextField
           label="Year"
           variant="outlined"
@@ -51,7 +51,7 @@ const DateInput = ({ onDateChange }) => {
           fullWidth
         />
       </Stack>
-    </Box>
+    </Stack>
   );
 };
 

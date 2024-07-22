@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
-import Button from '@mui/material/Button';
+import { Button, Stack } from '@mui/material';
 import LocationInput from './LocationInput';
 import DateInput from './DateInput';
 import DateLocationDisplay from './DateLocationDisplay';
@@ -67,20 +67,16 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
   };
 
   return (
-    <div>
+    <Stack direction='column' spacing={2}>
       <LocationInput onLocationChange={setLocation} />
       <DateInput onDateChange={setDate} />
-      <br />
       <Button variant="contained" color="primary" onClick={handleDraw}>
         Draw Star Trail
       </Button>
       {showDateLocation && (
-        <>
-          <br />
-          <DateLocationDisplay date={[date.year, date.month, date.day]} location={location} />
-        </>
+        <DateLocationDisplay date={[date.year, date.month, date.day]} location={location} />
       )}
-    </div>
+    </Stack>
   );
 };
 

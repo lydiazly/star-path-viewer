@@ -1,5 +1,6 @@
 // src/components/DateLocationDisplay.js
 import React from 'react';
+import { Typography, Box } from '@mui/material';
 import { formatDateTime } from '../utils/dateUtils';
 import { formatCoordinate } from '../utils/coordUtils';
 
@@ -11,9 +12,11 @@ const DateLocationDisplay = ({ date, location }) => {
   const lngStr = formatCoordinate(parseFloat(location.lng), 'lng');
 
   return (
-    <p>
-      [DATE] {dateStr}&nbsp;&nbsp;&nbsp;&nbsp;[LAT/LNG] {latStr} / {lngStr}
-    </p>
+    <Box>
+      <Typography variant="body1">
+        [DATE] {dateStr}&nbsp;&nbsp;&nbsp;&nbsp;[LAT/LNG] {latStr} / {lngStr}
+      </Typography>
+    </Box>
   );
 };
 

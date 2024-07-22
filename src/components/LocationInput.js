@@ -1,6 +1,6 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect } from 'react';
-import { TextField, Stack, Autocomplete, Button, Box } from '@mui/material';
+import { TextField, Stack, Autocomplete, Button } from '@mui/material';
 import axios from 'axios';
 
 const LocationInput = ({ onLocationChange }) => {
@@ -52,18 +52,20 @@ const LocationInput = ({ onLocationChange }) => {
   };
 
   return (
-    <Box>
-      <Stack direction="row" spacing={2} sx={{ width: '100%', marginBottom: 2, justifyContent: 'center' }}>
+    <Stack direction='column' spacing={2}>
+      <Stack direction="row" spacing={2}>
         <Button 
           onClick={() => setInputType('city')} 
           variant={inputType === 'city' ? 'contained' : 'outlined'}
-        >
+          fullWidth
+          >
           Search by City
         </Button>
         <Button 
           onClick={() => setInputType('manual')} 
           variant={inputType === 'manual' ? 'contained' : 'outlined'}
-        >
+          fullWidth
+          >
           Enter Coordinates
         </Button>
       </Stack>
@@ -85,7 +87,7 @@ const LocationInput = ({ onLocationChange }) => {
           )}
         />
       ) : (
-        <Stack spacing={2} direction="row" sx={{ width: '100%', marginTop: 2, justifyContent: 'center' }}>
+        <Stack direction="row" spacing={2}>
           <TextField
             label="Latitude"
             variant="outlined"
@@ -104,7 +106,7 @@ const LocationInput = ({ onLocationChange }) => {
           />
         </Stack>
       )}
-    </Box>
+    </Stack>
   );
 };
 
