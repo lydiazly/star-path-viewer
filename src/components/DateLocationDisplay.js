@@ -1,10 +1,10 @@
 // src/components/DateLocationDisplay.js
 import React from 'react';
-import { formatDateTime } from './DateFormat';
+import { formatDateTime } from '../utils/dateUtils';
 
 const DateLocationDisplay = ({ date, location }) => {
   const [year, month, day] = date;
-  const [dateString] = formatDateTime({ year, month, day });
+  const dateStr = formatDateTime({ year, month, day }).date;
 
   const formatCoordinate = (coordinate, type) => {
     const absValue = Math.abs(coordinate);
@@ -18,12 +18,12 @@ const DateLocationDisplay = ({ date, location }) => {
     return `${degrees}°${minutes}'${seconds}" ${direction}`;
   };
 
-  const latitudeString = formatCoordinate(location.lat, 'lat');
-  const longitudeString = formatCoordinate(location.lng, 'lng');
+  const latStr = formatCoordinate(location.lat, 'lat');
+  const lngStr = formatCoordinate(location.lng, 'lng');
 
   return (
     <p>
-      Date: {dateString}, Latitude: {latitudeString}, Longitude: {longitudeString}
+      Date: {dateStr}, Latitude: {latStr}, Longitude: {lngStr}
     </p>
   );
 };

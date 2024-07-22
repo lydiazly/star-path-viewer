@@ -26,7 +26,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
       return;
     }
 
-    const params = { year, month, day, lat, lng, planet: 'mars' };
+    const params = { year, month, day, lat, lng, hip: '17702' };  // TODO
 
     try {
       const response = await axios.get(`${Config.serverUrl}/diagram`, { params });
