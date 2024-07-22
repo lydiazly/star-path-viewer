@@ -1,9 +1,6 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
-import Button from '@mui/material/Button';
+import { TextField, Stack, Autocomplete, Button, Box } from '@mui/material';
 import axios from 'axios';
 
 const LocationInput = ({ onLocationChange }) => {
@@ -55,56 +52,59 @@ const LocationInput = ({ onLocationChange }) => {
   };
 
   return (
-    <div>
-      <Button onClick={() => setInputType('city')} variant={inputType === 'city' ? 'contained' : 'outlined'}>
-        Search by City
-      </Button>
-      <Button onClick={() => setInputType('manual')} variant={inputType === 'manual' ? 'contained' : 'outlined'}>
-        Enter Coordinates
-      </Button>
-      <br />
+    <Box>
+      <Stack direction="row" spacing={2} sx={{ width: '100%', marginBottom: 2, justifyContent: 'center' }}>
+        <Button 
+          onClick={() => setInputType('city')} 
+          variant={inputType === 'city' ? 'contained' : 'outlined'}
+        >
+          Search by City
+        </Button>
+        <Button 
+          onClick={() => setInputType('manual')} 
+          variant={inputType === 'manual' ? 'contained' : 'outlined'}
+        >
+          Enter Coordinates
+        </Button>
+      </Stack>
 
       {inputType === 'city' ? (
-        <>
-          <br />
-          <Autocomplete
-            freeSolo
-            options={suggestions.map((suggestion) => suggestion.display_name)}
-            inputValue={searchTerm}
-            onInputChange={handleSearchChange}
-            onChange={handleSelect}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search City"
-                variant="outlined"
-                fullWidth
-              />
-            )}
-          />
-          <br />
-        </>
+        <Autocomplete
+          freeSolo
+          options={suggestions.map((suggestion) => suggestion.display_name)}
+          inputValue={searchTerm}
+          onInputChange={handleSearchChange}
+          onChange={handleSelect}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search City"
+              variant="outlined"
+              fullWidth
+            />
+          )}
+        />
       ) : (
-        <Stack spacing={2} direction="row">
+        <Stack spacing={2} direction="row" sx={{ width: '100%', marginTop: 2, justifyContent: 'center' }}>
           <TextField
             label="Latitude"
             variant="outlined"
             value={location.lat}
             onChange={(e) => handleInputChange(e, 'lat')}
             type="number"
+            fullWidth
           />
-          &nbsp;
           <TextField
             label="Longitude"
             variant="outlined"
             value={location.lng}
             onChange={(e) => handleInputChange(e, 'lng')}
             type="number"
+            fullWidth
           />
-          <br />
         </Stack>
       )}
-    </div>
+    </Box>
   );
 };
 

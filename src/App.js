@@ -24,22 +24,22 @@ const App = () => {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" sx={{ marginY: 2 }}>
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             minHeight: '100vh',
             textAlign: 'center',
-            gap: 2, // Default MUI spacing (8px)
+            gap: 2, // Default MUI spacing: 2=8px
           }}
         >
           <Typography variant="h2" component="h1" gutterBottom>
             Ancient Sky
           </Typography>
-          <Box sx={{ width: '100%' }}>
+          <Box sx={{ width: '100%', justifyContent: 'center' }}>
             <DiagramFetcher 
               setDiagramId={setDiagramId} 
               setSvgData={setSvgData} 
@@ -54,7 +54,7 @@ const App = () => {
             </Typography>
           )}
           {svgData && (
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '100%', justifyContent: 'center' }}>
               <Box id="svg-container">
                 <ImageDisplay svgData={svgData} />
               </Box>
