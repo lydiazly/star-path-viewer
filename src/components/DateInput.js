@@ -1,10 +1,15 @@
 // src/components/DateInput.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, MenuItem, Stack } from '@mui/material';
 import { MONTHS } from '../utils/constants';
 
-const DateInput = ({ onDateChange }) => {
+const DateInput = ({ onDateChange, setErrorMessage }) => {
   const [date, setDate] = useState({ year: '', month: '', day: '' });
+  // const now = new Date();
+
+  useEffect(() => {
+    setErrorMessage(null);
+  }, [date, setErrorMessage]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;

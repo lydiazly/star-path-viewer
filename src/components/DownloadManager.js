@@ -1,6 +1,6 @@
 // src/components/DownloadManager.js
 import React from 'react';
-import { Button, Stack } from '@mui/material';
+import { Stack, Button } from '@mui/material';
 import { saveAs } from 'file-saver';
 import { Canvg } from 'canvg';
 import { jsPDF } from 'jspdf';

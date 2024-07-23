@@ -23,7 +23,7 @@ const App = () => {
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="md" sx={{ paddingY: 2 }}>
+      <Container maxWidth="md" sx={{ paddingY: 4 }}>
         <Box
           sx={{
             display: 'flex',
@@ -38,6 +38,15 @@ const App = () => {
           <Typography variant="h2" component="h1" gutterBottom>
             Ancient Sky
           </Typography>
+
+          <Typography
+            variant="body1"
+            color="error"
+            style={{ minHeight: '1.5rem' }}
+          >
+            {errorMessage}
+          </Typography>
+
           <Box sx={{ width: '100%', justifyContent: 'center' }}>
             <DiagramFetcher
               setDiagramId={setDiagramId}
@@ -47,14 +56,7 @@ const App = () => {
               clearImage={clearImage}
             />
           </Box>
-          {errorMessage && (
-            <Typography
-              variant="body1"
-              color="error"
-            >
-              {errorMessage}
-            </Typography>
-          )}
+          
           {svgData && (
             <Box sx={{ width: '100%', justifyContent: 'center' }}>
               <Box id="svg-container">

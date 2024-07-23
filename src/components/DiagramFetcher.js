@@ -69,7 +69,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
   return (
     <Stack direction='column' spacing={2}>
       <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} />
-      <DateInput onDateChange={setDate} />
+      <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} />
       <Button variant="contained" color="primary" onClick={handleDraw}>
         Draw Star Trail
       </Button>

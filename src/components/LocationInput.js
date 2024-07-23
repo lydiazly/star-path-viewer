@@ -1,17 +1,27 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect } from 'react';
-import { TextField, Stack, Autocomplete, Button } from '@mui/material';
+import { TextField, Stack, Autocomplete, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import axios from 'axios';
 
 const LocationInput = ({ onLocationChange, setErrorMessage }) => {
-  const [location, setLocation] = useState({ lat: '', lng: '' });
   const [inputType, setInputType] = useState('city'); // 'city' or 'manual'
+  const [location, setLocation] = useState({ lat: '', lng: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
     onLocationChange(location);
   }, [location, onLocationChange]);
+
+  useEffect(() => {
+    setErrorMessage(null);
+  }, [inputType, searchTerm, location, setErrorMessage]);
+
+  const handleInputTypeChange = (event, newInputType) => {
+    if (newInputType !== null) {
+      setInputType(newInputType);
+    }
+  };
 
   const handleInputChange = (event, field) => {
     setLocation({ ...location, [field]: event.target.value });
@@ -30,7 +40,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
         });
         setSuggestions(response.data);
       } catch (error) {
-        setErrorMessage('Error fetching location suggestions:');
+        setErrorMessage('Error fetching location suggestions.');
       }
     } else {
       setSuggestions([]);
@@ -54,25 +64,27 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
   return (
     <Stack direction='column' spacing={2}>
       <Stack direction="row" spacing={2}>
-        <Button 
-          onClick={() => setInputType('city')} 
-          variant={inputType === 'city' ? 'contained' : 'outlined'}
+        <ToggleButtonGroup
+          color="primary"
+          value={inputType}
+          exclusive
+          onChange={handleInputTypeChange}
+          aria-label="Input type"
           fullWidth
-          >
-          Search by City
-        </Button>
-        <Button 
-          onClick={() => setInputType('manual')} 
-          variant={inputType === 'manual' ? 'contained' : 'outlined'}
-          fullWidth
-          >
-          Enter Coordinates
-        </Button>
+        >
+          <ToggleButton value="city" aria-label="Search by City">
+            Search by City
+          </ToggleButton>
+          <ToggleButton value="manual" aria-label="Enter Coordinates">
+            Enter Coordinates
+          </ToggleButton>
+        </ToggleButtonGroup>
       </Stack>
 
       {inputType === 'city' ? (
         <Autocomplete
           freeSolo
+          clearOnEscape
           options={suggestions.map((suggestion) => suggestion.display_name)}
           inputValue={searchTerm}
           onInputChange={handleSearchChange}
