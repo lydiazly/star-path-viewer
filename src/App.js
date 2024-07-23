@@ -17,11 +17,11 @@ const App = () => {
   const [anno, setAnno] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const clearImage = () => {
+  const clearImage = useCallback(() => {
     setDiagramId('');
     setSvgData('');
     setAnno('');
-  };
+  }, []);
 
   const handleSetErrorMessage = useCallback((message) => {
     setErrorMessage(message);

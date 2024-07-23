@@ -1,5 +1,5 @@
 // src/components/LocationInput.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { TextField, Stack, Autocomplete, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import axios from 'axios';
 
@@ -17,17 +17,17 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
     setErrorMessage('');
   }, [inputType, searchTerm, location, setErrorMessage]);
 
-  const handleInputTypeChange = (event, newInputType) => {
+  const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
       setInputType(newInputType);
     }
-  };
+  }, []);
 
-  const handleInputChange = (event, field) => {
-    setLocation({ ...location, [field]: event.target.value });
-  };
+  const handleInputChange = useCallback((event, field) => {
+    setLocation(prevLocation => ({ ...prevLocation, [field]: event.target.value }));
+  }, []);
 
-  const handleSearchChange = async (event, newInputValue) => {
+  const handleSearchChange = useCallback(async (event, newInputValue) => {
     setSearchTerm(newInputValue);
     if (newInputValue.length > 2) {
       try {
@@ -45,9 +45,9 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
     } else {
       setSuggestions([]);
     }
-  };
+  }, [setErrorMessage]);
 
-  const handleSelect = (event, value) => {
+  const handleSelect = useCallback((event, value) => {
     const selectedSuggestion = suggestions.find(
       (suggestion) => `${suggestion.display_name}` === value
     );
@@ -59,7 +59,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
       setSearchTerm(value);
       setSuggestions([]);
     }
-  };
+  }, [suggestions]);
 
   return (
     <Stack direction='column' spacing={2}>

@@ -1,5 +1,5 @@
 // src/components/DownloadManager.js
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Stack, Button } from '@mui/material';
 import { saveAs } from 'file-saver';
 import { Canvg } from 'canvg';
@@ -7,7 +7,7 @@ import { jsPDF } from 'jspdf';
 import 'svg2pdf.js';
 
 const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) => {
-  const handleDownload = async (format) => {
+  const handleDownload = useCallback(async (format) => {
     const svgElement = document.getElementById('svg-container').querySelector('svg');
     if (!svgElement) return;
 
@@ -69,7 +69,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
         });
     }
     /* ---------------------------------------------------------------------- */
-  };
+  }, [svgData, filenameBase, dpi]);
 
   return (
     <Stack direction="row" spacing={2}>

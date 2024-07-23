@@ -1,14 +1,14 @@
 // src/components/AnnoDisplay.js
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box } from '@mui/material';
 import { dateTimeToStr, formatTimezone } from '../utils/dateUtils';
 import { formatDecimalDgrees } from '../utils/coordUtils';
 import { PT_NAMES } from '../utils/constants';
 
 const AnnoDisplay = ({ anno }) => {
-  const filteredAnno = anno.filter(item => item.is_displayed);
-  const tzStr = formatTimezone(parseFloat(filteredAnno[0].time_zone));
-  const redAsterisk = <span style={{ color: 'red' }}>*</span>;
+  const filteredAnno = useMemo(() => anno.filter(item => item.is_displayed), [anno]);
+  const tzStr = useMemo(() => formatTimezone(parseFloat(filteredAnno[0].time_zone)), [filteredAnno]);
+  const redAsterisk = useMemo(() => <span style={{ color: 'red' }}>*</span>, []);
 
   return (
     <Box>
@@ -37,7 +37,7 @@ const AnnoDisplay = ({ anno }) => {
                 <TableCell>{formatDecimalDgrees(parseFloat(item.az))}</TableCell>
                 <TableCell>{dateTimeToStr({ dateTime: item.time_local })}</TableCell>
                 <TableCell>{dateTimeToStr({ dateTime: item.time_local_julian })}</TableCell>
-                <TableCell>{dateTimeToStr({ dateTime: item.time_ut1})}</TableCell>
+                <TableCell>{dateTimeToStr({ dateTime: item.time_ut1 })}</TableCell>
                 <TableCell>{dateTimeToStr({ dateTime: item.time_ut1_julian })}</TableCell>
               </TableRow>
             ))}

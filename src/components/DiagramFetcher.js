@@ -1,5 +1,5 @@
 // src/components/DiagramFetcher.js
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import { Box, Stack, Button, Divider } from '@mui/material';
@@ -9,14 +9,13 @@ import DateLocationDisplay from './DateLocationDisplay';
 import Config from '../Config';
 import useStyles from '../styles/styles';
 
-
 const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setErrorMessage, clearImage }) => {
   const [date, setDate] = useState({ year: '', month: '', day: '' });
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [showDateLocation, setShowDateLocation] = useState(false);
   const classes = useStyles();
 
-  const handleDraw = async () => {
+  const handleDraw = useCallback(async () => {
     clearImage();  // Clear the SVG data before making the API call
     setErrorMessage('');  // Clear any previous error message before making the API call
     setShowDateLocation(false);  // Hide the date and location display initially
@@ -72,7 +71,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
       }
       clearImage();  // Clear SVG on error
     }
-  };
+  }, [date, location, clearImage, setDiagramId, setSvgData, setAnno, setErrorMessage]);
 
   return (
     <Box>
