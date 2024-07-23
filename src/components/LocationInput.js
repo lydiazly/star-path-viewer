@@ -4,7 +4,7 @@ import { TextField, Stack, Autocomplete, ToggleButton, ToggleButtonGroup } from 
 import axios from 'axios';
 
 const LocationInput = ({ onLocationChange, setErrorMessage }) => {
-  const [inputType, setInputType] = useState('city'); // 'city' or 'manual'
+  const [inputType, setInputType] = useState('location'); // 'location' or 'latlng'
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -14,7 +14,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
   }, [location, onLocationChange]);
 
   useEffect(() => {
-    setErrorMessage(null);
+    setErrorMessage('');
   }, [inputType, searchTerm, location, setErrorMessage]);
 
   const handleInputTypeChange = (event, newInputType) => {
@@ -73,16 +73,16 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
           aria-label="Input type"
           fullWidth
         >
-          <ToggleButton value="city" aria-label="Search by City">
-            Search by City
+          <ToggleButton value="location" aria-label="Search Location">
+            Search Location
           </ToggleButton>
-          <ToggleButton value="manual" aria-label="Enter Coordinates">
+          <ToggleButton value="latlng" aria-label="Enter Coordinates">
             Enter Coordinates
           </ToggleButton>
         </ToggleButtonGroup>
       </Stack>
 
-      {inputType === 'city' ? (
+      {inputType === 'location' ? (
         <Autocomplete
           freeSolo
           clearOnEscape
@@ -93,7 +93,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Search City"
+              label="Search by city, province/state, or country"
               size="small"
               variant="outlined"
               fullWidth
