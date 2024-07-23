@@ -35,10 +35,10 @@ const AnnoDisplay = ({ anno }) => {
                 <TableCell>{PT_NAMES[item.name] || item.name}</TableCell>
                 <TableCell>{formatDecimalDgrees(parseFloat(item.alt))}</TableCell>
                 <TableCell>{formatDecimalDgrees(parseFloat(item.az))}</TableCell>
-                <TableCell>{dateTimeToStr(item.time_local)}</TableCell>
-                <TableCell>{dateTimeToStr(item.time_local_julian)}</TableCell>
-                <TableCell>{dateTimeToStr(item.time_ut1)}</TableCell>
-                <TableCell>{dateTimeToStr(item.time_ut1_julian)}</TableCell>
+                <TableCell>{dateTimeToStr({ dateTime: item.time_local })}</TableCell>
+                <TableCell>{dateTimeToStr({ dateTime: item.time_local_julian })}</TableCell>
+                <TableCell>{dateTimeToStr({ dateTime: item.time_ut1})}</TableCell>
+                <TableCell>{dateTimeToStr({ dateTime: item.time_ut1_julian })}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -52,12 +52,17 @@ const formatDecimalHours = (decimalHours) => {
  * @param {number} [params.hour=12] - 24-hour format
  * @param {number} [params.minute=0] - Minutes
  * @param {number} [params.second=0] - Seconds (can be an integer or float)
+ * @param {boolean} [params.monthFirst=true] - month-day-year or day-month-year
+ * @param {boolean} [params.abbr=false] - use abbreviation or full name for month
  * @returns {string[]} An array containing two strings: the formatted date and the formatted time.
  */
-const formatDateTime = ({ year, month = 1, day = 1, hour = 12, minute = 0, second = 0 }) => {
+const formatDateTime = ({ year, month = 1, day = 1, hour = 12, minute = 0, second = 0,
+                          monthFirst = true, abbr = false }) => {
   const yearStr = year > 0 ? `${year} CE` : `${-year + 1} BCE`;
-  const monthStr = MONTHS[month].abbr;
-  const dateStr = `${day} ${monthStr} ${yearStr}`;
+  const monthStr = MONTHS[month][abbr ? 'abbr' : 'name'];
+  const dateStr = monthFirst
+    ? `${monthStr} ${day}, ${yearStr}`
+    : `${day} ${monthStr} ${yearStr}`;
   const secondStr = Number.isInteger(second) ? pad(second) : second.toFixed(3).padStart(6, '0');
   const timeStr = `${pad(hour)}:${pad(minute)}:${secondStr}`;
   return { date: dateStr, time: timeStr };
@@ -66,10 +71,13 @@ const formatDateTime = ({ year, month = 1, day = 1, hour = 12, minute = 0, secon
 /**
  * Formats a date and time array into a string.
  * 
- * @param {number[]} dateTime - An array containing [year, month, day, hour, minute, second]
+ * @param {Object} params - An object containing a date and time array and other parameters
+ * @param {number[]} params.dateTime - An array containing [year, month, day, hour, minute, second]
+ * @param {boolean} [params.monthFirst=true] - month-day-year or day-month-year
+ * @param {boolean} [params.abbr=false] - use abbreviation or full name for month
  * @returns {string} The formatted date and time string.
  */
-const dateTimeToStr = (dateTime) => {
+const dateTimeToStr = ({ dateTime, monthFirst = true, abbr = false }) => {
   if (!Array.isArray(dateTime) || dateTime.length < 6) return '';
 
   const [year, month, day, hour, minute, second] = dateTime.map((value, index) => {
@@ -77,8 +85,28 @@ const dateTimeToStr = (dateTime) => {
     return parseInt(value, 10);  // Parse other values as int
   });
   
-  const dateTimeStrList = formatDateTime({ year, month, day, hour, minute, second });
+  const dateTimeStrList = formatDateTime({ year, month, day, hour, minute, second, monthFirst, abbr });
   return `${dateTimeStrList.date}, ${dateTimeStrList.time}`;
+};
+
+/**
+ * Formats a date and time array into a string.
+ * 
+ * @param {Object} params - An object containing a date array and other parameters
+ * @param {number[]} params.date - An array containing [year, month, day]
+ * @param {boolean} [params.monthFirst=true] - month-day-year or day-month-year
+ * @param {boolean} [params.abbr=false] - use abbreviation or full name for month
+ * @returns {string} The formatted date and time string.
+ */
+const dateToStr = ({ date, monthFirst = true, abbr = false }) => {
+  if (!Array.isArray(date) || date.length < 3) return '';
+
+  const [year, month, day] = date.map((value) => {
+    return parseInt(value, 10);
+  });
+  
+  const dateStrList = formatDateTime({ year, month, day, monthFirst: monthFirst, abbr: abbr });
+  return `${dateStrList.date}`;
 };
 
 /**
@@ -99,5 +127,6 @@ export {
   formatDecimalHours,
   formatDateTime,
   dateTimeToStr,
+  dateToStr,
   formatTimezone
 };

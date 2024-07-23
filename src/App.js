@@ -1,7 +1,7 @@
 // src/App.js
 // import logo from './logo.svg';
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Container, CssBaseline, Typography, Box } from '@mui/material';
 import DiagramFetcher from './components/DiagramFetcher';
 import ImageDisplay from './components/ImageDisplay';
@@ -20,10 +20,14 @@ const App = () => {
     setAnno(null);
   };
 
+  const handleSetErrorMessage = useCallback((message) => {
+    setErrorMessage(message);
+  }, []);
+
   return (
     <>
       <CssBaseline />
-      <Container maxWidth="md" sx={{ paddingY: 4 }}>
+      <Container maxWidth="md" sx={{ paddingY: 6 }}>
         <Box
           sx={{
             display: 'flex',
@@ -36,13 +40,13 @@ const App = () => {
           }}
         >
           <Typography variant="h2" component="h1" gutterBottom>
-            Ancient Sky
+            Star Trail in Ancient Sky
           </Typography>
 
           <Typography
             variant="body1"
             color="error"
-            style={{ minHeight: '1.5rem' }}
+            sx={{ minHeight: '1rem' }}
           >
             {errorMessage}
           </Typography>
@@ -52,7 +56,8 @@ const App = () => {
               setDiagramId={setDiagramId}
               setSvgData={setSvgData}
               setAnno={setAnno}
-              setErrorMessage={setErrorMessage}
+              errorMessage={errorMessage}
+              setErrorMessage={handleSetErrorMessage}
               clearImage={clearImage}
             />
           </Box>

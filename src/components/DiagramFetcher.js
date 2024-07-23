@@ -8,7 +8,7 @@ import DateInput from './DateInput';
 import DateLocationDisplay from './DateLocationDisplay';
 import Config from '../Config';
 
-const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, clearImage }) => {
+const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setErrorMessage, clearImage }) => {
   const [date, setDate] = useState({ year: '', month: '', day: '' });
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [showDateLocation, setShowDateLocation] = useState(false);
@@ -70,7 +70,12 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, setErrorMessage, cl
     <Stack direction='column' spacing={2}>
       <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} />
       <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} />
-      <Button variant="contained" color="primary" onClick={handleDraw}>
+      <Button
+        variant="contained"
+        color="primary"
+        size="large"
+        disabled={errorMessage ? true : false}
+        onClick={handleDraw}>
         Draw Star Trail
       </Button>
       {showDateLocation && (

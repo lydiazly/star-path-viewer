@@ -6,7 +6,7 @@ import { formatCoordinate } from '../utils/coordUtils';
 
 const DateLocationDisplay = ({ date, location }) => {
   const [year, month, day] = date;
-  const dateStr = formatDateTime({ year, month, day }).date;
+  const dateStr = formatDateTime({ year, month, day, monthFirst: true, abbr: false }).date;
 
   const latStr = formatCoordinate(parseFloat(location.lat), 'lat');
   const lngStr = formatCoordinate(parseFloat(location.lng), 'lng');

@@ -66,6 +66,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
       <Stack direction="row" spacing={2}>
         <ToggleButtonGroup
           color="primary"
+          size="small"
           value={inputType}
           exclusive
           onChange={handleInputTypeChange}
@@ -93,6 +94,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
             <TextField
               {...params}
               label="Search City"
+              size="small"
               variant="outlined"
               fullWidth
             />
@@ -102,6 +104,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
         <Stack direction="row" spacing={2}>
           <TextField
             label="Latitude"
+            size="small"
             variant="outlined"
             value={location.lat}
             onChange={(e) => handleInputChange(e, 'lat')}
@@ -110,6 +113,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
           />
           <TextField
             label="Longitude"
+            size="small"
             variant="outlined"
             value={location.lng}
             onChange={(e) => handleInputChange(e, 'lng')}
