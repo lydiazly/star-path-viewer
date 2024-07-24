@@ -51,7 +51,8 @@ const App = () => {
               variant="body1"
               color={
               theme.palette.grey[600]}
-              sx={{ fontSize: "1.2rem" }}
+              sx={{ fontSize: "1.2rem", marginBottom: 3 }}
+              gutterBottom
             >
               ... hero text ...
             </Typography>

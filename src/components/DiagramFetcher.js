@@ -62,7 +62,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
     try {
       const response = await axios.get(`${Config.serverUrl}/diagram`, {
         params,
-        timeout: 3000 // Timeout after 3 seconds
+        timeout: 3000 // ms
       });
 
       const newInfo = {};
