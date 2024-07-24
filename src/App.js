@@ -3,7 +3,7 @@
 import './App.css';
 import React, { useState, useCallback } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Container, CssBaseline, Typography, Box } from '@mui/material';
+import { Container, CssBaseline, Typography, Box, Alert } from '@mui/material';
 import DiagramFetcher from './components/DiagramFetcher';
 import ImageDisplay from './components/ImageDisplay';
 import DownloadManager from './components/DownloadManager';
@@ -56,14 +56,6 @@ const App = () => {
               ... hero text ...
             </Typography>
 
-            <Typography
-              variant="body1"
-              color="error"
-              sx={{ minHeight: '1rem' }}
-            >
-              {errorMessage}
-            </Typography>
-
             <Box sx={{ width: '100%', justifyContent: 'center' }}>
               <DiagramFetcher
                 setDiagramId={setDiagramId}
@@ -74,6 +66,12 @@ const App = () => {
                 clearImage={clearImage}
               />
             </Box>
+
+            {errorMessage &&
+              <Alert severity="error" sx={{ width: '100%', marginTop: 1 }}>
+                {errorMessage}
+              </Alert>
+            }
             
             {svgData && (
               <Box sx={{ width: '100%', justifyContent: 'center' }}>

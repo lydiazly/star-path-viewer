@@ -60,7 +60,10 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
     });
 
     try {
-      const response = await axios.get(`${Config.serverUrl}/diagram`, { params });
+      const response = await axios.get(`${Config.serverUrl}/diagram`, {
+        params,
+        timeout: 3000 // Timeout after 3 seconds
+      });
 
       const newInfo = {};
       ['year', 'month', 'day', 'lat', 'lng', 'name', 'hip', 'ra', 'dec'].forEach(key => {
@@ -97,7 +100,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
       if (error.response && error.response.data.error) {
         setErrorMessage(error.response.data.error);  // Print the error message from the server
       } else if (error.request) {
-        setErrorMessage('No response received from the server.');
+        setErrorMessage('No response received from the server: ' + error.message);
       } else {
         setErrorMessage('Error: ' + error.message);
       }
@@ -125,7 +128,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
         variant="contained"
         color="primary"
         size="large"
-        sx={{ marginTop: 3 }}
+        sx={{ marginTop: 2 }}
         disabled={!!errorMessage}
         onClick={handleDraw}
         fullWidth
