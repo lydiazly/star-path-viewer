@@ -34,7 +34,7 @@ const decimalToHMS = (decimalHours) => {
 };
 
 const formatHMS = ({ hours, minutes, seconds }) => {
-  return `${hours < 0 ? '-' : '+'}${Math.abs(hours)}h ${minutes}m ${seconds.toFixed(2)}s`;
+  return `${hours < 0 ? '-' : '+'}${Math.abs(hours)}h${minutes}m${seconds.toFixed(2)}s`;
 };
 
 const formatDecimalHours = (decimalHours) => {

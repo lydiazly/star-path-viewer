@@ -38,13 +38,22 @@ const App = () => {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'flex-start',
-              minHeight: '100vh',
+              minHeight: '80vh',
               textAlign: 'center',
-              gap: 2, // Default MUI spacing: 8px
+              gap: 1, // Default MUI spacing: 8px
             }}
           >
-            <Typography variant="h2" component="h1" gutterBottom>
+            <Typography variant="h2" component="h1" sx={{ fontSize: "3rem" }}>
               Star Trail in Ancient Sky
+            </Typography>
+
+            <Typography
+              variant="body1"
+              color={
+              theme.palette.grey[600]}
+              sx={{ fontSize: "1.2rem" }}
+            >
+              ... hero text ...
             </Typography>
 
             <Typography

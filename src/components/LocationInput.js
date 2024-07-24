@@ -3,8 +3,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { TextField, Stack, Autocomplete, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import axios from 'axios';
 
+/* TODO: validateLocation() */
+
 const LocationInput = ({ onLocationChange, setErrorMessage }) => {
-  const [inputType, setInputType] = useState('location'); // 'location' or 'latlng'
+  const [inputType, setInputType] = useState('address'); // 'address' or 'coordinates'
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -73,16 +75,16 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
           aria-label="Input type"
           fullWidth
         >
-          <ToggleButton value="location" aria-label="Search Location">
-            Search Location
+          <ToggleButton value="address" aria-label="Search Address">
+            Search Address
           </ToggleButton>
-          <ToggleButton value="latlng" aria-label="Enter Coordinates">
+          <ToggleButton value="coordinates" aria-label="Enter Coordinates">
             Enter Coordinates
           </ToggleButton>
         </ToggleButtonGroup>
       </Stack>
 
-      {inputType === 'location' ? (
+      {inputType === 'address' ? (
         <Autocomplete
           freeSolo
           clearOnEscape
@@ -93,7 +95,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Search by city, province/state, or country"
+              label="Search by city, province/state, or country..."
               size="small"
               variant="outlined"
               fullWidth

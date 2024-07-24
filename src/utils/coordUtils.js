@@ -32,7 +32,7 @@ const decimalToDMS = (decimalDegrees) => {
 };
 
 const formatDMS = ({ degrees, minutes, seconds }) => {
-  return `${degrees < 0 ? '-' : '+'}${Math.abs(degrees)}° ${minutes}' ${seconds.toFixed(2)}"`;
+  return `${degrees < 0 ? '-' : '+'}${Math.abs(degrees)}°${minutes}'${seconds.toFixed(2)}"`;
 };
 
 const formatDecimalDgrees = (decimalDegrees) => {
@@ -74,7 +74,7 @@ const formatCoordinate = (coordinate, type) => {
   const direction = type === 'lat'
     ? coordinate >= 0 ? 'N' : 'S'
     : coordinate >= 0 ? 'E' : 'W';
-  return `${Math.abs(degrees)}° ${minutes}' ${seconds.toFixed(2)}" ${direction}`;
+  return `${Math.abs(degrees)}°${minutes}'${seconds.toFixed(2)}"${direction}`;
 };
 
 export {

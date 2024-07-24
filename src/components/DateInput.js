@@ -5,7 +5,7 @@ import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX } from '../utils/constants';
 import { dateToStr } from '../utils/dateUtils';
 
 /* Adjust the date */
-const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay) => {
+const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange) => {
   const date = dateRef.current;
   const year = parseInt(date.year);
   const month = parseInt(date.month);
@@ -33,7 +33,9 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay) => {
     }
 
     if (month < EPH_DATE_MIN[1]) {
-      setDate((prevDate) => ({ ...prevDate, month: EPH_DATE_MIN[1].toString() }));
+      const newDate = { ...date, month: EPH_DATE_MIN[1].toString() };
+      setDate(newDate);
+      onDateChange(newDate);
     } else if (month === EPH_DATE_MIN[1]) {
       dayMin = EPH_DATE_MIN[2];
     }
@@ -44,7 +46,9 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay) => {
     }
 
     if (month > EPH_DATE_MAX[1]) {
-      setDate((prevDate) => ({ ...prevDate, month: EPH_DATE_MAX[1].toString() }));
+      const newDate = { ...date, month: EPH_DATE_MAX[1].toString() };
+      setDate(newDate);
+      onDateChange(newDate);
     } else if (month === EPH_DATE_MAX[1]) {
       dayMax = EPH_DATE_MAX[2];
     }
@@ -53,14 +57,18 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay) => {
   setDisabledMonths(newDisabledMonths);
 
   if (parseInt(date.day) < dayMin) {
-    setDate((prevDate) => ({ ...prevDate, day: dayMin.toString() }));
+    const newDate = { ...date, day: dayMin.toString() };
+    setDate(newDate);
+    onDateChange(newDate);
   }
   if (parseInt(date.day) > dayMax) {
-    setDate((prevDate) => ({ ...prevDate, day: dayMax.toString() }));
+    const newDate = { ...date, day: dayMax.toString() };
+    setDate(newDate);
+    onDateChange(newDate);
   }
 };
 
-/* Check the date */
+/* Validate the date */
 const validateDate = (date, setErrorMessage) => {
   if (!date.year || !date.month || !date.day) {
     return;
@@ -102,12 +110,15 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
   /* Initiate with the current date */
   useEffect(() => {
     const now = new Date();
-    setDate({
+    const initialDate = {
       year: now.getFullYear().toString(),
       month: (now.getMonth() + 1).toString(),
       day: now.getDate().toString(),
-    });
-  }, []);
+    };
+    setDate(initialDate);
+    dateRef.current = initialDate;
+    onDateChange(initialDate);
+  }, [onDateChange]);
 
   useEffect(() => {
     dateRef.current = date;
@@ -125,8 +136,8 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
   };
 
   useEffect(() => {
-    adjustDate(dateRef, setDate, setDisabledMonths, setLastDay);
-  }, [date.year, date.month, setDate, setDisabledMonths, setLastDay]);
+    adjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange);
+  }, [date.year, date.month, onDateChange]);
 
   useEffect(() => {
     validateDate(date, setErrorMessage);
