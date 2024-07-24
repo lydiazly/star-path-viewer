@@ -52,7 +52,12 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
       return;
     }
 
-    const params = { year, month, day, lat, lng, name, hip, ra, dec };
+    const params = { year, month, day, lat, lng };
+    ['name', 'hip', 'ra', 'dec'].forEach(key => {
+      if (star[key]) {
+        params[key] = key === 'name' ? star[key].toLowerCase() : star[key];
+      }
+    });
 
     try {
       const response = await axios.get(`${Config.serverUrl}/diagram`, { params });

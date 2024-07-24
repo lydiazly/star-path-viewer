@@ -6,7 +6,7 @@ import { TextField, Stack, ToggleButton, ToggleButtonGroup } from '@mui/material
 
 const StarInput = ({ onStarChange, setErrorMessage }) => {
   const [inputType, setInputType] = useState('name'); // 'name', 'hip', 'radec'
-  const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '' });
+  const [star, setStar] = useState({ name: 'Mars', hip: '', ra: '', dec: '' });
 
   useEffect(() => {
     onStarChange(star);

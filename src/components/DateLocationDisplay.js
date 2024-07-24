@@ -4,6 +4,10 @@ import { Typography, Box, Stack } from '@mui/material';
 import { formatDateTime, formatDateTimeISO } from '../utils/dateUtils';
 import { formatCoordinate } from '../utils/coordUtils';
 
+const capitalize = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const DateLocationDisplay = ({ date, location, star }) => {
   const dateStr = useMemo(() => formatDateTime({
     year: parseInt(date.year),
@@ -37,7 +41,7 @@ const DateLocationDisplay = ({ date, location, star }) => {
         
         {name ? (
           <Typography variant="subtutle2">
-            [NAME] {name}
+            [NAME] {capitalize(name)}
           </Typography>
         ) : (
           hip ? (

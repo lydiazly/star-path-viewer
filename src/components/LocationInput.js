@@ -95,7 +95,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Search by city, province/state, or country..."
+              label="Search address"
+              placeholder="Enter a place, city, province/state, or country"
               size="small"
               variant="outlined"
               fullWidth
@@ -106,6 +107,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
         <Stack direction="row" spacing={2}>
           <TextField
             label="Latitude"
+            placeholder="Enter a decimal latitude"
             size="small"
             variant="outlined"
             value={location.lat}
@@ -115,6 +117,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
           />
           <TextField
             label="Longitude"
+            placeholder="Enter a decimal longitude"
             size="small"
             variant="outlined"
             value={location.lng}
