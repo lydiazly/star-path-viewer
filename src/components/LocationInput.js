@@ -60,7 +60,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
       debounce((query) => {
         fetchSuggestions(query, setSuggestions, setErrorMessage);
       }, 750),  // ms
-    [setSuggestions, setErrorMessage]
+    [setErrorMessage]
   );
 
   /* Cancel the debounce function when the component unmounts */

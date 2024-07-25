@@ -1,8 +1,9 @@
 // src/components/DateInput.js
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { TextField, MenuItem, Stack } from '@mui/material';
 import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX } from '../utils/constants';
 import { dateToStr } from '../utils/dateUtils';
+import debounce from 'lodash/debounce';
 
 /* Adjust the date */
 const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange) => {
@@ -135,13 +136,42 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
     onDateChange(newDate);
   };
 
-  useEffect(() => {
-    adjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange);
-  }, [date.year, date.month, onDateChange]);
+  const debouncedAdjustDate = useMemo(
+    () =>
+      debounce(
+        (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange) => {
+          adjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange);
+        }, 500
+      ),
+    []
+  );
+
+  const debouncedValidateDate = useMemo(
+    () =>
+      debounce(
+        (date, setErrorMessage) => {
+          validateDate(date, setErrorMessage);
+        }, 500
+      ),
+    []
+  );
 
   useEffect(() => {
-    validateDate(date, setErrorMessage);
-  }, [date, setErrorMessage]);
+    debouncedAdjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange);
+    /* Cleanup function */
+    return () => {
+      debouncedAdjustDate.cancel();
+    };
+  }, [date.year, date.month, onDateChange, debouncedAdjustDate]);
+
+  useEffect(() => {
+    debouncedValidateDate(date, setErrorMessage);
+
+    /* Cleanup function */
+    return () => {
+      debouncedValidateDate.cancel();
+    };
+  }, [date, setErrorMessage, debouncedValidateDate]);
 
   return (
     <Stack direction="column" spacing={2}>
