@@ -36,7 +36,7 @@ const DateLocationDisplay = ({ date, location, star }) => {
         </Typography>
 
         <Typography variant="subtutle2">
-          [COORDINATES] {latStr}/{lngStr}
+          [LOCATION] {latStr}/{lngStr}
         </Typography>
         
         {name ? (

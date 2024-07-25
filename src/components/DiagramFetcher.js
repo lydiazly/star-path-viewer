@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import { Box, Stack, Button, Divider } from '@mui/material';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
 import LocationInput from './LocationInput';
 import DateInput from './DateInput';
 import DateLocationDisplay from './DateLocationDisplay';
@@ -128,6 +129,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
         variant="contained"
         color="primary"
         size="large"
+        startIcon={<AutoModeIcon />}
         sx={{ marginTop: 2 }}
         disabled={!!errorMessage}
         onClick={handleDraw}

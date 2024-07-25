@@ -1,6 +1,7 @@
 // src/components/DownloadManager.js
 import React, { useCallback } from 'react';
 import { Stack, Button } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
 import { saveAs } from 'file-saver';
 import { Canvg } from 'canvg';
 import { jsPDF } from 'jspdf';
@@ -72,15 +73,15 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
   }, [svgData, filenameBase, dpi]);
 
   return (
-    <Stack direction="row" spacing={2}>
-      <Button variant="contained" onClick={() => handleDownload('svg')} fullWidth>
-        Download SVG
+    <Stack direction="row" spacing={4}  sx={{ width: '100%', justifyContent: 'center' }}>
+      <Button variant="contained" onClick={() => handleDownload('svg')} startIcon={<DownloadIcon />}>
+        SVG
       </Button>
-      <Button variant="contained" onClick={() => handleDownload('png')} fullWidth>
-        Download PNG
+      <Button variant="contained" onClick={() => handleDownload('png')} startIcon={<DownloadIcon />}>
+        PNG
       </Button>
-      <Button variant="contained" onClick={() => handleDownload('pdf')} fullWidth>
-        Download PDF
+      <Button variant="contained" onClick={() => handleDownload('pdf')} startIcon={<DownloadIcon />}>
+        PDF
       </Button>
     </Stack>
   );
