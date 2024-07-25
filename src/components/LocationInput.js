@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Box, Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import axios from 'axios';
+import Config from '../Config';
 import debounce from 'lodash/debounce';
 
 /* TODO: validateLocation() */
@@ -9,11 +10,11 @@ import debounce from 'lodash/debounce';
 const fetchSuggestions = async (query, setSuggestions, setErrorMessage) => {
   if (query.length > 2) {
     try {
-      const response = await axios.get(`https://nominatim.openstreetmap.org/search`, {
+      const response = await axios.get(Config.nominatimSearchUrl, {
         params: {
           q: query,
           format: 'json',
-          // addressdetails: 1,
+          addressdetails: 1,
         },
         timeout: 3000,
       });
@@ -33,9 +34,10 @@ const fetchSuggestions = async (query, setSuggestions, setErrorMessage) => {
 
 const LocationInput = ({ onLocationChange, setErrorMessage }) => {
   const [inputType, setInputType] = useState('address'); // 'address' or 'coordinates'
-  const [location, setLocation] = useState({ lat: '', lng: '' });
+  const [location, setLocation] = useState({ lat: '', lng: '', place_id: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
   useEffect(() => {
     onLocationChange(location);
@@ -59,7 +61,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
     () =>
       debounce((query) => {
         fetchSuggestions(query, setSuggestions, setErrorMessage);
-      }, 750),  // ms
+      }, Config.typingTimeout),
     [setErrorMessage]
   );
 
@@ -79,16 +81,51 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
   );
 
   const handleSelect = useCallback((event, value) => {
+    if (!value) {
+      setLocation({ lat: '', lng: '', place_id: '' });
+      setSearchTerm('');
+      setSuggestions([]);
+      return;
+    }
+
     const selectedSuggestion = suggestions.find(
       (suggestion) => `${suggestion.display_name}` === value
+      // (suggestion) => suggestion.place_id === value.place_id
     );
     if (selectedSuggestion) {
       setLocation({
         lat: selectedSuggestion.lat,
         lng: selectedSuggestion.lon,
+        place_id: selectedSuggestion.place_id,
       });
       setSearchTerm(value);
+      // setSearchTerm(selectedSuggestion.display_name);
       setSuggestions([]);
+    }
+  }, [suggestions]);
+
+  const handleKeyDown = useCallback((event) => {
+    if (event.key === 'Enter') {
+      /* Prevent's default 'Enter' behavior */
+      event.defaultMuiPrevented = true;
+      /* Select the highlighted suggestion */
+      if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
+        const highlightedSuggestion = suggestions[highlightedIndex];
+        setLocation({
+          lat: highlightedSuggestion.lat,
+          lng: highlightedSuggestion.lon,
+          place_id: highlightedSuggestion.place_id,
+        });
+        setSearchTerm(highlightedSuggestion.display_name);
+        setSuggestions([]);
+      }
+    }
+  }, [highlightedIndex, suggestions]);
+
+  const handleHighlightChange = useCallback((event, option, reason) => {
+    if (reason === 'keyboard' || reason === 'mouse') {
+      const index = suggestions.findIndex((suggestion) => suggestion.place_id === option.place_id);
+      setHighlightedIndex(index);
     }
   }, [suggestions]);
 
@@ -119,10 +156,20 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
             freeSolo
             clearOnEscape
             options={suggestions.map((suggestion) => suggestion.display_name)}
+            // options={suggestions}
+            // getOptionLabel={(option) => option.display_name}
             inputValue={searchTerm}
             onInputChange={handleSearchChange}
             onChange={handleSelect}
+            onKeyDown={handleKeyDown}
+            onHighlightChange={handleHighlightChange}
             filterOptions={(x) => x}
+            autoHighlight
+            // renderOption={(props, option) => (
+            //   <li {...props}>
+            //     {`${option.display_name} (${option.addresstype})`}
+            //   </li>
+            // )}
             renderInput={(params) => (
               <TextField
                 {...params}

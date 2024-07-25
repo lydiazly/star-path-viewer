@@ -1,15 +1,18 @@
 // src/components/DateInput.js
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { TextField, MenuItem, Stack } from '@mui/material';
+import { TextField, MenuItem, Stack, Button } from '@mui/material';
 import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX } from '../utils/constants';
 import { dateToStr } from '../utils/dateUtils';
+import Config from '../Config';
 import debounce from 'lodash/debounce';
 
 /* Adjust the date */
 const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange) => {
+  console.log("adjustDate is called");
   const date = dateRef.current;
   const year = parseInt(date.year);
   const month = parseInt(date.month);
+  const day = parseInt(date.day);
   const newDisabledMonths = {};
   let dayMin = 1;
   let dayMax = 31;
@@ -22,47 +25,50 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChang
   }
   setLastDay(dayMax);
 
-  /* Enable all month options before EPH_DATE_MIN */
-  Object.keys(newDisabledMonths).forEach((key) => {
-    newDisabledMonths[key] = false;
-  });
-
-  if (year === EPH_DATE_MIN[0]) {
-    /* Disable the month options before EPH_DATE_MIN */
-    for (let i = EPH_DATE_MIN[1] - 1; i >= 1; i--) {
-      newDisabledMonths[i] = true;
+  if (year) {
+    console.log("checking eph limit");
+    /* Enable all month options before EPH_DATE_MIN */
+    Object.keys(newDisabledMonths).forEach((key) => {
+      newDisabledMonths[key] = false;
+    });
+  
+    if (year === EPH_DATE_MIN[0]) {
+      /* Disable the month options before EPH_DATE_MIN */
+      for (let i = EPH_DATE_MIN[1] - 1; i >= 1; i--) {
+        newDisabledMonths[i] = true;
+      }
+  
+      if (month < EPH_DATE_MIN[1]) {
+        const newDate = { ...date, month: EPH_DATE_MIN[1].toString() };
+        setDate(newDate);
+        onDateChange(newDate);
+      } else if (month === EPH_DATE_MIN[1]) {
+        dayMin = EPH_DATE_MIN[2];
+      }
+    } else if (year === EPH_DATE_MAX[0]) {
+      /* Disable the month options after EPH_DATE_MAX */
+      for (let i = EPH_DATE_MAX[1] + 1; i <= 12; i++) {
+        newDisabledMonths[i] = true;
+      }
+  
+      if (month > EPH_DATE_MAX[1]) {
+        const newDate = { ...date, month: EPH_DATE_MAX[1].toString() };
+        setDate(newDate);
+        onDateChange(newDate);
+      } else if (month === EPH_DATE_MAX[1]) {
+        dayMax = EPH_DATE_MAX[2];
+      }
     }
-
-    if (month < EPH_DATE_MIN[1]) {
-      const newDate = { ...date, month: EPH_DATE_MIN[1].toString() };
-      setDate(newDate);
-      onDateChange(newDate);
-    } else if (month === EPH_DATE_MIN[1]) {
-      dayMin = EPH_DATE_MIN[2];
-    }
-  } else if (year === EPH_DATE_MAX[0]) {
-    /* Disable the month options after EPH_DATE_MAX */
-    for (let i = EPH_DATE_MAX[1] + 1; i <= 12; i++) {
-      newDisabledMonths[i] = true;
-    }
-
-    if (month > EPH_DATE_MAX[1]) {
-      const newDate = { ...date, month: EPH_DATE_MAX[1].toString() };
-      setDate(newDate);
-      onDateChange(newDate);
-    } else if (month === EPH_DATE_MAX[1]) {
-      dayMax = EPH_DATE_MAX[2];
-    }
+  
+    setDisabledMonths(newDisabledMonths);
   }
 
-  setDisabledMonths(newDisabledMonths);
-
-  if (parseInt(date.day) < dayMin) {
+  if (day < dayMin) {
     const newDate = { ...date, day: dayMin.toString() };
     setDate(newDate);
     onDateChange(newDate);
   }
-  if (parseInt(date.day) > dayMax) {
+  if (day > dayMax) {
     const newDate = { ...date, day: dayMax.toString() };
     setDate(newDate);
     onDateChange(newDate);
@@ -71,23 +77,26 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChang
 
 /* Validate the date */
 const validateDate = (date, setErrorMessage) => {
+  console.log("validateDate is called");
+  console.log(`get date: '${date.year}' '${date.month}' '${date.day}'`);
   if (!date.year || !date.month || !date.day) {
+    return;
+  }
+
+  if (!/^-?\d*$/.test(date.year)) {
+    setErrorMessage('Year must be an integer.');
+    return;
+  }
+
+  if (!/^-?\d*$/.test(date.day)) {
+    setErrorMessage('Day must be an integer.');
     return;
   }
 
   const year = parseInt(date.year);
   const month = parseInt(date.month);
   const day = parseInt(date.day);
-
-  if (date.year && year.toString() !== date.year) {
-    setErrorMessage('Year must be an integer.');
-    return;
-  }
-
-  if (date.day && day.toString() !== date.day) {
-    setErrorMessage('Day must be an integer.');
-    return;
-  }
+  console.log(date.year, year);
 
   if (
     (year < EPH_DATE_MIN[0] ||
@@ -131,6 +140,7 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    console.log(`get input of '${name}': '${value}'`);
     const newDate = { ...date, [name]: value.toString() };
     setDate(newDate);
     onDateChange(newDate);
@@ -141,7 +151,7 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
       debounce(
         (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange) => {
           adjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange);
-        }, 500
+        }, Config.typingTimeout
       ),
     []
   );
@@ -151,7 +161,7 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
       debounce(
         (date, setErrorMessage) => {
           validateDate(date, setErrorMessage);
-        }, 500
+        }, Config.typingTimeout
       ),
     []
   );
@@ -194,7 +204,7 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
           variant="outlined"
           name="month"
           value={date.month}
-          onChange={handleInputChange}
+          onInput={handleInputChange}
           fullWidth
         >
           {MONTHS.slice(1).map((month, index) => (
@@ -214,6 +224,12 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
           inputProps={{ min: 1, max: lastDay }}
           fullWidth
         />
+      </Stack>
+      <Stack direction="row" spacing={2}>
+        <Button variant="contained" fullWidth>Vernal Equinox</Button>
+        <Button variant="contained" fullWidth>Summer Solstice</Button>
+        <Button variant="contained" fullWidth>Autumnal Equinox</Button>
+        <Button variant="contained" fullWidth>Winter Solstice</Button>
       </Stack>
     </Stack>
   );

@@ -40,7 +40,7 @@ const StarInput = ({ onStarChange, setErrorMessage }) => {
           fullWidth
         >
           <ToggleButton value="name" aria-label="Input Name">
-            Name
+            Planet Name
           </ToggleButton>
           <ToggleButton value="hip" aria-label="Input Hipparchus">
             Hipparchus
@@ -53,7 +53,7 @@ const StarInput = ({ onStarChange, setErrorMessage }) => {
 
       {inputType === 'name' && (
         <TextField
-          label="Name"
+          label="Planet Name"
           size="small"
           variant="outlined"
           name="name"
