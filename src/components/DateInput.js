@@ -7,12 +7,11 @@ import Config from '../Config';
 import debounce from 'lodash/debounce';
 
 /* Adjust the date */
-const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange) => {
-  console.log("adjustDate is called");
+const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting) => {
   const date = dateRef.current;
   const year = parseInt(date.year);
-  const month = parseInt(date.month);
-  const day = parseInt(date.day);
+  let month = parseInt(date.month);
+  let day = parseInt(date.day);
   const newDisabledMonths = {};
   let dayMin = 1;
   let dayMax = 31;
@@ -26,23 +25,19 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChang
   setLastDay(dayMax);
 
   if (year) {
-    console.log("checking eph limit");
     /* Enable all month options before EPH_DATE_MIN */
     Object.keys(newDisabledMonths).forEach((key) => {
       newDisabledMonths[key] = false;
     });
-  
+
     if (year === EPH_DATE_MIN[0]) {
       /* Disable the month options before EPH_DATE_MIN */
       for (let i = EPH_DATE_MIN[1] - 1; i >= 1; i--) {
         newDisabledMonths[i] = true;
       }
-  
-      if (month < EPH_DATE_MIN[1]) {
-        const newDate = { ...date, month: EPH_DATE_MIN[1].toString() };
-        setDate(newDate);
-        onDateChange(newDate);
-      } else if (month === EPH_DATE_MIN[1]) {
+
+      if (month <= EPH_DATE_MIN[1]) {
+        month = EPH_DATE_MIN[1];
         dayMin = EPH_DATE_MIN[2];
       }
     } else if (year === EPH_DATE_MAX[0]) {
@@ -50,35 +45,37 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChang
       for (let i = EPH_DATE_MAX[1] + 1; i <= 12; i++) {
         newDisabledMonths[i] = true;
       }
-  
-      if (month > EPH_DATE_MAX[1]) {
-        const newDate = { ...date, month: EPH_DATE_MAX[1].toString() };
-        setDate(newDate);
-        onDateChange(newDate);
+
+      if (month >= EPH_DATE_MAX[1]) {
+        month = EPH_DATE_MAX[1];
+        dayMax = EPH_DATE_MAX[2];
       } else if (month === EPH_DATE_MAX[1]) {
         dayMax = EPH_DATE_MAX[2];
       }
     }
-  
+
     setDisabledMonths(newDisabledMonths);
   }
 
   if (day < dayMin) {
-    const newDate = { ...date, day: dayMin.toString() };
-    setDate(newDate);
-    onDateChange(newDate);
+    day = dayMin;
   }
   if (day > dayMax) {
-    const newDate = { ...date, day: dayMax.toString() };
+    day = dayMax;
+  }
+
+  if (month.toString() !== date.month || day.toString() !== date.day) {
+    const newDate = { ...date, month: month.toString(), day: day.toString() };
     setDate(newDate);
     onDateChange(newDate);
   }
+
+  setAdjusting(false);
 };
 
 /* Validate the date */
 const validateDate = (date, setErrorMessage) => {
-  console.log("validateDate is called");
-  console.log(`get date: '${date.year}' '${date.month}' '${date.day}'`);
+  // console.log(`get date: '${date.year}' '${date.month}' '${date.day}'`);
   if (!date.year || !date.month || !date.day) {
     return;
   }
@@ -96,7 +93,6 @@ const validateDate = (date, setErrorMessage) => {
   const year = parseInt(date.year);
   const month = parseInt(date.month);
   const day = parseInt(date.day);
-  console.log(date.year, year);
 
   if (
     (year < EPH_DATE_MIN[0] ||
@@ -107,7 +103,6 @@ const validateDate = (date, setErrorMessage) => {
     setErrorMessage(`Out of the ephemeris date range: ${dateToStr({ date: EPH_DATE_MIN })} \u2013 ${dateToStr({ date: EPH_DATE_MAX })}`);
     return false;
   }
-  setErrorMessage('');
   return true;
 };
 
@@ -115,6 +110,7 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
   const [date, setDate] = useState({ year: '', month: '', day: '' });
   const [disabledMonths, setDisabledMonths] = useState({});
   const [lastDay, setLastDay] = useState(31);
+  const [adjusting, setAdjusting] = useState(false);
   const dateRef = useRef(date);
 
   /* Initiate with the current date */
@@ -140,17 +136,17 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(`get input of '${name}': '${value}'`);
     const newDate = { ...date, [name]: value.toString() };
     setDate(newDate);
     onDateChange(newDate);
+    setAdjusting(true);
   };
 
   const debouncedAdjustDate = useMemo(
     () =>
       debounce(
-        (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange) => {
-          adjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange);
+        (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting) => {
+          adjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting);
         }, Config.typingTimeout
       ),
     []
@@ -167,21 +163,25 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
   );
 
   useEffect(() => {
-    debouncedAdjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange);
+    if (adjusting) {  // start adjusting
+      debouncedAdjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting);
+    }
     /* Cleanup function */
     return () => {
       debouncedAdjustDate.cancel();
     };
-  }, [date.year, date.month, onDateChange, debouncedAdjustDate]);
+  }, [date.year, date.month, onDateChange, debouncedAdjustDate, adjusting]);
 
   useEffect(() => {
-    debouncedValidateDate(date, setErrorMessage);
+    if (!adjusting) {
+      debouncedValidateDate(date, setErrorMessage);
+    }
 
     /* Cleanup function */
     return () => {
       debouncedValidateDate.cancel();
     };
-  }, [date, setErrorMessage, debouncedValidateDate]);
+  }, [date, setErrorMessage, debouncedValidateDate, adjusting]);
 
   return (
     <Stack direction="column" spacing={2}>
@@ -204,7 +204,7 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
           variant="outlined"
           name="month"
           value={date.month}
-          onInput={handleInputChange}
+          onChange={handleInputChange}
           fullWidth
         >
           {MONTHS.slice(1).map((month, index) => (

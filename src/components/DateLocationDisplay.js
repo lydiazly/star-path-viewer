@@ -41,7 +41,7 @@ const DateLocationDisplay = ({ date, location, star }) => {
         
         {name ? (
           <Typography variant="subtutle2">
-            [NAME] {capitalize(name)}
+            [OBJECT] {capitalize(name)}
           </Typography>
         ) : (
           hip ? (

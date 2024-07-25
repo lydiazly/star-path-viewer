@@ -31,14 +31,14 @@ const App = () => {
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Container maxWidth="md" sx={{ paddingY: 6 }}>
+        <Container maxWidth="md" sx={{ paddingY: 4 }}>
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'flex-start',
-              minHeight: '80vh',
+              minHeight: '90vh',
               textAlign: 'center',
               gap: 1, // Default MUI spacing: 8px
             }}
@@ -57,6 +57,14 @@ const App = () => {
               ... hero text ...
             </Typography>
 
+            <Box sx={{ minHeight: '1rem' }}>
+              {errorMessage &&
+                <Alert severity="error" sx={{ width: '100%' }}>
+                  {errorMessage}
+                </Alert>
+              }
+            </Box>
+
             <Box sx={{ width: '100%', justifyContent: 'center' }}>
               <DiagramFetcher
                 setDiagramId={setDiagramId}
@@ -68,12 +76,6 @@ const App = () => {
               />
             </Box>
 
-            {errorMessage &&
-              <Alert severity="error" sx={{ width: '100%', marginTop: 1 }}>
-                {errorMessage}
-              </Alert>
-            }
-            
             {svgData && (
               <Box sx={{ width: '100%', justifyContent: 'center' }}>
                 <Box id="svg-container">

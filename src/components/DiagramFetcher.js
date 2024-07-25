@@ -62,7 +62,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
     try {
       const response = await axios.get(`${Config.serverUrl}/diagram`, {
         params,
-        timeout: 3000 // ms
+        timeout: Config.serverTimeout
       });
 
       const newInfo = {};
@@ -109,7 +109,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
   }, [date, location, star, clearImage, setDiagramId, setSvgData, setAnno, setErrorMessage]);
 
   return (
-    <Box>
+    <Box sx={{ justifyContent: 'center' }}>
       <Stack direction='column' spacing={2}>
         <Divider className={classes.dividerText}>LOCATION</Divider>
 

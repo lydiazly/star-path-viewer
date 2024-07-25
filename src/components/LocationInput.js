@@ -16,9 +16,9 @@ const fetchSuggestions = async (query, setSuggestions, setErrorMessage) => {
           format: 'json',
           addressdetails: 1,
         },
-        timeout: 3000,
+        timeout: Config.nominatimTimeout,
       });
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data.length > 0) {
         setSuggestions(response.data);
       } else {
@@ -89,8 +89,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
     }
 
     const selectedSuggestion = suggestions.find(
-      (suggestion) => `${suggestion.display_name}` === value
-      // (suggestion) => suggestion.place_id === value.place_id
+      // (suggestion) => `${suggestion.display_name}` === value
+      (suggestion) => suggestion.place_id === value.place_id
     );
     if (selectedSuggestion) {
       setLocation({
@@ -98,8 +98,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
         lng: selectedSuggestion.lon,
         place_id: selectedSuggestion.place_id,
       });
-      setSearchTerm(value);
-      // setSearchTerm(selectedSuggestion.display_name);
+      // setSearchTerm(value);
+      setSearchTerm(selectedSuggestion.display_name);
       setSuggestions([]);
     }
   }, [suggestions]);
@@ -155,9 +155,9 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
           <Autocomplete
             freeSolo
             clearOnEscape
-            options={suggestions.map((suggestion) => suggestion.display_name)}
-            // options={suggestions}
-            // getOptionLabel={(option) => option.display_name}
+            // options={suggestions.map((suggestion) => suggestion.display_name)}
+            options={suggestions}
+            getOptionLabel={(option) => option.display_name}
             inputValue={searchTerm}
             onInputChange={handleSearchChange}
             onChange={handleSelect}
@@ -165,16 +165,16 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
             onHighlightChange={handleHighlightChange}
             filterOptions={(x) => x}
             autoHighlight
-            // renderOption={(props, option) => (
-            //   <li {...props}>
-            //     {`${option.display_name} (${option.addresstype})`}
-            //   </li>
-            // )}
+            renderOption={(props, option) => (
+              <li {...props} key={option.place_id}>
+                {`${option.display_name} (${option.addresstype})`}
+              </li>
+            )}
             renderInput={(params) => (
               <TextField
                 {...params}
                 label="Search address"
-                placeholder="Enter a place, city, province/state, or country"
+                placeholder="Enter a place, city, county, state, or country"
                 size="small"
                 variant="outlined"
                 fullWidth
