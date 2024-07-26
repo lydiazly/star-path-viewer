@@ -22,10 +22,11 @@ const fetchSuggestions = async (query, setSuggestions, setErrorMessage) => {
       if (response.data.length > 0) {
         setSuggestions(response.data);
       } else {
-        setErrorMessage('Location not found. Please try another address.');
+        setSuggestions([{ display_name: 'Location not found', place_id: 'not-found', address_type: '' }]);
       }
     } catch (error) {
       setErrorMessage('Error fetching location suggestions.');
+      // setSuggestions([{ display_name: 'Error fetching location suggestions', place_id: 'error', address_type: '' }]);
     }
   } else {
     setSuggestions([]);
@@ -81,7 +82,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
   );
 
   const handleSelect = useCallback((event, value) => {
-    if (!value) {
+    if (!value || value.place_id === 'not-found') {
       setLocation({ lat: '', lng: '', place_id: '' });
       setSearchTerm('');
       setSuggestions([]);
@@ -111,13 +112,15 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
       /* Select the highlighted suggestion */
       if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
         const highlightedSuggestion = suggestions[highlightedIndex];
-        setLocation({
-          lat: highlightedSuggestion.lat,
-          lng: highlightedSuggestion.lon,
-          place_id: highlightedSuggestion.place_id,
-        });
-        setSearchTerm(highlightedSuggestion.display_name);
-        setSuggestions([]);
+        if (highlightedSuggestion.place_id !== 'not-found' && highlightedSuggestion.place_id !== 'error') {
+          setLocation({
+            lat: highlightedSuggestion.lat,
+            lng: highlightedSuggestion.lon,
+            place_id: highlightedSuggestion.place_id,
+          });
+          setSearchTerm(highlightedSuggestion.display_name);
+          setSuggestions([]);
+        }
       }
     }
   }, [highlightedIndex, suggestions]);
@@ -166,8 +169,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage }) => {
             filterOptions={(x) => x}
             autoHighlight
             renderOption={(props, option) => (
-              <li {...props} key={option.place_id}>
-                {`${option.display_name} (${option.addresstype})`}
+              <li {...props} key={option.place_id} style={option.place_id === 'not-found' ? { pointerEvents: 'none', color: 'gray' } : {}}>
+                {`${option.display_name} ${option.address_type ? `(${option.address_type})` : ''}`}
               </li>
             )}
             renderInput={(params) => (

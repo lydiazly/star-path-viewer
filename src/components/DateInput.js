@@ -187,6 +187,7 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
     <Stack direction="column" spacing={2}>
       <Stack direction="row" spacing={2}>
         <TextField
+          required
           label="Year"
           size="small"
           variant="outlined"
@@ -198,6 +199,7 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
           fullWidth
         />
         <TextField
+          required
           select
           label="Month"
           size="small"
@@ -214,6 +216,7 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
           ))}
         </TextField>
         <TextField
+          required
           label="Day"
           size="small"
           variant="outlined"
