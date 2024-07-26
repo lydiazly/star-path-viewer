@@ -9,9 +9,9 @@ import debounce from 'lodash/debounce';
 /* Adjust the date */
 const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting) => {
   const date = dateRef.current;
-  const year = parseInt(date.year);
-  let month = parseInt(date.month);
-  let day = parseInt(date.day);
+  const year = parseInt(date.year) || new Date().getFullYear();
+  let month = parseInt(date.month) || 1;
+  let day = parseInt(date.day) || 1;
   const newDisabledMonths = {};
   let dayMin = 1;
   let dayMax = 31;
@@ -107,7 +107,7 @@ const validateDate = (date, setErrorMessage) => {
 };
 
 const DateInput = ({ onDateChange, setErrorMessage }) => {
-  const [date, setDate] = useState({ year: '', month: '', day: '' });
+  const [date, setDate] = useState({ year: '2000', month: '1', day: '1' });
   const [disabledMonths, setDisabledMonths] = useState({});
   const [lastDay, setLastDay] = useState(31);
   const [adjusting, setAdjusting] = useState(false);

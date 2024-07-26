@@ -13,8 +13,8 @@ import Config from '../Config';
 import useStyles from '../styles/styles';
 
 const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setErrorMessage, clearImage }) => {
-  const [date, setDate] = useState({ year: '', month: '', day: '' });
-  const [location, setLocation] = useState({ lat: '', lng: '' });
+  const [date, setDate] = useState({ year: '2000', month: '1', day: '1' });
+  const [location, setLocation] = useState({ lat: '0', lng: '0' });
   const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '' });
   const [info, setInfo] = useState({ year: '', month: '', day: '', lat: '', lng: '', name: '', hip: '', ra: '', dec: '' });
   const [loading, setLoading] = useState(false);
@@ -115,6 +115,8 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
         setErrorMessage('Error: ' + error.message);
       }
       clearImage();  // Clear SVG on error
+      setSuccess(false);
+      setLoading(false);
     }
   }, [date, location, star, loading, clearImage, setDiagramId, setSvgData, setAnno, setErrorMessage]);
 
@@ -138,7 +140,9 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
         variant="contained"
         color="primary"
         size="large"
-        startIcon={loading ? <CircularProgress color="inherit" size="1rem" /> : <ArrowForwardIcon />}
+        startIcon={loading
+          ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
+          : <ArrowForwardIcon />}
         sx={{ marginTop: 2 }}
         disabled={!!errorMessage || loading}
         onClick={handleDraw}
