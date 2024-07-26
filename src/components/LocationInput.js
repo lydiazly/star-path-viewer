@@ -33,7 +33,7 @@ const fetchSuggestions = async (query, setSuggestions, setErrorMessage) => {
 };
 
 const LocationInput = ({ onLocationChange, setErrorMessage }) => {
-  const [inputType, setInputType] = useState('address'); // 'address' or 'coordinates'
+  const [inputType, setInputType] = useState('address');  // 'address' or 'coordinates'
   const [location, setLocation] = useState({ lat: '', lng: '', place_id: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);

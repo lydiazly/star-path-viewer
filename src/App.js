@@ -40,7 +40,7 @@ const App = () => {
               justifyContent: 'flex-start',
               minHeight: '90vh',
               textAlign: 'center',
-              gap: 1, // Default MUI spacing: 8px
+              gap: 1,  // Default MUI spacing: 8px
             }}
           >
             <Typography variant="h2" component="h1" sx={{ fontSize: "3rem" }}>

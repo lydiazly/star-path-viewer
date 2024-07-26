@@ -3,11 +3,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
 import { Box, Stack, Button, Divider } from '@mui/material';
-import AutoModeIcon from '@mui/icons-material/AutoMode';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CircularProgress from '@mui/material/CircularProgress';
 import LocationInput from './LocationInput';
 import DateInput from './DateInput';
 import DateLocationDisplay from './DateLocationDisplay';
-import StarInput from './StarInput'; // Import the new StarInput component
+import StarInput from './StarInput';
 import Config from '../Config';
 import useStyles from '../styles/styles';
 
@@ -16,7 +17,8 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '' });
   const [info, setInfo] = useState({ year: '', month: '', day: '', lat: '', lng: '', name: '', hip: '', ra: '', dec: '' });
-  const [showDateLocation, setShowDateLocation] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const classes = useStyles();
 
   /* Initiate with the current date */
@@ -30,9 +32,13 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
   }, []);
 
   const handleDraw = useCallback(async () => {
+    if (loading) {
+      return;
+    }
+
     clearImage();  // Clear the SVG data before making the API call
     setErrorMessage('');  // Clear any previous error message before making the API call
-    setShowDateLocation(false);  // Hide the date and location display initially
+    setSuccess(false);
 
     const { year, month, day } = date;
     const { lat, lng } = location;
@@ -40,18 +46,20 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
 
     if (!year || !month || !day) {
       setErrorMessage('Please provide a date.');
-      return;
+      return false;
     }
 
     if (!lat || !lng) {
       setErrorMessage('Please provide a location.');
-      return;
+      return false;
     }
 
     if (!name && !hip && (!ra || !dec)) {
       setErrorMessage('Please provide a name, Hipparchus catalogue number, or RA/Dec.');
-      return;
+      return false;
     }
+
+    setLoading(true);
 
     const params = { year, month, day, lat, lng };
     ['name', 'hip', 'ra', 'dec'].forEach(key => {
@@ -95,7 +103,8 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
       setSvgData(sanitizedSvg);
       setAnno(response.data.annotations);
       setErrorMessage('');  // Clear any previous error message
-      setShowDateLocation(true);  // Show the date and location display
+      setSuccess(true);
+      setLoading(false);
 
     } catch (error) {
       if (error.response && error.response.data.error) {
@@ -107,11 +116,11 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
       }
       clearImage();  // Clear SVG on error
     }
-  }, [date, location, star, clearImage, setDiagramId, setSvgData, setAnno, setErrorMessage]);
+  }, [date, location, star, loading, clearImage, setDiagramId, setSvgData, setAnno, setErrorMessage]);
 
   return (
     <Box sx={{ justifyContent: 'center' }}>
-      <Stack direction='column' spacing={2}>
+      <Stack direction="column" spacing={2}>
         <Divider className={classes.dividerText}>LOCATION</Divider>
 
         <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} />
@@ -129,16 +138,16 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
         variant="contained"
         color="primary"
         size="large"
-        startIcon={<AutoModeIcon />}
+        startIcon={loading ? <CircularProgress color="inherit" size="1rem" /> : <ArrowForwardIcon />}
         sx={{ marginTop: 2 }}
-        disabled={!!errorMessage}
+        disabled={!!errorMessage || loading}
         onClick={handleDraw}
         fullWidth
       >
         Draw Star Trail
       </Button>
 
-      {showDateLocation && (
+      {success && (
         <DateLocationDisplay
           date={{ year: info.year, month: info.month, day: info.day }}
           location={{ lat: info.lat, lng: info.lng }}
