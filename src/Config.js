@@ -4,7 +4,7 @@ const Config = {
   nominatimSearchUrl: 'https://nominatim.openstreetmap.org/search',
   nominatimTimeout: 5000,
   serverTimeout: 6000,
-  typingTimeout: 400,
+  typingTimeout: 350,
 };
 
 export default Config;

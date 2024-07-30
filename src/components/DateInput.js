@@ -1,6 +1,9 @@
 // src/components/DateInput.js
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { TextField, MenuItem, Stack, Button } from '@mui/material';
+import PropTypes from 'prop-types';
+import { Stack, TextField, MenuItem, Button, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid'; // Grid version 1
+// import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX } from '../utils/constants';
 import { dateToStr } from '../utils/dateUtils';
 import Config from '../Config';
@@ -74,20 +77,24 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChang
 };
 
 /* Validate the date */
-const validateDate = (date, setErrorMessage) => {
+const validateDateSync = (date) => {
   // console.log(`get date: '${date.year}' '${date.month}' '${date.day}'`);
-  if (!date.year || !date.month || !date.day) {
-    return;
-  }
+  let newDateError = {
+    general: { valid: true, error: '' },
+    year: { valid: true, error: '' },
+    month: { valid: true, error: '' },
+    day: { valid: true, error: '' }
+  };
 
-  if (!/^-?\d*$/.test(date.year)) {
-    setErrorMessage('Year must be an integer.');
-    return;
-  }
-
-  if (!/^-?\d*$/.test(date.day)) {
-    setErrorMessage('Day must be an integer.');
-    return;
+  for (let key of ['year', 'month', 'day']) {
+    if (!date[key]) {
+      // setErrorMessage(`Please enter a ${key}.`);
+      return { ...newDateError, [key]: { valid: false, error: `Please enter a ${key}.` } };
+    }
+    if (!/^-?\d*$/.test(date[key])) {
+      // setErrorMessage(`The ${key} must be an integer.`);
+      return { ...newDateError, [key]: { valid: false, error: `The ${key} must be an integer.` } };
+    }
   }
 
   const year = parseInt(date.year);
@@ -100,17 +107,24 @@ const validateDate = (date, setErrorMessage) => {
     (year > EPH_DATE_MAX[0] ||
       (year === EPH_DATE_MAX[0] && (month > EPH_DATE_MAX[1] || (month === EPH_DATE_MAX[1] && day > EPH_DATE_MAX[2]))))
   ) {
-    setErrorMessage(`Out of the ephemeris date range: ${dateToStr({ date: EPH_DATE_MIN })} \u2013 ${dateToStr({ date: EPH_DATE_MAX })}`);
-    return false;
+    // setErrorMessage(`Out of the ephemeris date range: ${dateToStr({ date: EPH_DATE_MIN })} \u2013 ${dateToStr({ date: EPH_DATE_MAX })}`);
+    return { ...newDateError, general: { valid: false, error: `Out of the ephemeris date range: ${dateToStr({ date: EPH_DATE_MIN })} \u2013 ${dateToStr({ date: EPH_DATE_MAX })}` } };
   }
-  return true;
+  // setErrorMessage('');
+  return newDateError;
 };
 
-const DateInput = ({ onDateChange, setErrorMessage }) => {
+const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
   const [date, setDate] = useState({ year: '2000', month: '1', day: '1' });
   const [disabledMonths, setDisabledMonths] = useState({});
   const [lastDay, setLastDay] = useState(31);
   const [adjusting, setAdjusting] = useState(false);
+  const [dateError, setDateError] = useState({
+    general: { valid: true, error: '' },
+    year: { valid: true, error: '' },
+    month: { valid: true, error: '' },
+    day: { valid: true, error: '' }
+  });
   const dateRef = useRef(date);
 
   /* Initiate with the current date */
@@ -124,7 +138,8 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
     setDate(initialDate);
     dateRef.current = initialDate;
     onDateChange(initialDate);
-  }, [onDateChange]);
+    setDateValid(true);
+  }, [onDateChange, setDateValid]);
 
   useEffect(() => {
     dateRef.current = date;
@@ -139,27 +154,29 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
     const newDate = { ...date, [name]: value.toString() };
     setDate(newDate);
     onDateChange(newDate);
+    setDateValid(true);
     setAdjusting(true);
+    setDateError({
+      general: { valid: true, error: '' },
+      year: { valid: true, error: '' },
+      month: { valid: true, error: '' },
+      day: { valid: true, error: '' }
+    });  // Reset error when user starts typing
   };
 
   const debouncedAdjustDate = useMemo(
-    () =>
-      debounce(
-        (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting) => {
-          adjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting);
-        }, Config.typingTimeout
-      ),
+    () => debounce(adjustDate),
     []
   );
 
   const debouncedValidateDate = useMemo(
-    () =>
-      debounce(
-        (date, setErrorMessage) => {
-          validateDate(date, setErrorMessage);
-        }, Config.typingTimeout
-      ),
-    []
+    () => debounce((date) => {
+      const validationResult = validateDateSync(date);
+      const isValid = !Object.values(validationResult).some(item => !item.valid);
+      setDateError(validationResult);
+      setDateValid(isValid);
+    }, Config.typingTimeout),
+    [setDateValid]
   );
 
   useEffect(() => {
@@ -170,72 +187,112 @@ const DateInput = ({ onDateChange, setErrorMessage }) => {
     return () => {
       debouncedAdjustDate.cancel();
     };
-  }, [date.year, date.month, onDateChange, debouncedAdjustDate, adjusting]);
+  }, [date.year, date.month, adjusting, onDateChange, debouncedAdjustDate]);
 
   useEffect(() => {
     if (!adjusting) {
-      debouncedValidateDate(date, setErrorMessage);
+      debouncedValidateDate(date);
     }
 
     /* Cleanup function */
     return () => {
       debouncedValidateDate.cancel();
     };
-  }, [date, setErrorMessage, debouncedValidateDate, adjusting]);
+  }, [date, adjusting, debouncedValidateDate]);
 
   return (
     <Stack direction="column" spacing={2}>
-      <Stack direction="row" spacing={2}>
-        <TextField
-          required
-          label="Year"
-          size="small"
-          variant="outlined"
-          name="year"
-          type="number"
-          value={date.year}
-          inputProps={{ min: -5000, max: 5000 }}
-          onChange={handleInputChange}
-          fullWidth
-        />
-        <TextField
-          required
-          select
-          label="Month"
-          size="small"
-          variant="outlined"
-          name="month"
-          value={date.month}
-          onChange={handleInputChange}
-          fullWidth
-        >
-          {MONTHS.slice(1).map((month, index) => (
-            <MenuItem key={index} value={index + 1} disabled={!!disabledMonths[index + 1]}>
-              {month.name}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          required
-          label="Day"
-          size="small"
-          variant="outlined"
-          name="day"
-          type="number"
-          value={date.day}
-          onChange={handleInputChange}
-          inputProps={{ min: 1, max: lastDay }}
-          fullWidth
-        />
-      </Stack>
-      <Stack direction="row" spacing={2}>
-        <Button variant="contained" fullWidth>Vernal Equinox</Button>
-        <Button variant="contained" fullWidth>Summer Solstice</Button>
-        <Button variant="contained" fullWidth>Autumnal Equinox</Button>
-        <Button variant="contained" fullWidth>Winter Solstice</Button>
-      </Stack>
+      <div>
+        <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
+          <Grid item xs={12} sm={4} md={4}>
+            <TextField
+              required
+              label="Year"
+              size="small"
+              variant="outlined"
+              name="year"
+              type="number"
+              value={date.year}
+              inputProps={{ min: -5000, max: 5000 }}
+              onChange={handleInputChange}
+              fullWidth
+              error={!dateError.year.valid}
+              helperText={!dateError.year.valid && dateError.year.error}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4} md={4}>
+            <TextField
+              required
+              select
+              label="Month"
+              size="small"
+              variant="outlined"
+              name="month"
+              value={date.month}
+              onChange={handleInputChange}
+              fullWidth
+              error={!dateError.month.valid}
+              helperText={!dateError.month.valid && dateError.month.error}
+            >
+              {MONTHS.slice(1).map((month, index) => (
+                <MenuItem key={index} value={index + 1} disabled={!!disabledMonths[index + 1]}>
+                  {month.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={12} sm={4} md={4}>
+            <TextField
+              required
+              label="Day"
+              size="small"
+              variant="outlined"
+              name="day"
+              type="number"
+              value={date.day}
+              onChange={handleInputChange}
+              inputProps={{ min: 1, max: lastDay }}
+              fullWidth
+              error={!dateError.day.valid}
+              helperText={!dateError.day.valid && dateError.day.error}
+            />
+          </Grid>
+
+          {!dateError.general.valid && (
+            <Grid item xs={12}>
+              <Typography color="error" variant="body2">
+                {dateError.general.error}
+              </Typography>
+            </Grid>
+          )}
+
+        </Grid>
+      </div>
+
+      <div>
+        <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Button variant="outlined" fullWidth>Vernal Equinox</Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Button variant="outlined" fullWidth>Summer Solstice</Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Button variant="outlined" fullWidth>Autumnal Equinox</Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <Button variant="outlined" fullWidth>Winter Solstice</Button>
+          </Grid>
+        </Grid>
+      </div>
     </Stack>
   );
+};
+
+DateInput.propTypes = {
+  onDateChange: PropTypes.func.isRequired,
+  setErrorMessage: PropTypes.func.isRequired,
+  setDateValid: PropTypes.func.isRequired,
 };
 
 export default DateInput;

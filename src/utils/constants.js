@@ -18,9 +18,20 @@ const MONTHS = [
   { abbr: 'Dec', name: 'December' }
 ];
 
+const STARS = {
+  Mercury: 'mercury',
+  Venus: 'venus',
+  Mars: 'mars',
+  Jupiter: 'jupiter',
+  Saturn: 'saturn',
+  Uranus: 'uranus',
+  Neptune: 'neptune',
+  Pluto: 'pluto'
+};
+
 const PT_NAMES = {
   R: 'Rising',
   S: 'Setting',
 };
 
-export { EPH_DATE_MIN, EPH_DATE_MAX, MONTHS, PT_NAMES };
+export { EPH_DATE_MIN, EPH_DATE_MAX, MONTHS, STARS, PT_NAMES };

@@ -7,7 +7,7 @@ import { Canvg } from 'canvg';
 import { jsPDF } from 'jspdf';
 import 'svg2pdf.js';
 
-const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) => {
+const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setErrorMessage }) => {
   const handleDownload = useCallback(async (format) => {
     const svgElement = document.getElementById('svg-container').querySelector('svg');
     if (!svgElement) return;
@@ -34,9 +34,19 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
       const newHeightPx = heightPx * scaleFactor;
 
       const canvas = await document.createElement('canvas');
+      if (!canvas || !canvas.getContext) {
+        setErrorMessage('Your browser does not support the HTML5 Canvas feature.');
+        return;
+      }
+      
       canvas.width = newWidthPx;
       canvas.height = newHeightPx;
       const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        setErrorMessage('Your browser does not support the 2D rendering context.');
+        return;
+      }
+
       /* Center the SVG on the canvas */
       ctx.translate((newWidthPx - widthPx) / 2, (newHeightPx - heightPx) / 2);
 
@@ -70,7 +80,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300 }) =>
         });
     }
     /* ---------------------------------------------------------------------- */
-  }, [svgData, filenameBase, dpi]);
+  }, [svgData, filenameBase, dpi, setErrorMessage]);
 
   return (
     <Stack direction="row" spacing={4}  sx={{ width: '100%', justifyContent: 'center' }}>

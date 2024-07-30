@@ -81,7 +81,12 @@ const App = () => {
                 <Box id="svg-container">
                   <ImageDisplay svgData={svgData} />
                 </Box>
-                <DownloadManager svgData={svgData} filenameBase={`st_${diagramId}`} dpi="300" />
+                <DownloadManager
+                  svgData={svgData}
+                  filenameBase={`st_${diagramId}`}
+                  dpi="300"
+                  setErrorMessage={setErrorMessage}
+                />
                 <Box id="annotations" mt={2}>
                   <AnnoDisplay anno={anno} />
                 </Box>
