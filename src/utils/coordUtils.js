@@ -74,7 +74,7 @@ const formatCoordinate = (coordinate, type) => {
   const direction = type === 'lat'
     ? coordinate >= 0 ? 'N' : 'S'
     : coordinate >= 0 ? 'E' : 'W';
-  return `${Math.abs(degrees)}°${minutes}'${seconds.toFixed(2)}"${direction}`;
+  return `${degrees}°${minutes}'${seconds.toFixed(2)}"${direction}`;
 };
 
 export {

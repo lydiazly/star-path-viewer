@@ -14,10 +14,14 @@ import Config from '../Config';
 import useStyles from '../styles/styles';
 
 const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setErrorMessage, clearImage }) => {
-  const [date, setDate] = useState({ year: '', month: '', day: '' });
+  const [date, setDate] = useState({ year: '', month: '', day: '', flag: '' }); // flag: ve, ss, ae, ws
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '' });
-  const [info, setInfo] = useState({ year: '', month: '', day: '', lat: '', lng: '', name: '', hip: '', ra: '', dec: '' });
+  const [info, setInfo] = useState({
+    year: '', month: '', day: '', flag: '',
+    lat: '', lng: '',
+    name: '', hip: '', ra: '', dec: ''
+  });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [dateValid, setDateValid] = useState(false);
@@ -126,7 +130,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
 
       {success && (
         <DateLocationDisplay
-          date={{ year: info.year, month: info.month, day: info.day }}
+          date={{ year: info.year, month: info.month, day: info.day, flag: info.flag }}
           location={{ lat: info.lat, lng: info.lng }}
           star={{ name: info.name, hip: info.hip, ra: info.ra, dec: info.dec }}
         />

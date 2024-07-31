@@ -1,6 +1,8 @@
 // src/components/DownloadManager.js
 import React, { useCallback } from 'react';
 import { Stack, Button } from '@mui/material';
+import Grid from '@mui/material/Grid'; // Grid version 1
+// import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import DownloadIcon from '@mui/icons-material/Download';
 import { saveAs } from 'file-saver';
 import { Canvg } from 'canvg';
@@ -83,17 +85,23 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
   }, [svgData, filenameBase, dpi, setErrorMessage]);
 
   return (
-    <Stack direction="row" spacing={4}  sx={{ width: '100%', justifyContent: 'center' }}>
-      <Button variant="contained" onClick={() => handleDownload('svg')} startIcon={<DownloadIcon />}>
-        SVG
-      </Button>
-      <Button variant="contained" onClick={() => handleDownload('png')} startIcon={<DownloadIcon />}>
-        PNG
-      </Button>
-      <Button variant="contained" onClick={() => handleDownload('pdf')} startIcon={<DownloadIcon />}>
-        PDF
-      </Button>
-    </Stack>
+    <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
+      <Grid item xs={12} sm={4} md={4}>
+        <Button variant="contained" onClick={() => handleDownload('svg')} startIcon={<DownloadIcon />} fullWidth>
+          SVG
+        </Button>
+      </Grid>
+      <Grid item xs={12} sm={4} md={4}>
+        <Button variant="contained" onClick={() => handleDownload('png')} startIcon={<DownloadIcon />} fullWidth>
+          PNG
+        </Button>
+      </Grid>
+      <Grid item xs={12} sm={4} md={4}>
+        <Button variant="contained" onClick={() => handleDownload('pdf')} startIcon={<DownloadIcon />} fullWidth>
+          PDF
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 

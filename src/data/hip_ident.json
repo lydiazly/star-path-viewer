@@ -1,0 +1,9827 @@
+[
+    {
+        "name": "tau_Phe"
+    },
+    {
+        "name": "the_Oct"
+    },
+    {
+        "name": "29_Psc"
+    },
+    {
+        "name": "30_Psc"
+    },
+    {
+        "name": "85_Peg"
+    },
+    {
+        "name": "zet_Scl"
+    },
+    {
+        "name": "31_Psc"
+    },
+    {
+        "name": "c_Psc/32_Psc"
+    },
+    {
+        "name": "2_Cet"
+    },
+    {
+        "name": "9_Cas"
+    },
+    {
+        "name": "3_Cet"
+    },
+    {
+        "name": "33_Psc"
+    },
+    {
+        "name": "86_Peg"
+    },
+    {
+        "name": "10_Cas"
+    },
+    {
+        "name": "5_Cet"
+    },
+    {
+        "name": "alf_And/21_And/del_Peg/Alpheratz"
+    },
+    {
+        "name": "87_Peg"
+    },
+    {
+        "name": "bet_Cas/11_Cas/Caph"
+    },
+    {
+        "name": "kap01_Scl"
+    },
+    {
+        "name": "eps_Phe"
+    },
+    {
+        "name": "34_Psc"
+    },
+    {
+        "name": "gam03_Oct"
+    },
+    {
+        "name": "22_And"
+    },
+    {
+        "name": "6_Cet"
+    },
+    {
+        "name": "kap02_Scl"
+    },
+    {
+        "name": "the_Scl"
+    },
+    {
+        "name": "gam_Peg/88_Peg/Algenib"
+    },
+    {
+        "name": "23_And"
+    },
+    {
+        "name": "chi_Peg/89_Peg"
+    },
+    {
+        "name": "7_Cet"
+    },
+    {
+        "name": "35_Psc"
+    },
+    {
+        "name": "36_Psc"
+    },
+    {
+        "name": "the_And/24_And"
+    },
+    {
+        "name": "sig_And/25_And"
+    },
+    {
+        "name": "26_And"
+    },
+    {
+        "name": "iot_Cet/8_Cet"
+    },
+    {
+        "name": "zet_Tuc"
+    },
+    {
+        "name": "d_Psc/41_Psc"
+    },
+    {
+        "name": "pi._Tuc"
+    },
+    {
+        "name": "rho_And/27_And"
+    },
+    {
+        "name": "iot_Scl"
+    },
+    {
+        "name": "42_Psc"
+    },
+    {
+        "name": "9_Cet"
+    },
+    {
+        "name": "12_Cas"
+    },
+    {
+        "name": "44_Psc"
+    },
+    {
+        "name": "bet_Hyi"
+    },
+    {
+        "name": "kap_Phe"
+    },
+    {
+        "name": "alf_Phe/Ankaa"
+    },
+    {
+        "name": "10_Cet"
+    },
+    {
+        "name": "eta_Scl"
+    },
+    {
+        "name": "47_Psc"
+    },
+    {
+        "name": "48_Psc"
+    },
+    {
+        "name": "12_Cet"
+    },
+    {
+        "name": "28_And"
+    },
+    {
+        "name": "lam01_Phe"
+    },
+    {
+        "name": "13_Cas"
+    },
+    {
+        "name": "bet01_Tuc"
+    },
+    {
+        "name": "bet02_Tuc"
+    },
+    {
+        "name": "lam_Cas/14_Cas"
+    },
+    {
+        "name": "51_Psc"
+    },
+    {
+        "name": "52_Psc"
+    },
+    {
+        "name": "kap_Cas/15_Cas"
+    },
+    {
+        "name": "the_Tuc"
+    },
+    {
+        "name": "16_Cas"
+    },
+    {
+        "name": "13_Cet"
+    },
+    {
+        "name": "14_Cet"
+    },
+    {
+        "name": "lam02_Phe"
+    },
+    {
+        "name": "53_Psc"
+    },
+    {
+        "name": "pi._And/29_And"
+    },
+    {
+        "name": "zet_Cas/17_Cas"
+    },
+    {
+        "name": "eps_And/30_And"
+    },
+    {
+        "name": "del_And/31_And"
+    },
+    {
+        "name": "54_Psc"
+    },
+    {
+        "name": "55_Psc"
+    },
+    {
+        "name": "alf_Cas/18_Cas/Shedir"
+    },
+    {
+        "name": "32_And"
+    },
+    {
+        "name": "mu._Phe"
+    },
+    {
+        "name": "ksi_Phe"
+    },
+    {
+        "name": "ksi_Cas/19_Cas"
+    },
+    {
+        "name": "rho_Tuc"
+    },
+    {
+        "name": "lam01_Scl"
+    },
+    {
+        "name": "eta_Phe"
+    },
+    {
+        "name": "pi._Cas/20_Cas"
+    },
+    {
+        "name": "bet_Cet/16_Cet/Diphda"
+    },
+    {
+        "name": "phi01_Cet/17_Cet"
+    },
+    {
+        "name": "lam02_Scl"
+    },
+    {
+        "name": "omi_Cas/22_Cas"
+    },
+    {
+        "name": "18_Cet"
+    },
+    {
+        "name": "21_Cas"
+    },
+    {
+        "name": "57_Psc"
+    },
+    {
+        "name": "58_Psc"
+    },
+    {
+        "name": "59_Psc"
+    },
+    {
+        "name": "zet_And/34_And"
+    },
+    {
+        "name": "60_Psc"
+    },
+    {
+        "name": "23_Cas"
+    },
+    {
+        "name": "61_Psc"
+    },
+    {
+        "name": "62_Psc"
+    },
+    {
+        "name": "lam_Hyi"
+    },
+    {
+        "name": "del_Psc/63_Psc"
+    },
+    {
+        "name": "nu._Cas/25_Cas"
+    },
+    {
+        "name": "64_Psc"
+    },
+    {
+        "name": "eta_Cas/24_Cas"
+    },
+    {
+        "name": "Van Maanen 2"
+    },
+    {
+        "name": "nu._And/35_And"
+    },
+    {
+        "name": "65_Psc"
+    },
+    {
+        "name": "phi02_Cet/19_Cet"
+    },
+    {
+        "name": "rho_Phe"
+    },
+    {
+        "name": "lam01_Tuc"
+    },
+    {
+        "name": "20_Cet"
+    },
+    {
+        "name": "21_Cet"
+    },
+    {
+        "name": "66_Psc"
+    },
+    {
+        "name": "36_And"
+    },
+    {
+        "name": "ups01_Cas/26_Cas"
+    },
+    {
+        "name": "lam_Tuc/lam02_Tuc"
+    },
+    {
+        "name": "k_Psc/67_Psc"
+    },
+    {
+        "name": "phi03_Cet/22_Cet"
+    },
+    {
+        "name": "ups02_Cas/28_Cas"
+    },
+    {
+        "name": "gam_Cas/27_Cas"
+    },
+    {
+        "name": "mu._And/37_And"
+    },
+    {
+        "name": "eta_And/38_And"
+    },
+    {
+        "name": "h_Psc/68_Psc"
+    },
+    {
+        "name": "alf_Scl"
+    },
+    {
+        "name": "phi04_Cet/23_Cet"
+    },
+    {
+        "name": "ksi_Scl"
+    },
+    {
+        "name": "sig_Scl"
+    },
+    {
+        "name": "sig_Psc/69_Psc"
+    },
+    {
+        "name": "39_And"
+    },
+    {
+        "name": "eps_Psc/71_Psc"
+    },
+    {
+        "name": "25_Cet"
+    },
+    {
+        "name": "26_Cet"
+    },
+    {
+        "name": "73_Psc"
+    },
+    {
+        "name": "72_Psc"
+    },
+    {
+        "name": "27_Cet"
+    },
+    {
+        "name": "psi01_Psc_A/74_Psc_A"
+    },
+    {
+        "name": "psi01_Psc_B/74_Psc_B"
+    },
+    {
+        "name": "77_Psc_B"
+    },
+    {
+        "name": "77_Psc_A"
+    },
+    {
+        "name": "28_Cet"
+    },
+    {
+        "name": "bet_Phe"
+    },
+    {
+        "name": "75_Psc"
+    },
+    {
+        "name": "iot_Tuc"
+    },
+    {
+        "name": "30_Cet"
+    },
+    {
+        "name": "ups_Phe"
+    },
+    {
+        "name": "psi02_Psc/79_Psc"
+    },
+    {
+        "name": "41_And"
+    },
+    {
+        "name": "78_Psc"
+    },
+    {
+        "name": "mu._Cas/30_Cas"
+    },
+    {
+        "name": "e_Psc/80_Psc"
+    },
+    {
+        "name": "zet_Phe"
+    },
+    {
+        "name": "eta_Cet/31_Cet"
+    },
+    {
+        "name": "phi_And/42_And"
+    },
+    {
+        "name": "bet_And/43_And/Mirach"
+    },
+    {
+        "name": "psi03_Psc/81_Psc"
+    },
+    {
+        "name": "32_Cet"
+    },
+    {
+        "name": "44_And"
+    },
+    {
+        "name": "33_Cet"
+    },
+    {
+        "name": "31_Cas"
+    },
+    {
+        "name": "the_Cas/33_Cas"
+    },
+    {
+        "name": "g_Psc/82_Psc"
+    },
+    {
+        "name": "45_And"
+    },
+    {
+        "name": "chi_Psc/84_Psc"
+    },
+    {
+        "name": "tau_Psc/83_Psc"
+    },
+    {
+        "name": "32_Cas"
+    },
+    {
+        "name": "34_Cet"
+    },
+    {
+        "name": "zet_Psc_A/86_Psc_A"
+    },
+    {
+        "name": "phi_Psc/85_Psc"
+    },
+    {
+        "name": "zet_Psc_B/86_Psc_B"
+    },
+    {
+        "name": "87_Psc"
+    },
+    {
+        "name": "37_Cet"
+    },
+    {
+        "name": "88_Psc"
+    },
+    {
+        "name": "38_Cet"
+    },
+    {
+        "name": "nu._Phe"
+    },
+    {
+        "name": "kap_Tuc"
+    },
+    {
+        "name": "39_Cet"
+    },
+    {
+        "name": "f_Psc/89_Psc"
+    },
+    {
+        "name": "ups_Psc/90_Psc"
+    },
+    {
+        "name": "42_Cet"
+    },
+    {
+        "name": "phi_Cas/34_Cas"
+    },
+    {
+        "name": "35_Cas"
+    },
+    {
+        "name": "l_Psc/91_Psc"
+    },
+    {
+        "name": "ksi_And/46_And"
+    },
+    {
+        "name": "43_Cet"
+    },
+    {
+        "name": "47_And"
+    },
+    {
+        "name": "the_Cet/45_Cet"
+    },
+    {
+        "name": "44_Cet"
+    },
+    {
+        "name": "46_Cet"
+    },
+    {
+        "name": "del_Cas/37_Cas"
+    },
+    {
+        "name": "psi_Cas/36_Cas"
+    },
+    {
+        "name": "rho_Psc/93_Psc"
+    },
+    {
+        "name": "94_Psc"
+    },
+    {
+        "name": "47_Cet"
+    },
+    {
+        "name": "ome_And/48_And"
+    },
+    {
+        "name": "gam_Phe"
+    },
+    {
+        "name": "48_Cet"
+    },
+    {
+        "name": "97_Psc"
+    },
+    {
+        "name": "49_And"
+    },
+    {
+        "name": "mu._Psc/98_Psc"
+    },
+    {
+        "name": "38_Cas"
+    },
+    {
+        "name": "del_Phe"
+    },
+    {
+        "name": "eta_Psc/99_Psc"
+    },
+    {
+        "name": "chi_Cas/39_Cas"
+    },
+    {
+        "name": "49_Cet"
+    },
+    {
+        "name": "101_Psc"
+    },
+    {
+        "name": "50_Cet"
+    },
+    {
+        "name": "tau_Scl"
+    },
+    {
+        "name": "ups_And/50_And"
+    },
+    {
+        "name": "pi._Psc/102_Psc"
+    },
+    {
+        "name": "alf_Eri/Achernar"
+    },
+    {
+        "name": "51_And/ups_Per"
+    },
+    {
+        "name": "40_Cas"
+    },
+    {
+        "name": "chi_And/52_And"
+    },
+    {
+        "name": "105_Psc"
+    },
+    {
+        "name": "p_Eri"
+    },
+    {
+        "name": "tau_And/53_And"
+    },
+    {
+        "name": "tau01_Hyi"
+    },
+    {
+        "name": "nu._Psc/106_Psc"
+    },
+    {
+        "name": "pi._Scl"
+    },
+    {
+        "name": "43_Cas"
+    },
+    {
+        "name": "q01_Eri"
+    },
+    {
+        "name": "107_Psc"
+    },
+    {
+        "name": "42_Cas"
+    },
+    {
+        "name": "44_Cas"
+    },
+    {
+        "name": "phi_Per"
+    },
+    {
+        "name": "tau_Cet/52_Cet"
+    },
+    {
+        "name": "109_Psc"
+    },
+    {
+        "name": "omi_Psc/110_Psc"
+    },
+    {
+        "name": "eps_Scl"
+    },
+    {
+        "name": "q02_Eri"
+    },
+    {
+        "name": "tau02_Hyi"
+    },
+    {
+        "name": "4_Ari"
+    },
+    {
+        "name": "chi_Cet/53_Cet"
+    },
+    {
+        "name": "1_Ari"
+    },
+    {
+        "name": "zet_Cet/55_Cet"
+    },
+    {
+        "name": "1_Per"
+    },
+    {
+        "name": "2_Per"
+    },
+    {
+        "name": "alf_Tri/2_Tri"
+    },
+    {
+        "name": "55_And"
+    },
+    {
+        "name": "gam01_Ari/gam02_Ari/5_Ari"
+    },
+    {
+        "name": "ksi_Psc/111_Psc"
+    },
+    {
+        "name": "psi_Phe"
+    },
+    {
+        "name": "phi_Phe"
+    },
+    {
+        "name": "eps_Cas/45_Cas"
+    },
+    {
+        "name": "bet_Ari/6_Ari"
+    },
+    {
+        "name": "eta02_Hyi"
+    },
+    {
+        "name": "sig_Hyi"
+    },
+    {
+        "name": "7_Ari"
+    },
+    {
+        "name": "chi_Eri"
+    },
+    {
+        "name": "ome_Cas/46_Cas"
+    },
+    {
+        "name": "56_And"
+    },
+    {
+        "name": "56_Cet"
+    },
+    {
+        "name": "iot_Ari/8_Ari"
+    },
+    {
+        "name": "lam_Ari/9_Ari"
+    },
+    {
+        "name": "3_Per"
+    },
+    {
+        "name": "alf_Hyi"
+    },
+    {
+        "name": "57_Cet"
+    },
+    {
+        "name": "ups_Cet/59_Cet"
+    },
+    {
+        "name": "112_Psc"
+    },
+    {
+        "name": "pi._For"
+    },
+    {
+        "name": "chi_Phe"
+    },
+    {
+        "name": "48_Cas"
+    },
+    {
+        "name": "alf_Psc/113_Psc"
+    },
+    {
+        "name": "g_Per/4_Per"
+    },
+    {
+        "name": "52_Cas"
+    },
+    {
+        "name": "eps_Tri/3_Tri"
+    },
+    {
+        "name": "53_Cas"
+    },
+    {
+        "name": "60_Cet"
+    },
+    {
+        "name": "50_Cas"
+    },
+    {
+        "name": "10_Ari"
+    },
+    {
+        "name": "61_Cet"
+    },
+    {
+        "name": "gam01_And/gam02_And/57_And/Almaak"
+    },
+    {
+        "name": "nu._For"
+    },
+    {
+        "name": "47_Cas"
+    },
+    {
+        "name": "49_Cas"
+    },
+    {
+        "name": "kap_Ari/12_Ari"
+    },
+    {
+        "name": "11_Ari"
+    },
+    {
+        "name": "alf_Ari/13_Ari/Hamal"
+    },
+    {
+        "name": "58_And"
+    },
+    {
+        "name": "14_Ari"
+    },
+    {
+        "name": "bet_Tri/4_Tri"
+    },
+    {
+        "name": "15_Ari"
+    },
+    {
+        "name": "59_And_A"
+    },
+    {
+        "name": "59_And_B"
+    },
+    {
+        "name": "16_Ari"
+    },
+    {
+        "name": "64_Cet"
+    },
+    {
+        "name": "5_Tri"
+    },
+    {
+        "name": "5_Per"
+    },
+    {
+        "name": "63_Cet"
+    },
+    {
+        "name": "6_Tri"
+    },
+    {
+        "name": "66_Cet"
+    },
+    {
+        "name": "eta_Ari/17_Ari"
+    },
+    {
+        "name": "mu._For"
+    },
+    {
+        "name": "ksi01_Cet/65_Cet"
+    },
+    {
+        "name": "19_Ari"
+    },
+    {
+        "name": "b_And/60_And"
+    },
+    {
+        "name": "6_Per"
+    },
+    {
+        "name": "pi.01_Hyi"
+    },
+    {
+        "name": "55_Cas"
+    },
+    {
+        "name": "pi.02_Hyi"
+    },
+    {
+        "name": "21_Ari"
+    },
+    {
+        "name": "20_Ari"
+    },
+    {
+        "name": "7_Tri"
+    },
+    {
+        "name": "phi_Eri"
+    },
+    {
+        "name": "67_Cet"
+    },
+    {
+        "name": "del_Tri/8_Tri"
+    },
+    {
+        "name": "gam_Tri/9_Tri"
+    },
+    {
+        "name": "8_Per"
+    },
+    {
+        "name": "chi_Per/7_Per"
+    },
+    {
+        "name": "the_Ari/22_Ari"
+    },
+    {
+        "name": "10_Tri"
+    },
+    {
+        "name": "c_And/62_And"
+    },
+    {
+        "name": "omi_Cet/68_Cet/Mira"
+    },
+    {
+        "name": "63_And"
+    },
+    {
+        "name": "del_Hyi"
+    },
+    {
+        "name": "69_Cet"
+    },
+    {
+        "name": "70_Cet"
+    },
+    {
+        "name": "i_Per/9_Per"
+    },
+    {
+        "name": "kap_For"
+    },
+    {
+        "name": "kap_Hyi"
+    },
+    {
+        "name": "64_And"
+    },
+    {
+        "name": "ksi_Ari/24_Ari"
+    },
+    {
+        "name": "lam_Hor"
+    },
+    {
+        "name": "71_Cet"
+    },
+    {
+        "name": "10_Per"
+    },
+    {
+        "name": "65_And"
+    },
+    {
+        "name": "rho_Cet/72_Cet"
+    },
+    {
+        "name": "kap_Eri"
+    },
+    {
+        "name": "11_Tri"
+    },
+    {
+        "name": "66_And"
+    },
+    {
+        "name": "phi_For"
+    },
+    {
+        "name": "ksi02_Cet/73_Cet"
+    },
+    {
+        "name": "12_Tri"
+    },
+    {
+        "name": "13_Tri"
+    },
+    {
+        "name": "iot_Cas"
+    },
+    {
+        "name": "26_Ari"
+    },
+    {
+        "name": "27_Ari"
+    },
+    {
+        "name": "mu._Hyi"
+    },
+    {
+        "name": "alf_UMi/1_UMi/Polaris"
+    },
+    {
+        "name": "sig_Cet/76_Cet"
+    },
+    {
+        "name": "14_Tri"
+    },
+    {
+        "name": "75_Cet"
+    },
+    {
+        "name": "29_Ari"
+    },
+    {
+        "name": "lam01_For"
+    },
+    {
+        "name": "ome_For"
+    },
+    {
+        "name": "77_Cet"
+    },
+    {
+        "name": "15_Tri"
+    },
+    {
+        "name": "nu._Cet/78_Cet"
+    },
+    {
+        "name": "80_Cet"
+    },
+    {
+        "name": "iot01_For"
+    },
+    {
+        "name": "31_Ari"
+    },
+    {
+        "name": "30_Ari_B"
+    },
+    {
+        "name": "lam02_For"
+    },
+    {
+        "name": "30_Ari_A"
+    },
+    {
+        "name": "eta_Hor"
+    },
+    {
+        "name": "81_Cet"
+    },
+    {
+        "name": "iot02_For"
+    },
+    {
+        "name": "nu._Ari/32_Ari"
+    },
+    {
+        "name": "del_Cet/82_Cet"
+    },
+    {
+        "name": "eps_Cet/83_Cet"
+    },
+    {
+        "name": "eps_Hyi"
+    },
+    {
+        "name": "s_Eri"
+    },
+    {
+        "name": "zet_Hor"
+    },
+    {
+        "name": "iot_Eri"
+    },
+    {
+        "name": "33_Ari"
+    },
+    {
+        "name": "84_Cet"
+    },
+    {
+        "name": "12_Per"
+    },
+    {
+        "name": "mu._Ari/34_Ari"
+    },
+    {
+        "name": "iot_Hor"
+    },
+    {
+        "name": "11_Per"
+    },
+    {
+        "name": "gam_Cet/86_Cet"
+    },
+    {
+        "name": "35_Ari"
+    },
+    {
+        "name": "14_Per"
+    },
+    {
+        "name": "pi._Cet/89_Cet"
+    },
+    {
+        "name": "the_Per/13_Per"
+    },
+    {
+        "name": "36_Ari"
+    },
+    {
+        "name": "omi_Ari/37_Ari"
+    },
+    {
+        "name": "mu._Cet/87_Cet"
+    },
+    {
+        "name": "38_Ari"
+    },
+    {
+        "name": "tau01_Eri/1_Eri"
+    },
+    {
+        "name": "gam_Hor"
+    },
+    {
+        "name": "zet_Hyi"
+    },
+    {
+        "name": "eta01_For"
+    },
+    {
+        "name": "39_Ari"
+    },
+    {
+        "name": "40_Ari"
+    },
+    {
+        "name": "nu._Hor"
+    },
+    {
+        "name": "bet_For"
+    },
+    {
+        "name": "pi._Ari/42_Ari"
+    },
+    {
+        "name": "gam01_For"
+    },
+    {
+        "name": "gam02_For"
+    },
+    {
+        "name": "41_Ari"
+    },
+    {
+        "name": "eta02_For"
+    },
+    {
+        "name": "nu._Hyi"
+    },
+    {
+        "name": "16_Per"
+    },
+    {
+        "name": "eta03_For"
+    },
+    {
+        "name": "eta_Per/15_Per"
+    },
+    {
+        "name": "tau02_Eri/2_Eri"
+    },
+    {
+        "name": "sig_Ari/43_Ari"
+    },
+    {
+        "name": "17_Per"
+    },
+    {
+        "name": "psi_For"
+    },
+    {
+        "name": "20_Per"
+    },
+    {
+        "name": "tau_Per/18_Per"
+    },
+    {
+        "name": "45_Ari"
+    },
+    {
+        "name": "eta_Eri/3_Eri"
+    },
+    {
+        "name": "rho_Ari/46_Ari"
+    },
+    {
+        "name": "21_Per"
+    },
+    {
+        "name": "4_Eri"
+    },
+    {
+        "name": "47_Ari"
+    },
+    {
+        "name": "6_Eri"
+    },
+    {
+        "name": "the01_Eri/the02_Eri/Acamar"
+    },
+    {
+        "name": "pi._Per/22_Per"
+    },
+    {
+        "name": "bet_Hor"
+    },
+    {
+        "name": "24_Per"
+    },
+    {
+        "name": "eps_Ari/48_Ari"
+    },
+    {
+        "name": "zet_For"
+    },
+    {
+        "name": "5_Eri"
+    },
+    {
+        "name": "lam_Cet/91_Cet"
+    },
+    {
+        "name": "7_Eri"
+    },
+    {
+        "name": "rho01_Eri/8_Eri"
+    },
+    {
+        "name": "eps_For"
+    },
+    {
+        "name": "49_Ari"
+    },
+    {
+        "name": "the_Hyi"
+    },
+    {
+        "name": "alf_Cet/92_Cet/Menkar"
+    },
+    {
+        "name": "93_Cet"
+    },
+    {
+        "name": "tau03_Eri/11_Eri"
+    },
+    {
+        "name": "rho02_Eri/9_Eri"
+    },
+    {
+        "name": "mu._Hor"
+    },
+    {
+        "name": "rho03_Eri/10_Eri"
+    },
+    {
+        "name": "gam_Per/23_Per"
+    },
+    {
+        "name": "rho_Per/25_Per"
+    },
+    {
+        "name": "52_Ari/52_Ari"
+    },
+    {
+        "name": "k_Per"
+    },
+    {
+        "name": "53_Ari"
+    },
+    {
+        "name": "bet_Per/26_Per/Algol"
+    },
+    {
+        "name": "54_Ari"
+    },
+    {
+        "name": "iot_Per"
+    },
+    {
+        "name": "kap_Per/27_Per"
+    },
+    {
+        "name": "55_Ari"
+    },
+    {
+        "name": "ome_Per/28_Per"
+    },
+    {
+        "name": "del_Ari/57_Ari"
+    },
+    {
+        "name": "alf_For"
+    },
+    {
+        "name": "56_Ari"
+    },
+    {
+        "name": "94_Cet"
+    },
+    {
+        "name": "zet_Ari/58_Ari"
+    },
+    {
+        "name": "zet_Eri/13_Eri"
+    },
+    {
+        "name": "iot_Hyi"
+    },
+    {
+        "name": "14_Eri"
+    },
+    {
+        "name": "zet01_Ret"
+    },
+    {
+        "name": "30_Per"
+    },
+    {
+        "name": "zet02_Ret"
+    },
+    {
+        "name": "15_Eri"
+    },
+    {
+        "name": "95_Cet"
+    },
+    {
+        "name": "29_Per"
+    },
+    {
+        "name": "31_Per"
+    },
+    {
+        "name": "kap01_Cet/96_Cet"
+    },
+    {
+        "name": "tau04_Eri/16_Eri"
+    },
+    {
+        "name": "e_Eri/82_Eri"
+    },
+    {
+        "name": "59_Ari"
+    },
+    {
+        "name": "60_Ari"
+    },
+    {
+        "name": "kap02_Cet/97_Cet"
+    },
+    {
+        "name": "tau01_Ari/61_Ari"
+    },
+    {
+        "name": "l_Per/32_Per"
+    },
+    {
+        "name": "62_Ari"
+    },
+    {
+        "name": "tau02_Ari/63_Ari"
+    },
+    {
+        "name": "64_Ari"
+    },
+    {
+        "name": "alf_Per/33_Per/Mirphak"
+    },
+    {
+        "name": "65_Ari"
+    },
+    {
+        "name": "omi_Tau/1_Tau"
+    },
+    {
+        "name": "chi01_For"
+    },
+    {
+        "name": "ksi_Tau/2_Tau"
+    },
+    {
+        "name": "chi02_For"
+    },
+    {
+        "name": "chi03_For"
+    },
+    {
+        "name": "66_Ari"
+    },
+    {
+        "name": "34_Per"
+    },
+    {
+        "name": "kap_Ret"
+    },
+    {
+        "name": "s_Tau/4_Tau"
+    },
+    {
+        "name": "sig_Per/35_Per"
+    },
+    {
+        "name": "v_Eri/17_Eri"
+    },
+    {
+        "name": "f_Tau/5_Tau"
+    },
+    {
+        "name": "36_Per"
+    },
+    {
+        "name": "t_Tau/6_Tau"
+    },
+    {
+        "name": "eps_Eri/18_Eri"
+    },
+    {
+        "name": "tau05_Eri/19_Eri"
+    },
+    {
+        "name": "7_Tau"
+    },
+    {
+        "name": "20_Eri"
+    },
+    {
+        "name": "psi_Per/37_Per"
+    },
+    {
+        "name": "10_Tau"
+    },
+    {
+        "name": "9_Tau"
+    },
+    {
+        "name": "y_Eri"
+    },
+    {
+        "name": "tau_For"
+    },
+    {
+        "name": "21_Eri"
+    },
+    {
+        "name": "12_Tau"
+    },
+    {
+        "name": "22_Eri"
+    },
+    {
+        "name": "11_Tau"
+    },
+    {
+        "name": "del_For"
+    },
+    {
+        "name": "13_Tau"
+    },
+    {
+        "name": "o_Per/40_Per"
+    },
+    {
+        "name": "h_Eri"
+    },
+    {
+        "name": "del_Per/39_Per"
+    },
+    {
+        "name": "del_Eri/23_Eri"
+    },
+    {
+        "name": "14_Tau"
+    },
+    {
+        "name": "bet_Ret"
+    },
+    {
+        "name": "omi_Per/38_Per"
+    },
+    {
+        "name": "24_Eri"
+    },
+    {
+        "name": "16_Tau"
+    },
+    {
+        "name": "17_Tau"
+    },
+    {
+        "name": "25_Eri"
+    },
+    {
+        "name": "18_Tau"
+    },
+    {
+        "name": "nu._Per/41_Per"
+    },
+    {
+        "name": "q_Tau/19_Tau"
+    },
+    {
+        "name": "u_Tau/29_Tau"
+    },
+    {
+        "name": "20_Tau"
+    },
+    {
+        "name": "21_Tau"
+    },
+    {
+        "name": "22_Tau"
+    },
+    {
+        "name": "pi._Eri/26_Eri"
+    },
+    {
+        "name": "23_Tau"
+    },
+    {
+        "name": "sig_For"
+    },
+    {
+        "name": "tau06_Eri/27_Eri"
+    },
+    {
+        "name": "gam_Hyi"
+    },
+    {
+        "name": "eta_Tau/25_Tau/Alcyone"
+    },
+    {
+        "name": "tau07_Eri/28_Eri"
+    },
+    {
+        "name": "rho_For"
+    },
+    {
+        "name": "e_Tau/30_Tau"
+    },
+    {
+        "name": "27_Tau"
+    },
+    {
+        "name": "28_Tau/Pleione"
+    },
+    {
+        "name": "g_Eri"
+    },
+    {
+        "name": "n_Per/42_Per"
+    },
+    {
+        "name": "gam_Cam"
+    },
+    {
+        "name": "31_Tau"
+    },
+    {
+        "name": "30_Eri"
+    },
+    {
+        "name": "i_Eri"
+    },
+    {
+        "name": "tau08_Eri/33_Eri"
+    },
+    {
+        "name": "zet_Per/44_Per"
+    },
+    {
+        "name": "32_Eri"
+    },
+    {
+        "name": "43_Per"
+    },
+    {
+        "name": "32_Tau"
+    },
+    {
+        "name": "33_Tau"
+    },
+    {
+        "name": "eps_Per/45_Per"
+    },
+    {
+        "name": "gam_Eri/34_Eri/Zaurak"
+    },
+    {
+        "name": "del_Ret"
+    },
+    {
+        "name": "ksi_Per/46_Per"
+    },
+    {
+        "name": "tau09_Eri/36_Eri"
+    },
+    {
+        "name": "lam_Tau/35_Tau"
+    },
+    {
+        "name": "gam_Ret"
+    },
+    {
+        "name": "iot_Ret"
+    },
+    {
+        "name": "35_Eri"
+    },
+    {
+        "name": "nu._Tau/38_Tau"
+    },
+    {
+        "name": "40_Tau"
+    },
+    {
+        "name": "36_Tau"
+    },
+    {
+        "name": "37_Tau"
+    },
+    {
+        "name": "39_Tau"
+    },
+    {
+        "name": "lam_Per/47_Per"
+    },
+    {
+        "name": "41_Tau"
+    },
+    {
+        "name": "psi_Tau/42_Tau"
+    },
+    {
+        "name": "49_Per"
+    },
+    {
+        "name": "50_Per"
+    },
+    {
+        "name": "c_Per/48_Per"
+    },
+    {
+        "name": "ome01_Tau/43_Tau"
+    },
+    {
+        "name": "37_Eri"
+    },
+    {
+        "name": "p_Tau/44_Tau"
+    },
+    {
+        "name": "del_Hor"
+    },
+    {
+        "name": "45_Tau"
+    },
+    {
+        "name": "omi01_Eri/38_Eri"
+    },
+    {
+        "name": "46_Tau"
+    },
+    {
+        "name": "47_Tau"
+    },
+    {
+        "name": "alf_Hor"
+    },
+    {
+        "name": "39_Eri"
+    },
+    {
+        "name": "alf_Ret"
+    },
+    {
+        "name": "f_Per/52_Per"
+    },
+    {
+        "name": "mu._Per/51_Per"
+    },
+    {
+        "name": "omi02_Eri/40_Eri"
+    },
+    {
+        "name": "mu._Tau/49_Tau"
+    },
+    {
+        "name": "48_Tau"
+    },
+    {
+        "name": "gam_Dor"
+    },
+    {
+        "name": "eps_Ret"
+    },
+    {
+        "name": "ome_Tau/ome02_Tau/50_Tau"
+    },
+    {
+        "name": "the_Ret"
+    },
+    {
+        "name": "ups04_Eri/41_Eri"
+    },
+    {
+        "name": "del_Men"
+    },
+    {
+        "name": "b_Per"
+    },
+    {
+        "name": "51_Tau"
+    },
+    {
+        "name": "53_Tau"
+    },
+    {
+        "name": "56_Tau"
+    },
+    {
+        "name": "gam_Tau/54_Tau"
+    },
+    {
+        "name": "h_Tau/57_Tau"
+    },
+    {
+        "name": "phi_Tau/52_Tau"
+    },
+    {
+        "name": "54_Per"
+    },
+    {
+        "name": "58_Tau"
+    },
+    {
+        "name": "nu._Men"
+    },
+    {
+        "name": "d_Per/53_Per"
+    },
+    {
+        "name": "eta_Ret"
+    },
+    {
+        "name": "60_Tau"
+    },
+    {
+        "name": "chi_Tau/59_Tau"
+    },
+    {
+        "name": "del01_Tau/61_Tau"
+    },
+    {
+        "name": "63_Tau"
+    },
+    {
+        "name": "ksi_Eri/42_Eri"
+    },
+    {
+        "name": "r_Tau/66_Tau"
+    },
+    {
+        "name": "62_Tau"
+    },
+    {
+        "name": "ups03_Eri/d_Eri/43_Eri"
+    },
+    {
+        "name": "del02_Tau/64_Tau"
+    },
+    {
+        "name": "55_Per"
+    },
+    {
+        "name": "56_Per"
+    },
+    {
+        "name": "kap01_Tau/65_Tau"
+    },
+    {
+        "name": "kap02_Tau/67_Tau"
+    },
+    {
+        "name": "del03_Tau/68_Tau"
+    },
+    {
+        "name": "70_Tau"
+    },
+    {
+        "name": "ups_Tau/69_Tau"
+    },
+    {
+        "name": "71_Tau"
+    },
+    {
+        "name": "pi._Tau/73_Tau"
+    },
+    {
+        "name": "72_Tau"
+    },
+    {
+        "name": "76_Tau"
+    },
+    {
+        "name": "75_Tau"
+    },
+    {
+        "name": "the01_Tau/77_Tau"
+    },
+    {
+        "name": "eps_Tau/74_Tau"
+    },
+    {
+        "name": "the02_Tau/78_Tau"
+    },
+    {
+        "name": "b_Tau/79_Tau"
+    },
+    {
+        "name": "80_Tau"
+    },
+    {
+        "name": "83_Tau"
+    },
+    {
+        "name": "81_Tau"
+    },
+    {
+        "name": "del_Cae"
+    },
+    {
+        "name": "85_Tau"
+    },
+    {
+        "name": "45_Eri"
+    },
+    {
+        "name": "1_Cam"
+    },
+    {
+        "name": "m_Per/57_Per"
+    },
+    {
+        "name": "ups01_Eri/50_Eri"
+    },
+    {
+        "name": "rho_Tau/86_Tau"
+    },
+    {
+        "name": "46_Eri"
+    },
+    {
+        "name": "alf_Dor"
+    },
+    {
+        "name": "47_Eri"
+    },
+    {
+        "name": "ups02_Eri/52_Eri"
+    },
+    {
+        "name": "d_Tau/88_Tau"
+    },
+    {
+        "name": "alf_Tau/87_Tau/Aldebaran"
+    },
+    {
+        "name": "nu._Eri/48_Eri"
+    },
+    {
+        "name": "58_Per"
+    },
+    {
+        "name": "c_Eri/51_Eri"
+    },
+    {
+        "name": "89_Tau"
+    },
+    {
+        "name": "c_Tau/90_Tau"
+    },
+    {
+        "name": "l_Eri/53_Eri"
+    },
+    {
+        "name": "sig01_Tau/91_Tau"
+    },
+    {
+        "name": "sig02_Tau/92_Tau"
+    },
+    {
+        "name": "3_Cam"
+    },
+    {
+        "name": "2_Cam"
+    },
+    {
+        "name": "93_Tau"
+    },
+    {
+        "name": "54_Eri"
+    },
+    {
+        "name": "alf_Cae"
+    },
+    {
+        "name": "bet_Cae"
+    },
+    {
+        "name": "tau_Tau/94_Tau"
+    },
+    {
+        "name": "lam_Pic"
+    },
+    {
+        "name": "59_Per"
+    },
+    {
+        "name": "mu._Men"
+    },
+    {
+        "name": "95_Tau"
+    },
+    {
+        "name": "55_Eri"
+    },
+    {
+        "name": "56_Eri"
+    },
+    {
+        "name": "kap_Dor"
+    },
+    {
+        "name": "mu._Eri/57_Eri"
+    },
+    {
+        "name": "58_Eri"
+    },
+    {
+        "name": "zet_Cae"
+    },
+    {
+        "name": "4_Cam"
+    },
+    {
+        "name": "59_Eri"
+    },
+    {
+        "name": "96_Tau"
+    },
+    {
+        "name": "pi.03_Ori/1_Ori"
+    },
+    {
+        "name": "1_Aur"
+    },
+    {
+        "name": "60_Eri"
+    },
+    {
+        "name": "pi.02_Ori/2_Ori"
+    },
+    {
+        "name": "iot_Pic_A"
+    },
+    {
+        "name": "iot_Pic_B"
+    },
+    {
+        "name": "pi.04_Ori/3_Ori"
+    },
+    {
+        "name": "i_Tau/97_Tau"
+    },
+    {
+        "name": "omi01_Ori/4_Ori"
+    },
+    {
+        "name": "2_Aur"
+    },
+    {
+        "name": "ome_Eri/61_Eri"
+    },
+    {
+        "name": "5_Ori"
+    },
+    {
+        "name": "alf_Cam/9_Cam"
+    },
+    {
+        "name": "pi.05_Ori/8_Ori"
+    },
+    {
+        "name": "g_Ori/6_Ori"
+    },
+    {
+        "name": "pi.01_Ori/7_Ori"
+    },
+    {
+        "name": "5_Cam"
+    },
+    {
+        "name": "eta_Men"
+    },
+    {
+        "name": "omi02_Ori/9_Ori"
+    },
+    {
+        "name": "b_Eri/62_Eri"
+    },
+    {
+        "name": "iot_Aur/3_Aur"
+    },
+    {
+        "name": "7_Cam"
+    },
+    {
+        "name": "99_Tau"
+    },
+    {
+        "name": "k_Tau/98_Tau"
+    },
+    {
+        "name": "pi.06_Ori/10_Ori"
+    },
+    {
+        "name": "ksi_Men"
+    },
+    {
+        "name": "4_Aur"
+    },
+    {
+        "name": "8_Cam"
+    },
+    {
+        "name": "63_Eri"
+    },
+    {
+        "name": "64_Eri"
+    },
+    {
+        "name": "5_Aur"
+    },
+    {
+        "name": "6_Aur"
+    },
+    {
+        "name": "psi_Eri/65_Eri"
+    },
+    {
+        "name": "eps_Aur/7_Aur"
+    },
+    {
+        "name": "zet_Aur/8_Aur"
+    },
+    {
+        "name": "bet_Men"
+    },
+    {
+        "name": "1_Lep"
+    },
+    {
+        "name": "eta01_Pic"
+    },
+    {
+        "name": "iot_Tau/102_Tau"
+    },
+    {
+        "name": "bet_Cam/10_Cam"
+    },
+    {
+        "name": "gam01_Cae"
+    },
+    {
+        "name": "gam02_Cae"
+    },
+    {
+        "name": "11_Ori"
+    },
+    {
+        "name": "eta02_Pic"
+    },
+    {
+        "name": "eps_Lep/2_Lep"
+    },
+    {
+        "name": "zet_Dor"
+    },
+    {
+        "name": "11_Cam"
+    },
+    {
+        "name": "12_Cam"
+    },
+    {
+        "name": "eta_Aur/10_Aur"
+    },
+    {
+        "name": "9_Aur"
+    },
+    {
+        "name": "66_Eri"
+    },
+    {
+        "name": "m_Tau/104_Tau"
+    },
+    {
+        "name": "13_Ori"
+    },
+    {
+        "name": "l_Tau/106_Tau"
+    },
+    {
+        "name": "bet_Eri/67_Eri"
+    },
+    {
+        "name": "i_Ori/14_Ori"
+    },
+    {
+        "name": "105_Tau"
+    },
+    {
+        "name": "103_Tau"
+    },
+    {
+        "name": "68_Eri"
+    },
+    {
+        "name": "lam_Eri/69_Eri"
+    },
+    {
+        "name": "h_Ori/16_Ori"
+    },
+    {
+        "name": "15_Ori"
+    },
+    {
+        "name": "Kapteyn's star"
+    },
+    {
+        "name": "iot_Lep/3_Lep"
+    },
+    {
+        "name": "mu._Lep/5_Lep"
+    },
+    {
+        "name": "kap_Lep/4_Lep"
+    },
+    {
+        "name": "rho_Ori/17_Ori"
+    },
+    {
+        "name": "mu._Aur/11_Aur"
+    },
+    {
+        "name": "14_Cam"
+    },
+    {
+        "name": "the_Dor"
+    },
+    {
+        "name": "bet_Ori/19_Ori/Rigel"
+    },
+    {
+        "name": "14_Aur"
+    },
+    {
+        "name": "108_Tau"
+    },
+    {
+        "name": "18_Ori"
+    },
+    {
+        "name": "alf_Aur/13_Aur/Capella"
+    },
+    {
+        "name": "omi_Col"
+    },
+    {
+        "name": "tau_Ori/20_Ori"
+    },
+    {
+        "name": "16_Aur"
+    },
+    {
+        "name": "17_Aur"
+    },
+    {
+        "name": "lam_Aur/15_Aur"
+    },
+    {
+        "name": "21_Ori"
+    },
+    {
+        "name": "n_Tau/109_Tau"
+    },
+    {
+        "name": "zet_Pic"
+    },
+    {
+        "name": "18_Aur"
+    },
+    {
+        "name": "15_Cam"
+    },
+    {
+        "name": "lam_Lep/6_Lep"
+    },
+    {
+        "name": "nu._Lep/7_Lep"
+    },
+    {
+        "name": "19_Aur"
+    },
+    {
+        "name": "o_Ori/22_Ori"
+    },
+    {
+        "name": "rho_Aur/20_Aur"
+    },
+    {
+        "name": "kap_Pic"
+    },
+    {
+        "name": "23_Ori"
+    },
+    {
+        "name": "22_Aur"
+    },
+    {
+        "name": "16_Cam"
+    },
+    {
+        "name": "8_Lep"
+    },
+    {
+        "name": "110_Tau"
+    },
+    {
+        "name": "e_Ori/29_Ori"
+    },
+    {
+        "name": "111_Tau"
+    },
+    {
+        "name": "eta_Ori/28_Ori"
+    },
+    {
+        "name": "p_Ori/27_Ori"
+    },
+    {
+        "name": "sig_Aur/21_Aur"
+    },
+    {
+        "name": "psi01_Ori/25_Ori"
+    },
+    {
+        "name": "the_Pic"
+    },
+    {
+        "name": "gam_Ori/24_Ori/Bellatrix"
+    },
+    {
+        "name": "113_Tau"
+    },
+    {
+        "name": "bet_Tau/112_Tau/Alnath"
+    },
+    {
+        "name": "lam_Dor"
+    },
+    {
+        "name": "psi_Ori/psi02_Ori/30_Ori"
+    },
+    {
+        "name": "115_Tau"
+    },
+    {
+        "name": "o_Tau/114_Tau"
+    },
+    {
+        "name": "phi_Aur/24_Aur"
+    },
+    {
+        "name": "116_Tau"
+    },
+    {
+        "name": "117_Tau"
+    },
+    {
+        "name": "bet_Lep/9_Lep/Nihal"
+    },
+    {
+        "name": "118_Tau"
+    },
+    {
+        "name": "31_Ori"
+    },
+    {
+        "name": "17_Cam"
+    },
+    {
+        "name": "31_Men"
+    },
+    {
+        "name": "32_Ori"
+    },
+    {
+        "name": "10_Lep"
+    },
+    {
+        "name": "eps_Col"
+    },
+    {
+        "name": "n01_Ori/33_Ori"
+    },
+    {
+        "name": "gam_Men"
+    },
+    {
+        "name": "ups_Ori/36_Ori"
+    },
+    {
+        "name": "del_Ori/34_Ori/Mintaka"
+    },
+    {
+        "name": "119_Tau"
+    },
+    {
+        "name": "18_Cam"
+    },
+    {
+        "name": "chi_Aur/25_Aur"
+    },
+    {
+        "name": "alf_Lep/11_Lep/Arneb"
+    },
+    {
+        "name": "120_Tau"
+    },
+    {
+        "name": "bet_Dor"
+    },
+    {
+        "name": "35_Ori"
+    },
+    {
+        "name": "n02_Ori/38_Ori"
+    },
+    {
+        "name": "phi01_Ori/37_Ori"
+    },
+    {
+        "name": "lam_Ori/39_Ori"
+    },
+    {
+        "name": "the01_Ori_A/the01_Ori_B/41_Ori"
+    },
+    {
+        "name": "the01_Ori_C/41_Ori_C"
+    },
+    {
+        "name": "the01_Ori_D/41_Ori_D"
+    },
+    {
+        "name": "the02_Ori/43_Ori"
+    },
+    {
+        "name": "c_Ori/42_Ori"
+    },
+    {
+        "name": "iot_Ori/44_Ori"
+    },
+    {
+        "name": "121_Tau"
+    },
+    {
+        "name": "iot_Men"
+    },
+    {
+        "name": "45_Ori"
+    },
+    {
+        "name": "eps_Ori/46_Ori/Alnilam"
+    },
+    {
+        "name": "phi02_Ori/40_Ori"
+    },
+    {
+        "name": "122_Tau"
+    },
+    {
+        "name": "pi._Men"
+    },
+    {
+        "name": "19_Cam"
+    },
+    {
+        "name": "nu.01_Col"
+    },
+    {
+        "name": "zet_Tau/123_Tau"
+    },
+    {
+        "name": "nu.02_Col"
+    },
+    {
+        "name": "26_Aur"
+    },
+    {
+        "name": "sig_Ori/48_Ori"
+    },
+    {
+        "name": "d_Ori/49_Ori"
+    },
+    {
+        "name": "ome_Ori/47_Ori"
+    },
+    {
+        "name": "alf_Col"
+    },
+    {
+        "name": "125_Tau"
+    },
+    {
+        "name": "zet_Ori/50_Ori/Alnitak"
+    },
+    {
+        "name": "126_Tau"
+    },
+    {
+        "name": "12_Lep"
+    },
+    {
+        "name": "b_Ori/51_Ori"
+    },
+    {
+        "name": "24_Cam"
+    },
+    {
+        "name": "23_Cam"
+    },
+    {
+        "name": "gam_Lep/13_Lep"
+    },
+    {
+        "name": "del_Dor"
+    },
+    {
+        "name": "omi_Aur/27_Aur"
+    },
+    {
+        "name": "mu._Col"
+    },
+    {
+        "name": "26_Cam"
+    },
+    {
+        "name": "129_Tau"
+    },
+    {
+        "name": "zet_Lep/14_Lep"
+    },
+    {
+        "name": "131_Tau"
+    },
+    {
+        "name": "bet_Pic"
+    },
+    {
+        "name": "130_Tau"
+    },
+    {
+        "name": "133_Tau"
+    },
+    {
+        "name": "kap_Ori/53_Ori/Saiph"
+    },
+    {
+        "name": "lam_Men"
+    },
+    {
+        "name": "52_Ori"
+    },
+    {
+        "name": "132_Tau"
+    },
+    {
+        "name": "tau_Aur/29_Aur"
+    },
+    {
+        "name": "134_Tau"
+    },
+    {
+        "name": "gam_Pic"
+    },
+    {
+        "name": "eps_Dor"
+    },
+    {
+        "name": "kap_Men"
+    },
+    {
+        "name": "135_Tau"
+    },
+    {
+        "name": "29_Cam"
+    },
+    {
+        "name": "bet_Col"
+    },
+    {
+        "name": "ups_Aur/31_Aur"
+    },
+    {
+        "name": "del_Lep/15_Lep"
+    },
+    {
+        "name": "55_Ori"
+    },
+    {
+        "name": "nu._Aur/32_Aur"
+    },
+    {
+        "name": "30_Cam"
+    },
+    {
+        "name": "137_Tau"
+    },
+    {
+        "name": "56_Ori"
+    },
+    {
+        "name": "lam_Col"
+    },
+    {
+        "name": "136_Tau"
+    },
+    {
+        "name": "chi01_Ori/54_Ori"
+    },
+    {
+        "name": "ksi_Aur/30_Aur"
+    },
+    {
+        "name": "57_Ori"
+    },
+    {
+        "name": "31_Cam"
+    },
+    {
+        "name": "alf_Ori/58_Ori/Betelgeuse"
+    },
+    {
+        "name": "ksi_Col"
+    },
+    {
+        "name": "sig_Col"
+    },
+    {
+        "name": "eta_Lep/16_Lep"
+    },
+    {
+        "name": "gam_Col"
+    },
+    {
+        "name": "139_Tau"
+    },
+    {
+        "name": "59_Ori"
+    },
+    {
+        "name": "60_Ori"
+    },
+    {
+        "name": "1_Mon"
+    },
+    {
+        "name": "2_Mon"
+    },
+    {
+        "name": "eta_Col"
+    },
+    {
+        "name": "del_Aur/33_Aur"
+    },
+    {
+        "name": "bet_Aur/34_Aur"
+    },
+    {
+        "name": "the_Aur/37_Aur"
+    },
+    {
+        "name": "pi._Aur/35_Aur"
+    },
+    {
+        "name": "36_Aur"
+    },
+    {
+        "name": "3_Mon"
+    },
+    {
+        "name": "mu._Ori/61_Ori"
+    },
+    {
+        "name": "38_Aur"
+    },
+    {
+        "name": "64_Ori"
+    },
+    {
+        "name": "chi02_Ori/62_Ori"
+    },
+    {
+        "name": "1_Gem"
+    },
+    {
+        "name": "72_Col"
+    },
+    {
+        "name": "63_Ori"
+    },
+    {
+        "name": "66_Ori"
+    },
+    {
+        "name": "17_Lep"
+    },
+    {
+        "name": "39_Aur"
+    },
+    {
+        "name": "eta01_Dor"
+    },
+    {
+        "name": "the_Lep/18_Lep"
+    },
+    {
+        "name": "40_Aur"
+    },
+    {
+        "name": "pi.01_Col"
+    },
+    {
+        "name": "the_Col"
+    },
+    {
+        "name": "nu._Ori/67_Ori"
+    },
+    {
+        "name": "19_Lep"
+    },
+    {
+        "name": "pi.02_Col"
+    },
+    {
+        "name": "nu._Dor"
+    },
+    {
+        "name": "3_Gem"
+    },
+    {
+        "name": "37_Cam"
+    },
+    {
+        "name": "alf_Men"
+    },
+    {
+        "name": "del_Pic"
+    },
+    {
+        "name": "eta02_Dor"
+    },
+    {
+        "name": "5_Gem"
+    },
+    {
+        "name": "41_Aur"
+    },
+    {
+        "name": "ksi_Ori/70_Ori"
+    },
+    {
+        "name": "68_Ori"
+    },
+    {
+        "name": "f01_Ori/69_Ori"
+    },
+    {
+        "name": "6_Gem"
+    },
+    {
+        "name": "36_Cam"
+    },
+    {
+        "name": "71_Ori"
+    },
+    {
+        "name": "gam_Mon/5_Mon"
+    },
+    {
+        "name": "eta_Gem/7_Gem"
+    },
+    {
+        "name": "kap_Aur/44_Aur"
+    },
+    {
+        "name": "f02_Ori/72_Ori"
+    },
+    {
+        "name": "40_Cam"
+    },
+    {
+        "name": "73_Ori"
+    },
+    {
+        "name": "8_Gem"
+    },
+    {
+        "name": "k_Ori/74_Ori"
+    },
+    {
+        "name": "kap_Col"
+    },
+    {
+        "name": "9_Gem"
+    },
+    {
+        "name": "l_Ori/75_Ori"
+    },
+    {
+        "name": "42_Aur"
+    },
+    {
+        "name": "6_Mon"
+    },
+    {
+        "name": "1_Lyn"
+    },
+    {
+        "name": "43_Aur"
+    },
+    {
+        "name": "12_Gem"
+    },
+    {
+        "name": "2_Lyn"
+    },
+    {
+        "name": "7_Mon"
+    },
+    {
+        "name": "Red Rectangle"
+    },
+    {
+        "name": "zet_CMa/1_CMa"
+    },
+    {
+        "name": "45_Aur"
+    },
+    {
+        "name": "4_Lyn"
+    },
+    {
+        "name": "del_Col"
+    },
+    {
+        "name": "pi.01_Dor"
+    },
+    {
+        "name": "bet_CMa/2_CMa"
+    },
+    {
+        "name": "nu._Pic"
+    },
+    {
+        "name": "mu._Gem/13_Gem"
+    },
+    {
+        "name": "eps_Mon_A/8_Mon_A"
+    },
+    {
+        "name": "eps_Mon_B/8_Mon_B"
+    },
+    {
+        "name": "alf_Car/Canopus"
+    },
+    {
+        "name": "psi01_Aur/46_Aur"
+    },
+    {
+        "name": "pi.02_Dor"
+    },
+    {
+        "name": "G_Pup"
+    },
+    {
+        "name": "5_Lyn"
+    },
+    {
+        "name": "16_Gem"
+    },
+    {
+        "name": "10_Mon"
+    },
+    {
+        "name": "lam_CMa"
+    },
+    {
+        "name": "48_Aur"
+    },
+    {
+        "name": "bet_Mon/11_Mon"
+    },
+    {
+        "name": "nu._Gem/18_Gem"
+    },
+    {
+        "name": "47_Aur"
+    },
+    {
+        "name": "6_Lyn"
+    },
+    {
+        "name": "19_Gem"
+    },
+    {
+        "name": "ksi01_CMa/4_CMa"
+    },
+    {
+        "name": "mu._Pic"
+    },
+    {
+        "name": "12_Mon"
+    },
+    {
+        "name": "13_Mon"
+    },
+    {
+        "name": "7_Lyn"
+    },
+    {
+        "name": "14_Mon"
+    },
+    {
+        "name": "ksi02_CMa/5_CMa"
+    },
+    {
+        "name": "49_Aur"
+    },
+    {
+        "name": "nu.01_CMa/6_CMa"
+    },
+    {
+        "name": "nu.02_CMa/7_CMa"
+    },
+    {
+        "name": "11_Lyn"
+    },
+    {
+        "name": "8_Lyn"
+    },
+    {
+        "name": "gam_Gem/24_Gem/Alhena"
+    },
+    {
+        "name": "nu._Pup"
+    },
+    {
+        "name": "nu.03_CMa/8_CMa"
+    },
+    {
+        "name": "53_Aur"
+    },
+    {
+        "name": "51_Aur"
+    },
+    {
+        "name": "psi03_Aur/52_Aur"
+    },
+    {
+        "name": "psi02_Aur/50_Aur"
+    },
+    {
+        "name": "54_Aur"
+    },
+    {
+        "name": "zet_Men"
+    },
+    {
+        "name": "15_Mon"
+    },
+    {
+        "name": "25_Gem"
+    },
+    {
+        "name": "26_Gem"
+    },
+    {
+        "name": "psi04_Aur/55_Aur"
+    },
+    {
+        "name": "eps_Gem/27_Gem"
+    },
+    {
+        "name": "30_Gem"
+    },
+    {
+        "name": "10_CMa"
+    },
+    {
+        "name": "28_Gem"
+    },
+    {
+        "name": "alf_CMa/9_CMa/Sirius"
+    },
+    {
+        "name": "ksi_Gem/31_Gem"
+    },
+    {
+        "name": "32_Gem"
+    },
+    {
+        "name": "12_Lyn"
+    },
+    {
+        "name": "16_Mon"
+    },
+    {
+        "name": "psi05_Aur/56_Aur"
+    },
+    {
+        "name": "13_Lyn"
+    },
+    {
+        "name": "11_CMa"
+    },
+    {
+        "name": "12_CMa"
+    },
+    {
+        "name": "17_Mon"
+    },
+    {
+        "name": "x_Pup"
+    },
+    {
+        "name": "psi06_Aur/57_Aur"
+    },
+    {
+        "name": "18_Mon"
+    },
+    {
+        "name": "alf_Pic"
+    },
+    {
+        "name": "33_Gem"
+    },
+    {
+        "name": "kap_CMa/13_CMa"
+    },
+    {
+        "name": "tau_Pup"
+    },
+    {
+        "name": "35_Gem"
+    },
+    {
+        "name": "psi07_Aur/58_Aur"
+    },
+    {
+        "name": "42_Cam"
+    },
+    {
+        "name": "iot_Vol"
+    },
+    {
+        "name": "d_Gem/36_Gem"
+    },
+    {
+        "name": "the_Gem/34_Gem"
+    },
+    {
+        "name": "59_Aur"
+    },
+    {
+        "name": "14_Lyn"
+    },
+    {
+        "name": "60_Aur"
+    },
+    {
+        "name": "15_CMa"
+    },
+    {
+        "name": "43_Cam"
+    },
+    {
+        "name": "psi08_Aur/61_Aur"
+    },
+    {
+        "name": "omi01_CMa/16_CMa"
+    },
+    {
+        "name": "the_CMa/14_CMa"
+    },
+    {
+        "name": "e_Gem/38_Gem"
+    },
+    {
+        "name": "17_CMa"
+    },
+    {
+        "name": "37_Gem"
+    },
+    {
+        "name": "pi._CMa/19_CMa"
+    },
+    {
+        "name": "mu._CMa/18_CMa"
+    },
+    {
+        "name": "iot_CMa/20_CMa"
+    },
+    {
+        "name": "psi09_Aur"
+    },
+    {
+        "name": "the_Men"
+    },
+    {
+        "name": "15_Lyn"
+    },
+    {
+        "name": "psi10_Aur/16_Lyn"
+    },
+    {
+        "name": "t_Pup"
+    },
+    {
+        "name": "eps_CMa/21_CMa/Adhara"
+    },
+    {
+        "name": "39_Gem"
+    },
+    {
+        "name": "62_Aur"
+    },
+    {
+        "name": "40_Gem"
+    },
+    {
+        "name": "41_Gem"
+    },
+    {
+        "name": "sig_CMa/22_CMa"
+    },
+    {
+        "name": "ome_Gem/42_Gem"
+    },
+    {
+        "name": "19_Mon"
+    },
+    {
+        "name": "omi02_CMa/24_CMa"
+    },
+    {
+        "name": "gam_CMa/23_CMa"
+    },
+    {
+        "name": "H_Pup"
+    },
+    {
+        "name": "C_Pup"
+    },
+    {
+        "name": "zet_Gem/43_Gem"
+    },
+    {
+        "name": "44_Gem"
+    },
+    {
+        "name": "45_Gem"
+    },
+    {
+        "name": "del_CMa/25_CMa"
+    },
+    {
+        "name": "gam01_Vol"
+    },
+    {
+        "name": "gam02_Vol"
+    },
+    {
+        "name": "A_Pup"
+    },
+    {
+        "name": "20_Mon"
+    },
+    {
+        "name": "tau_Gem/46_Gem"
+    },
+    {
+        "name": "47_Gem"
+    },
+    {
+        "name": "21_Mon"
+    },
+    {
+        "name": "63_Aur"
+    },
+    {
+        "name": "del_Mon/22_Mon"
+    },
+    {
+        "name": "26_CMa"
+    },
+    {
+        "name": "E_Pup"
+    },
+    {
+        "name": "48_Gem"
+    },
+    {
+        "name": "I_Pup"
+    },
+    {
+        "name": "49_Gem"
+    },
+    {
+        "name": "L01_Pup"
+    },
+    {
+        "name": "51_Gem"
+    },
+    {
+        "name": "L02_Pup"
+    },
+    {
+        "name": "27_CMa"
+    },
+    {
+        "name": "52_Gem"
+    },
+    {
+        "name": "ome_CMa/28_CMa"
+    },
+    {
+        "name": "24_Mon"
+    },
+    {
+        "name": "18_Lyn"
+    },
+    {
+        "name": "53_Gem"
+    },
+    {
+        "name": "145_CMa"
+    },
+    {
+        "name": "del_Vol"
+    },
+    {
+        "name": "pi._Pup"
+    },
+    {
+        "name": "64_Aur"
+    },
+    {
+        "name": "lam_Gem/54_Gem"
+    },
+    {
+        "name": "F_Pup"
+    },
+    {
+        "name": "v02_Pup"
+    },
+    {
+        "name": "29_CMa"
+    },
+    {
+        "name": "tau_CMa/30_CMa"
+    },
+    {
+        "name": "del_Gem/55_Gem"
+    },
+    {
+        "name": "56_Gem"
+    },
+    {
+        "name": "65_Aur"
+    },
+    {
+        "name": "47_Cam"
+    },
+    {
+        "name": "19_Lyn_B"
+    },
+    {
+        "name": "19_Lyn_A"
+    },
+    {
+        "name": "58_Gem"
+    },
+    {
+        "name": "57_Gem"
+    },
+    {
+        "name": "eta_CMa/31_CMa"
+    },
+    {
+        "name": "66_Aur"
+    },
+    {
+        "name": "59_Gem"
+    },
+    {
+        "name": "1_CMi"
+    },
+    {
+        "name": "eps_Men"
+    },
+    {
+        "name": "eps_CMi/2_CMi"
+    },
+    {
+        "name": "iot_Gem/60_Gem"
+    },
+    {
+        "name": "21_Lyn"
+    },
+    {
+        "name": "61_Gem"
+    },
+    {
+        "name": "bet_CMi/3_CMi"
+    },
+    {
+        "name": "Luyten's star"
+    },
+    {
+        "name": "63_Gem"
+    },
+    {
+        "name": "eta_CMi/5_CMi"
+    },
+    {
+        "name": "gam_CMi/4_CMi"
+    },
+    {
+        "name": "y_Pup"
+    },
+    {
+        "name": "rho_Gem/62_Gem"
+    },
+    {
+        "name": "sig_Pup"
+    },
+    {
+        "name": "64_Gem"
+    },
+    {
+        "name": "6_CMi"
+    },
+    {
+        "name": "b_Gem/65_Gem"
+    },
+    {
+        "name": "22_Lyn"
+    },
+    {
+        "name": "del01_CMi/7_CMi"
+    },
+    {
+        "name": "del02_CMi/8_CMi"
+    },
+    {
+        "name": "68_Gem"
+    },
+    {
+        "name": "z_Pup"
+    },
+    {
+        "name": "del03_CMi/9_CMi"
+    },
+    {
+        "name": "alf_Gem/66_Gem/66_Gem/Castor"
+    },
+    {
+        "name": "ups_Gem/69_Gem"
+    },
+    {
+        "name": "25_Mon"
+    },
+    {
+        "name": "f_Pup"
+    },
+    {
+        "name": "m_Pup"
+    },
+    {
+        "name": "70_Gem"
+    },
+    {
+        "name": "omi_Gem/71_Gem"
+    },
+    {
+        "name": "alf_CMi/10_CMi/Procyon"
+    },
+    {
+        "name": "n01_Pup"
+    },
+    {
+        "name": "f_Gem/74_Gem"
+    },
+    {
+        "name": "d02_Pup"
+    },
+    {
+        "name": "d03_Pup"
+    },
+    {
+        "name": "23_Lyn"
+    },
+    {
+        "name": "alf_Mon/26_Mon"
+    },
+    {
+        "name": "zet_Vol"
+    },
+    {
+        "name": "24_Lyn"
+    },
+    {
+        "name": "sig_Gem/75_Gem"
+    },
+    {
+        "name": "1_Pup"
+    },
+    {
+        "name": "l_Pup/3_Pup"
+    },
+    {
+        "name": "c_Gem/76_Gem"
+    },
+    {
+        "name": "kap_Gem/77_Gem"
+    },
+    {
+        "name": "79_Gem"
+    },
+    {
+        "name": "c_Pup"
+    },
+    {
+        "name": "bet_Gem/78_Gem/Pollux"
+    },
+    {
+        "name": "2_Pup_B"
+    },
+    {
+        "name": "2_Pup_A"
+    },
+    {
+        "name": "4_Pup"
+    },
+    {
+        "name": "g_Gem/81_Gem"
+    },
+    {
+        "name": "11_CMi"
+    },
+    {
+        "name": "49_Cam"
+    },
+    {
+        "name": "51_Cam"
+    },
+    {
+        "name": "pi._Gem/80_Gem"
+    },
+    {
+        "name": "5_Pup"
+    },
+    {
+        "name": "omi_Pup"
+    },
+    {
+        "name": "Q_Pup"
+    },
+    {
+        "name": "82_Gem"
+    },
+    {
+        "name": "P_Pup"
+    },
+    {
+        "name": "ksi_Pup/7_Pup"
+    },
+    {
+        "name": "6_Pup"
+    },
+    {
+        "name": "8_Pup"
+    },
+    {
+        "name": "zet_CMi/13_CMi"
+    },
+    {
+        "name": "9_Pup"
+    },
+    {
+        "name": "a_Pup"
+    },
+    {
+        "name": "10_Pup"
+    },
+    {
+        "name": "b_Pup"
+    },
+    {
+        "name": "J_Pup"
+    },
+    {
+        "name": "phi_Gem/83_Gem"
+    },
+    {
+        "name": "25_Lyn"
+    },
+    {
+        "name": "26_Lyn"
+    },
+    {
+        "name": "85_Gem"
+    },
+    {
+        "name": "chi_Car"
+    },
+    {
+        "name": "j_Pup/11_Pup"
+    },
+    {
+        "name": "1_Cnc"
+    },
+    {
+        "name": "N_Pup"
+    },
+    {
+        "name": "O_Pup"
+    },
+    {
+        "name": "14_CMi"
+    },
+    {
+        "name": "12_Pup"
+    },
+    {
+        "name": "27_Mon"
+    },
+    {
+        "name": "3_Cnc"
+    },
+    {
+        "name": "ome01_Cnc/2_Cnc"
+    },
+    {
+        "name": "28_Mon"
+    },
+    {
+        "name": "5_Cnc"
+    },
+    {
+        "name": "53_Cam"
+    },
+    {
+        "name": "ome02_Cnc/4_Cnc"
+    },
+    {
+        "name": "54_Cam"
+    },
+    {
+        "name": "chi_Gem"
+    },
+    {
+        "name": "zet_Pup"
+    },
+    {
+        "name": "14_Pup"
+    },
+    {
+        "name": "8_Cnc"
+    },
+    {
+        "name": "mu.01_Cnc/9_Cnc"
+    },
+    {
+        "name": "28_Lyn"
+    },
+    {
+        "name": "rho_Pup/15_Pup"
+    },
+    {
+        "name": "mu._Cnc/mu.02_Cnc/10_Cnc"
+    },
+    {
+        "name": "eps_Vol"
+    },
+    {
+        "name": "27_Lyn"
+    },
+    {
+        "name": "zet_Mon/29_Mon"
+    },
+    {
+        "name": "12_Cnc"
+    },
+    {
+        "name": "16_Pup"
+    },
+    {
+        "name": "gam_Vel/gam02_Vel"
+    },
+    {
+        "name": "psi_Cnc/14_Cnc"
+    },
+    {
+        "name": "18_Pup"
+    },
+    {
+        "name": "19_Pup"
+    },
+    {
+        "name": "h01_Pup"
+    },
+    {
+        "name": "zet01_Cnc/zet02_Cnc/16_Cnc"
+    },
+    {
+        "name": "15_Cnc"
+    },
+    {
+        "name": "20_Pup"
+    },
+    {
+        "name": "r_Pup"
+    },
+    {
+        "name": "h02_Pup"
+    },
+    {
+        "name": "bet_Cnc/17_Cnc"
+    },
+    {
+        "name": "21_Pup"
+    },
+    {
+        "name": "29_Lyn"
+    },
+    {
+        "name": "alf_Cha"
+    },
+    {
+        "name": "q_Pup"
+    },
+    {
+        "name": "kap01_Vol"
+    },
+    {
+        "name": "kap02_Vol"
+    },
+    {
+        "name": "chi_Cnc/18_Cnc"
+    },
+    {
+        "name": "30_Lyn"
+    },
+    {
+        "name": "lam_Cnc/19_Cnc"
+    },
+    {
+        "name": "the_Cha"
+    },
+    {
+        "name": "w_Pup"
+    },
+    {
+        "name": "eta_Vol"
+    },
+    {
+        "name": "eps_Car"
+    },
+    {
+        "name": "B_Vel"
+    },
+    {
+        "name": "22_Pup"
+    },
+    {
+        "name": "31_Lyn"
+    },
+    {
+        "name": "d01_Cnc/20_Cnc"
+    },
+    {
+        "name": "21_Cnc"
+    },
+    {
+        "name": "1_Hya"
+    },
+    {
+        "name": "C_Hya"
+    },
+    {
+        "name": "bet_Vol"
+    },
+    {
+        "name": "d02_Cnc/25_Cnc"
+    },
+    {
+        "name": "2_Hya"
+    },
+    {
+        "name": "phi01_Cnc/22_Cnc"
+    },
+    {
+        "name": "24_Cnc"
+    },
+    {
+        "name": "27_Cnc"
+    },
+    {
+        "name": "phi02_Cnc/23_Cnc"
+    },
+    {
+        "name": "F_Vel"
+    },
+    {
+        "name": "28_Cnc"
+    },
+    {
+        "name": "29_Cnc"
+    },
+    {
+        "name": "omi_UMa/1_UMa"
+    },
+    {
+        "name": "ups01_Cnc/30_Cnc"
+    },
+    {
+        "name": "the_Cnc/31_Cnc"
+    },
+    {
+        "name": "34_Cnc"
+    },
+    {
+        "name": "eta_Cnc/33_Cnc"
+    },
+    {
+        "name": "ups02_Cnc/32_Cnc"
+    },
+    {
+        "name": "32_Lyn"
+    },
+    {
+        "name": "2_UMa"
+    },
+    {
+        "name": "C_Vel"
+    },
+    {
+        "name": "33_Lyn"
+    },
+    {
+        "name": "e01_Car"
+    },
+    {
+        "name": "35_Cnc"
+    },
+    {
+        "name": "e02_Car"
+    },
+    {
+        "name": "3_Hya"
+    },
+    {
+        "name": "c_Cnc/36_Cnc"
+    },
+    {
+        "name": "e_Vel"
+    },
+    {
+        "name": "del_Hya/4_Hya"
+    },
+    {
+        "name": "eta_Pyx"
+    },
+    {
+        "name": "37_Cnc"
+    },
+    {
+        "name": "sig_Hya/5_Hya"
+    },
+    {
+        "name": "the_Vol"
+    },
+    {
+        "name": "pi.01_UMa/3_UMa"
+    },
+    {
+        "name": "zet_Pyx"
+    },
+    {
+        "name": "38_Cnc"
+    },
+    {
+        "name": "a_Hya/6_Hya"
+    },
+    {
+        "name": "bet_Pyx"
+    },
+    {
+        "name": "39_Cnc"
+    },
+    {
+        "name": "40_Cnc"
+    },
+    {
+        "name": "pi.02_UMa/4_UMa"
+    },
+    {
+        "name": "omi_Vel"
+    },
+    {
+        "name": "eps_Cnc/41_Cnc"
+    },
+    {
+        "name": "d_Car"
+    },
+    {
+        "name": "b_Vel"
+    },
+    {
+        "name": "34_Lyn"
+    },
+    {
+        "name": "n_Vel"
+    },
+    {
+        "name": "eta_Cha"
+    },
+    {
+        "name": "9_Hya"
+    },
+    {
+        "name": "45_Cnc"
+    },
+    {
+        "name": "eta_Hya/7_Hya"
+    },
+    {
+        "name": "gam_Cnc/43_Cnc"
+    },
+    {
+        "name": "alf_Pyx"
+    },
+    {
+        "name": "D_Vel"
+    },
+    {
+        "name": "F_Hya"
+    },
+    {
+        "name": "d_Vel"
+    },
+    {
+        "name": "del_Cnc/47_Cnc"
+    },
+    {
+        "name": "del_Vel"
+    },
+    {
+        "name": "b_Cnc/49_Cnc"
+    },
+    {
+        "name": "10_Hya"
+    },
+    {
+        "name": "46_Cnc"
+    },
+    {
+        "name": "a_Vel"
+    },
+    {
+        "name": "D_Hya/12_Hya"
+    },
+    {
+        "name": "iot_Cnc_B/48_Cnc_B"
+    },
+    {
+        "name": "iot_Cnc_A/48_Cnc_A"
+    },
+    {
+        "name": "f_Car"
+    },
+    {
+        "name": "eps_Hya/11_Hya"
+    },
+    {
+        "name": "50_Cnc"
+    },
+    {
+        "name": "rho_Hya/13_Hya"
+    },
+    {
+        "name": "14_Hya"
+    },
+    {
+        "name": "g_Vel"
+    },
+    {
+        "name": "gam_Pyx"
+    },
+    {
+        "name": "f_Vel"
+    },
+    {
+        "name": "54_Cnc"
+    },
+    {
+        "name": "15_Hya"
+    },
+    {
+        "name": "35_Lyn"
+    },
+    {
+        "name": "53_Cnc"
+    },
+    {
+        "name": "sig01_Cnc/51_Cnc"
+    },
+    {
+        "name": "rho01_Cnc/55_Cnc"
+    },
+    {
+        "name": "b_UMa/5_UMa"
+    },
+    {
+        "name": "57_Cnc"
+    },
+    {
+        "name": "c_Car"
+    },
+    {
+        "name": "zet_Hya/16_Hya"
+    },
+    {
+        "name": "17_Hya"
+    },
+    {
+        "name": "del_Pyx"
+    },
+    {
+        "name": "rho02_Cnc/58_Cnc"
+    },
+    {
+        "name": "60_Cnc"
+    },
+    {
+        "name": "H_Vel"
+    },
+    {
+        "name": "6_UMa"
+    },
+    {
+        "name": "zet_Oct"
+    },
+    {
+        "name": "sig02_Cnc/59_Cnc"
+    },
+    {
+        "name": "b01_Car"
+    },
+    {
+        "name": "omi01_Cnc/62_Cnc"
+    },
+    {
+        "name": "omi02_Cnc/63_Cnc"
+    },
+    {
+        "name": "61_Cnc"
+    },
+    {
+        "name": "alf_Cnc/65_Cnc"
+    },
+    {
+        "name": "iot_UMa/9_UMa"
+    },
+    {
+        "name": "b02_Car"
+    },
+    {
+        "name": "sig03_Cnc/64_Cnc"
+    },
+    {
+        "name": "w_Vel"
+    },
+    {
+        "name": "10_UMa"
+    },
+    {
+        "name": "66_Cnc"
+    },
+    {
+        "name": "67_Cnc"
+    },
+    {
+        "name": "alf_Vol"
+    },
+    {
+        "name": "rho_UMa/8_UMa"
+    },
+    {
+        "name": "nu._Cnc/69_Cnc"
+    },
+    {
+        "name": "kap_UMa/12_UMa"
+    },
+    {
+        "name": "c_Vel"
+    },
+    {
+        "name": "70_Cnc"
+    },
+    {
+        "name": "ome_Hya/18_Hya"
+    },
+    {
+        "name": "kap_Cnc/76_Cnc"
+    },
+    {
+        "name": "lam_Vel"
+    },
+    {
+        "name": "tau_Cnc/72_Cnc"
+    },
+    {
+        "name": "kap_Pyx"
+    },
+    {
+        "name": "sig01_UMa/11_UMa"
+    },
+    {
+        "name": "19_Hya"
+    },
+    {
+        "name": "75_Cnc"
+    },
+    {
+        "name": "f_UMa/15_UMa"
+    },
+    {
+        "name": "ksi_Cnc/77_Cnc"
+    },
+    {
+        "name": "20_Hya"
+    },
+    {
+        "name": "eps_Pyx"
+    },
+    {
+        "name": "79_Cnc"
+    },
+    {
+        "name": "sig02_UMa/13_UMa"
+    },
+    {
+        "name": "tau_UMa/14_UMa"
+    },
+    {
+        "name": "a_Car"
+    },
+    {
+        "name": "i_Car"
+    },
+    {
+        "name": "pi.01_Cnc/81_Cnc"
+    },
+    {
+        "name": "21_Hya"
+    },
+    {
+        "name": "bet_Car"
+    },
+    {
+        "name": "36_Lyn"
+    },
+    {
+        "name": "c_UMa/16_UMa"
+    },
+    {
+        "name": "the_Hya/22_Hya"
+    },
+    {
+        "name": "z_Vel"
+    },
+    {
+        "name": "pi._Cnc/pi.02_Cnc/82_Cnc"
+    },
+    {
+        "name": "l_Vel"
+    },
+    {
+        "name": "k_Vel"
+    },
+    {
+        "name": "17_UMa"
+    },
+    {
+        "name": "e_UMa/18_UMa"
+    },
+    {
+        "name": "g_Car"
+    },
+    {
+        "name": "24_Hya"
+    },
+    {
+        "name": "23_Hya"
+    },
+    {
+        "name": "iot_Car"
+    },
+    {
+        "name": "K_Vel"
+    },
+    {
+        "name": "38_Lyn"
+    },
+    {
+        "name": "26_Hya"
+    },
+    {
+        "name": "27_Hya"
+    },
+    {
+        "name": "k_Car"
+    },
+    {
+        "name": "alf_Lyn/40_Lyn"
+    },
+    {
+        "name": "the_Pyx"
+    },
+    {
+        "name": "kap_Vel"
+    },
+    {
+        "name": "lam_Pyx"
+    },
+    {
+        "name": "iot_Cha"
+    },
+    {
+        "name": "kap_Leo/1_Leo"
+    },
+    {
+        "name": "28_Hya"
+    },
+    {
+        "name": "I_Vel"
+    },
+    {
+        "name": "29_Hya"
+    },
+    {
+        "name": "G_Hya"
+    },
+    {
+        "name": "alf_Hya/30_Hya/Alphard"
+    },
+    {
+        "name": "ome_Leo/2_Leo"
+    },
+    {
+        "name": "3_Leo"
+    },
+    {
+        "name": "tau01_Hya/31_Hya"
+    },
+    {
+        "name": "eps_Ant"
+    },
+    {
+        "name": "psi_Vel"
+    },
+    {
+        "name": "7_LMi"
+    },
+    {
+        "name": "zet01_Ant"
+    },
+    {
+        "name": "N_Vel"
+    },
+    {
+        "name": "h_UMa/23_UMa"
+    },
+    {
+        "name": "zet02_Ant"
+    },
+    {
+        "name": "8_LMi"
+    },
+    {
+        "name": "lam_Leo/4_Leo"
+    },
+    {
+        "name": "ksi_Leo/5_Leo"
+    },
+    {
+        "name": "6_Leo"
+    },
+    {
+        "name": "tau02_Hya/32_Hya"
+    },
+    {
+        "name": "the_UMa/25_UMa"
+    },
+    {
+        "name": "9_LMi"
+    },
+    {
+        "name": "zet_Cha"
+    },
+    {
+        "name": "L_Vel"
+    },
+    {
+        "name": "10_LMi"
+    },
+    {
+        "name": "h_Car"
+    },
+    {
+        "name": "d_UMa/24_UMa"
+    },
+    {
+        "name": "33_Hya"
+    },
+    {
+        "name": "26_UMa"
+    },
+    {
+        "name": "22_UMa"
+    },
+    {
+        "name": "11_LMi"
+    },
+    {
+        "name": "7_Leo"
+    },
+    {
+        "name": "M_Vel"
+    },
+    {
+        "name": "8_Leo"
+    },
+    {
+        "name": "10_Leo"
+    },
+    {
+        "name": "34_Hya"
+    },
+    {
+        "name": "y_Vel"
+    },
+    {
+        "name": "42_Lyn"
+    },
+    {
+        "name": "2_Sex"
+    },
+    {
+        "name": "m_Car"
+    },
+    {
+        "name": "37_Hya"
+    },
+    {
+        "name": "iot_Hya/35_Hya"
+    },
+    {
+        "name": "kap_Hya/38_Hya"
+    },
+    {
+        "name": "omi_Leo/14_Leo"
+    },
+    {
+        "name": "I_Hya"
+    },
+    {
+        "name": "13_Leo"
+    },
+    {
+        "name": "43_Lyn"
+    },
+    {
+        "name": "13_LMi"
+    },
+    {
+        "name": "27_UMa"
+    },
+    {
+        "name": "f_Leo/15_Leo"
+    },
+    {
+        "name": "O_Vel"
+    },
+    {
+        "name": "psi_Leo/16_Leo"
+    },
+    {
+        "name": "the_Ant"
+    },
+    {
+        "name": "l_Car"
+    },
+    {
+        "name": "eps_Leo/17_Leo"
+    },
+    {
+        "name": "28_UMa"
+    },
+    {
+        "name": "nu._Cha"
+    },
+    {
+        "name": "18_Leo"
+    },
+    {
+        "name": "ups_Car"
+    },
+    {
+        "name": "19_Leo"
+    },
+    {
+        "name": "20_Leo"
+    },
+    {
+        "name": "u_Vel"
+    },
+    {
+        "name": "4_Sex"
+    },
+    {
+        "name": "ups_UMa/29_UMa"
+    },
+    {
+        "name": "23_Leo"
+    },
+    {
+        "name": "6_Sex"
+    },
+    {
+        "name": "ups01_Hya/39_Hya"
+    },
+    {
+        "name": "m_Vel"
+    },
+    {
+        "name": "g_Leo/22_Leo"
+    },
+    {
+        "name": "phi_UMa/30_UMa"
+    },
+    {
+        "name": "7_Sex"
+    },
+    {
+        "name": "gam_Sex/8_Sex"
+    },
+    {
+        "name": "mu._Leo/24_Leo"
+    },
+    {
+        "name": "31_UMa"
+    },
+    {
+        "name": "phi_Vel"
+    },
+    {
+        "name": "19_LMi"
+    },
+    {
+        "name": "nu._Leo/27_Leo"
+    },
+    {
+        "name": "eta_Ant"
+    },
+    {
+        "name": "12_Sex"
+    },
+    {
+        "name": "pi._Leo/29_Leo"
+    },
+    {
+        "name": "mu._Cha"
+    },
+    {
+        "name": "20_LMi"
+    },
+    {
+        "name": "13_Sex"
+    },
+    {
+        "name": "ups02_Hya/40_Hya"
+    },
+    {
+        "name": "14_Sex"
+    },
+    {
+        "name": "eta_Leo/30_Leo"
+    },
+    {
+        "name": "21_LMi"
+    },
+    {
+        "name": "31_Leo"
+    },
+    {
+        "name": "alf_Sex/15_Sex"
+    },
+    {
+        "name": "alf_Leo/32_Leo/Regulus"
+    },
+    {
+        "name": "Q_Vel"
+    },
+    {
+        "name": "17_Sex"
+    },
+    {
+        "name": "lam_Hya/41_Hya"
+    },
+    {
+        "name": "18_Sex"
+    },
+    {
+        "name": "34_Leo"
+    },
+    {
+        "name": "19_Sex"
+    },
+    {
+        "name": "ome_Car"
+    },
+    {
+        "name": "q_Vel"
+    },
+    {
+        "name": "22_LMi"
+    },
+    {
+        "name": "23_LMi"
+    },
+    {
+        "name": "24_LMi"
+    },
+    {
+        "name": "35_Leo"
+    },
+    {
+        "name": "37_Leo"
+    },
+    {
+        "name": "zet_Leo/36_Leo"
+    },
+    {
+        "name": "q_Car"
+    },
+    {
+        "name": "lam_UMa/33_UMa"
+    },
+    {
+        "name": "39_Leo"
+    },
+    {
+        "name": "eps_Sex/22_Sex"
+    },
+    {
+        "name": "32_UMa"
+    },
+    {
+        "name": "40_Leo"
+    },
+    {
+        "name": "gam01_Leo/gam02_Leo/41_Leo/Algieba"
+    },
+    {
+        "name": "J_Vel"
+    },
+    {
+        "name": "23_Sex"
+    },
+    {
+        "name": "42_Leo"
+    },
+    {
+        "name": "r_Vel"
+    },
+    {
+        "name": "mu._UMa/34_UMa"
+    },
+    {
+        "name": "43_Leo"
+    },
+    {
+        "name": "27_LMi"
+    },
+    {
+        "name": "25_Sex"
+    },
+    {
+        "name": "28_LMi"
+    },
+    {
+        "name": "44_Leo"
+    },
+    {
+        "name": "30_LMi"
+    },
+    {
+        "name": "mu._Hya/42_Hya"
+    },
+    {
+        "name": "alf_Ant"
+    },
+    {
+        "name": "45_Leo"
+    },
+    {
+        "name": "s_Car"
+    },
+    {
+        "name": "bet_LMi/31_LMi"
+    },
+    {
+        "name": "del_Sex/29_Sex"
+    },
+    {
+        "name": "del_Ant"
+    },
+    {
+        "name": "35_UMa"
+    },
+    {
+        "name": "32_LMi"
+    },
+    {
+        "name": "bet_Sex/30_Sex"
+    },
+    {
+        "name": "36_UMa"
+    },
+    {
+        "name": "33_LMi"
+    },
+    {
+        "name": "p_Car"
+    },
+    {
+        "name": "46_Leo"
+    },
+    {
+        "name": "rho_Leo/47_Leo"
+    },
+    {
+        "name": "t_Vel"
+    },
+    {
+        "name": "34_LMi"
+    },
+    {
+        "name": "44_Hya"
+    },
+    {
+        "name": "48_Leo"
+    },
+    {
+        "name": "49_Leo"
+    },
+    {
+        "name": "37_UMa"
+    },
+    {
+        "name": "gam_Cha"
+    },
+    {
+        "name": "r_Car"
+    },
+    {
+        "name": "phi02_Hya"
+    },
+    {
+        "name": "t01_Car"
+    },
+    {
+        "name": "35_LMi"
+    },
+    {
+        "name": "p_Vel"
+    },
+    {
+        "name": "36_LMi"
+    },
+    {
+        "name": "phi_Hya/phi03_Hya"
+    },
+    {
+        "name": "37_LMi"
+    },
+    {
+        "name": "38_LMi"
+    },
+    {
+        "name": "x_Vel"
+    },
+    {
+        "name": "33_Sex"
+    },
+    {
+        "name": "38_UMa"
+    },
+    {
+        "name": "the_Car"
+    },
+    {
+        "name": "40_LMi"
+    },
+    {
+        "name": "35_Sex"
+    },
+    {
+        "name": "41_LMi"
+    },
+    {
+        "name": "w_Car"
+    },
+    {
+        "name": "39_UMa"
+    },
+    {
+        "name": "36_Sex"
+    },
+    {
+        "name": "del01_Cha"
+    },
+    {
+        "name": "del02_Cha"
+    },
+    {
+        "name": "42_LMi"
+    },
+    {
+        "name": "41_UMa"
+    },
+    {
+        "name": "m_Leo/51_Leo"
+    },
+    {
+        "name": "k_Leo/52_Leo"
+    },
+    {
+        "name": "mu._Vel"
+    },
+    {
+        "name": "b01_Hya"
+    },
+    {
+        "name": "43_LMi"
+    },
+    {
+        "name": "l_Leo/53_Leo"
+    },
+    {
+        "name": "40_Sex"
+    },
+    {
+        "name": "nu._Hya"
+    },
+    {
+        "name": "44_LMi"
+    },
+    {
+        "name": "41_Sex"
+    },
+    {
+        "name": "43_UMa"
+    },
+    {
+        "name": "42_UMa"
+    },
+    {
+        "name": "46_LMi"
+    },
+    {
+        "name": "b03_Hya"
+    },
+    {
+        "name": "u_Car"
+    },
+    {
+        "name": "44_UMa"
+    },
+    {
+        "name": "p01_Leo"
+    },
+    {
+        "name": "ome_UMa/45_UMa"
+    },
+    {
+        "name": "48_LMi"
+    },
+    {
+        "name": "54_Leo"
+    },
+    {
+        "name": "55_Leo"
+    },
+    {
+        "name": "46_UMa"
+    },
+    {
+        "name": "56_Leo"
+    },
+    {
+        "name": "50_LMi"
+    },
+    {
+        "name": "iot_Ant"
+    },
+    {
+        "name": "eta_Oct"
+    },
+    {
+        "name": "47_UMa"
+    },
+    {
+        "name": "alf_Crt/7_Crt"
+    },
+    {
+        "name": "i_Vel"
+    },
+    {
+        "name": "58_Leo"
+    },
+    {
+        "name": "c_Leo/59_Leo"
+    },
+    {
+        "name": "49_UMa"
+    },
+    {
+        "name": "p02_Leo/61_Leo"
+    },
+    {
+        "name": "bet_UMa/48_UMa/Merak"
+    },
+    {
+        "name": "b_Leo/60_Leo"
+    },
+    {
+        "name": "p03_Leo/62_Leo"
+    },
+    {
+        "name": "alf_UMa/50_UMa/Dubhe"
+    },
+    {
+        "name": "51_UMa"
+    },
+    {
+        "name": "chi_Leo/63_Leo"
+    },
+    {
+        "name": "chi01_Hya"
+    },
+    {
+        "name": "chi02_Hya"
+    },
+    {
+        "name": "z_Car"
+    },
+    {
+        "name": "p04_Leo/65_Leo"
+    },
+    {
+        "name": "64_Leo"
+    },
+    {
+        "name": "x_Car"
+    },
+    {
+        "name": "67_Leo"
+    },
+    {
+        "name": "psi_UMa/52_UMa"
+    },
+    {
+        "name": "bet_Crt/11_Crt"
+    },
+    {
+        "name": "p05_Leo/69_Leo"
+    },
+    {
+        "name": "del_Leo/68_Leo"
+    },
+    {
+        "name": "the_Leo/70_Leo"
+    },
+    {
+        "name": "72_Leo"
+    },
+    {
+        "name": "n_Leo/73_Leo"
+    },
+    {
+        "name": "phi_Leo/74_Leo"
+    },
+    {
+        "name": "75_Leo"
+    },
+    {
+        "name": "ksi_UMa/53_UMa"
+    },
+    {
+        "name": "nu._UMa/54_UMa"
+    },
+    {
+        "name": "76_Leo"
+    },
+    {
+        "name": "55_UMa"
+    },
+    {
+        "name": "del_Crt/12_Crt"
+    },
+    {
+        "name": "pi._Cen"
+    },
+    {
+        "name": "sig_Leo/77_Leo"
+    },
+    {
+        "name": "56_UMa"
+    },
+    {
+        "name": "lam_Crt/13_Crt"
+    },
+    {
+        "name": "iot_Leo/78_Leo"
+    },
+    {
+        "name": "79_Leo"
+    },
+    {
+        "name": "eps_Crt/14_Crt"
+    },
+    {
+        "name": "gam_Crt/15_Crt"
+    },
+    {
+        "name": "81_Leo"
+    },
+    {
+        "name": "80_Leo"
+    },
+    {
+        "name": "83_Leo"
+    },
+    {
+        "name": "kap_Crt/16_Crt"
+    },
+    {
+        "name": "tau_Leo/84_Leo"
+    },
+    {
+        "name": "57_UMa"
+    },
+    {
+        "name": "85_Leo"
+    },
+    {
+        "name": "e_Leo/87_Leo"
+    },
+    {
+        "name": "86_Leo"
+    },
+    {
+        "name": "58_UMa"
+    },
+    {
+        "name": "lam_Dra/1_Dra"
+    },
+    {
+        "name": "88_Leo"
+    },
+    {
+        "name": "omi01_Cen"
+    },
+    {
+        "name": "omi02_Cen"
+    },
+    {
+        "name": "17_Crt"
+    },
+    {
+        "name": "ksi_Hya"
+    },
+    {
+        "name": "89_Leo"
+    },
+    {
+        "name": "90_Leo"
+    },
+    {
+        "name": "A_Cen"
+    },
+    {
+        "name": "C01_Cen"
+    },
+    {
+        "name": "lam_Cen"
+    },
+    {
+        "name": "C02_Cen"
+    },
+    {
+        "name": "2_Dra"
+    },
+    {
+        "name": "the_Crt/21_Crt"
+    },
+    {
+        "name": "ups_Leo/91_Leo"
+    },
+    {
+        "name": "pi._Cha"
+    },
+    {
+        "name": "C03_Cen"
+    },
+    {
+        "name": "59_UMa"
+    },
+    {
+        "name": "ome_Vir/1_Vir"
+    },
+    {
+        "name": "60_UMa"
+    },
+    {
+        "name": "iot_Crt/24_Crt"
+    },
+    {
+        "name": "omi_Hya"
+    },
+    {
+        "name": "92_Leo"
+    },
+    {
+        "name": "61_UMa"
+    },
+    {
+        "name": "62_UMa"
+    },
+    {
+        "name": "3_Dra"
+    },
+    {
+        "name": "zet_Crt/27_Crt"
+    },
+    {
+        "name": "ksi_Vir/2_Vir"
+    },
+    {
+        "name": "lam_Mus"
+    },
+    {
+        "name": "nu._Vir/3_Vir"
+    },
+    {
+        "name": "chi_UMa/63_UMa"
+    },
+    {
+        "name": "4_Vir"
+    },
+    {
+        "name": "93_Leo"
+    },
+    {
+        "name": "mu._Mus"
+    },
+    {
+        "name": "bet_Leo/94_Leo/Denebola"
+    },
+    {
+        "name": "j_Cen"
+    },
+    {
+        "name": "bet_Vir/5_Vir"
+    },
+    {
+        "name": "B_Cen"
+    },
+    {
+        "name": "bet_Hya"
+    },
+    {
+        "name": "Groombridge 1830"
+    },
+    {
+        "name": "gam_UMa/64_UMa/Phad"
+    },
+    {
+        "name": "6_Vir"
+    },
+    {
+        "name": "65_UMa"
+    },
+    {
+        "name": "65_UMa"
+    },
+    {
+        "name": "o_Leo/95_Leo"
+    },
+    {
+        "name": "66_UMa"
+    },
+    {
+        "name": "eta_Crt/30_Crt"
+    },
+    {
+        "name": "eps_Cha"
+    },
+    {
+        "name": "b_Vir/7_Vir"
+    },
+    {
+        "name": "31_Crt"
+    },
+    {
+        "name": "pi._Vir/8_Vir"
+    },
+    {
+        "name": "67_UMa"
+    },
+    {
+        "name": "the01_Cru"
+    },
+    {
+        "name": "2_Com"
+    },
+    {
+        "name": "the02_Cru"
+    },
+    {
+        "name": "kap_Cha"
+    },
+    {
+        "name": "omi_Vir/9_Vir"
+    },
+    {
+        "name": "eta_Cru"
+    },
+    {
+        "name": "E_Cen"
+    },
+    {
+        "name": "del_Cen"
+    },
+    {
+        "name": "alf_Crv/1_Crv"
+    },
+    {
+        "name": "10_Vir"
+    },
+    {
+        "name": "11_Vir"
+    },
+    {
+        "name": "eps_Crv/2_Crv"
+    },
+    {
+        "name": "3_Com"
+    },
+    {
+        "name": "3_Crv"
+    },
+    {
+        "name": "rho_Cen"
+    },
+    {
+        "name": "68_UMa"
+    },
+    {
+        "name": "4_Com"
+    },
+    {
+        "name": "5_Com"
+    },
+    {
+        "name": "12_Vir"
+    },
+    {
+        "name": "D_Cen"
+    },
+    {
+        "name": "del_Cru"
+    },
+    {
+        "name": "del_UMa/69_UMa/Megrez"
+    },
+    {
+        "name": "gam_Crv/4_Crv"
+    },
+    {
+        "name": "6_Com"
+    },
+    {
+        "name": "2_CVn"
+    },
+    {
+        "name": "7_Com"
+    },
+    {
+        "name": "eps_Mus"
+    },
+    {
+        "name": "bet_Cha"
+    },
+    {
+        "name": "zet_Cru"
+    },
+    {
+        "name": "13_Vir"
+    },
+    {
+        "name": "F_Cen"
+    },
+    {
+        "name": "8_Com"
+    },
+    {
+        "name": "9_Com"
+    },
+    {
+        "name": "3_CVn"
+    },
+    {
+        "name": "eta_Vir/15_Vir"
+    },
+    {
+        "name": "c_Vir/16_Vir"
+    },
+    {
+        "name": "zet_Crv/5_Crv"
+    },
+    {
+        "name": "11_Com"
+    },
+    {
+        "name": "70_UMa"
+    },
+    {
+        "name": "eps_Cru"
+    },
+    {
+        "name": "zet02_Mus"
+    },
+    {
+        "name": "zet01_Mus"
+    },
+    {
+        "name": "12_Com"
+    },
+    {
+        "name": "17_Vir"
+    },
+    {
+        "name": "6_Crv"
+    },
+    {
+        "name": "x01_Cen"
+    },
+    {
+        "name": "4_CVn"
+    },
+    {
+        "name": "5_CVn"
+    },
+    {
+        "name": "13_Com"
+    },
+    {
+        "name": "71_UMa"
+    },
+    {
+        "name": "x02_Cen"
+    },
+    {
+        "name": "6_CVn"
+    },
+    {
+        "name": "14_Com"
+    },
+    {
+        "name": "G_Cen"
+    },
+    {
+        "name": "alf01_Cru/alf02_Cru/Acrux"
+    },
+    {
+        "name": "gam_Com/15_Com"
+    },
+    {
+        "name": "16_Com"
+    },
+    {
+        "name": "73_UMa"
+    },
+    {
+        "name": "sig_Cen"
+    },
+    {
+        "name": "u_Cen"
+    },
+    {
+        "name": "17_Com"
+    },
+    {
+        "name": "3C 273"
+    },
+    {
+        "name": "18_Com"
+    },
+    {
+        "name": "20_Com"
+    },
+    {
+        "name": "del_Crv/7_Crv"
+    },
+    {
+        "name": "74_UMa"
+    },
+    {
+        "name": "7_CVn"
+    },
+    {
+        "name": "75_UMa"
+    },
+    {
+        "name": "4_Dra"
+    },
+    {
+        "name": "21_Com"
+    },
+    {
+        "name": "gam_Cru"
+    },
+    {
+        "name": "35_Cru"
+    },
+    {
+        "name": "eta_Crv/8_Crv"
+    },
+    {
+        "name": "gam_Mus"
+    },
+    {
+        "name": "20_Vir"
+    },
+    {
+        "name": "kap_Dra/5_Dra"
+    },
+    {
+        "name": "22_Com"
+    },
+    {
+        "name": "bet_CVn/8_CVn"
+    },
+    {
+        "name": "q_Vir/21_Vir"
+    },
+    {
+        "name": "bet_Crv/9_Crv"
+    },
+    {
+        "name": "6_Dra"
+    },
+    {
+        "name": "23_Com"
+    },
+    {
+        "name": "24_Com_B"
+    },
+    {
+        "name": "24_Com_A"
+    },
+    {
+        "name": "f_Vir/25_Vir"
+    },
+    {
+        "name": "25_Com"
+    },
+    {
+        "name": "alf_Mus"
+    },
+    {
+        "name": "tau_Cen"
+    },
+    {
+        "name": "9_CVn"
+    },
+    {
+        "name": "26_Com"
+    },
+    {
+        "name": "chi_Vir/26_Vir"
+    },
+    {
+        "name": "l_Cen"
+    },
+    {
+        "name": "gam_Cen"
+    },
+    {
+        "name": "76_UMa"
+    },
+    {
+        "name": "27_Vir"
+    },
+    {
+        "name": "gam_Vir/29_Vir"
+    },
+    {
+        "name": "rho_Vir/30_Vir"
+    },
+    {
+        "name": "39_Cru"
+    },
+    {
+        "name": "d01_Vir/31_Vir"
+    },
+    {
+        "name": "w_Cen"
+    },
+    {
+        "name": "10_CVn"
+    },
+    {
+        "name": "d02_Vir/32_Vir"
+    },
+    {
+        "name": "iot_Cru"
+    },
+    {
+        "name": "bet_Mus"
+    },
+    {
+        "name": "33_Vir"
+    },
+    {
+        "name": "27_Com"
+    },
+    {
+        "name": "34_Vir"
+    },
+    {
+        "name": "7_Dra"
+    },
+    {
+        "name": "bet_Cru"
+    },
+    {
+        "name": "35_Vir"
+    },
+    {
+        "name": "28_Com"
+    },
+    {
+        "name": "11_CVn"
+    },
+    {
+        "name": "29_Com"
+    },
+    {
+        "name": "30_Com"
+    },
+    {
+        "name": "p_Cen"
+    },
+    {
+        "name": "37_Vir"
+    },
+    {
+        "name": "31_Com"
+    },
+    {
+        "name": "32_Com"
+    },
+    {
+        "name": "e_Cen"
+    },
+    {
+        "name": "38_Vir"
+    },
+    {
+        "name": "35_Com"
+    },
+    {
+        "name": "n_Cen"
+    },
+    {
+        "name": "kap_Cru"
+    },
+    {
+        "name": "41_Vir"
+    },
+    {
+        "name": "eps_UMa/77_UMa/Alioth"
+    },
+    {
+        "name": "psi_Vir/40_Vir"
+    },
+    {
+        "name": "mu.01_Cru"
+    },
+    {
+        "name": "mu.02_Cru"
+    },
+    {
+        "name": "lam_Cru"
+    },
+    {
+        "name": "iot_Oct"
+    },
+    {
+        "name": "8_Dra"
+    },
+    {
+        "name": "del_Vir/43_Vir"
+    },
+    {
+        "name": "alf01_CVn/12_CVn_B"
+    },
+    {
+        "name": "alf02_CVn/12_CVn_A/Cor Caroli"
+    },
+    {
+        "name": "H_Cen"
+    },
+    {
+        "name": "36_Com"
+    },
+    {
+        "name": "k_Vir/44_Vir"
+    },
+    {
+        "name": "9_Dra"
+    },
+    {
+        "name": "37_Com"
+    },
+    {
+        "name": "46_Vir"
+    },
+    {
+        "name": "78_UMa"
+    },
+    {
+        "name": "38_Com"
+    },
+    {
+        "name": "eps_Vir/47_Vir/Vindemiatrix"
+    },
+    {
+        "name": "del_Mus"
+    },
+    {
+        "name": "ksi01_Cen"
+    },
+    {
+        "name": "48_Vir"
+    },
+    {
+        "name": "14_CVn"
+    },
+    {
+        "name": "f_Cen"
+    },
+    {
+        "name": "39_Com"
+    },
+    {
+        "name": "40_Com"
+    },
+    {
+        "name": "ksi02_Cen"
+    },
+    {
+        "name": "41_Com"
+    },
+    {
+        "name": "49_Vir"
+    },
+    {
+        "name": "the_Mus"
+    },
+    {
+        "name": "g_Vir"
+    },
+    {
+        "name": "psi_Hya/45_Hya"
+    },
+    {
+        "name": "15_CVn"
+    },
+    {
+        "name": "50_Vir"
+    },
+    {
+        "name": "the_Vir/51_Vir"
+    },
+    {
+        "name": "alf_Com/42_Com"
+    },
+    {
+        "name": "17_CVn"
+    },
+    {
+        "name": "bet_Com/43_Com"
+    },
+    {
+        "name": "53_Vir"
+    },
+    {
+        "name": "54_Vir"
+    },
+    {
+        "name": "55_Vir"
+    },
+    {
+        "name": "eta_Mus"
+    },
+    {
+        "name": "19_CVn"
+    },
+    {
+        "name": "57_Vir"
+    },
+    {
+        "name": "e_Vir/59_Vir"
+    },
+    {
+        "name": "r_Cen"
+    },
+    {
+        "name": "20_CVn"
+    },
+    {
+        "name": "sig_Vir/60_Vir"
+    },
+    {
+        "name": "21_CVn"
+    },
+    {
+        "name": "61_Vir"
+    },
+    {
+        "name": "gam_Hya/46_Hya"
+    },
+    {
+        "name": "23_CVn"
+    },
+    {
+        "name": "iot_Cen"
+    },
+    {
+        "name": "64_Vir"
+    },
+    {
+        "name": "J_Cen"
+    },
+    {
+        "name": "63_Vir"
+    },
+    {
+        "name": "65_Vir"
+    },
+    {
+        "name": "zet_UMa/79_UMa/Mizar"
+    },
+    {
+        "name": "m_Cen"
+    },
+    {
+        "name": "66_Vir"
+    },
+    {
+        "name": "iot01_Mus"
+    },
+    {
+        "name": "alf_Vir/67_Vir/Spica"
+    },
+    {
+        "name": "80_UMa/Alcor"
+    },
+    {
+        "name": "i_Vir/68_Vir"
+    },
+    {
+        "name": "iot02_Mus"
+    },
+    {
+        "name": "69_Vir"
+    },
+    {
+        "name": "70_Vir"
+    },
+    {
+        "name": "71_Vir"
+    },
+    {
+        "name": "K_Cen"
+    },
+    {
+        "name": "72_Vir"
+    },
+    {
+        "name": "d_Cen"
+    },
+    {
+        "name": "l_Vir/74_Vir"
+    },
+    {
+        "name": "73_Vir"
+    },
+    {
+        "name": "75_Vir"
+    },
+    {
+        "name": "h_Vir/76_Vir"
+    },
+    {
+        "name": "81_UMa"
+    },
+    {
+        "name": "o_Vir/78_Vir"
+    },
+    {
+        "name": "24_CVn"
+    },
+    {
+        "name": "zet_Vir/79_Vir"
+    },
+    {
+        "name": "80_Vir"
+    },
+    {
+        "name": "25_CVn"
+    },
+    {
+        "name": "82_UMa"
+    },
+    {
+        "name": "eps_Cen"
+    },
+    {
+        "name": "1_Boo"
+    },
+    {
+        "name": "83_UMa"
+    },
+    {
+        "name": "kap_Oct"
+    },
+    {
+        "name": "2_Boo"
+    },
+    {
+        "name": "m_Vir/82_Vir"
+    },
+    {
+        "name": "Q_Cen"
+    },
+    {
+        "name": "84_Vir"
+    },
+    {
+        "name": "83_Vir"
+    },
+    {
+        "name": "85_Vir"
+    },
+    {
+        "name": "i_Cen/1_Cen"
+    },
+    {
+        "name": "86_Vir"
+    },
+    {
+        "name": "84_UMa"
+    },
+    {
+        "name": "M_Cen"
+    },
+    {
+        "name": "3_Boo"
+    },
+    {
+        "name": "z_Cen"
+    },
+    {
+        "name": "tau_Boo/4_Boo"
+    },
+    {
+        "name": "87_Vir"
+    },
+    {
+        "name": "eta_UMa/85_UMa/Alkaid"
+    },
+    {
+        "name": "2_Cen"
+    },
+    {
+        "name": "ups_Boo/5_Boo"
+    },
+    {
+        "name": "nu._Cen"
+    },
+    {
+        "name": "mu._Cen"
+    },
+    {
+        "name": "e_Boo/6_Boo"
+    },
+    {
+        "name": "89_Vir"
+    },
+    {
+        "name": "i_Dra/10_Dra"
+    },
+    {
+        "name": "3_Cen"
+    },
+    {
+        "name": "h_Cen/4_Cen"
+    },
+    {
+        "name": "7_Boo"
+    },
+    {
+        "name": "y_Cen"
+    },
+    {
+        "name": "86_UMa"
+    },
+    {
+        "name": "eta_Boo/8_Boo"
+    },
+    {
+        "name": "p_Vir/90_Vir"
+    },
+    {
+        "name": "zet_Cen"
+    },
+    {
+        "name": "92_Vir"
+    },
+    {
+        "name": "9_Boo"
+    },
+    {
+        "name": "phi_Cen"
+    },
+    {
+        "name": "47_Hya"
+    },
+    {
+        "name": "10_Boo"
+    },
+    {
+        "name": "ups01_Cen"
+    },
+    {
+        "name": "48_Hya"
+    },
+    {
+        "name": "11_Boo"
+    },
+    {
+        "name": "tau_Vir/93_Vir"
+    },
+    {
+        "name": "ups02_Cen"
+    },
+    {
+        "name": "bet_Cen/Agena/Hadar"
+    },
+    {
+        "name": "alf_Dra/11_Dra/Thuban"
+    },
+    {
+        "name": "the_Aps"
+    },
+    {
+        "name": "chi_Cen"
+    },
+    {
+        "name": "pi._Hya/49_Hya"
+    },
+    {
+        "name": "the_Cen/5_Cen"
+    },
+    {
+        "name": "95_Vir"
+    },
+    {
+        "name": "3_UMi"
+    },
+    {
+        "name": "13_Boo"
+    },
+    {
+        "name": "4_UMi"
+    },
+    {
+        "name": "96_Vir"
+    },
+    {
+        "name": "d_Boo/12_Boo"
+    },
+    {
+        "name": "50_Hya"
+    },
+    {
+        "name": "kap_Vir/98_Vir"
+    },
+    {
+        "name": "kap01_Boo/17_Boo_B"
+    },
+    {
+        "name": "kap02_Boo/17_Boo_A"
+    },
+    {
+        "name": "14_Boo"
+    },
+    {
+        "name": "15_Boo"
+    },
+    {
+        "name": "alf_Boo/16_Boo/Arcturus"
+    },
+    {
+        "name": "iot_Vir/99_Vir"
+    },
+    {
+        "name": "iot_Boo/21_Boo"
+    },
+    {
+        "name": "lam_Boo/19_Boo"
+    },
+    {
+        "name": "A_Boo"
+    },
+    {
+        "name": "eta_Aps"
+    },
+    {
+        "name": "lam_Vir/100_Vir"
+    },
+    {
+        "name": "18_Boo"
+    },
+    {
+        "name": "iot_Lup"
+    },
+    {
+        "name": "ups_Vir/102_Vir"
+    },
+    {
+        "name": "20_Boo"
+    },
+    {
+        "name": "v_Cen"
+    },
+    {
+        "name": "psi_Cen"
+    },
+    {
+        "name": "eps_Aps"
+    },
+    {
+        "name": "a_Cen"
+    },
+    {
+        "name": "k_Hya/51_Hya"
+    },
+    {
+        "name": "2_Lib"
+    },
+    {
+        "name": "the_Boo/23_Boo"
+    },
+    {
+        "name": "tau01_Lup"
+    },
+    {
+        "name": "tau02_Lup"
+    },
+    {
+        "name": "f_Boo/22_Boo"
+    },
+    {
+        "name": "del_Oct"
+    },
+    {
+        "name": "104_Vir"
+    },
+    {
+        "name": "5_UMi"
+    },
+    {
+        "name": "l_Hya/52_Hya"
+    },
+    {
+        "name": "phi_Vir/105_Vir"
+    },
+    {
+        "name": "g_Boo/24_Boo"
+    },
+    {
+        "name": "106_Vir"
+    },
+    {
+        "name": "alf_Cen_C/Proxima"
+    },
+    {
+        "name": "rho_Boo/25_Boo"
+    },
+    {
+        "name": "gam_Boo/27_Boo"
+    },
+    {
+        "name": "26_Boo"
+    },
+    {
+        "name": "sig_Lup"
+    },
+    {
+        "name": "sig_Boo/28_Boo"
+    },
+    {
+        "name": "eta_Cen"
+    },
+    {
+        "name": "rho_Lup"
+    },
+    {
+        "name": "33_Boo"
+    },
+    {
+        "name": "alf02_Cen"
+    },
+    {
+        "name": "alf01_Cen/Rigil Kent"
+    },
+    {
+        "name": "pi.01_Boo/pi.02_Boo/29_Boo"
+    },
+    {
+        "name": "zet_Boo/30_Boo"
+    },
+    {
+        "name": "31_Boo"
+    },
+    {
+        "name": "32_Boo"
+    },
+    {
+        "name": "alf_Lup"
+    },
+    {
+        "name": "alf_Cir"
+    },
+    {
+        "name": "mu._Vir/107_Vir"
+    },
+    {
+        "name": "4_Lib"
+    },
+    {
+        "name": "34_Boo"
+    },
+    {
+        "name": "c01_Cen"
+    },
+    {
+        "name": "c02_Cen"
+    },
+    {
+        "name": "eps_Boo/36_Boo/Izar"
+    },
+    {
+        "name": "omi_Boo/35_Boo"
+    },
+    {
+        "name": "108_Vir"
+    },
+    {
+        "name": "5_Lib"
+    },
+    {
+        "name": "m_Hya/54_Hya"
+    },
+    {
+        "name": "109_Vir"
+    },
+    {
+        "name": "b_Lup"
+    },
+    {
+        "name": "55_Hya"
+    },
+    {
+        "name": "56_Hya"
+    },
+    {
+        "name": "alf_Aps"
+    },
+    {
+        "name": "57_Hya"
+    },
+    {
+        "name": "h_Boo/38_Boo"
+    },
+    {
+        "name": "mu._Lib/7_Lib"
+    },
+    {
+        "name": "39_Boo"
+    },
+    {
+        "name": "E_Hya/58_Hya"
+    },
+    {
+        "name": "alf01_Lib/8_Lib"
+    },
+    {
+        "name": "bet_UMi/7_UMi/Kocab"
+    },
+    {
+        "name": "alf02_Lib/9_Lib"
+    },
+    {
+        "name": "11_Lib"
+    },
+    {
+        "name": "ksi_Boo/37_Boo"
+    },
+    {
+        "name": "omi_Lup"
+    },
+    {
+        "name": "12_Lib"
+    },
+    {
+        "name": "ksi01_Lib/13_Lib"
+    },
+    {
+        "name": "zet_Cir"
+    },
+    {
+        "name": "c_Lup"
+    },
+    {
+        "name": "the_Cir"
+    },
+    {
+        "name": "ksi02_Lib/15_Lib"
+    },
+    {
+        "name": "16_Lib"
+    },
+    {
+        "name": "17_Lib"
+    },
+    {
+        "name": "bet_Lup"
+    },
+    {
+        "name": "59_Hya"
+    },
+    {
+        "name": "18_Lib"
+    },
+    {
+        "name": "kap_Cen"
+    },
+    {
+        "name": "40_Boo"
+    },
+    {
+        "name": "del_Lib/19_Lib"
+    },
+    {
+        "name": "pi.01_Oct"
+    },
+    {
+        "name": "bet_Boo/42_Boo"
+    },
+    {
+        "name": "60_Hya"
+    },
+    {
+        "name": "ome_Boo/41_Boo"
+    },
+    {
+        "name": "110_Vir"
+    },
+    {
+        "name": "i_Boo/44_Boo"
+    },
+    {
+        "name": "sig_Lib/20_Lib/gam_Sco"
+    },
+    {
+        "name": "psi_Boo/43_Boo"
+    },
+    {
+        "name": "pi.02_Oct"
+    },
+    {
+        "name": "eta_Cir"
+    },
+    {
+        "name": "pi._Lup"
+    },
+    {
+        "name": "k_Boo/47_Boo"
+    },
+    {
+        "name": "nu._Lib/21_Lib"
+    },
+    {
+        "name": "c_Boo/45_Boo"
+    },
+    {
+        "name": "b_Boo/46_Boo"
+    },
+    {
+        "name": "lam_Lup"
+    },
+    {
+        "name": "ome_Oct"
+    },
+    {
+        "name": "kap01_Lup"
+    },
+    {
+        "name": "kap02_Lup"
+    },
+    {
+        "name": "iot01_Lib/24_Lib"
+    },
+    {
+        "name": "zet_Lup"
+    },
+    {
+        "name": "e_Lup"
+    },
+    {
+        "name": "iot02_Lib/25_Lib"
+    },
+    {
+        "name": "23_Lib"
+    },
+    {
+        "name": "chi_Boo/48_Boo"
+    },
+    {
+        "name": "26_Lib"
+    },
+    {
+        "name": "i_Lup/1_Lup"
+    },
+    {
+        "name": "3_Ser"
+    },
+    {
+        "name": "del_Boo/49_Boo"
+    },
+    {
+        "name": "4_Ser"
+    },
+    {
+        "name": "del_Cir"
+    },
+    {
+        "name": "bet_Lib/27_Lib"
+    },
+    {
+        "name": "11_UMi"
+    },
+    {
+        "name": "bet_Cir"
+    },
+    {
+        "name": "eps_Cir"
+    },
+    {
+        "name": "f_Lup/2_Lup"
+    },
+    {
+        "name": "mu._Lup"
+    },
+    {
+        "name": "gam_TrA"
+    },
+    {
+        "name": "5_Ser"
+    },
+    {
+        "name": "omi_CrB/1_CrB"
+    },
+    {
+        "name": "gam_UMi/13_UMi"
+    },
+    {
+        "name": "28_Lib"
+    },
+    {
+        "name": "omi_Lib/29_Lib"
+    },
+    {
+        "name": "6_Ser"
+    },
+    {
+        "name": "del_Lup"
+    },
+    {
+        "name": "phi01_Lup"
+    },
+    {
+        "name": "50_Boo"
+    },
+    {
+        "name": "nu.02_Lup"
+    },
+    {
+        "name": "nu.01_Lup"
+    },
+    {
+        "name": "7_Ser"
+    },
+    {
+        "name": "eps_Lup"
+    },
+    {
+        "name": "phi02_Lup"
+    },
+    {
+        "name": "eta_CrB/2_CrB"
+    },
+    {
+        "name": "gam_Cir"
+    },
+    {
+        "name": "8_Ser"
+    },
+    {
+        "name": "eps_Lib/31_Lib"
+    },
+    {
+        "name": "mu.01_Boo/51_Boo_A"
+    },
+    {
+        "name": "mu.02_Boo/51_Boo_B"
+    },
+    {
+        "name": "ups_Lup"
+    },
+    {
+        "name": "iot_Dra/12_Dra"
+    },
+    {
+        "name": "k_Lup"
+    },
+    {
+        "name": "tau01_Ser/9_Ser"
+    },
+    {
+        "name": "bet_CrB/3_CrB"
+    },
+    {
+        "name": "zet01_Lib/32_Lib"
+    },
+    {
+        "name": "10_Ser"
+    },
+    {
+        "name": "33_Lib"
+    },
+    {
+        "name": "zet03_Lib/34_Lib"
+    },
+    {
+        "name": "nu.01_Boo/52_Boo"
+    },
+    {
+        "name": "the_UMi/15_UMi"
+    },
+    {
+        "name": "kap01_Aps"
+    },
+    {
+        "name": "nu.02_Boo/53_Boo"
+    },
+    {
+        "name": "tau02_Ser/12_Ser"
+    },
+    {
+        "name": "zet_Lib/zet04_Lib/35_Lib"
+    },
+    {
+        "name": "the_CrB/4_CrB"
+    },
+    {
+        "name": "11_Ser"
+    },
+    {
+        "name": "37_Lib"
+    },
+    {
+        "name": "36_Lib"
+    },
+    {
+        "name": "alf_CrB/5_CrB/Alphekka"
+    },
+    {
+        "name": "del_Ser/13_Ser"
+    },
+    {
+        "name": "gam_Lup"
+    },
+    {
+        "name": "mu._CrB/6_CrB"
+    },
+    {
+        "name": "gam_Lib/38_Lib"
+    },
+    {
+        "name": "tau03_Ser/15_Ser"
+    },
+    {
+        "name": "d_Lup"
+    },
+    {
+        "name": "tau04_Ser"
+    },
+    {
+        "name": "tau05_Ser/18_Ser"
+    },
+    {
+        "name": "16_Ser"
+    },
+    {
+        "name": "14_Ser"
+    },
+    {
+        "name": "eps_TrA"
+    },
+    {
+        "name": "ups_Lib/39_Lib"
+    },
+    {
+        "name": "phi_Boo/54_Boo"
+    },
+    {
+        "name": "ome_Lup"
+    },
+    {
+        "name": "tau_Lib/40_Lib"
+    },
+    {
+        "name": "41_Lib"
+    },
+    {
+        "name": "zet01_CrB/zet02_CrB/7_CrB"
+    },
+    {
+        "name": "psi01_Lup/3_Lup"
+    },
+    {
+        "name": "42_Lib"
+    },
+    {
+        "name": "kap02_Aps"
+    },
+    {
+        "name": "tau06_Ser/19_Ser"
+    },
+    {
+        "name": "g_Lup"
+    },
+    {
+        "name": "iot_Ser/21_Ser"
+    },
+    {
+        "name": "chi_Ser/20_Ser"
+    },
+    {
+        "name": "tau07_Ser/22_Ser"
+    },
+    {
+        "name": "kap_Lib/43_Lib"
+    },
+    {
+        "name": "h_Lup"
+    },
+    {
+        "name": "psi02_Lup/4_Lup"
+    },
+    {
+        "name": "gam_CrB/8_CrB"
+    },
+    {
+        "name": "rho_Oct"
+    },
+    {
+        "name": "pi._CrB/9_CrB"
+    },
+    {
+        "name": "psi_Ser/23_Ser"
+    },
+    {
+        "name": "zet_UMi/16_UMi"
+    },
+    {
+        "name": "eta_Lib/44_Lib"
+    },
+    {
+        "name": "alf_Ser/24_Ser/Unukalhai"
+    },
+    {
+        "name": "tau08_Ser/26_Ser"
+    },
+    {
+        "name": "25_Ser"
+    },
+    {
+        "name": "bet_Ser/28_Ser"
+    },
+    {
+        "name": "lam_Ser/27_Ser"
+    },
+    {
+        "name": "ups_Ser/31_Ser"
+    },
+    {
+        "name": "kap_Ser/35_Ser"
+    },
+    {
+        "name": "del_CrB/10_CrB"
+    },
+    {
+        "name": "mu._Ser/32_Ser"
+    },
+    {
+        "name": "ome_Ser/34_Ser"
+    },
+    {
+        "name": "eps_Ser/37_Ser"
+    },
+    {
+        "name": "chi_Lup/5_Lup"
+    },
+    {
+        "name": "b_Sco/1_Sco"
+    },
+    {
+        "name": "kap_CrB/11_CrB"
+    },
+    {
+        "name": "b_Ser/36_Ser"
+    },
+    {
+        "name": "rho_Ser/38_Ser"
+    },
+    {
+        "name": "chi_Her/1_Her"
+    },
+    {
+        "name": "39_Ser"
+    },
+    {
+        "name": "lam_Lib/45_Lib"
+    },
+    {
+        "name": "2_Sco"
+    },
+    {
+        "name": "the_Lib/46_Lib"
+    },
+    {
+        "name": "2_Her"
+    },
+    {
+        "name": "3_Sco"
+    },
+    {
+        "name": "40_Ser"
+    },
+    {
+        "name": "47_Lib"
+    },
+    {
+        "name": "bet_TrA"
+    },
+    {
+        "name": "kap_TrA"
+    },
+    {
+        "name": "4_Sco"
+    },
+    {
+        "name": "4_Her"
+    },
+    {
+        "name": "lam_CrB/12_CrB"
+    },
+    {
+        "name": "gam_Ser/41_Ser"
+    },
+    {
+        "name": "rho_Sco/5_Sco"
+    },
+    {
+        "name": "ksi01_Lup"
+    },
+    {
+        "name": "ksi02_Lup"
+    },
+    {
+        "name": "phi_Ser"
+    },
+    {
+        "name": "eps_CrB/13_CrB"
+    },
+    {
+        "name": "48_Lib"
+    },
+    {
+        "name": "pi._Sco/6_Sco"
+    },
+    {
+        "name": "eta_Lup"
+    },
+    {
+        "name": "49_Lib"
+    },
+    {
+        "name": "del_Sco/7_Sco"
+    },
+    {
+        "name": "50_Lib"
+    },
+    {
+        "name": "rho_CrB/15_CrB"
+    },
+    {
+        "name": "r_Her/5_Her"
+    },
+    {
+        "name": "iot_CrB/14_CrB"
+    },
+    {
+        "name": "the_Dra/13_Dra"
+    },
+    {
+        "name": "pi._Ser/44_Ser"
+    },
+    {
+        "name": "ups_Her/6_Her"
+    },
+    {
+        "name": "eta_Nor"
+    },
+    {
+        "name": "iot01_Nor"
+    },
+    {
+        "name": "43_Ser"
+    },
+    {
+        "name": "ksi_Sco"
+    },
+    {
+        "name": "bet01_Sco/8_Sco_A"
+    },
+    {
+        "name": "bet02_Sco/8_Sco_B"
+    },
+    {
+        "name": "del_Nor"
+    },
+    {
+        "name": "the_Lup"
+    },
+    {
+        "name": "ome01_Sco/9_Sco"
+    },
+    {
+        "name": "ome02_Sco/10_Sco"
+    },
+    {
+        "name": "11_Sco"
+    },
+    {
+        "name": "45_Ser"
+    },
+    {
+        "name": "kap_Her/7_Her_A"
+    },
+    {
+        "name": "7_Her_B"
+    },
+    {
+        "name": "47_Ser"
+    },
+    {
+        "name": "phi_Her/11_Her"
+    },
+    {
+        "name": "8_Her"
+    },
+    {
+        "name": "tau_CrB/16_CrB"
+    },
+    {
+        "name": "iot02_Nor"
+    },
+    {
+        "name": "14_Her"
+    },
+    {
+        "name": "19_UMi"
+    },
+    {
+        "name": "q_Her"
+    },
+    {
+        "name": "10_Her"
+    },
+    {
+        "name": "nu._Sco/14_Sco"
+    },
+    {
+        "name": "psi_Sco/15_Sco"
+    },
+    {
+        "name": "16_Sco"
+    },
+    {
+        "name": "c01_Sco/12_Sco"
+    },
+    {
+        "name": "c02_Sco/13_Sco"
+    },
+    {
+        "name": "20_UMi"
+    },
+    {
+        "name": "9_Her"
+    },
+    {
+        "name": "zet_Nor"
+    },
+    {
+        "name": "kap_Nor"
+    },
+    {
+        "name": "chi_Sco/17_Sco"
+    },
+    {
+        "name": "del_Oph/1_Oph"
+    },
+    {
+        "name": "sig_CrB/17_CrB"
+    },
+    {
+        "name": "the_Nor"
+    },
+    {
+        "name": "del_TrA"
+    },
+    {
+        "name": "16_Her"
+    },
+    {
+        "name": "18_Sco"
+    },
+    {
+        "name": "ups_CrB/18_CrB"
+    },
+    {
+        "name": "gam01_Nor"
+    },
+    {
+        "name": "eta_UMi/21_UMi"
+    },
+    {
+        "name": "d_Sco"
+    },
+    {
+        "name": "eps_Oph/2_Oph"
+    },
+    {
+        "name": "lam_Nor"
+    },
+    {
+        "name": "tau_Her/22_Her"
+    },
+    {
+        "name": "gam02_Nor"
+    },
+    {
+        "name": "del01_Aps"
+    },
+    {
+        "name": "del02_Aps"
+    },
+    {
+        "name": "omi_Sco/19_Sco"
+    },
+    {
+        "name": "sig_Sco/20_Sco"
+    },
+    {
+        "name": "gam_Her/20_Her"
+    },
+    {
+        "name": "sig_Ser/50_Ser"
+    },
+    {
+        "name": "ksi_CrB/19_CrB"
+    },
+    {
+        "name": "nu.01_CrB/20_CrB"
+    },
+    {
+        "name": "nu.02_CrB/21_CrB"
+    },
+    {
+        "name": "eta_Dra/14_Dra"
+    },
+    {
+        "name": "psi_Oph/4_Oph"
+    },
+    {
+        "name": "o_Her/21_Her"
+    },
+    {
+        "name": "25_Her"
+    },
+    {
+        "name": "ome_Her/24_Her"
+    },
+    {
+        "name": "rho_Oph/5_Oph"
+    },
+    {
+        "name": "chi_Oph/7_Oph"
+    },
+    {
+        "name": "eps_Nor"
+    },
+    {
+        "name": "ups_Oph/3_Oph"
+    },
+    {
+        "name": "iot_TrA"
+    },
+    {
+        "name": "15_Dra"
+    },
+    {
+        "name": "zet_TrA"
+    },
+    {
+        "name": "g_Her/30_Her"
+    },
+    {
+        "name": "alf_Sco/21_Sco/Antares"
+    },
+    {
+        "name": "34_Her"
+    },
+    {
+        "name": "i_Sco/22_Sco"
+    },
+    {
+        "name": "bet_Her/27_Her"
+    },
+    {
+        "name": "s_Her"
+    },
+    {
+        "name": "lam_Oph/10_Oph"
+    },
+    {
+        "name": "phi_Oph/8_Oph"
+    },
+    {
+        "name": "ome_Oph/9_Oph"
+    },
+    {
+        "name": "n_Her/28_Her"
+    },
+    {
+        "name": "h_Her/29_Her"
+    },
+    {
+        "name": "gam_Aps"
+    },
+    {
+        "name": "mu._Nor"
+    },
+    {
+        "name": "sig_Her/35_Her"
+    },
+    {
+        "name": "the_TrA"
+    },
+    {
+        "name": "tau_Sco/23_Sco"
+    },
+    {
+        "name": "16_Dra"
+    },
+    {
+        "name": "17_Dra"
+    },
+    {
+        "name": "12_Oph"
+    },
+    {
+        "name": "zet_Oph/13_Oph"
+    },
+    {
+        "name": "42_Her"
+    },
+    {
+        "name": "36_Her"
+    },
+    {
+        "name": "37_Her"
+    },
+    {
+        "name": "g_Dra/18_Dra"
+    },
+    {
+        "name": "zet_Her/40_Her"
+    },
+    {
+        "name": "eta01_TrA"
+    },
+    {
+        "name": "39_Her"
+    },
+    {
+        "name": "14_Oph"
+    },
+    {
+        "name": "eta_Her/44_Her"
+    },
+    {
+        "name": "bet_Aps"
+    },
+    {
+        "name": "16_Oph"
+    },
+    {
+        "name": "i_Her/43_Her"
+    },
+    {
+        "name": "eps_UMi/22_UMi"
+    },
+    {
+        "name": "25_Sco"
+    },
+    {
+        "name": "19_Oph"
+    },
+    {
+        "name": "l_Her/45_Her"
+    },
+    {
+        "name": "alf_TrA"
+    },
+    {
+        "name": "52_Her"
+    },
+    {
+        "name": "eta_Ara"
+    },
+    {
+        "name": "20_Oph"
+    },
+    {
+        "name": "eps_Sco/26_Sco"
+    },
+    {
+        "name": "k_Her/47_Her"
+    },
+    {
+        "name": "50_Her"
+    },
+    {
+        "name": "21_Oph"
+    },
+    {
+        "name": "51_Her"
+    },
+    {
+        "name": "mu.01_Sco"
+    },
+    {
+        "name": "49_Her"
+    },
+    {
+        "name": "mu.02_Sco"
+    },
+    {
+        "name": "53_Her"
+    },
+    {
+        "name": "zet01_Sco"
+    },
+    {
+        "name": "iot_Oph/25_Oph"
+    },
+    {
+        "name": "zet02_Sco"
+    },
+    {
+        "name": "23_Oph"
+    },
+    {
+        "name": "56_Her"
+    },
+    {
+        "name": "54_Her"
+    },
+    {
+        "name": "h_Dra/19_Dra"
+    },
+    {
+        "name": "20_Dra"
+    },
+    {
+        "name": "24_Oph"
+    },
+    {
+        "name": "27_Sco"
+    },
+    {
+        "name": "57_Her"
+    },
+    {
+        "name": "kap_Oph/27_Oph"
+    },
+    {
+        "name": "zet_Ara"
+    },
+    {
+        "name": "eps01_Ara"
+    },
+    {
+        "name": "26_Oph"
+    },
+    {
+        "name": "eps_Her/58_Her"
+    },
+    {
+        "name": "30_Oph"
+    },
+    {
+        "name": "d_Her/59_Her"
+    },
+    {
+        "name": "29_Oph"
+    },
+    {
+        "name": "eps02_Ara"
+    },
+    {
+        "name": "61_Her"
+    },
+    {
+        "name": "k_Sco"
+    },
+    {
+        "name": "mu._Dra/21_Dra"
+    },
+    {
+        "name": "60_Her"
+    },
+    {
+        "name": "c_Her"
+    },
+    {
+        "name": "zet_Dra/22_Dra"
+    },
+    {
+        "name": "eta_Oph/35_Oph"
+    },
+    {
+        "name": "63_Her"
+    },
+    {
+        "name": "eta_Sco"
+    },
+    {
+        "name": "37_Oph"
+    },
+    {
+        "name": "alf01_Her/alf02_Her/64_Her/Rasalgethi"
+    },
+    {
+        "name": "del_Her/65_Her"
+    },
+    {
+        "name": "pi._Her/67_Her"
+    },
+    {
+        "name": "36_Oph"
+    },
+    {
+        "name": "41_Oph"
+    },
+    {
+        "name": "lam_UMi"
+    },
+    {
+        "name": "u_Her/68_Her"
+    },
+    {
+        "name": "38_Oph"
+    },
+    {
+        "name": "e_Her/69_Her"
+    },
+    {
+        "name": "omi_Oph_B/39_Oph_B"
+    },
+    {
+        "name": "omi_Oph_A/39_Oph_A"
+    },
+    {
+        "name": "e_Oph"
+    },
+    {
+        "name": "74_Her"
+    },
+    {
+        "name": "w_Her/72_Her"
+    },
+    {
+        "name": "nu._Ser/53_Ser"
+    },
+    {
+        "name": "70_Her"
+    },
+    {
+        "name": "ksi_Oph/40_Oph"
+    },
+    {
+        "name": "zet_Aps"
+    },
+    {
+        "name": "the_Oph/42_Oph"
+    },
+    {
+        "name": "iot_Aps"
+    },
+    {
+        "name": "iot_Ara"
+    },
+    {
+        "name": "43_Oph"
+    },
+    {
+        "name": "rho_Her/75_Her"
+    },
+    {
+        "name": "73_Her"
+    },
+    {
+        "name": "bet_Ara"
+    },
+    {
+        "name": "gam_Ara"
+    },
+    {
+        "name": "kap_Ara"
+    },
+    {
+        "name": "b_Oph/44_Oph"
+    },
+    {
+        "name": "sig_Oph/49_Oph"
+    },
+    {
+        "name": "x_Her/77_Her"
+    },
+    {
+        "name": "d_Oph/45_Oph"
+    },
+    {
+        "name": "bet_Dra/23_Dra"
+    },
+    {
+        "name": "lam_Her/76_Her"
+    },
+    {
+        "name": "ups_Sco/34_Sco"
+    },
+    {
+        "name": "24_UMi"
+    },
+    {
+        "name": "del_Ara"
+    },
+    {
+        "name": "c_Oph/51_Oph"
+    },
+    {
+        "name": "78_Her"
+    },
+    {
+        "name": "alf_Ara"
+    },
+    {
+        "name": "f_Dra/27_Dra"
+    },
+    {
+        "name": "nu.01_Dra/24_Dra"
+    },
+    {
+        "name": "del_UMi/23_UMi"
+    },
+    {
+        "name": "nu.02_Dra/25_Dra"
+    },
+    {
+        "name": "29_Dra"
+    },
+    {
+        "name": "lam_Sco/35_Sco/Shaula"
+    },
+    {
+        "name": "f_Oph/53_Oph"
+    },
+    {
+        "name": "alf_Oph/55_Oph/Rasalhague"
+    },
+    {
+        "name": "26_Dra"
+    },
+    {
+        "name": "52_Oph"
+    },
+    {
+        "name": "sig_Ara"
+    },
+    {
+        "name": "y_Her/82_Her"
+    },
+    {
+        "name": "ome_Dra/28_Dra"
+    },
+    {
+        "name": "the_Sco"
+    },
+    {
+        "name": "79_Her"
+    },
+    {
+        "name": "ksi_Ser/55_Ser"
+    },
+    {
+        "name": "mu._Oph/57_Oph"
+    },
+    {
+        "name": "pi._Ara"
+    },
+    {
+        "name": "iot_Her/85_Her"
+    },
+    {
+        "name": "lam_Ara"
+    },
+    {
+        "name": "omi_Ser/56_Ser"
+    },
+    {
+        "name": "psi01_Dra_A/31_Dra_A"
+    },
+    {
+        "name": "psi01_Dra_B/31_Dra_B"
+    },
+    {
+        "name": "83_Her"
+    },
+    {
+        "name": "kap_Sco"
+    },
+    {
+        "name": "84_Her"
+    },
+    {
+        "name": "58_Oph"
+    },
+    {
+        "name": "bet_Oph/60_Oph"
+    },
+    {
+        "name": "mu._Ara"
+    },
+    {
+        "name": "61_Oph"
+    },
+    {
+        "name": "eta_Pav"
+    },
+    {
+        "name": "mu._Her/86_Her"
+    },
+    {
+        "name": "3_Sgr"
+    },
+    {
+        "name": "iot01_Sco"
+    },
+    {
+        "name": "gam_Oph/62_Oph"
+    },
+    {
+        "name": "87_Her"
+    },
+    {
+        "name": "30_Dra"
+    },
+    {
+        "name": "35_Dra"
+    },
+    {
+        "name": "z_Her/88_Her"
+    },
+    {
+        "name": "iot02_Sco"
+    },
+    {
+        "name": "f_Her/90_Her"
+    },
+    {
+        "name": "ksi_Dra/32_Dra"
+    },
+    {
+        "name": "63_Oph"
+    },
+    {
+        "name": "psi02_Dra/34_Dra"
+    },
+    {
+        "name": "89_Her"
+    },
+    {
+        "name": "the_Her/91_Her"
+    },
+    {
+        "name": "gam_Dra/33_Dra/Etamin"
+    },
+    {
+        "name": "ksi_Her/92_Her"
+    },
+    {
+        "name": "Barnard's star"
+    },
+    {
+        "name": "nu._Her/94_Her"
+    },
+    {
+        "name": "nu._Oph/64_Oph"
+    },
+    {
+        "name": "4_Sgr"
+    },
+    {
+        "name": "40_Dra"
+    },
+    {
+        "name": "93_Her"
+    },
+    {
+        "name": "41_Dra"
+    },
+    {
+        "name": "66_Oph"
+    },
+    {
+        "name": "zet_Ser/57_Ser"
+    },
+    {
+        "name": "67_Oph"
+    },
+    {
+        "name": "6_Sgr"
+    },
+    {
+        "name": "95_Her"
+    },
+    {
+        "name": "68_Oph"
+    },
+    {
+        "name": "96_Her"
+    },
+    {
+        "name": "97_Her"
+    },
+    {
+        "name": "7_Sgr"
+    },
+    {
+        "name": "tau_Oph/69_Oph"
+    },
+    {
+        "name": "9_Sgr"
+    },
+    {
+        "name": "gam01_Sgr"
+    },
+    {
+        "name": "70_Oph"
+    },
+    {
+        "name": "gam_Sgr/gam02_Sgr/10_Sgr"
+    },
+    {
+        "name": "98_Her"
+    },
+    {
+        "name": "the_Ara"
+    },
+    {
+        "name": "b_Her/99_Her"
+    },
+    {
+        "name": "71_Oph"
+    },
+    {
+        "name": "72_Oph"
+    },
+    {
+        "name": "omi_Her/103_Her"
+    },
+    {
+        "name": "100_Her_B"
+    },
+    {
+        "name": "100_Her_A"
+    },
+    {
+        "name": "pi._Pav"
+    },
+    {
+        "name": "102_Her"
+    },
+    {
+        "name": "101_Her"
+    },
+    {
+        "name": "73_Oph"
+    },
+    {
+        "name": "iot_Pav"
+    },
+    {
+        "name": "eps_Tel"
+    },
+    {
+        "name": "104_Her"
+    },
+    {
+        "name": "mu._Sgr/13_Sgr"
+    },
+    {
+        "name": "36_Dra"
+    },
+    {
+        "name": "14_Sgr"
+    },
+    {
+        "name": "15_Sgr"
+    },
+    {
+        "name": "16_Sgr"
+    },
+    {
+        "name": "37_Dra"
+    },
+    {
+        "name": "38_Dra"
+    },
+    {
+        "name": "eta_Sgr"
+    },
+    {
+        "name": "105_Her"
+    },
+    {
+        "name": "kap_Lyr/1_Lyr"
+    },
+    {
+        "name": "106_Her"
+    },
+    {
+        "name": "phi_Dra/43_Dra"
+    },
+    {
+        "name": "74_Oph"
+    },
+    {
+        "name": "108_Her"
+    },
+    {
+        "name": "del_Sgr/19_Sgr"
+    },
+    {
+        "name": "t_Her/107_Her"
+    },
+    {
+        "name": "chi_Dra/44_Dra"
+    },
+    {
+        "name": "eta_Ser/58_Ser"
+    },
+    {
+        "name": "ksi_Pav"
+    },
+    {
+        "name": "phi_Oct"
+    },
+    {
+        "name": "zet_Sct"
+    },
+    {
+        "name": "109_Her"
+    },
+    {
+        "name": "b_Dra/39_Dra"
+    },
+    {
+        "name": "eps_Sgr/20_Sgr/Kaus Australis"
+    },
+    {
+        "name": "mu._Lyr/2_Lyr"
+    },
+    {
+        "name": "18_Sgr"
+    },
+    {
+        "name": "21_Sgr"
+    },
+    {
+        "name": "42_Dra"
+    },
+    {
+        "name": "alf_Tel"
+    },
+    {
+        "name": "d_Ser/59_Ser"
+    },
+    {
+        "name": "lam_Sgr/22_Sgr"
+    },
+    {
+        "name": "zet_Tel"
+    },
+    {
+        "name": "gam_Sct"
+    },
+    {
+        "name": "c_Ser/60_Ser"
+    },
+    {
+        "name": "nu._Pav"
+    },
+    {
+        "name": "del01_Tel"
+    },
+    {
+        "name": "61_Ser"
+    },
+    {
+        "name": "del02_Tel"
+    },
+    {
+        "name": "d_Dra/45_Dra"
+    },
+    {
+        "name": "kap02_CrA"
+    },
+    {
+        "name": "kap01_CrA"
+    },
+    {
+        "name": "the_CrA"
+    },
+    {
+        "name": "24_Sgr"
+    },
+    {
+        "name": "25_Sgr"
+    },
+    {
+        "name": "alf_Sct"
+    },
+    {
+        "name": "alf_Lyr/3_Lyr/Vega"
+    },
+    {
+        "name": "e_Ser"
+    },
+    {
+        "name": "26_Sgr"
+    },
+    {
+        "name": "del_Sct"
+    },
+    {
+        "name": "c_Dra/46_Dra"
+    },
+    {
+        "name": "zet_Pav"
+    },
+    {
+        "name": "eps_Sct"
+    },
+    {
+        "name": "lam_CrA"
+    },
+    {
+        "name": "eps01_Lyr/4_Lyr"
+    },
+    {
+        "name": "eps02_Lyr/5_Lyr"
+    },
+    {
+        "name": "zet01_Lyr/6_Lyr"
+    },
+    {
+        "name": "zet02_Lyr/7_Lyr"
+    },
+    {
+        "name": "4_Aql"
+    },
+    {
+        "name": "phi_Sgr/27_Sgr"
+    },
+    {
+        "name": "110_Her"
+    },
+    {
+        "name": "28_Sgr"
+    },
+    {
+        "name": "50_Dra"
+    },
+    {
+        "name": "5_Aql"
+    },
+    {
+        "name": "111_Her"
+    },
+    {
+        "name": "bet_Sct"
+    },
+    {
+        "name": "mu._CrA"
+    },
+    {
+        "name": "the_Pav"
+    },
+    {
+        "name": "eta01_CrA"
+    },
+    {
+        "name": "eta02_CrA"
+    },
+    {
+        "name": "29_Sgr"
+    },
+    {
+        "name": "nu.01_Lyr/8_Lyr"
+    },
+    {
+        "name": "nu._Lyr/nu.02_Lyr/9_Lyr"
+    },
+    {
+        "name": "bet_Lyr/10_Lyr/Sheliak"
+    },
+    {
+        "name": "30_Sgr"
+    },
+    {
+        "name": "omi_Dra/47_Dra"
+    },
+    {
+        "name": "8_Aql"
+    },
+    {
+        "name": "lam_Pav"
+    },
+    {
+        "name": "112_Her"
+    },
+    {
+        "name": "kap_Tel"
+    },
+    {
+        "name": "del01_Lyr/11_Lyr"
+    },
+    {
+        "name": "33_Sgr"
+    },
+    {
+        "name": "nu.01_Sgr/32_Sgr"
+    },
+    {
+        "name": "ups_Dra/52_Dra"
+    },
+    {
+        "name": "del02_Lyr/12_Lyr"
+    },
+    {
+        "name": "113_Her"
+    },
+    {
+        "name": "chi_Oct"
+    },
+    {
+        "name": "nu.02_Sgr/35_Sgr"
+    },
+    {
+        "name": "sig_Sgr/34_Sgr/Nunki"
+    },
+    {
+        "name": "13_Lyr"
+    },
+    {
+        "name": "the01_Ser/63_Ser_A"
+    },
+    {
+        "name": "the02_Ser/63_Ser_B"
+    },
+    {
+        "name": "48_Dra"
+    },
+    {
+        "name": "kap_Pav"
+    },
+    {
+        "name": "eta_Sct"
+    },
+    {
+        "name": "64_Ser"
+    },
+    {
+        "name": "ksi01_Sgr/36_Sgr"
+    },
+    {
+        "name": "ksi02_Sgr/37_Sgr"
+    },
+    {
+        "name": "lam_Tel"
+    },
+    {
+        "name": "ome_Pav"
+    },
+    {
+        "name": "eps_CrA"
+    },
+    {
+        "name": "10_Aql"
+    },
+    {
+        "name": "gam_Lyr/14_Lyr"
+    },
+    {
+        "name": "11_Aql"
+    },
+    {
+        "name": "eps_Aql/13_Aql"
+    },
+    {
+        "name": "lam_Lyr/15_Lyr"
+    },
+    {
+        "name": "49_Dra"
+    },
+    {
+        "name": "16_Lyr"
+    },
+    {
+        "name": "i_Aql/12_Aql"
+    },
+    {
+        "name": "zet_Sgr/38_Sgr"
+    },
+    {
+        "name": "g_Aql/14_Aql"
+    },
+    {
+        "name": "zet_CrA"
+    },
+    {
+        "name": "omi_Sgr/39_Sgr"
+    },
+    {
+        "name": "51_Dra"
+    },
+    {
+        "name": "h_Aql/15_Aql"
+    },
+    {
+        "name": "zet_Aql/17_Aql"
+    },
+    {
+        "name": "lam_Aql/16_Aql"
+    },
+    {
+        "name": "rho_Tel"
+    },
+    {
+        "name": "gam_CrA"
+    },
+    {
+        "name": "tau_Sgr/40_Sgr"
+    },
+    {
+        "name": "18_Aql"
+    },
+    {
+        "name": "iot_Lyr/18_Lyr"
+    },
+    {
+        "name": "17_Lyr"
+    },
+    {
+        "name": "del_CrA"
+    },
+    {
+        "name": "19_Aql"
+    },
+    {
+        "name": "59_Dra"
+    },
+    {
+        "name": "alf_CrA"
+    },
+    {
+        "name": "55_Dra"
+    },
+    {
+        "name": "pi._Sgr/41_Sgr"
+    },
+    {
+        "name": "bet_CrA"
+    },
+    {
+        "name": "53_Dra"
+    },
+    {
+        "name": "19_Lyr"
+    },
+    {
+        "name": "del_Dra/57_Dra"
+    },
+    {
+        "name": "20_Aql"
+    },
+    {
+        "name": "21_Aql"
+    },
+    {
+        "name": "eta_Lyr/20_Lyr"
+    },
+    {
+        "name": "54_Dra"
+    },
+    {
+        "name": "1_Sge"
+    },
+    {
+        "name": "psi_Sgr/42_Sgr"
+    },
+    {
+        "name": "tau_Dra/60_Dra"
+    },
+    {
+        "name": "1_Vul"
+    },
+    {
+        "name": "the_Lyr/21_Lyr"
+    },
+    {
+        "name": "tau_Pav"
+    },
+    {
+        "name": "22_Aql"
+    },
+    {
+        "name": "kap_Cyg/1_Cyg"
+    },
+    {
+        "name": "d_Sgr/43_Sgr"
+    },
+    {
+        "name": "2_Vul"
+    },
+    {
+        "name": "ome01_Aql/25_Aql"
+    },
+    {
+        "name": "23_Aql"
+    },
+    {
+        "name": "24_Aql"
+    },
+    {
+        "name": "28_Aql"
+    },
+    {
+        "name": "ome02_Aql/29_Aql"
+    },
+    {
+        "name": "f_Aql/26_Aql"
+    },
+    {
+        "name": "d_Aql/27_Aql"
+    },
+    {
+        "name": "pi._Dra/58_Dra"
+    },
+    {
+        "name": "rho01_Sgr/44_Sgr"
+    },
+    {
+        "name": "ups_Sgr/46_Sgr"
+    },
+    {
+        "name": "rho02_Sgr/45_Sgr"
+    },
+    {
+        "name": "bet01_Sgr"
+    },
+    {
+        "name": "3_Vul"
+    },
+    {
+        "name": "eta_Tel"
+    },
+    {
+        "name": "bet02_Sgr"
+    },
+    {
+        "name": "alf_Sgr"
+    },
+    {
+        "name": "2_Cyg"
+    },
+    {
+        "name": "2_Sge"
+    },
+    {
+        "name": "b_Aql/31_Aql"
+    },
+    {
+        "name": "chi01_Sgr/47_Sgr"
+    },
+    {
+        "name": "4_Vul"
+    },
+    {
+        "name": "del_Aql/30_Aql"
+    },
+    {
+        "name": "chi03_Sgr/49_Sgr"
+    },
+    {
+        "name": "4_Cyg"
+    },
+    {
+        "name": "5_Vul"
+    },
+    {
+        "name": "50_Sgr"
+    },
+    {
+        "name": "nu._Aql/32_Aql"
+    },
+    {
+        "name": "iot01_Cyg/7_Cyg"
+    },
+    {
+        "name": "alf_Vul/6_Vul"
+    },
+    {
+        "name": "8_Vul"
+    },
+    {
+        "name": "c_Aql/35_Aql"
+    },
+    {
+        "name": "7_Vul"
+    },
+    {
+        "name": "iot_Cyg/iot02_Cyg/10_Cyg"
+    },
+    {
+        "name": "mu._Tel"
+    },
+    {
+        "name": "e_Aql/36_Aql"
+    },
+    {
+        "name": "bet01_Cyg/6_Cyg_A/Albireo"
+    },
+    {
+        "name": "bet02_Cyg/6_Cyg_B"
+    },
+    {
+        "name": "8_Cyg"
+    },
+    {
+        "name": "sig_Dra/61_Dra"
+    },
+    {
+        "name": "mu._Aql/38_Aql"
+    },
+    {
+        "name": "9_Vul"
+    },
+    {
+        "name": "Campbell's star"
+    },
+    {
+        "name": "9_Cyg"
+    },
+    {
+        "name": "37_Aql"
+    },
+    {
+        "name": "iot_Tel"
+    },
+    {
+        "name": "11_Cyg"
+    },
+    {
+        "name": "h01_Sgr/51_Sgr"
+    },
+    {
+        "name": "the_Cyg/13_Cyg"
+    },
+    {
+        "name": "h02_Sgr/52_Sgr"
+    },
+    {
+        "name": "iot_Aql/41_Aql"
+    },
+    {
+        "name": "kap_Aql/39_Aql"
+    },
+    {
+        "name": "eps_Sge/4_Sge"
+    },
+    {
+        "name": "42_Aql"
+    },
+    {
+        "name": "sig_Aql/44_Aql"
+    },
+    {
+        "name": "phi_Cyg/12_Cyg"
+    },
+    {
+        "name": "14_Cyg"
+    },
+    {
+        "name": "53_Sgr"
+    },
+    {
+        "name": "alf_Sge/5_Sge"
+    },
+    {
+        "name": "45_Aql"
+    },
+    {
+        "name": "e01_Sgr/54_Sgr"
+    },
+    {
+        "name": "bet_Sge/6_Sge"
+    },
+    {
+        "name": "16_Cyg"
+    },
+    {
+        "name": "46_Aql"
+    },
+    {
+        "name": "e02_Sgr/55_Sgr"
+    },
+    {
+        "name": "chi_Aql/47_Aql"
+    },
+    {
+        "name": "10_Vul"
+    },
+    {
+        "name": "15_Cyg"
+    },
+    {
+        "name": "psi_Aql/48_Aql"
+    },
+    {
+        "name": "del_Cyg/18_Cyg"
+    },
+    {
+        "name": "ups_Aql/49_Aql"
+    },
+    {
+        "name": "gam_Aql/50_Aql/Tarazed"
+    },
+    {
+        "name": "f_Sgr/56_Sgr"
+    },
+    {
+        "name": "17_Cyg"
+    },
+    {
+        "name": "del_Sge/7_Sge"
+    },
+    {
+        "name": "nu._Tel"
+    },
+    {
+        "name": "eps_Dra/63_Dra"
+    },
+    {
+        "name": "pi._Aql/52_Aql"
+    },
+    {
+        "name": "zet_Sge/8_Sge"
+    },
+    {
+        "name": "chi_Cyg"
+    },
+    {
+        "name": "19_Cyg"
+    },
+    {
+        "name": "d_Cyg/20_Cyg"
+    },
+    {
+        "name": "alf_Aql/53_Aql/Altair"
+    },
+    {
+        "name": "51_Aql"
+    },
+    {
+        "name": "omi_Aql/54_Aql"
+    },
+    {
+        "name": "12_Vul"
+    },
+    {
+        "name": "57_Sgr"
+    },
+    {
+        "name": "9_Sge"
+    },
+    {
+        "name": "eta_Aql/55_Aql"
+    },
+    {
+        "name": "23_Cyg"
+    },
+    {
+        "name": "13_Vul"
+    },
+    {
+        "name": "56_Aql"
+    },
+    {
+        "name": "ksi_Aql/59_Aql"
+    },
+    {
+        "name": "57_Aql_A"
+    },
+    {
+        "name": "57_Aql_B"
+    },
+    {
+        "name": "58_Aql"
+    },
+    {
+        "name": "iot_Sgr"
+    },
+    {
+        "name": "bet_Aql/60_Aql/Alshain"
+    },
+    {
+        "name": "psi_Cyg/24_Cyg"
+    },
+    {
+        "name": "ome_Sgr/58_Sgr"
+    },
+    {
+        "name": "22_Cyg"
+    },
+    {
+        "name": "10_Sge"
+    },
+    {
+        "name": "phi_Aql/61_Aql"
+    },
+    {
+        "name": "eta_Cyg/21_Cyg"
+    },
+    {
+        "name": "b_Sgr/59_Sgr"
+    },
+    {
+        "name": "11_Sge"
+    },
+    {
+        "name": "g_Sgr/61_Sgr"
+    },
+    {
+        "name": "Cyg X-1"
+    },
+    {
+        "name": "gam_Sge/12_Sge"
+    },
+    {
+        "name": "60_Sgr"
+    },
+    {
+        "name": "14_Vul"
+    },
+    {
+        "name": "69_Dra"
+    },
+    {
+        "name": "the01_Sgr"
+    },
+    {
+        "name": "the02_Sgr"
+    },
+    {
+        "name": "25_Cyg"
+    },
+    {
+        "name": "13_Sge"
+    },
+    {
+        "name": "mu.01_Pav"
+    },
+    {
+        "name": "eps_Pav"
+    },
+    {
+        "name": "15_Vul"
+    },
+    {
+        "name": "e_Cyg/26_Cyg"
+    },
+    {
+        "name": "e_Dra/64_Dra"
+    },
+    {
+        "name": "mu.02_Pav"
+    },
+    {
+        "name": "63_Sgr"
+    },
+    {
+        "name": "16_Vul"
+    },
+    {
+        "name": "65_Dra"
+    },
+    {
+        "name": "c_Sgr/62_Sgr"
+    },
+    {
+        "name": "rho_Dra/67_Dra"
+    },
+    {
+        "name": "15_Sge"
+    },
+    {
+        "name": "tau_Aql/63_Aql"
+    },
+    {
+        "name": "62_Aql"
+    },
+    {
+        "name": "eta_Sge/16_Sge"
+    },
+    {
+        "name": "65_Sgr"
+    },
+    {
+        "name": "66_Dra"
+    },
+    {
+        "name": "b01_Cyg/27_Cyg"
+    },
+    {
+        "name": "17_Vul"
+    },
+    {
+        "name": "ksi_Tel"
+    },
+    {
+        "name": "64_Aql"
+    },
+    {
+        "name": "del_Pav"
+    },
+    {
+        "name": "kap_Cep/1_Cep"
+    },
+    {
+        "name": "b02_Cyg/28_Cyg"
+    },
+    {
+        "name": "the_Sge/17_Sge"
+    },
+    {
+        "name": "18_Vul"
+    },
+    {
+        "name": "the_Aql/65_Aql"
+    },
+    {
+        "name": "68_Dra"
+    },
+    {
+        "name": "19_Vul"
+    },
+    {
+        "name": "ksi01_Cap/1_Cap"
+    },
+    {
+        "name": "20_Vul"
+    },
+    {
+        "name": "ksi_Cap/ksi02_Cap/2_Cap"
+    },
+    {
+        "name": "66_Aql"
+    },
+    {
+        "name": "30_Cyg"
+    },
+    {
+        "name": "33_Cyg"
+    },
+    {
+        "name": "omi01_Cyg/31_Cyg"
+    },
+    {
+        "name": "21_Vul"
+    },
+    {
+        "name": "rho_Aql/67_Aql"
+    },
+    {
+        "name": "b03_Cyg/29_Cyg"
+    },
+    {
+        "name": "omi02_Cyg/32_Cyg"
+    },
+    {
+        "name": "22_Vul"
+    },
+    {
+        "name": "23_Vul"
+    },
+    {
+        "name": "18_Sge"
+    },
+    {
+        "name": "3_Cap"
+    },
+    {
+        "name": "24_Vul"
+    },
+    {
+        "name": "alf01_Cap/5_Cap"
+    },
+    {
+        "name": "P_Cyg/34_Cyg"
+    },
+    {
+        "name": "4_Cap"
+    },
+    {
+        "name": "alf02_Cap/6_Cap"
+    },
+    {
+        "name": "36_Cyg"
+    },
+    {
+        "name": "35_Cyg"
+    },
+    {
+        "name": "sig_Cap/7_Cap"
+    },
+    {
+        "name": "71_Dra"
+    },
+    {
+        "name": "nu._Cap/8_Cap"
+    },
+    {
+        "name": "bet02_Cap"
+    },
+    {
+        "name": "bet_Cap/bet01_Cap/9_Cap"
+    },
+    {
+        "name": "25_Vul"
+    },
+    {
+        "name": "gam_Cyg/37_Cyg"
+    },
+    {
+        "name": "kap01_Sgr"
+    },
+    {
+        "name": "39_Cyg"
+    },
+    {
+        "name": "kap02_Sgr"
+    },
+    {
+        "name": "alf_Pav"
+    },
+    {
+        "name": "43_Cyg"
+    },
+    {
+        "name": "pi._Cap/10_Cap"
+    },
+    {
+        "name": "40_Cyg"
+    },
+    {
+        "name": "75_Dra"
+    },
+    {
+        "name": "68_Aql"
+    },
+    {
+        "name": "rho_Cap/11_Cap"
+    },
+    {
+        "name": "42_Cyg"
+    },
+    {
+        "name": "41_Cyg"
+    },
+    {
+        "name": "74_Dra"
+    },
+    {
+        "name": "the_Cep/2_Cep"
+    },
+    {
+        "name": "69_Aql"
+    },
+    {
+        "name": "omi_Cap_B/12_Cap_B"
+    },
+    {
+        "name": "omi_Cap_A/12_Cap_A"
+    },
+    {
+        "name": "ome01_Cyg/45_Cyg"
+    },
+    {
+        "name": "1_Del"
+    },
+    {
+        "name": "44_Cyg"
+    },
+    {
+        "name": "ome02_Cyg/46_Cyg"
+    },
+    {
+        "name": "73_Dra"
+    },
+    {
+        "name": "eps_Del/2_Del"
+    },
+    {
+        "name": "47_Cyg"
+    },
+    {
+        "name": "nu._Mic"
+    },
+    {
+        "name": "eta_Del/3_Del"
+    },
+    {
+        "name": "zet_Del/4_Del"
+    },
+    {
+        "name": "phi01_Pav"
+    },
+    {
+        "name": "26_Vul"
+    },
+    {
+        "name": "70_Aql"
+    },
+    {
+        "name": "27_Vul"
+    },
+    {
+        "name": "48_Cyg"
+    },
+    {
+        "name": "bet_Del/6_Del"
+    },
+    {
+        "name": "alf_Ind"
+    },
+    {
+        "name": "rho_Pav"
+    },
+    {
+        "name": "iot_Del/5_Del"
+    },
+    {
+        "name": "l_Aql/71_Aql"
+    },
+    {
+        "name": "29_Vul"
+    },
+    {
+        "name": "28_Vul"
+    },
+    {
+        "name": "the_Del/8_Del"
+    },
+    {
+        "name": "kap_Del/7_Del"
+    },
+    {
+        "name": "tau_Cap/tau02_Cap/14_Cap"
+    },
+    {
+        "name": "1_Aqr"
+    },
+    {
+        "name": "alf_Del/9_Del"
+    },
+    {
+        "name": "phi02_Pav"
+    },
+    {
+        "name": "ups_Cap/15_Cap"
+    },
+    {
+        "name": "49_Cyg"
+    },
+    {
+        "name": "10_Del"
+    },
+    {
+        "name": "alf_Cyg/50_Cyg/Deneb"
+    },
+    {
+        "name": "mu.02_Oct"
+    },
+    {
+        "name": "ups_Pav"
+    },
+    {
+        "name": "mu.01_Oct"
+    },
+    {
+        "name": "51_Cyg"
+    },
+    {
+        "name": "76_Dra"
+    },
+    {
+        "name": "4_Cep"
+    },
+    {
+        "name": "del_Del/11_Del"
+    },
+    {
+        "name": "eta_Ind"
+    },
+    {
+        "name": "30_Vul"
+    },
+    {
+        "name": "bet_Pav"
+    },
+    {
+        "name": "eta_Cep/3_Cep"
+    },
+    {
+        "name": "52_Cyg"
+    },
+    {
+        "name": "psi_Cap/16_Cap"
+    },
+    {
+        "name": "17_Cap"
+    },
+    {
+        "name": "eps_Cyg/53_Cyg"
+    },
+    {
+        "name": "gam01_Del/12_Del_B"
+    },
+    {
+        "name": "gam02_Del/12_Del_A"
+    },
+    {
+        "name": "lam_Cyg/54_Cyg"
+    },
+    {
+        "name": "eps_Aqr/2_Aqr"
+    },
+    {
+        "name": "k_Aqr/3_Aqr"
+    },
+    {
+        "name": "13_Del"
+    },
+    {
+        "name": "iot_Mic"
+    },
+    {
+        "name": "55_Cyg"
+    },
+    {
+        "name": "sig_Pav"
+    },
+    {
+        "name": "zet_Ind"
+    },
+    {
+        "name": "15_Del"
+    },
+    {
+        "name": "14_Del"
+    },
+    {
+        "name": "alf_Mic"
+    },
+    {
+        "name": "56_Cyg"
+    },
+    {
+        "name": "4_Aqr"
+    },
+    {
+        "name": "iot_Ind"
+    },
+    {
+        "name": "ome_Cap/18_Cap"
+    },
+    {
+        "name": "bet_Mic"
+    },
+    {
+        "name": "31_Vul"
+    },
+    {
+        "name": "5_Aqr"
+    },
+    {
+        "name": "mu._Aqr/6_Aqr"
+    },
+    {
+        "name": "57_Cyg"
+    },
+    {
+        "name": "32_Vul"
+    },
+    {
+        "name": "19_Cap"
+    },
+    {
+        "name": "bet_Ind"
+    },
+    {
+        "name": "17_Del"
+    },
+    {
+        "name": "16_Del"
+    },
+    {
+        "name": "7_Aqr"
+    },
+    {
+        "name": "nu._Cyg/58_Cyg"
+    },
+    {
+        "name": "33_Vul"
+    },
+    {
+        "name": "18_Del"
+    },
+    {
+        "name": "eps_Equ/1_Equ"
+    },
+    {
+        "name": "20_Cap"
+    },
+    {
+        "name": "f01_Cyg/59_Cyg"
+    },
+    {
+        "name": "11_Aqr"
+    },
+    {
+        "name": "60_Cyg"
+    },
+    {
+        "name": "gam_Mic"
+    },
+    {
+        "name": "zet_Mic"
+    },
+    {
+        "name": "12_Aqr"
+    },
+    {
+        "name": "eta_Cap/22_Cap"
+    },
+    {
+        "name": "3_Equ"
+    },
+    {
+        "name": "alf_Oct"
+    },
+    {
+        "name": "ksi_Cyg/62_Cyg"
+    },
+    {
+        "name": "mu._Ind"
+    },
+    {
+        "name": "4_Equ"
+    },
+    {
+        "name": "the_Cap/23_Cap"
+    },
+    {
+        "name": "del_Mic"
+    },
+    {
+        "name": "eta_Mic"
+    },
+    {
+        "name": "f02_Cyg/63_Cyg"
+    },
+    {
+        "name": "61_Cyg_A"
+    },
+    {
+        "name": "61_Cyg_B"
+    },
+    {
+        "name": "24_Cap"
+    },
+    {
+        "name": "chi_Cap/25_Cap"
+    },
+    {
+        "name": "sig_Oct"
+    },
+    {
+        "name": "27_Cap"
+    },
+    {
+        "name": "nu._Aqr/13_Aqr"
+    },
+    {
+        "name": "gam_Equ/5_Equ"
+    },
+    {
+        "name": "6_Equ"
+    },
+    {
+        "name": "zet_Cyg/64_Cyg"
+    },
+    {
+        "name": "omi_Pav"
+    },
+    {
+        "name": "del_Equ/7_Equ"
+    },
+    {
+        "name": "tau_Cyg/65_Cyg"
+    },
+    {
+        "name": "phi_Cap/28_Cap"
+    },
+    {
+        "name": "29_Cap"
+    },
+    {
+        "name": "alf_Equ/8_Equ"
+    },
+    {
+        "name": "sig_Cyg/67_Cyg"
+    },
+    {
+        "name": "ups_Cyg/66_Cyg"
+    },
+    {
+        "name": "eps_Mic"
+    },
+    {
+        "name": "30_Cap"
+    },
+    {
+        "name": "15_Aqr"
+    },
+    {
+        "name": "31_Cap"
+    },
+    {
+        "name": "68_Cyg"
+    },
+    {
+        "name": "alf_Cep/5_Cep/Alderamin"
+    },
+    {
+        "name": "6_Cep"
+    },
+    {
+        "name": "the_Ind"
+    },
+    {
+        "name": "the01_Mic"
+    },
+    {
+        "name": "16_Aqr"
+    },
+    {
+        "name": "9_Equ"
+    },
+    {
+        "name": "1_Peg"
+    },
+    {
+        "name": "iot_Cap/32_Cap"
+    },
+    {
+        "name": "bet_Equ/10_Equ"
+    },
+    {
+        "name": "17_Aqr"
+    },
+    {
+        "name": "33_Cap"
+    },
+    {
+        "name": "18_Aqr"
+    },
+    {
+        "name": "the02_Mic"
+    },
+    {
+        "name": "20_Aqr"
+    },
+    {
+        "name": "19_Aqr"
+    },
+    {
+        "name": "21_Aqr"
+    },
+    {
+        "name": "69_Cyg"
+    },
+    {
+        "name": "gam_Ind"
+    },
+    {
+        "name": "gam_Pav"
+    },
+    {
+        "name": "zet_Cap/34_Cap"
+    },
+    {
+        "name": "35_Cap"
+    },
+    {
+        "name": "70_Cyg"
+    },
+    {
+        "name": "35_Vul"
+    },
+    {
+        "name": "7_Cep"
+    },
+    {
+        "name": "bet_Cep/8_Cep"
+    },
+    {
+        "name": "b_Cap/36_Cap"
+    },
+    {
+        "name": "5_PsA"
+    },
+    {
+        "name": "g_Cyg/71_Cyg"
+    },
+    {
+        "name": "2_Peg"
+    },
+    {
+        "name": "bet_Aqr/22_Aqr"
+    },
+    {
+        "name": "ksi_Gru"
+    },
+    {
+        "name": "6_PsA"
+    },
+    {
+        "name": "rho_Cyg/73_Cyg"
+    },
+    {
+        "name": "72_Cyg"
+    },
+    {
+        "name": "37_Cap"
+    },
+    {
+        "name": "8_PsA"
+    },
+    {
+        "name": "7_PsA"
+    },
+    {
+        "name": "74_Cyg"
+    },
+    {
+        "name": "eps_Cap/39_Cap"
+    },
+    {
+        "name": "3_Peg"
+    },
+    {
+        "name": "ksi_Aqr/23_Aqr"
+    },
+    {
+        "name": "5_Peg"
+    },
+    {
+        "name": "9_Cep"
+    },
+    {
+        "name": "4_Peg"
+    },
+    {
+        "name": "d_Aqr/25_Aqr"
+    },
+    {
+        "name": "gam_Cap/40_Cap"
+    },
+    {
+        "name": "75_Cyg"
+    },
+    {
+        "name": "nu._Oct"
+    },
+    {
+        "name": "42_Cap"
+    },
+    {
+        "name": "76_Cyg"
+    },
+    {
+        "name": "11_Cep"
+    },
+    {
+        "name": "41_Cap"
+    },
+    {
+        "name": "pi.01_Cyg/80_Cyg"
+    },
+    {
+        "name": "26_Aqr"
+    },
+    {
+        "name": "7_Peg"
+    },
+    {
+        "name": "77_Cyg"
+    },
+    {
+        "name": "kap_Cap/43_Cap"
+    },
+    {
+        "name": "44_Cap"
+    },
+    {
+        "name": "79_Cyg"
+    },
+    {
+        "name": "mu._Cep"
+    },
+    {
+        "name": "45_Cap"
+    },
+    {
+        "name": "mu.01_Cyg/mu.02_Cyg/78_Cyg"
+    },
+    {
+        "name": "eps_Peg/8_Peg/Enif"
+    },
+    {
+        "name": "9_Peg"
+    },
+    {
+        "name": "kap_Peg/10_Peg"
+    },
+    {
+        "name": "iot_PsA/9_PsA"
+    },
+    {
+        "name": "c_Cap/46_Cap"
+    },
+    {
+        "name": "nu._Cep/10_Cep"
+    },
+    {
+        "name": "12_Peg"
+    },
+    {
+        "name": "47_Cap"
+    },
+    {
+        "name": "lam_Cap/48_Cap"
+    },
+    {
+        "name": "pi.02_Cyg/81_Cyg"
+    },
+    {
+        "name": "del_Cap/49_Cap"
+    },
+    {
+        "name": "11_Peg"
+    },
+    {
+        "name": "12_Cep"
+    },
+    {
+        "name": "the_PsA/10_PsA"
+    },
+    {
+        "name": "14_Peg"
+    },
+    {
+        "name": "13_Peg"
+    },
+    {
+        "name": "omi_Ind"
+    },
+    {
+        "name": "lam_Oct"
+    },
+    {
+        "name": "15_Peg"
+    },
+    {
+        "name": "16_Peg"
+    },
+    {
+        "name": "mu._Cap/51_Cap"
+    },
+    {
+        "name": "gam_Gru"
+    },
+    {
+        "name": "13_Cep"
+    },
+    {
+        "name": "pi._Ind"
+    },
+    {
+        "name": "17_Peg"
+    },
+    {
+        "name": "del_Ind"
+    },
+    {
+        "name": "kap01_Ind"
+    },
+    {
+        "name": "16_Cep"
+    },
+    {
+        "name": "18_Peg"
+    },
+    {
+        "name": "eta_PsA/12_PsA"
+    },
+    {
+        "name": "28_Aqr"
+    },
+    {
+        "name": "20_Peg"
+    },
+    {
+        "name": "19_Peg"
+    },
+    {
+        "name": "14_Cep"
+    },
+    {
+        "name": "29_Aqr"
+    },
+    {
+        "name": "30_Aqr"
+    },
+    {
+        "name": "eps_Ind"
+    },
+    {
+        "name": "omi_Aqr/31_Aqr"
+    },
+    {
+        "name": "21_Peg"
+    },
+    {
+        "name": "ksi_Cep/17_Cep"
+    },
+    {
+        "name": "18_Cep"
+    },
+    {
+        "name": "13_PsA"
+    },
+    {
+        "name": "32_Aqr"
+    },
+    {
+        "name": "20_Cep"
+    },
+    {
+        "name": "19_Cep"
+    },
+    {
+        "name": "23_Peg"
+    },
+    {
+        "name": "nu._Peg/22_Peg"
+    },
+    {
+        "name": "alf_Aqr/34_Aqr/Sadalmelik"
+    },
+    {
+        "name": "kap02_Ind"
+    },
+    {
+        "name": "lam_Gru"
+    },
+    {
+        "name": "iot_Aqr/33_Aqr"
+    },
+    {
+        "name": "iot_Peg/24_Peg"
+    },
+    {
+        "name": "25_Peg"
+    },
+    {
+        "name": "alf_Gru/Alnair"
+    },
+    {
+        "name": "mu._PsA/14_PsA"
+    },
+    {
+        "name": "ups_PsA"
+    },
+    {
+        "name": "35_Aqr"
+    },
+    {
+        "name": "pi.01_Peg/27_Peg"
+    },
+    {
+        "name": "24_Cep"
+    },
+    {
+        "name": "pi._Peg/pi.02_Peg/29_Peg"
+    },
+    {
+        "name": "tau_PsA/15_PsA"
+    },
+    {
+        "name": "the_Peg/26_Peg"
+    },
+    {
+        "name": "28_Peg"
+    },
+    {
+        "name": "e_Aqr/38_Aqr"
+    },
+    {
+        "name": "zet_Cep/21_Cep"
+    },
+    {
+        "name": "lam_Cep/22_Cep"
+    },
+    {
+        "name": "39_Aqr"
+    },
+    {
+        "name": "41_Aqr"
+    },
+    {
+        "name": "lam_PsA/16_PsA"
+    },
+    {
+        "name": "eps_Cep/23_Cep"
+    },
+    {
+        "name": "mu.01_Gru"
+    },
+    {
+        "name": "1_Lac"
+    },
+    {
+        "name": "mu.02_Gru"
+    },
+    {
+        "name": "42_Aqr"
+    },
+    {
+        "name": "the_Aqr/43_Aqr"
+    },
+    {
+        "name": "44_Aqr"
+    },
+    {
+        "name": "psi_Oct"
+    },
+    {
+        "name": "25_Cep"
+    },
+    {
+        "name": "alf_Tuc"
+    },
+    {
+        "name": "45_Aqr"
+    },
+    {
+        "name": "eps_Oct"
+    },
+    {
+        "name": "rho_Aqr/46_Aqr"
+    },
+    {
+        "name": "30_Peg"
+    },
+    {
+        "name": "2_Lac"
+    },
+    {
+        "name": "32_Peg"
+    },
+    {
+        "name": "31_Peg"
+    },
+    {
+        "name": "47_Aqr"
+    },
+    {
+        "name": "gam_Aqr/48_Aqr"
+    },
+    {
+        "name": "pi.01_Gru"
+    },
+    {
+        "name": "pi.02_Gru"
+    },
+    {
+        "name": "49_Aqr"
+    },
+    {
+        "name": "bet_Lac/3_Lac"
+    },
+    {
+        "name": "33_Peg"
+    },
+    {
+        "name": "51_Aqr"
+    },
+    {
+        "name": "50_Aqr"
+    },
+    {
+        "name": "4_Lac"
+    },
+    {
+        "name": "nu._Ind"
+    },
+    {
+        "name": "pi._Aqr/52_Aqr"
+    },
+    {
+        "name": "53_Aqr"
+    },
+    {
+        "name": "34_Peg"
+    },
+    {
+        "name": "rho01_Cep/28_Cep"
+    },
+    {
+        "name": "26_Cep"
+    },
+    {
+        "name": "del_Tuc"
+    },
+    {
+        "name": "35_Peg"
+    },
+    {
+        "name": "Kruger 60"
+    },
+    {
+        "name": "nu._Gru"
+    },
+    {
+        "name": "zet01_Aqr/zet02_Aqr/55_Aqr"
+    },
+    {
+        "name": "36_Peg"
+    },
+    {
+        "name": "del_Cep/27_Cep"
+    },
+    {
+        "name": "del01_Gru"
+    },
+    {
+        "name": "5_Lac"
+    },
+    {
+        "name": "del02_Gru"
+    },
+    {
+        "name": "rho_Cep/29_Cep"
+    },
+    {
+        "name": "37_Peg"
+    },
+    {
+        "name": "38_Peg"
+    },
+    {
+        "name": "56_Aqr"
+    },
+    {
+        "name": "6_Lac"
+    },
+    {
+        "name": "sig_Aqr/57_Aqr"
+    },
+    {
+        "name": "zet_PsA"
+    },
+    {
+        "name": "alf_Lac/7_Lac"
+    },
+    {
+        "name": "bet_PsA/17_PsA"
+    },
+    {
+        "name": "ups_Oct"
+    },
+    {
+        "name": "58_Aqr"
+    },
+    {
+        "name": "39_Peg"
+    },
+    {
+        "name": "nu._Tuc"
+    },
+    {
+        "name": "60_Aqr"
+    },
+    {
+        "name": "ups_Aqr/59_Aqr"
+    },
+    {
+        "name": "eta_Aqr/62_Aqr"
+    },
+    {
+        "name": "31_Cep"
+    },
+    {
+        "name": "8_Lac"
+    },
+    {
+        "name": "sig01_Gru"
+    },
+    {
+        "name": "sig02_Gru"
+    },
+    {
+        "name": "9_Lac"
+    },
+    {
+        "name": "kap_Aqr/63_Aqr"
+    },
+    {
+        "name": "30_Cep"
+    },
+    {
+        "name": "40_Peg"
+    },
+    {
+        "name": "10_Lac"
+    },
+    {
+        "name": "41_Peg"
+    },
+    {
+        "name": "11_Lac"
+    },
+    {
+        "name": "eps_PsA/18_PsA"
+    },
+    {
+        "name": "zet_Peg/42_Peg"
+    },
+    {
+        "name": "12_Lac"
+    },
+    {
+        "name": "omi_Peg/43_Peg"
+    },
+    {
+        "name": "19_PsA"
+    },
+    {
+        "name": "bet_Gru"
+    },
+    {
+        "name": "eta_Peg/44_Peg"
+    },
+    {
+        "name": "67_Aqr"
+    },
+    {
+        "name": "rho_Gru"
+    },
+    {
+        "name": "g_Aqr/66_Aqr"
+    },
+    {
+        "name": "13_Lac"
+    },
+    {
+        "name": "Babcock's star"
+    },
+    {
+        "name": "45_Peg"
+    },
+    {
+        "name": "eta_Gru"
+    },
+    {
+        "name": "bet_Oct"
+    },
+    {
+        "name": "lam_Peg/47_Peg"
+    },
+    {
+        "name": "ksi_Peg/46_Peg"
+    },
+    {
+        "name": "68_Aqr"
+    },
+    {
+        "name": "tau01_Aqr/69_Aqr"
+    },
+    {
+        "name": "70_Aqr"
+    },
+    {
+        "name": "eps_Gru"
+    },
+    {
+        "name": "tau_Aqr/tau02_Aqr/71_Aqr"
+    },
+    {
+        "name": "iot_Cep/32_Cep"
+    },
+    {
+        "name": "mu._Peg/48_Peg"
+    },
+    {
+        "name": "14_Lac"
+    },
+    {
+        "name": "ksi_Oct"
+    },
+    {
+        "name": "21_PsA"
+    },
+    {
+        "name": "15_Lac"
+    },
+    {
+        "name": "sig_Peg/49_Peg"
+    },
+    {
+        "name": "gam_PsA/22_PsA"
+    },
+    {
+        "name": "lam_Aqr/73_Aqr"
+    },
+    {
+        "name": "74_Aqr"
+    },
+    {
+        "name": "tau01_Gru"
+    },
+    {
+        "name": "78_Aqr"
+    },
+    {
+        "name": "del_Aqr/76_Aqr"
+    },
+    {
+        "name": "rho_Ind"
+    },
+    {
+        "name": "77_Aqr"
+    },
+    {
+        "name": "1_Psc"
+    },
+    {
+        "name": "rho_Peg/50_Peg"
+    },
+    {
+        "name": "del_PsA/23_PsA"
+    },
+    {
+        "name": "16_Lac"
+    },
+    {
+        "name": "tau03_Gru"
+    },
+    {
+        "name": "51_Peg"
+    },
+    {
+        "name": "alf_PsA/24_PsA/Fomalhaut"
+    },
+    {
+        "name": "52_Peg"
+    },
+    {
+        "name": "2_Psc"
+    },
+    {
+        "name": "3_Psc"
+    },
+    {
+        "name": "zet_Gru"
+    },
+    {
+        "name": "81_Aqr"
+    },
+    {
+        "name": "omi_And/1_And"
+    },
+    {
+        "name": "82_Aqr"
+    },
+    {
+        "name": "2_And"
+    },
+    {
+        "name": "pi._PsA"
+    },
+    {
+        "name": "bet_Peg/53_Peg/Scheat"
+    },
+    {
+        "name": "bet_Psc/4_Psc"
+    },
+    {
+        "name": "3_And"
+    },
+    {
+        "name": "kap_Gru"
+    },
+    {
+        "name": "alf_Peg/54_Peg/Markab"
+    },
+    {
+        "name": "h_Aqr/83_Aqr"
+    },
+    {
+        "name": "1_Cas"
+    },
+    {
+        "name": "c01_Aqr/86_Aqr"
+    },
+    {
+        "name": "the_Gru"
+    },
+    {
+        "name": "ups_Gru"
+    },
+    {
+        "name": "55_Peg"
+    },
+    {
+        "name": "56_Peg"
+    },
+    {
+        "name": "4_And"
+    },
+    {
+        "name": "5_And"
+    },
+    {
+        "name": "pi._Cep/33_Cep"
+    },
+    {
+        "name": "5_Psc"
+    },
+    {
+        "name": "c02_Aqr/88_Aqr"
+    },
+    {
+        "name": "57_Peg"
+    },
+    {
+        "name": "2_Cas"
+    },
+    {
+        "name": "89_Aqr"
+    },
+    {
+        "name": "58_Peg"
+    },
+    {
+        "name": "iot_Gru"
+    },
+    {
+        "name": "6_And"
+    },
+    {
+        "name": "59_Peg"
+    },
+    {
+        "name": "60_Peg"
+    },
+    {
+        "name": "7_And"
+    },
+    {
+        "name": "phi_Aqr/90_Aqr"
+    },
+    {
+        "name": "61_Peg"
+    },
+    {
+        "name": "psi01_Aqr/91_Aqr"
+    },
+    {
+        "name": "chi_Aqr/92_Aqr"
+    },
+    {
+        "name": "gam_Psc/6_Psc"
+    },
+    {
+        "name": "gam_Tuc"
+    },
+    {
+        "name": "8_And"
+    },
+    {
+        "name": "psi02_Aqr/93_Aqr"
+    },
+    {
+        "name": "phi_Gru"
+    },
+    {
+        "name": "9_And"
+    },
+    {
+        "name": "omi_Cep/34_Cep"
+    },
+    {
+        "name": "gam_Scl"
+    },
+    {
+        "name": "psi03_Aqr/95_Aqr"
+    },
+    {
+        "name": "94_Aqr"
+    },
+    {
+        "name": "96_Aqr"
+    },
+    {
+        "name": "11_And"
+    },
+    {
+        "name": "10_And"
+    },
+    {
+        "name": "7_Psc"
+    },
+    {
+        "name": "tau_Peg/62_Peg"
+    },
+    {
+        "name": "63_Peg"
+    },
+    {
+        "name": "12_And"
+    },
+    {
+        "name": "64_Peg"
+    },
+    {
+        "name": "97_Aqr"
+    },
+    {
+        "name": "65_Peg"
+    },
+    {
+        "name": "b01_Aqr/98_Aqr"
+    },
+    {
+        "name": "66_Peg"
+    },
+    {
+        "name": "4_Cas"
+    },
+    {
+        "name": "67_Peg"
+    },
+    {
+        "name": "ups_Peg/68_Peg"
+    },
+    {
+        "name": "b02_Aqr/99_Aqr"
+    },
+    {
+        "name": "omi_Gru"
+    },
+    {
+        "name": "kap_Psc/8_Psc"
+    },
+    {
+        "name": "13_And"
+    },
+    {
+        "name": "9_Psc"
+    },
+    {
+        "name": "69_Peg"
+    },
+    {
+        "name": "the_Psc/10_Psc"
+    },
+    {
+        "name": "tau_Oct"
+    },
+    {
+        "name": "70_Peg"
+    },
+    {
+        "name": "14_And"
+    },
+    {
+        "name": "100_Aqr"
+    },
+    {
+        "name": "13_Psc"
+    },
+    {
+        "name": "bet_Scl"
+    },
+    {
+        "name": "b03_Aqr/101_Aqr"
+    },
+    {
+        "name": "71_Peg"
+    },
+    {
+        "name": "72_Peg"
+    },
+    {
+        "name": "14_Psc"
+    },
+    {
+        "name": "15_And"
+    },
+    {
+        "name": "73_Peg"
+    },
+    {
+        "name": "iot_Phe"
+    },
+    {
+        "name": "16_Psc"
+    },
+    {
+        "name": "lam_And/16_And"
+    },
+    {
+        "name": "74_Peg"
+    },
+    {
+        "name": "75_Peg"
+    },
+    {
+        "name": "iot_And/17_And"
+    },
+    {
+        "name": "18_And"
+    },
+    {
+        "name": "gam_Cep/35_Cep"
+    },
+    {
+        "name": "the_Phe"
+    },
+    {
+        "name": "ome01_Aqr/102_Aqr"
+    },
+    {
+        "name": "iot_Psc/17_Psc"
+    },
+    {
+        "name": "kap_And/19_And"
+    },
+    {
+        "name": "mu._Scl"
+    },
+    {
+        "name": "103_Aqr"
+    },
+    {
+        "name": "104_Aqr"
+    },
+    {
+        "name": "lam_Psc/18_Psc"
+    },
+    {
+        "name": "ome02_Aqr/105_Aqr"
+    },
+    {
+        "name": "77_Peg"
+    },
+    {
+        "name": "78_Peg"
+    },
+    {
+        "name": "i01_Aqr/106_Aqr"
+    },
+    {
+        "name": "i02_Aqr/107_Aqr"
+    },
+    {
+        "name": "psi_And/20_And"
+    },
+    {
+        "name": "19_Psc"
+    },
+    {
+        "name": "tau_Cas/5_Cas"
+    },
+    {
+        "name": "sig_Phe"
+    },
+    {
+        "name": "20_Psc"
+    },
+    {
+        "name": "6_Cas"
+    },
+    {
+        "name": "del_Scl"
+    },
+    {
+        "name": "21_Psc"
+    },
+    {
+        "name": "79_Peg"
+    },
+    {
+        "name": "80_Peg"
+    },
+    {
+        "name": "i03_Aqr/108_Aqr"
+    },
+    {
+        "name": "22_Psc"
+    },
+    {
+        "name": "gam01_Oct"
+    },
+    {
+        "name": "phi_Peg/81_Peg"
+    },
+    {
+        "name": "82_Peg"
+    },
+    {
+        "name": "24_Psc"
+    },
+    {
+        "name": "25_Psc"
+    },
+    {
+        "name": "rho_Cas/7_Cas"
+    },
+    {
+        "name": "26_Psc"
+    },
+    {
+        "name": "gam02_Oct"
+    },
+    {
+        "name": "eta_Tuc"
+    },
+    {
+        "name": "psi_Peg/84_Peg"
+    },
+    {
+        "name": "1_Cet"
+    },
+    {
+        "name": "27_Psc"
+    },
+    {
+        "name": "pi._Phe"
+    },
+    {
+        "name": "sig_Cas/8_Cas"
+    },
+    {
+        "name": "ome_Psc/28_Psc"
+    },
+    {
+        "name": "eps_Tuc"
+    }
+]

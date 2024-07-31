@@ -32,6 +32,14 @@ const STARS = {
 const PT_NAMES = {
   R: 'Rising',
   S: 'Setting',
+  T: 'Meridian Transit'
 };
 
-export { EPH_DATE_MIN, EPH_DATE_MAX, MONTHS, STARS, PT_NAMES };
+const EQX_SOL = {
+  ve: 'Vernal Equinox',
+  ss: 'Summer Solstice',
+  ae: 'Autumnal Equinox',
+  ws: 'Winter Solstice',
+}
+
+export { EPH_DATE_MIN, EPH_DATE_MAX, MONTHS, STARS, PT_NAMES, EQX_SOL };

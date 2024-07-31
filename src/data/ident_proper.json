@@ -1,0 +1,386 @@
+[
+    {
+        "HIP": 13847,
+        "Proper Name": "Acamar"
+    },
+    {
+        "HIP": 7588,
+        "Proper Name": "Achernar"
+    },
+    {
+        "HIP": 60718,
+        "Proper Name": "Acrux"
+    },
+    {
+        "HIP": 33579,
+        "Proper Name": "Adhara"
+    },
+    {
+        "HIP": 68702,
+        "Proper Name": "Agena"
+    },
+    {
+        "HIP": 95947,
+        "Proper Name": "Albireo"
+    },
+    {
+        "HIP": 65477,
+        "Proper Name": "Alcor"
+    },
+    {
+        "HIP": 17702,
+        "Proper Name": "Alcyone"
+    },
+    {
+        "HIP": 21421,
+        "Proper Name": "Aldebaran"
+    },
+    {
+        "HIP": 105199,
+        "Proper Name": "Alderamin"
+    },
+    {
+        "HIP": 1067,
+        "Proper Name": "Algenib"
+    },
+    {
+        "HIP": 50583,
+        "Proper Name": "Algieba"
+    },
+    {
+        "HIP": 14576,
+        "Proper Name": "Algol"
+    },
+    {
+        "HIP": 31681,
+        "Proper Name": "Alhena"
+    },
+    {
+        "HIP": 62956,
+        "Proper Name": "Alioth"
+    },
+    {
+        "HIP": 67301,
+        "Proper Name": "Alkaid"
+    },
+    {
+        "HIP": 9640,
+        "Proper Name": "Almaak"
+    },
+    {
+        "HIP": 109268,
+        "Proper Name": "Alnair"
+    },
+    {
+        "HIP": 25428,
+        "Proper Name": "Alnath"
+    },
+    {
+        "HIP": 26311,
+        "Proper Name": "Alnilam"
+    },
+    {
+        "HIP": 26727,
+        "Proper Name": "Alnitak"
+    },
+    {
+        "HIP": 46390,
+        "Proper Name": "Alphard"
+    },
+    {
+        "HIP": 76267,
+        "Proper Name": "Alphekka"
+    },
+    {
+        "HIP": 677,
+        "Proper Name": "Alpheratz"
+    },
+    {
+        "HIP": 98036,
+        "Proper Name": "Alshain"
+    },
+    {
+        "HIP": 97649,
+        "Proper Name": "Altair"
+    },
+    {
+        "HIP": 2081,
+        "Proper Name": "Ankaa"
+    },
+    {
+        "HIP": 80763,
+        "Proper Name": "Antares"
+    },
+    {
+        "HIP": 69673,
+        "Proper Name": "Arcturus"
+    },
+    {
+        "HIP": 25985,
+        "Proper Name": "Arneb"
+    },
+    {
+        "HIP": 112247,
+        "Proper Name": "Babcock's star"
+    },
+    {
+        "HIP": 87937,
+        "Proper Name": "Barnard's star"
+    },
+    {
+        "HIP": 25336,
+        "Proper Name": "Bellatrix"
+    },
+    {
+        "HIP": 27989,
+        "Proper Name": "Betelgeuse"
+    },
+    {
+        "HIP": 96295,
+        "Proper Name": "Campbell's star"
+    },
+    {
+        "HIP": 30438,
+        "Proper Name": "Canopus"
+    },
+    {
+        "HIP": 24608,
+        "Proper Name": "Capella"
+    },
+    {
+        "HIP": 746,
+        "Proper Name": "Caph"
+    },
+    {
+        "HIP": 36850,
+        "Proper Name": "Castor"
+    },
+    {
+        "HIP": 63125,
+        "Proper Name": "Cor Caroli"
+    },
+    {
+        "HIP": 98298,
+        "Proper Name": "Cyg X-1"
+    },
+    {
+        "HIP": 102098,
+        "Proper Name": "Deneb"
+    },
+    {
+        "HIP": 57632,
+        "Proper Name": "Denebola"
+    },
+    {
+        "HIP": 3419,
+        "Proper Name": "Diphda"
+    },
+    {
+        "HIP": 54061,
+        "Proper Name": "Dubhe"
+    },
+    {
+        "HIP": 107315,
+        "Proper Name": "Enif"
+    },
+    {
+        "HIP": 87833,
+        "Proper Name": "Etamin"
+    },
+    {
+        "HIP": 113368,
+        "Proper Name": "Fomalhaut"
+    },
+    {
+        "HIP": 57939,
+        "Proper Name": "Groombridge 1830"
+    },
+    {
+        "HIP": 68702,
+        "Proper Name": "Hadar"
+    },
+    {
+        "HIP": 9884,
+        "Proper Name": "Hamal"
+    },
+    {
+        "HIP": 72105,
+        "Proper Name": "Izar"
+    },
+    {
+        "HIP": 24186,
+        "Proper Name": "Kapteyn's star"
+    },
+    {
+        "HIP": 90185,
+        "Proper Name": "Kaus Australis"
+    },
+    {
+        "HIP": 72607,
+        "Proper Name": "Kocab"
+    },
+    {
+        "HIP": 110893,
+        "Proper Name": "Kruger 60"
+    },
+    {
+        "HIP": 36208,
+        "Proper Name": "Luyten's star"
+    },
+    {
+        "HIP": 113963,
+        "Proper Name": "Markab"
+    },
+    {
+        "HIP": 59774,
+        "Proper Name": "Megrez"
+    },
+    {
+        "HIP": 14135,
+        "Proper Name": "Menkar"
+    },
+    {
+        "HIP": 53910,
+        "Proper Name": "Merak"
+    },
+    {
+        "HIP": 25930,
+        "Proper Name": "Mintaka"
+    },
+    {
+        "HIP": 10826,
+        "Proper Name": "Mira"
+    },
+    {
+        "HIP": 5447,
+        "Proper Name": "Mirach"
+    },
+    {
+        "HIP": 15863,
+        "Proper Name": "Mirphak"
+    },
+    {
+        "HIP": 65378,
+        "Proper Name": "Mizar"
+    },
+    {
+        "HIP": 25606,
+        "Proper Name": "Nihal"
+    },
+    {
+        "HIP": 92855,
+        "Proper Name": "Nunki"
+    },
+    {
+        "HIP": 58001,
+        "Proper Name": "Phad"
+    },
+    {
+        "HIP": 17851,
+        "Proper Name": "Pleione"
+    },
+    {
+        "HIP": 11767,
+        "Proper Name": "Polaris"
+    },
+    {
+        "HIP": 37826,
+        "Proper Name": "Pollux"
+    },
+    {
+        "HIP": 37279,
+        "Proper Name": "Procyon"
+    },
+    {
+        "HIP": 70890,
+        "Proper Name": "Proxima"
+    },
+    {
+        "HIP": 84345,
+        "Proper Name": "Rasalgethi"
+    },
+    {
+        "HIP": 86032,
+        "Proper Name": "Rasalhague"
+    },
+    {
+        "HIP": 30089,
+        "Proper Name": "Red Rectangle"
+    },
+    {
+        "HIP": 49669,
+        "Proper Name": "Regulus"
+    },
+    {
+        "HIP": 24436,
+        "Proper Name": "Rigel"
+    },
+    {
+        "HIP": 71683,
+        "Proper Name": "Rigil Kent"
+    },
+    {
+        "HIP": 109074,
+        "Proper Name": "Sadalmelik"
+    },
+    {
+        "HIP": 27366,
+        "Proper Name": "Saiph"
+    },
+    {
+        "HIP": 113881,
+        "Proper Name": "Scheat"
+    },
+    {
+        "HIP": 85927,
+        "Proper Name": "Shaula"
+    },
+    {
+        "HIP": 3179,
+        "Proper Name": "Shedir"
+    },
+    {
+        "HIP": 92420,
+        "Proper Name": "Sheliak"
+    },
+    {
+        "HIP": 32349,
+        "Proper Name": "Sirius"
+    },
+    {
+        "HIP": 65474,
+        "Proper Name": "Spica"
+    },
+    {
+        "HIP": 97278,
+        "Proper Name": "Tarazed"
+    },
+    {
+        "HIP": 68756,
+        "Proper Name": "Thuban"
+    },
+    {
+        "HIP": 77070,
+        "Proper Name": "Unukalhai"
+    },
+    {
+        "HIP": 3829,
+        "Proper Name": "Van Maanen 2"
+    },
+    {
+        "HIP": 91262,
+        "Proper Name": "Vega"
+    },
+    {
+        "HIP": 63608,
+        "Proper Name": "Vindemiatrix"
+    },
+    {
+        "HIP": 18543,
+        "Proper Name": "Zaurak"
+    },
+    {
+        "HIP": 60936,
+        "Proper Name": "3C 273"
+    }
+]

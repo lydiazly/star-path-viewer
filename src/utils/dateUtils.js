@@ -43,7 +43,7 @@ const formatDecimalHours = (decimalHours) => {
 };
 
 /**
- * Formats the date and time into strings as '1 Jan 2000 CE' and '12:00:00[.000]'
+ * Formats the date and time into strings as 'January 1, 2000 CE' and '12:00:00[.000]'
  *
  * @param {Object} params - An object containing year, month, day, hour, minute, second
  * @param {number} params.year - 0 is 1 BCE
@@ -65,7 +65,7 @@ const formatDateTime = ({ year, month = 1, day = 1, hour = 12, minute = 0, secon
     : `${day} ${monthStr} ${yearStr}`;
   const secondStr = Number.isInteger(second) ? pad(second) : second.toFixed(3).padStart(6, '0');
   const timeStr = `${pad(hour)}:${pad(minute)}:${secondStr}`;
-  return { date: dateStr, time: timeStr };
+  return { date: dateStr, time: timeStr, year: yearStr };
 };
 
 /**
@@ -145,7 +145,7 @@ const dateToStr = ({ date, iso = true, monthFirst = true, abbr = false }) => {
  * @returns {string} The formatted UTC offset string
  */
 const formatTimezone = (tz) => {
-  const { hours, minutes } = decimalToHMS(Math.abs(tz));
+  const { hours, minutes } = decimalToHMS(tz);
   return `${hours < 0 ? '-' : '+'}${pad(Math.abs(hours))}${pad(minutes)}`;
 };
 

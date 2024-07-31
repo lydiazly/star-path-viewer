@@ -132,7 +132,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
         <TextField
           required
           select
-          label="Planet Name"
+          label="Celestial Object Name"
           size="small"
           variant="outlined"
           name="name"

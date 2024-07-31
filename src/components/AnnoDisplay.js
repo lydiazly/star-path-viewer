@@ -20,7 +20,7 @@ const AnnoDisplay = ({ anno }) => {
               <TableCell rowSpan={2}>Altitude</TableCell>
               <TableCell rowSpan={2}>Azimuth</TableCell>
               <TableCell colSpan={2}>{`Standard Time`}{redAsterisk}{` (${tzStr})`}</TableCell>
-              <TableCell colSpan={2}>UT1 Time</TableCell>
+              <TableCell colSpan={2}>Universal Time (UT1)</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Gregorian</TableCell>

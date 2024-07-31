@@ -1,10 +1,11 @@
 // src/components/DateInput.js
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, TextField, MenuItem, Button, Typography } from '@mui/material';
+import { Box, Stack, TextField, MenuItem, Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX } from '../utils/constants';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX, EQX_SOL } from '../utils/constants';
 import { dateToStr } from '../utils/dateUtils';
 import Config from '../Config';
 import debounce from 'lodash/debounce';
@@ -201,7 +202,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
   }, [date, adjusting, debouncedValidateDate]);
 
   return (
-    <Stack direction="column" spacing={2}>
+    <Stack direction="column">
       <div>
         <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
           <Grid item xs={12} sm={4} md={4}>
@@ -216,7 +217,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
               inputProps={{ min: -5000, max: 5000 }}
               onChange={handleInputChange}
               fullWidth
-              error={!dateError.year.valid}
+              error={!dateError.year.valid || !dateError.general.valid}
               helperText={!dateError.year.valid && dateError.year.error}
             />
           </Grid>
@@ -231,7 +232,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
               value={date.month}
               onChange={handleInputChange}
               fullWidth
-              error={!dateError.month.valid}
+              error={!dateError.month.valid || !dateError.general.valid}
               helperText={!dateError.month.valid && dateError.month.error}
             >
               {MONTHS.slice(1).map((month, index) => (
@@ -253,36 +254,36 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
               onChange={handleInputChange}
               inputProps={{ min: 1, max: lastDay }}
               fullWidth
-              error={!dateError.day.valid}
+              error={!dateError.day.valid || !dateError.general.valid}
               helperText={!dateError.day.valid && dateError.day.error}
             />
           </Grid>
-
-          {!dateError.general.valid && (
-            <Grid item xs={12}>
-              <Typography color="error" variant="body2">
-                {dateError.general.error}
-              </Typography>
-            </Grid>
-          )}
-
         </Grid>
+
+        {!dateError.general.valid && (
+          <Typography color="error" variant="body2" sx={{ marginTop: '4px', fontSize: '0.85rem' }}>
+            {dateError.general.error}
+          </Typography>
+        )}
       </div>
 
       <div>
+        <Typography color="primary" variant="body1" py={1} pl={2}>
+          <Box display="flex" alignItems="center" justifyContent="center">
+            Quick Entry
+            <KeyboardArrowDownIcon />
+          </Box>
+        </Typography>
         <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button variant="outlined" fullWidth>Vernal Equinox</Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button variant="outlined" fullWidth>Summer Solstice</Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button variant="outlined" fullWidth>Autumnal Equinox</Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button variant="outlined" fullWidth>Winter Solstice</Button>
-          </Grid>
+            {/* <Grid item xs={12} sm={6} md={2}>
+              <Button variant="outlined" fullWidth>Today</Button>
+            </Grid> */}
+          
+          {Object.entries(EQX_SOL).map(([key, value]) => (
+            <Grid item xs={12} sm={6} md={3}>
+              <Button variant="outlined" fullWidth>{value}</Button>
+            </Grid>
+          ))}
         </Grid>
       </div>
     </Stack>
