@@ -333,13 +333,18 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
         <Accordion defaultExpanded disableGutters>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            sx={{ minHeight: 0 }}
+            sx={{
+              minHeight: 0,
+              '& .MuiAccordionSummary-content': {
+                'marginY': 1,
+              }
+            }}
           >
             <Typography color="dimgray" variant="body1">
               Quick Entry
             </Typography>
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails sx={{ paddingX: 1.5, paddingTop: 0, paddingBottom: 1.5 }}>
             <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
               {Object.entries(EQX_SOL_NAMES).map(([key, value]) => (
                 <Grid item xs={12} sm={6} md={3} key={key}>
