@@ -8,7 +8,6 @@ const ImageDisplay = ({ svgData }) => {
     <Box
       id="svg-container"
       sx={{
-        width: '100%',
         '& svg': {
           width: '100%',
           height: 'auto',

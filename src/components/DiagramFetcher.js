@@ -145,7 +145,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
   }, [date, location, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setErrorMessage]);
 
   return (
-    <Box sx={{ justifyContent: 'center' }}>
+    <Box>
       <Stack direction="column" spacing={2} id="input-fields">
         <Stack direction="column" spacing={1} id="location-input">
           <CustomDivider>LOCATION</CustomDivider>

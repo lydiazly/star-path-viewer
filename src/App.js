@@ -17,14 +17,8 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [diagramId, setDiagramId] = useState('');
   const [svgData, setSvgData] = useState('');
-  const [anno, setAnno] = useState([]);
-  const [info, setInfo] = useState({
-    year: '', month: '', day: '',
-    lat: '', lng: '',
-    name: '', hip: '', ra: '', dec: '',
-    flag: '',
-    eqxSolTime: null,
-  });
+  const [anno, setAnno] = useState(null);
+  const [info, setInfo] = useState(null);
 
   const clearImage = useCallback(() => {
     setDiagramId('');
@@ -49,19 +43,19 @@ const App = () => {
         >
           
           <Typography variant="h2" component="h1" sx={{ fontSize: '2.5rem' }}>
-            Star Trail in Ancient Sky
+            Star Trail
           </Typography>
 
           <Typography
-            variant="body1"
-            color={theme.palette.grey[600]}
-            sx={{ fontSize: '1.2rem', marginBottom: 0 }}
+            variant="subtutle1"
+            color="grey"
+            sx={{ fontSize: '1.1rem', marginBottom: 0 }}
             gutterBottom
           >
-            ... hero text ...
+            {`\u2014 Star trail of a given star in ancient sky \u2014`}
           </Typography>
 
-          <Box sx={{ minHeight: '1rem' }}>
+          <Box sx={{ width: '100%', justifyContent: 'center', minHeight: '1rem' }}>
             {errorMessage && (
               <Alert severity="error" sx={{ width: '100%' }}>
                 {errorMessage}
@@ -82,34 +76,42 @@ const App = () => {
             />
           </Box>
 
-          {success && svgData && (
+          {success && (
             <Box sx={{ width: '100%', justifyContent: 'center' }}>
-              <Box id="information" mt={1}>
-                <InfoDisplay
-                  date={{ year: info.year, month: info.month, day: info.day }}
-                  location={{ lat: info.lat, lng: info.lng }}
-                  star={{ name: info.name, hip: info.hip, ra: info.ra, dec: info.dec }}
-                  flag={info.flag}
-                  eqxSolTime={info.eqxSolTime}
-                />
-              </Box>
+              {info && (
+                <Box id="information" mt={1}>
+                  <InfoDisplay
+                    date={{ year: info.year, month: info.month, day: info.day }}
+                    location={{ lat: info.lat, lng: info.lng }}
+                    star={{ name: info.name, hip: info.hip, ra: info.ra, dec: info.dec }}
+                    flag={info.flag}
+                    eqxSolTime={info.eqxSolTime}
+                  />
+                </Box>
+              )}
               
-              <Box id="svg-container">
-                <ImageDisplay svgData={svgData} />
-              </Box>
+              {svgData && (
+                <Box id="diagram">
+                  <Box id="svg-container">
+                    <ImageDisplay svgData={svgData} />
+                  </Box>
+                  
+                  <Box id="download-diagram">
+                    <DownloadManager
+                      svgData={svgData}
+                      filenameBase={`st_${diagramId}`}
+                      dpi={300}
+                      setErrorMessage={setErrorMessage}
+                    />
+                  </Box>
+                </Box>
+              )}
               
-              <Box id="download-diagram">
-                <DownloadManager
-                  svgData={svgData}
-                  filenameBase={`st_${diagramId}`}
-                  dpi={300}
-                  setErrorMessage={setErrorMessage}
-                />
-              </Box>
-              
-              <Box id="annotations" mt={2}>
-                <AnnoDisplay anno={anno} />
-              </Box>
+              {anno && (
+                <Box id="annotations" mt={2}>
+                  <AnnoDisplay anno={anno} />
+                </Box>
+              )}
             </Box>
           )}
         </Box>
