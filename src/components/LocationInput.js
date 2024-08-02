@@ -5,39 +5,10 @@ import { Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup, InputA
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import SearchIcon from '@mui/icons-material/Search';
-import axios from 'axios';
 import Config from '../Config';
 import debounce from 'lodash/debounce';
 import fetchGeolocation from '../utils/fetchGeolocation'; // Import the geolocation fetching utility
-
-const fetchSuggestions = async (query, setSuggestions, setErrorMessage, setLoading) => {
-  if (query.length > 2) {
-    setLoading(true);
-    try {
-      const response = await axios.get(Config.nominatimSearchUrl, {
-        params: {
-          q: query,
-          format: 'json',
-          addressdetails: 1,
-        },
-        timeout: Config.nominatimTimeout,
-      });
-      // console.log(response.data);
-      if (response.data.length > 0) {
-        setSuggestions(response.data);
-      } else {
-        setSuggestions([{ display_name: 'Location not found', place_id: 'not-found', address_type: '' }]);
-      }
-    } catch (error) {
-      setErrorMessage(`Error fetching location suggestions: ${error}`);
-    } finally {
-      setLoading(false);
-    }
-  } else {
-    setSuggestions([]);
-    setLoading(false);
-  }
-};
+import fetchSuggestions from '../utils/fetchSuggestions'; // Import the suggestions fetching utility
 
 /* Validate the location */
 const validateLocationSync = (inputType, location, searchTerm, loadingLocation) => {
@@ -124,8 +95,16 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
 
   const debouncedFetchSuggestions = useMemo(
     () =>
-      debounce((query) => {
-        fetchSuggestions(query, setSuggestions, setErrorMessage, setLoadingSuggestions);
+      debounce(async (query) => {
+        setLoadingSuggestions(true);
+        try {
+          const suggestions = await fetchSuggestions(query);
+          setSuggestions(suggestions);
+        } catch (error) {
+          setErrorMessage(error.message);
+        } finally {
+          setLoadingSuggestions(false);
+        }
       }, Config.typingTimeout),
     [setErrorMessage]
   );

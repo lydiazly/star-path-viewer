@@ -159,9 +159,19 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
     setDate(initialDate);
     dateRef.current = initialDate;
     flagRef.current = '';
-    onDateChange({ ...initialDate, flag: '' });
+    // onDateChange({ ...initialDate, flag: '' });
     setDateValid(true);
-  }, [onDateChange, setDateValid]);
+  }, [setDateValid]);
+
+  useEffect(() => {
+    if (!adjusting) {
+      onDateChange({ ...date, flag });
+    }
+  }, [date, flag, onDateChange, adjusting]);
+
+  useEffect(() => {
+    setErrorMessage('');
+  }, [date, flag, setErrorMessage]);
 
   useEffect(() => {
     dateRef.current = date;
@@ -170,10 +180,6 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
   useEffect(() => {
     flagRef.current = flag;
   }, [flag]);
-
-  useEffect(() => {
-    setErrorMessage('');
-  }, [date, flag, setErrorMessage]);
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
@@ -189,12 +195,6 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
     });  // Reset error when user starts typing
     setAdjusting(true);
   }, [date, setDateValid]);
-
-  useEffect(() => {
-    if (!adjusting) {
-      onDateChange({ ...date, flag });
-    }
-  }, [date, flag, onDateChange, adjusting]);
 
   const handleFlagChange = useCallback(async (event, newFlag) => {
     if (flag === newFlag) {

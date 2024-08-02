@@ -1,17 +1,18 @@
 // src/utils/reverseGeocode.js
 import axios from 'axios';
-import Config from '../Config';
 
 const reverseGeocode = async (lat, lng, setSearchTerm, setLocation, setErrorMessage) => {
+  const nominatimReverseUrl = 'https://nominatim.openstreetmap.org/reverse';
+  const timeout = 5000;
   try {
-    const response = await axios.get(Config.nominatimReverseUrl, {
+    const response = await axios.get(nominatimReverseUrl, {
       params: {
         lat,
         lon: lng,
         format: 'json',
         addressdetails: 1,
       },
-      timeout: Config.nominatimTimeout,
+      timeout,
     });
     if (response.data && response.data.display_name) {
       setSearchTerm(response.data.display_name);
