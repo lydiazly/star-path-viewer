@@ -1,4 +1,4 @@
-// src/components/DateLocationDisplay.js
+// src/components/InfoDisplay.js
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box } from '@mui/material';
@@ -12,7 +12,7 @@ const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const DateLocationDisplay = ({ date, location, star, flag = '', eqxSolTime = [] }) => {
+const InfoDisplay = ({ date, location, star, flag = '', eqxSolTime = [] }) => {
   const dateStr = useMemo(() => formatDateTime({
     year: parseInt(date.year),
     month: parseInt(date.month),
@@ -86,7 +86,7 @@ const DateLocationDisplay = ({ date, location, star, flag = '', eqxSolTime = [] 
   );
 };
 
-DateLocationDisplay.propTypes = {
+InfoDisplay.propTypes = {
   date: PropTypes.shape({
     year: PropTypes.string.isRequired,
     month: PropTypes.string.isRequired,
@@ -106,4 +106,4 @@ DateLocationDisplay.propTypes = {
   eqxSolTime: PropTypes.arrayOf(PropTypes.number),
 };
 
-export default DateLocationDisplay;
+export default InfoDisplay;

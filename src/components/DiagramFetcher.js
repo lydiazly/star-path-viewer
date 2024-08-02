@@ -7,25 +7,16 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PropTypes from 'prop-types';
 import LocationInput from './LocationInput';
 import DateInput from './DateInput';
-import DateLocationDisplay from './DateLocationDisplay';
 import StarInput from './StarInput';
 import { STARS } from '../utils/constants';
 import Config from '../Config';
 import CustomDivider from './ui/CustomDivider';
 
-const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setErrorMessage, clearImage }) => {
+const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, errorMessage, setErrorMessage, clearImage }) => {
   const [date, setDate] = useState({ year: '', month: '', day: '', flag: '' });  // flag: 've', 'ss', 'ae', 'ws'
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: 'name' });  // type: 'name', 'hip', 'radec'
-  const [info, setInfo] = useState({
-    year: '', month: '', day: '',
-    lat: '', lng: '',
-    name: '', hip: '', ra: '', dec: '',
-    flag: '',
-    eqxSolTime: null,
-  });
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [dateValid, setDateValid] = useState(false);
   const [locationValid, setLocationValid] = useState(false);
   const [starValid, setStarValid] = useState(false);
@@ -151,22 +142,25 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
     } finally {
       setLoading(false);
     }
-  }, [date, location, star, loading, clearImage, setDiagramId, setSvgData, setAnno, setErrorMessage]);
+  }, [date, location, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setErrorMessage]);
 
   return (
     <Box sx={{ justifyContent: 'center' }}>
-      <Stack direction="column" spacing={2}>
-        <CustomDivider>LOCATION</CustomDivider>
+      <Stack direction="column" spacing={2} id="input-fields">
+        <Stack direction="column" spacing={1} id="location-input">
+          <CustomDivider>LOCATION</CustomDivider>
+          <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} setLocationValid={setLocationValid} />
+        </Stack>
 
-        <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} setLocationValid={setLocationValid} />
+        <Stack direction="column" spacing={1} id="date-input">
+          <CustomDivider>DATE</CustomDivider>
+          <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} />
+        </Stack>
 
-        <CustomDivider>DATE</CustomDivider>
-
-        <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} />
-
-        <CustomDivider>CELESTIAL OBJECT</CustomDivider>
-
-        <StarInput onStarChange={setStar} setErrorMessage={setErrorMessage} setStarValid={setStarValid} />
+        <Stack direction="column" spacing={1} id="star-input">
+          <CustomDivider>CELESTIAL OBJECT</CustomDivider>
+          <StarInput onStarChange={setStar} setErrorMessage={setErrorMessage} setStarValid={setStarValid} />
+        </Stack>
       </Stack>
 
       <Button
@@ -183,24 +177,16 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
       >
         Draw Star Trail
       </Button>
-
-      {success && (
-        <DateLocationDisplay
-          date={{ year: info.year, month: info.month, day: info.day }}
-          location={{ lat: info.lat, lng: info.lng }}
-          star={{ name: info.name, hip: info.hip, ra: info.ra, dec: info.dec }}
-          flag={info.flag}
-          eqxSolTime={info.eqxSolTime}
-        />
-      )}
     </Box>
   );
 };
 
 DiagramFetcher.propTypes = {
   setDiagramId: PropTypes.func.isRequired,
+  setInfo: PropTypes.func.isRequired,
   setSvgData: PropTypes.func.isRequired,
   setAnno: PropTypes.func.isRequired,
+  setSuccess: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func.isRequired,
   clearImage: PropTypes.func.isRequired,
