@@ -28,7 +28,7 @@ const fetchSuggestions = async (query, setSuggestions, setErrorMessage, setLoadi
         setSuggestions([{ display_name: 'Location not found', place_id: 'not-found', address_type: '' }]);
       }
     } catch (error) {
-      setErrorMessage('Error fetching location suggestions.');
+      setErrorMessage(`Error fetching location suggestions: ${error}`);
     } finally {
       setLoading(false);
     }

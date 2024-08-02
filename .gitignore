@@ -1,5 +1,6 @@
 tmp
 *.bk
+*.pem
 
 # Ignore system-specific files
 .DS_Store
