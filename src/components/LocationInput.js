@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Config from '../Config';
 import debounce from 'lodash/debounce';
+import fetchGeolocation from '../utils/fetchGeolocation'; // Import the geolocation fetching utility
 
 const fetchSuggestions = async (query, setSuggestions, setErrorMessage, setLoading) => {
   if (query.length > 2) {
@@ -35,32 +36,6 @@ const fetchSuggestions = async (query, setSuggestions, setErrorMessage, setLoadi
   } else {
     setSuggestions([]);
     setLoading(false);
-  }
-};
-
-const reverseGeocode = async (lat, lng, setSearchTerm, setLocation, setErrorMessage) => {
-  try {
-    const response = await axios.get(Config.nominatimReverseUrl, {
-      params: {
-        lat,
-        lon: lng,
-        format: 'json',
-        addressdetails: 1,
-      },
-      timeout: Config.nominatimTimeout,
-    });
-    if (response.data && response.data.display_name) {
-      setSearchTerm(response.data.display_name);
-      setLocation({
-        lat: lat.toString(),
-        lng: lng.toString(),
-        place_id: response.data.place_id,
-      });
-    } else {
-      setErrorMessage('Unable to fetch the address for the current location.');
-    }
-  } catch (error) {
-    setErrorMessage(`Error fetching address: ${error}`);
   }
 };
 
@@ -117,6 +92,11 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
 
+  /* Initiate with the current location */
+  useEffect(() => {
+    fetchGeolocation(setLoadingLocation, setSearchTerm, setLocation, setErrorMessage);
+  }, [setErrorMessage]);
+
   useEffect(() => {
     onLocationChange(location);
   }, [location, onLocationChange]);
@@ -124,29 +104,6 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   useEffect(() => {
     setErrorMessage('');
   }, [inputType, searchTerm, location, setErrorMessage]);
-
-  useEffect(() => {
-    if ("geolocation" in navigator) {
-      setLoadingLocation(true);
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          reverseGeocode(latitude, longitude, setSearchTerm, setLocation, setErrorMessage);
-        },
-        (error) => {
-          setErrorMessage('Error fetching current location.');
-        },
-        {
-          enableHighAccuracy: false,
-          timeout: 10000,
-          maximumAge: 60000
-        }
-      );
-      setLoadingLocation(false);
-    } else {
-      setErrorMessage('Geolocation is not supported by this browser.');
-    }
-  }, [setErrorMessage]);
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
