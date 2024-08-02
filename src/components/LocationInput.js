@@ -1,7 +1,7 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup, InputAdornment } from '@mui/material';
+import { Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import SearchIcon from '@mui/icons-material/Search';
@@ -9,8 +9,9 @@ import axios from 'axios';
 import Config from '../Config';
 import debounce from 'lodash/debounce';
 
-const fetchSuggestions = async (query, setSuggestions, setErrorMessage) => {
+const fetchSuggestions = async (query, setSuggestions, setErrorMessage, setLoading) => {
   if (query.length > 2) {
+    setLoading(true);
     try {
       const response = await axios.get(Config.nominatimSearchUrl, {
         params: {
@@ -28,9 +29,12 @@ const fetchSuggestions = async (query, setSuggestions, setErrorMessage) => {
       }
     } catch (error) {
       setErrorMessage('Error fetching location suggestions.');
+    } finally {
+      setLoading(false);
     }
   } else {
     setSuggestions([]);
+    setLoading(false);
   }
 };
 
@@ -84,6 +88,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
     lat: { valid: true, error: '' },
     lng: { valid: true, error: '' }
   });
+  const [loadingLocation, setLoadingLocation] = useState(false);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
 
   useEffect(() => {
     onLocationChange(location);
@@ -92,6 +98,33 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   useEffect(() => {
     setErrorMessage('');
   }, [inputType, searchTerm, location, setErrorMessage]);
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      setLoadingLocation(true);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            lat: position.coords.latitude.toString(),
+            lng: position.coords.longitude.toString(),
+            place_id: ''
+          });
+          setLoadingLocation(false);
+        },
+        (error) => {
+          setErrorMessage('Error fetching current location.');
+          setLoadingLocation(false);
+        },
+        {
+          enableHighAccuracy: false,
+          // timeout: 10000,
+          // maximumAge: 60000
+        }
+      );
+    } else {
+      setErrorMessage('Geolocation is not supported by this browser.');
+    }
+  }, [setErrorMessage]);
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
@@ -113,7 +146,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   const debouncedFetchSuggestions = useMemo(
     () =>
       debounce((query) => {
-        fetchSuggestions(query, setSuggestions, setErrorMessage);
+        fetchSuggestions(query, setSuggestions, setErrorMessage, setLoadingSuggestions);
       }, Config.typingTimeout),
     [setErrorMessage]
   );
@@ -221,7 +254,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
         </ToggleButton>
       </ToggleButtonGroup>
 
-      {inputType === 'address' ? (
+      {inputType === "address" ? (
         <Autocomplete
           freeSolo
           clearOnEscape
@@ -234,9 +267,20 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
           onHighlightChange={handleHighlightChange}
           filterOptions={(x) => x}
           autoHighlight
+          loading={loadingSuggestions}
           renderOption={(props, option) => (
-            <li {...props} key={option.place_id} style={option.place_id === 'not-found' ? { pointerEvents: 'none', color: 'gray' } : {}}>
-              {`${option.display_name} ${option.address_type ? `(${option.address_type})` : ''}`}
+            <li
+              {...props}
+              key={option.place_id}
+              style={
+                option.place_id === "not-found"
+                  ? { pointerEvents: "none", color: "gray" }
+                  : {}
+              }
+            >
+              {`${option.display_name} ${
+                option.address_type ? `(${option.address_type})` : ""
+              }`}
             </li>
           )}
           renderInput={(params) => (
@@ -244,16 +288,29 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
               {...params}
               required
               error={!locationError.address.valid}
-              helperText={!locationError.address.valid && locationError.address.error}
+              helperText={
+                !locationError.address.valid && locationError.address.error
+              }
               label="Search address"
               placeholder="Enter a place, city, county, state, or country"
               size="small"
               variant="outlined"
+              fullWidth
               InputProps={{
                 ...params.InputProps,
-                startAdornment: <InputAdornment position="start"><SearchIcon color="disabled"/></InputAdornment>,
+                startAdornment: (
+                  <InputAdornment position="start" sx={{ marginRight: 0 }}>
+                    {!loadingSuggestions ? (
+                      <SearchIcon color="disabled" />
+                    ) : (
+                      <CircularProgress
+                        size={20}
+                        sx={{ color: "lightgrey", marginRight: 0.5 }}
+                      />
+                    )}
+                  </InputAdornment>
+                ),
               }}
-              fullWidth
             />
           )}
         />
@@ -275,6 +332,13 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
                 fullWidth
                 error={!locationError.lat.valid}
                 helperText={!locationError.lat.valid && locationError.lat.error}
+                InputProps={{
+                  endAdornment: loadingLocation ? (
+                    <InputAdornment position="end">
+                      <CircularProgress size={20} sx={{ color: "lightgrey" }} />
+                    </InputAdornment>
+                  ) : null,
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -292,6 +356,13 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
                 fullWidth
                 error={!locationError.lng.valid}
                 helperText={!locationError.lng.valid && locationError.lng.error}
+                InputProps={{
+                  endAdornment: loadingLocation ? (
+                    <InputAdornment position="end">
+                      <CircularProgress size={20} sx={{ color: "lightgrey" }} />
+                    </InputAdornment>
+                  ) : null,
+                }}
               />
             </Grid>
           </Grid>
