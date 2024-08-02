@@ -15,7 +15,7 @@ const MONTHS = [
   { abbr: 'Sep', name: 'September' },
   { abbr: 'Oct', name: 'October' },
   { abbr: 'Nov', name: 'November' },
-  { abbr: 'Dec', name: 'December' }
+  { abbr: 'Dec', name: 'December' },
 ];
 
 const STARS = {
@@ -26,13 +26,13 @@ const STARS = {
   Saturn: 'saturn',
   Uranus: 'uranus',
   Neptune: 'neptune',
-  // Pluto: 'pluto'
+  // Pluto: 'pluto',
 };
 
 const PT_NAMES = {
   R: 'Rising',
   S: 'Setting',
-  T: 'Meridian Transit'
+  T: 'Meridian Transit',
 };
 
 const EQX_SOL_NAMES = {
@@ -46,7 +46,7 @@ const EQX_SOL_KEYS = {
   ve: 'vernal_time',
   ss: 'summer_time',
   ae: 'autumnal_time',
-  ws: 'winter_time'
+  ws: 'winter_time',
 };
 
 export { EPH_DATE_MIN, EPH_DATE_MAX, MONTHS, STARS, PT_NAMES, EQX_SOL_NAMES, EQX_SOL_KEYS };

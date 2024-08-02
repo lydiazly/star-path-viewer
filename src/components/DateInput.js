@@ -102,7 +102,7 @@ const validateDateSync = (date, flag) => {
     general: { valid: true, error: '' },
     year: { valid: true, error: '' },
     month: { valid: true, error: '' },
-    day: { valid: true, error: '' }
+    day: { valid: true, error: '' },
   };
 
   for (let key of ['year', 'month', 'day']) {
@@ -154,7 +154,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
     const initialDate = {
       year: now.getFullYear().toString(),
       month: (now.getMonth() + 1).toString(),
-      day: now.getDate().toString()
+      day: now.getDate().toString(),
     };
     setDate(initialDate);
     dateRef.current = initialDate;
@@ -191,7 +191,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
       general: { valid: true, error: '' },
       year: { valid: true, error: '' },
       month: { valid: true, error: '' },
-      day: { valid: true, error: '' }
+      day: { valid: true, error: '' },
     });  // Reset error when user starts typing
     setAdjusting(true);
   }, [date, setDateValid]);
@@ -209,7 +209,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
       general: { valid: true, error: '' },
       year: { valid: true, error: '' },
       month: { valid: true, error: '' },
-      day: { valid: true, error: '' }
+      day: { valid: true, error: '' },
     });  // Reset error when user changes the flag
     setAdjusting(true);
   }, [date, flag, onDateChange, setDateValid]);
@@ -367,7 +367,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
 DateInput.propTypes = {
   onDateChange: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
-  setDateValid: PropTypes.func.isRequired
+  setDateValid: PropTypes.func.isRequired,
 };
 
 export default DateInput;

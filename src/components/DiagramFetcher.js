@@ -22,7 +22,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
     lat: '', lng: '',
     name: '', hip: '', ra: '', dec: '',
     flag: '',
-    eqxSolTime: null
+    eqxSolTime: null,
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -37,7 +37,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
       year: now.getFullYear().toString(),
       month: (now.getMonth() + 1).toString(),
       day: now.getDate().toString(),
-      flag: ''
+      flag: '',
     });
   }, []);
 
@@ -203,7 +203,7 @@ DiagramFetcher.propTypes = {
   setAnno: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func.isRequired,
-  clearImage: PropTypes.func.isRequired
+  clearImage: PropTypes.func.isRequired,
 };
 
 export default DiagramFetcher;

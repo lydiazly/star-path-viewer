@@ -101,5 +101,5 @@ export {
   formatDecimalDgrees,
   dmsToHMS,
   hmsToDMS,
-  formatCoordinate
+  formatCoordinate,
 };

@@ -15,7 +15,7 @@ const validateLocationSync = (inputType, location, searchTerm, loadingLocation) 
   let newLocationError = {
     address: { valid: true, error: '' },
     lat: { valid: true, error: '' },
-    lng: { valid: true, error: '' }
+    lng: { valid: true, error: '' },
   };
 
   if (inputType === 'address') {
@@ -58,7 +58,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   const [locationError, setLocationError] = useState({
     address: { valid: true, error: '' },
     lat: { valid: true, error: '' },
-    lng: { valid: true, error: '' }
+    lng: { valid: true, error: '' },
   });
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
@@ -106,7 +106,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
     setLocationError({
       address: { valid: true, error: '' },
       lat: { valid: true, error: '' },
-      lng: { valid: true, error: '' }
+      lng: { valid: true, error: '' },
     });  // Reset error when user starts typing
   }, [setLocationValid]);
 
@@ -342,7 +342,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
 LocationInput.propTypes = {
   onLocationChange: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
-  setLocationValid: PropTypes.func.isRequired
+  setLocationValid: PropTypes.func.isRequired,
 };
 
 export default LocationInput;

@@ -11,7 +11,7 @@ const ImageDisplay = ({ svgData }) => {
         width: '100%',
         '& svg': {
           width: '100%',
-          height: 'auto'
+          height: 'auto',
         }
       }}
       dangerouslySetInnerHTML={{ __html: svgData }}
@@ -20,7 +20,7 @@ const ImageDisplay = ({ svgData }) => {
 };
 
 ImageDisplay.propTypes = {
-  svgData: PropTypes.string.isRequired
+  svgData: PropTypes.string.isRequired,
 };
 
 export default ImageDisplay;

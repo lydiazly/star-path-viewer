@@ -16,7 +16,7 @@ const validateStarSync = (inputType, radecFormat, star) => {
     name: { valid: true, error: '' },
     hip: { valid: true, error: '' },
     ra: { valid: true, error: '' },
-    dec: { valid: true, error: '' }
+    dec: { valid: true, error: '' },
   };
 
   if (inputType === 'hip') {
@@ -97,13 +97,13 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
     dec: '0',
     raHMS: { hours: '0', minutes: '0', seconds: '0' },
     decDMS: { degrees: '0', minutes: '0', seconds: '0' },
-    type: 'name'
+    type: 'name',
   });
   const [starError, setStarError] = useState({
     name: { valid: true, error: '' },
     hip: { valid: true, error: '' },
     ra: { valid: true, error: '' },
-    dec: { valid: true, error: '' }
+    dec: { valid: true, error: '' },
   });
 
   useEffect(() => {
@@ -112,7 +112,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
       hip: parseInt(star.hip).toString(),
       ra: parseFloat(star.ra).toString(),
       dec: parseFloat(star.dec).toString(),
-      type: star.type
+      type: star.type,
     });
   }, [star, onStarChange]);
 
@@ -151,7 +151,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
             ? (hmsToDecimal({
                 hours: newStar.raHMS.hours || 0,
                 minutes: newStar.raHMS.minutes || 0,
-                seconds: newStar.raHMS.seconds || 0
+                seconds: newStar.raHMS.seconds || 0,
               }) * 15).toString()
             : '';
         } else if (field === 'decDMS') {
@@ -159,7 +159,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
             ? dmsToDecimal({
                 degrees: newStar.decDMS.degrees || 0,
                 minutes: newStar.decDMS.minutes || 0,
-                seconds: newStar.decDMS.seconds || 0
+                seconds: newStar.decDMS.seconds || 0,
               }).toString()
             : '';
         }
@@ -186,7 +186,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
       name: { valid: true, error: '' },
       hip: { valid: true, error: '' },
       ra: { valid: true, error: '' },
-      dec: { valid: true, error: '' }
+      dec: { valid: true, error: '' },
     });  // Reset error when user starts typing
   }, [radecFormat, setStarValid]);
 
@@ -468,7 +468,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
 StarInput.propTypes = {
   onStarChange: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
-  setStarValid: PropTypes.func.isRequired
+  setStarValid: PropTypes.func.isRequired,
 };
 
 export default StarInput;

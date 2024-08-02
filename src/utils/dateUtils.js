@@ -171,5 +171,5 @@ export {
   formatDateTimeISO,
   dateTimeToStr,
   dateToStr,
-  formatTimezone
+  formatTimezone,
 };

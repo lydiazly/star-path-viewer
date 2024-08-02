@@ -18,13 +18,13 @@ const DateLocationDisplay = ({ date, location, star, flag = '', eqxSolTime = [] 
     month: parseInt(date.month),
     day: parseInt(date.day),
     monthFirst: true,
-    abbr: false
+    abbr: false,
   }).date, [date]);
 
   const dateStrISO = useMemo(() => formatDateTimeISO({
     year: parseInt(date.year),
     month: parseInt(date.month),
-    day: parseInt(date.day)
+    day: parseInt(date.day),
   }).date, [date]);
 
   const latStr = useMemo(() => formatCoordinate(parseFloat(location.lat), 'lat'), [location.lat]);
@@ -90,20 +90,20 @@ DateLocationDisplay.propTypes = {
   date: PropTypes.shape({
     year: PropTypes.string.isRequired,
     month: PropTypes.string.isRequired,
-    day: PropTypes.string.isRequired
+    day: PropTypes.string.isRequired,
   }).isRequired,
   location: PropTypes.shape({
     lat: PropTypes.string.isRequired,
-    lng: PropTypes.string.isRequired
+    lng: PropTypes.string.isRequired,
   }).isRequired,
   star: PropTypes.shape({
     name: PropTypes.string,
     hip: PropTypes.string,
     ra: PropTypes.string,
-    dec: PropTypes.string
+    dec: PropTypes.string,
   }).isRequired,
   flag: PropTypes.string,
-  eqxSolTime: PropTypes.arrayOf(PropTypes.number)
+  eqxSolTime: PropTypes.arrayOf(PropTypes.number),
 };
 
 export default DateLocationDisplay;

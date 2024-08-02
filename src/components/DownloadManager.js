@@ -58,7 +58,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
       const v = await Canvg.fromString(ctx, svgData, {
         ignoreDimensions: true,  // Ignore the SVG's width and height attributes
         scaleWidth: newWidthPx,
-        scaleHeight: newHeightPx
+        scaleHeight: newHeightPx,
       });
       await v.render();
 
@@ -73,7 +73,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
     } else if (format === 'pdf') {
       const pdfDoc = new jsPDF({
         unit: 'pt',
-        format: [widthPx, heightPx]
+        format: [widthPx, heightPx],
       });
 
       pdfDoc
@@ -81,7 +81,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
           x: 0,
           y: 0,
           width: widthPx,
-          height: heightPx
+          height: heightPx,
         })
         .then(() => {
           pdfDoc.save(filename);
@@ -115,7 +115,7 @@ DownloadManager.propTypes = {
   svgData: PropTypes.string.isRequired,
   filenameBase: PropTypes.string,
   dpi: PropTypes.number,
-  setErrorMessage: PropTypes.func.isRequired
+  setErrorMessage: PropTypes.func.isRequired,
 };
 
 export default DownloadManager;
