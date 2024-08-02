@@ -1,36 +1,33 @@
 // src/utils/fetchGeolocation.js
 import reverseGeocode from './reverseGeocode';
 
-const fetchGeolocation = async (setLoadingLocation, setSearchTerm, setLocation, setErrorMessage) => {
+const fetchGeolocation = async () => {
   if ("geolocation" in navigator) {
-    setLoadingLocation(true);
     try {
-      await new Promise((resolve, reject) => {
+      const position = await new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            resolve({ latitude, longitude });
-          },
-          (error) => {
-            reject('Error fetching current location.');
-          },
+          (position) => resolve(position),
+          (error) => reject(new Error('Error fetching current location.')),
           {
             enableHighAccuracy: false,
             timeout: 10000,
-            maximumAge: 60000
+            maximumAge: 60000,
           }
         );
-      }).then(async (coords) => {
-        const { latitude, longitude } = coords;
-        await reverseGeocode(latitude, longitude, setSearchTerm, setLocation, setErrorMessage);
       });
+      const { latitude, longitude } = position.coords;
+      const locationData = await reverseGeocode(latitude, longitude);
+      return {
+        lat: latitude.toString(),
+        lng: longitude.toString(),
+        display_name: locationData.display_name,
+        place_id: locationData.place_id,
+      };
     } catch (error) {
-      setErrorMessage(error);
-    } finally {
-      setLoadingLocation(false);
+      throw new Error(error.message);
     }
   } else {
-    setErrorMessage('Geolocation is not supported by this browser.');
+    throw new Error('Geolocation is not supported by this browser.');
   }
 };
 

@@ -65,7 +65,24 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
 
   /* Initiate with the current location */
   useEffect(() => {
-    fetchGeolocation(setLoadingLocation, setSearchTerm, setLocation, setErrorMessage);
+    const fetchLocation = async () => {
+      setLoadingLocation(true);
+      try {
+        const locationData = await fetchGeolocation();
+        setSearchTerm(locationData.display_name);
+        setLocation({
+          lat: locationData.lat,
+          lng: locationData.lng,
+          place_id: locationData.place_id,
+        });
+      } catch (error) {
+        setErrorMessage(error.message);
+      } finally {
+        setLoadingLocation(false);
+      }
+    };
+
+    fetchLocation();
   }, [setErrorMessage]);
 
   useEffect(() => {

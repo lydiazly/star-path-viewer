@@ -1,7 +1,7 @@
 // src/utils/reverseGeocode.js
 import axios from 'axios';
 
-const reverseGeocode = async (lat, lng, setSearchTerm, setLocation, setErrorMessage) => {
+const reverseGeocode = async (lat, lng) => {
   const nominatimReverseUrl = 'https://nominatim.openstreetmap.org/reverse';
   const timeout = 5000;
   try {
@@ -15,17 +15,15 @@ const reverseGeocode = async (lat, lng, setSearchTerm, setLocation, setErrorMess
       timeout,
     });
     if (response.data && response.data.display_name) {
-      setSearchTerm(response.data.display_name);
-      setLocation({
-        lat: lat.toString(),
-        lng: lng.toString(),
+      return {
+        display_name: response.data.display_name,
         place_id: response.data.place_id,
-      });
+      };
     } else {
-      setErrorMessage('Unable to fetch the address for the current location.');
+      throw new Error('Unable to fetch the address for the current location.');
     }
   } catch (error) {
-    setErrorMessage(`Error fetching address: ${error}`);
+    throw new Error(`Error fetching address: ${error.message}`);
   }
 };
 
