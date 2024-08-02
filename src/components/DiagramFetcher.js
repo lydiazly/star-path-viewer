@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
-import { Box, Stack, Button, Divider, CircularProgress } from '@mui/material';
+import { Box, Stack, Button, CircularProgress } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PropTypes from 'prop-types';
 import LocationInput from './LocationInput';
@@ -11,23 +11,24 @@ import DateLocationDisplay from './DateLocationDisplay';
 import StarInput from './StarInput';
 import { STARS } from '../utils/constants';
 import Config from '../Config';
-import useStyles from '../styles/styles';
+import CustomDivider from './ui/CustomDivider';
 
 const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setErrorMessage, clearImage }) => {
-  const [date, setDate] = useState({ year: '', month: '', day: '', flag: '' }); // flag: ve, ss, ae, ws
+  const [date, setDate] = useState({ year: '', month: '', day: '', flag: '' });  // flag: 've', 'ss', 'ae', 'ws'
   const [location, setLocation] = useState({ lat: '', lng: '' });
-  const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '' });
+  const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: 'name' });  // type: 'name', 'hip', 'radec'
   const [info, setInfo] = useState({
-    year: '', month: '', day: '', flag: '',
+    year: '', month: '', day: '',
     lat: '', lng: '',
-    name: '', hip: '', ra: '', dec: ''
+    name: '', hip: '', ra: '', dec: '',
+    flag: '',
+    eqxSolTime: null
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [dateValid, setDateValid] = useState(false);
   const [locationValid, setLocationValid] = useState(false);
   const [starValid, setStarValid] = useState(false);
-  const classes = useStyles();
 
   /* Initiate with the current date */
   useEffect(() => {
@@ -36,6 +37,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
       year: now.getFullYear().toString(),
       month: (now.getMonth() + 1).toString(),
       day: now.getDate().toString(),
+      flag: ''
     });
   }, []);
 
@@ -49,19 +51,74 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
     setSuccess(false);
     setLoading(true);
 
-    const params = { ...date, ...location, ...star, name: STARS[star.name] || '' };
+    const params = {};
+    
+    if (date.flag && date.year) {
+      params.year = parseInt(date.year).toString();
+      params.flag = date.flag;
+    } else if (date.year && date.month && date.day) {
+      params.year = parseInt(date.year).toString();
+      params.month = parseInt(date.month).toString();
+      params.day = parseInt(date.day).toString();
+    } else {
+      setErrorMessage('Either year, month, or day is invalid.');
+      setSuccess(false);
+      setLoading(false);
+      return;
+    }
+
+    if (location.lat && location.lng) {
+      params.lat = parseFloat(location.lat).toString();
+      params.lng = parseFloat(location.lng).toString();
+    } else {
+      setErrorMessage('Either latitude or longitude is invalid.');
+      setSuccess(false);
+      setLoading(false);
+      return;
+    }
+    
+    if (star.type === 'name' && STARS[star.name]) {
+      params.name = STARS[star.name];
+    } else if (star.type === 'hip' && star.hip) {
+      params.hip = parseInt(star.hip).toString();
+    } else if (star.type === 'radec' && star.ra && star.dec) {
+      params.ra = parseFloat(star.ra).toString();
+      params.dec = parseFloat(star.dec).toString();
+    } else {
+      setErrorMessage('Either planet name, Hipparchus catalogue number, or (ra, dec) is invalid.');
+      setSuccess(false);
+      setLoading(false);
+      return;
+    }
+    // console.log("params", params);
 
     try {
+      /* Plot */
       const response = await axios.get(`${Config.serverUrl}/diagram`, {
         params,
-        timeout: Config.serverTimeout
+        timeout: Config.serverGetDiagramTimeout
       });
 
       const newInfo = Object.keys(params).reduce((info, key) => {
-        if (response.data.hasOwnProperty(key)) info[key] = response.data[key];
+        if (response.data.hasOwnProperty(key)) info[key] = response.data[key].toString();
         return info;
       }, {});
+      
+      if (response.data.hasOwnProperty('name')) {
+        newInfo.name = response.data.name;
+      }
+      
+      newInfo.eqxSolTime = [];
+      if (response.data.flag && response.data.eqxSolTime.length > 0) {
+        const res_month = response.data.eqxSolTime[1].toString();
+        const res_day = response.data.eqxSolTime[2].toString();
+        newInfo.eqxSolTime = response.data.eqxSolTime;
+        newInfo.month = res_month;
+        newInfo.day = res_day;
+        setDate({ ...date, month: res_month, day: res_day });
+      }
       setInfo(newInfo);
+      // console.log("info: ", newInfo);
 
       const svgBase64 = response.data.svgData;
       /* Decode base64 to binary string */
@@ -87,8 +144,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
       setSuccess(true);
 
     } catch (error) {
-      const errorMsg = error.response?.data?.error || error.message || 'An error occurred';
-      setErrorMessage(errorMsg);
+      setErrorMessage(error.response?.data?.error || error.message || 'An error occurred');
       clearImage();  // Clear SVG on error
       setSuccess(false);
 
@@ -100,15 +156,15 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
   return (
     <Box sx={{ justifyContent: 'center' }}>
       <Stack direction="column" spacing={2}>
-        <Divider className={classes.dividerText}>LOCATION</Divider>
+        <CustomDivider>LOCATION</CustomDivider>
 
         <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} setLocationValid={setLocationValid} />
 
-        <Divider className={classes.dividerText}>DATE</Divider>
+        <CustomDivider>DATE</CustomDivider>
 
         <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} />
 
-        <Divider className={classes.dividerText}>CELESTIAL OBJECT</Divider>
+        <CustomDivider>CELESTIAL OBJECT</CustomDivider>
 
         <StarInput onStarChange={setStar} setErrorMessage={setErrorMessage} setStarValid={setStarValid} />
       </Stack>
@@ -120,7 +176,7 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
         startIcon={loading
           ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
           : <ArrowForwardIcon />}
-        sx={{ marginTop: 2 }}
+        sx={{ marginTop: 3 }}
         disabled={!!errorMessage || loading || !dateValid || !locationValid || !starValid}
         onClick={handleDraw}
         fullWidth
@@ -130,9 +186,11 @@ const DiagramFetcher = ({ setDiagramId, setSvgData, setAnno, errorMessage, setEr
 
       {success && (
         <DateLocationDisplay
-          date={{ year: info.year, month: info.month, day: info.day, flag: info.flag }}
+          date={{ year: info.year, month: info.month, day: info.day }}
           location={{ lat: info.lat, lng: info.lng }}
           star={{ name: info.name, hip: info.hip, ra: info.ra, dec: info.dec }}
+          flag={info.flag}
+          eqxSolTime={info.eqxSolTime}
         />
       )}
     </Box>
@@ -145,7 +203,7 @@ DiagramFetcher.propTypes = {
   setAnno: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
   setErrorMessage: PropTypes.func.isRequired,
-  clearImage: PropTypes.func.isRequired,
+  clearImage: PropTypes.func.isRequired
 };
 
 export default DiagramFetcher;

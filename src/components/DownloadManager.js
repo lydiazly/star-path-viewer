@@ -1,8 +1,7 @@
 // src/components/DownloadManager.js
 import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { Stack, Button } from '@mui/material';
-import Grid from '@mui/material/Grid'; // Grid version 1
-// import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import DownloadIcon from '@mui/icons-material/Download';
 import { saveAs } from 'file-saver';
 import { Canvg } from 'canvg';
@@ -12,7 +11,10 @@ import 'svg2pdf.js';
 const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setErrorMessage }) => {
   const handleDownload = useCallback(async (format) => {
     const svgElement = document.getElementById('svg-container').querySelector('svg');
-    if (!svgElement) return;
+    if (!svgElement) {
+      setErrorMessage('SVG element not found');
+      return;
+    }
 
     const widthPx = parseFloat(svgElement.width.baseVal.value);
     const heightPx = parseFloat(svgElement.height.baseVal.value);
@@ -35,7 +37,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
       const newWidthPx = widthPx * scaleFactor;
       const newHeightPx = heightPx * scaleFactor;
 
-      const canvas = await document.createElement('canvas');
+      const canvas = document.createElement('canvas');
       if (!canvas || !canvas.getContext) {
         setErrorMessage('Your browser does not support the HTML5 Canvas feature.');
         return;
@@ -61,7 +63,11 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
       await v.render();
 
       canvas.toBlob((blob) => {
-        saveAs(blob, filename);
+        if (blob) {
+          saveAs(blob, filename);
+        } else {
+          setErrorMessage('Failed to generate PNG.');
+        }
       });
     /* ---------------------------------------------------------------------- */
     } else if (format === 'pdf') {
@@ -79,30 +85,37 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
         })
         .then(() => {
           pdfDoc.save(filename);
+        })
+        .catch((error) => {
+          setErrorMessage('Failed to generate PDF.');
+          console.error(error);
         });
     }
     /* ---------------------------------------------------------------------- */
   }, [svgData, filenameBase, dpi, setErrorMessage]);
 
   return (
-    <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
-      <Grid item xs={12} sm={4} md={4}>
-        <Button variant="contained" onClick={() => handleDownload('svg')} startIcon={<DownloadIcon />} fullWidth>
-          SVG
+    <Stack direction='row' spacing={{ xs: 2, sm: 3, md: 4 }} justifyContent='center'>
+      {['svg', 'png', 'pdf'].map((format) => (
+        <Button
+          variant="contained"
+          key={format}
+          onClick={() => handleDownload(format)}
+          startIcon={<DownloadIcon />}
+          sx={{ minWidth: '15%' }}
+        >
+          {format}
         </Button>
-      </Grid>
-      <Grid item xs={12} sm={4} md={4}>
-        <Button variant="contained" onClick={() => handleDownload('png')} startIcon={<DownloadIcon />} fullWidth>
-          PNG
-        </Button>
-      </Grid>
-      <Grid item xs={12} sm={4} md={4}>
-        <Button variant="contained" onClick={() => handleDownload('pdf')} startIcon={<DownloadIcon />} fullWidth>
-          PDF
-        </Button>
-      </Grid>
-    </Grid>
+      ))}
+    </Stack>
   );
+};
+
+DownloadManager.propTypes = {
+  svgData: PropTypes.string.isRequired,
+  filenameBase: PropTypes.string,
+  dpi: PropTypes.number,
+  setErrorMessage: PropTypes.func.isRequired
 };
 
 export default DownloadManager;

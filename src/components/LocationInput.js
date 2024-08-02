@@ -1,9 +1,10 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup, InputAdornment } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import Config from '../Config';
 import debounce from 'lodash/debounce';
@@ -34,7 +35,7 @@ const fetchSuggestions = async (query, setSuggestions, setErrorMessage) => {
 };
 
 /* Validate the location */
-const validateLocationSync = (inputType, location) => {
+const validateLocationSync = (inputType, location, searchTerm) => {
   let newLocationError = {
     address: { valid: true, error: '' },
     lat: { valid: true, error: '' },
@@ -42,30 +43,30 @@ const validateLocationSync = (inputType, location) => {
   };
 
   if (inputType === 'address') {
-    if (!location.place_id) {
-      return { ...newLocationError, address: { valid: false, error: `Please enter and select a location.` } };
+    if (!searchTerm && !location.place_id) {
+      return { ...newLocationError, address: { valid: false, error: 'Please search and select a location.' } };
     }
   } else {
     if (!location.lat) {
-      return { ...newLocationError, lat: { valid: false, error: `Please enter a latitude.` } };
+      return { ...newLocationError, lat: { valid: false, error: 'Please enter a latitude.' } };
     }
     if (!location.lng) {
-      return { ...newLocationError, lng: { valid: false, error: `Please enter a longitude.` } };
+      return { ...newLocationError, lng: { valid: false, error: 'Please enter a longitude.' } };
     }
     if (!/^-?\d*(\.\d+)?$/.test(location.lat)) {
-      return { ...newLocationError, lat: { valid: false, error: `The latitude must be a decimal.` } };
+      return { ...newLocationError, lat: { valid: false, error: 'The latitude must be a decimal.' } };
     }
     if (!/^-?\d*(\.\d+)?$/.test(location.lng)) {
-      return { ...newLocationError, lng: { valid: false, error: `The longitude must be a decimal.` } };
+      return { ...newLocationError, lng: { valid: false, error: 'The longitude must be a decimal.' } };
     }
 
     const lat = parseFloat(location.lat);
     const lng = parseFloat(location.lng);
     if (lat < -90 || lat > 90) {
-      return { ...newLocationError, lat: { valid: false, error: `The latitude must be between -90° and 90°.` } };
+      return { ...newLocationError, lat: { valid: false, error: 'The latitude must be between -90° and 90°.' } };
     }
     if (lng < -180 || lng > 180) {
-      return { ...newLocationError, lng: { valid: false, error: `The longitude must be between -180° and 180°.` } };
+      return { ...newLocationError, lng: { valid: false, error: 'The longitude must be between -180° and 180°.' } };
     }
   }
 
@@ -100,7 +101,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    setLocation(prevLocation => ({ ...prevLocation, [name]: value.toString() }));
+    setLocation(prev => ({ ...prev, [name]: value }));
     setLocationValid(true);
     setLocationError({
       address: { valid: true, error: '' },
@@ -125,8 +126,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   }, [debouncedFetchSuggestions]);
 
   const debouncedValidateLocation = useMemo(
-    () => debounce((inputType, location) => {
-      const validationResult = validateLocationSync(inputType, location);
+    () => debounce((inputType, location, searchTerm) => {
+      const validationResult = validateLocationSync(inputType, location, searchTerm);
       const isValid = !Object.values(validationResult).some(item => !item.valid);
       setLocationError(validationResult);
       setLocationValid(isValid);
@@ -135,13 +136,12 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   );
 
   useEffect(() => {
-    debouncedValidateLocation(inputType, location);
-
+    debouncedValidateLocation(inputType, location, searchTerm);
     /* Cleanup function */
     return () => {
       debouncedValidateLocation.cancel();
     };
-  }, [inputType, location, debouncedValidateLocation]);
+  }, [inputType, location, searchTerm, debouncedValidateLocation]);
 
   const handleSearchChange = useCallback(
     (event, newInputValue) => {
@@ -249,6 +249,10 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
               placeholder="Enter a place, city, county, state, or country"
               size="small"
               variant="outlined"
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: <InputAdornment position="start"><SearchIcon color="disabled"/></InputAdornment>,
+              }}
               fullWidth
             />
           )}
@@ -300,7 +304,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
 LocationInput.propTypes = {
   onLocationChange: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
-  setLocationValid: PropTypes.func.isRequired,
+  setLocationValid: PropTypes.func.isRequired
 };
 
 export default LocationInput;

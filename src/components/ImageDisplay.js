@@ -1,5 +1,6 @@
 // src/components/ImageDisplay.js
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 
 const ImageDisplay = ({ svgData }) => {
@@ -16,6 +17,10 @@ const ImageDisplay = ({ svgData }) => {
       dangerouslySetInnerHTML={{ __html: svgData }}
     />
   );
+};
+
+ImageDisplay.propTypes = {
+  svgData: PropTypes.string.isRequired
 };
 
 export default ImageDisplay;

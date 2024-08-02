@@ -2,10 +2,10 @@
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
-  dividerText: {
-    color: theme.palette.text.disabled,
-    fontSize: "0.8rem"
-  },
+  // dividerText: {
+  //   color: theme.palette.text.disabled,
+  //   fontSize: "0.8rem"
+  // },
   // buttonStyle: {
   //   backgroundColor: theme.palette.primary.main,
   //   color: theme.palette.common.white,

@@ -7,7 +7,7 @@ import { PT_NAMES } from '../utils/constants';
 
 const AnnoDisplay = ({ anno }) => {
   const filteredAnno = useMemo(() => anno.filter(item => item.is_displayed), [anno]);
-  const tzStr = useMemo(() => formatTimezone(parseFloat(filteredAnno[0].time_zone)), [filteredAnno]);
+  const tzStr = useMemo(() => formatTimezone(filteredAnno[0].time_zone), [filteredAnno]);
   const redAsterisk = useMemo(() => <span style={{ color: 'red' }}>*</span>, []);
 
   return (
@@ -19,7 +19,7 @@ const AnnoDisplay = ({ anno }) => {
               <TableCell rowSpan={2}>Point</TableCell>
               <TableCell rowSpan={2}>Altitude</TableCell>
               <TableCell rowSpan={2}>Azimuth</TableCell>
-              <TableCell colSpan={2}>{`Standard Time`}{redAsterisk}{` (${tzStr})`}</TableCell>
+              <TableCell colSpan={2}>{`Standard Time${redAsterisk} (${tzStr})`}</TableCell>
               <TableCell colSpan={2}>Universal Time (UT1)</TableCell>
             </TableRow>
             <TableRow>

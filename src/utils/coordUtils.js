@@ -17,30 +17,46 @@ const dmsToDecimal = ({ degrees, minutes, seconds }) => {
 };
 
 /**
- * Converts decimal hours to DMS (Degrees, Minutes, Seconds).
+ * Converts decimal degrees to DMS (Degrees, Minutes, Seconds).
  * 
  * @param {number} decimalDegrees - Decimal degrees
  * @returns {Object} An object containing degrees, minutes, and seconds
  */
 const decimalToDMS = (decimalDegrees) => {
   const sign = decimalDegrees < 0 ? -1 : 1;
-  const absdecimalDegrees = Math.abs(decimalDegrees);
-  const absDegrees = Math.floor(absdecimalDegrees);
-  const minutes = Math.floor((absdecimalDegrees - absDegrees) * 60);
-  const seconds = ((absdecimalDegrees - absDegrees) * 60 - minutes) * 60;
-  return { degrees: parseInt(sign * absDegrees), minutes, seconds };
+  const absDecimalDegrees = Math.abs(decimalDegrees);
+  const absDegrees = Math.floor(absDecimalDegrees);
+  const minutes = Math.floor((absDecimalDegrees - absDegrees) * 60);
+  const seconds = ((absDecimalDegrees - absDegrees) * 60 - minutes) * 60;
+  return { degrees: sign * absDegrees, minutes, seconds };
 };
 
+/**
+ * Formats DMS (Degrees, Minutes, Seconds) into a string.
+ * 
+ * @param {Object} params - An object containing degrees, minutes, and seconds
+ * @param {number} params.degrees - The degrees component
+ * @param {number} params.minutes - The minutes component
+ * @param {number} params.seconds - The seconds component
+ * @returns {string} The formatted DMS string
+ */
 const formatDMS = ({ degrees, minutes, seconds }) => {
   return `${degrees < 0 ? '-' : '+'}${Math.abs(degrees)}°${minutes}'${seconds.toFixed(2)}"`;
 };
 
+/**
+ * Formats decimal degrees into a DMS string.
+ * 
+ * @param {number} decimalDegrees - Decimal degrees
+ * @returns {string} The formatted DMS string
+ */
 const formatDecimalDgrees = (decimalDegrees) => {
   const dms = decimalToDMS(decimalDegrees);
   return formatDMS(dms);
 };
 
 /**
+ * Converts DMS (Degrees, Minutes, Seconds) to HMS (Hours, Minutes, Seconds).
  * 
  * @param {Object} dms - An object containing degrees, minutes, and seconds
  * @returns {Object} An object containing hours, minutes, and seconds
@@ -52,6 +68,7 @@ const dmsToHMS = (dms) => {
 };
 
 /**
+ * Converts HMS (Hours, Minutes, Seconds) to DMS (Degrees, Minutes, Seconds).
  * 
  * @param {Object} hms - An object containing hours, minutes, and seconds
  * @returns {Object} An object containing degrees, minutes, and seconds

@@ -1,18 +1,21 @@
 // src/components/DateInput.js
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Box, Stack, TextField, MenuItem, Button, Typography } from '@mui/material';
+import { Stack, TextField, MenuItem, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX, EQX_SOL } from '../utils/constants';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX, EQX_SOL_NAMES, EQX_SOL_KEYS } from '../utils/constants';
 import { dateToStr } from '../utils/dateUtils';
 import Config from '../Config';
+import CustomToggleButton from './ui/CustomToggleButton';
 import debounce from 'lodash/debounce';
 
 /* Adjust the date */
-const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting) => {
+const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setDateError) => {
   const date = dateRef.current;
+  const flag = flagRef.current;
   const year = parseInt(date.year) || new Date().getFullYear();
   let month = parseInt(date.month) || 1;
   let day = parseInt(date.day) || 1;
@@ -28,6 +31,21 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChang
   }
   setLastDay(dayMax);
 
+  if (flag && year > EPH_DATE_MIN[0] && year < EPH_DATE_MAX[0]) {
+    /* Get the date of equinox/solstice */
+    try {
+      const response = await axios.get(`${Config.serverUrl}/equinox?year=${year}`, {
+        timeout: Config.serverGetTimeout
+      });
+      month = response.data.results[EQX_SOL_KEYS[flag]][1].toString();
+      day = response.data.results[EQX_SOL_KEYS[flag]][2].toString();
+    } catch (error) {
+      setAdjusting(false);
+      setDateError(prev => ({ ...prev, general: { valid: false, error: 'Failed to adjust date.' } }));
+      return;
+    }
+  }
+  
   if (year) {
     /* Enable all month options before EPH_DATE_MIN */
     Object.keys(newDisabledMonths).forEach((key) => {
@@ -78,8 +96,8 @@ const adjustDate = (dateRef, setDate, setDisabledMonths, setLastDay, onDateChang
 };
 
 /* Validate the date */
-const validateDateSync = (date) => {
-  // console.log(`get date: '${date.year}' '${date.month}' '${date.day}'`);
+const validateDateSync = (date, flag) => {
+  // console.log(`get date: '${date.year}' '${date.month}' '${date.day}' '${flag}'`);
   let newDateError = {
     general: { valid: true, error: '' },
     year: { valid: true, error: '' },
@@ -103,9 +121,9 @@ const validateDateSync = (date) => {
   const day = parseInt(date.day);
 
   if (
-    (year < EPH_DATE_MIN[0] ||
+    (year < EPH_DATE_MIN[0] || (flag && year === EPH_DATE_MIN[0]) ||
       (year === EPH_DATE_MIN[0] && (month < EPH_DATE_MIN[1] || (month === EPH_DATE_MIN[1] && day < EPH_DATE_MIN[2])))) ||
-    (year > EPH_DATE_MAX[0] ||
+    (year > EPH_DATE_MAX[0] || (flag && year === EPH_DATE_MAX[0]) ||
       (year === EPH_DATE_MAX[0] && (month > EPH_DATE_MAX[1] || (month === EPH_DATE_MAX[1] && day > EPH_DATE_MAX[2]))))
   ) {
     // setErrorMessage(`Out of the ephemeris date range: ${dateToStr({ date: EPH_DATE_MIN })} \u2013 ${dateToStr({ date: EPH_DATE_MAX })}`);
@@ -117,6 +135,7 @@ const validateDateSync = (date) => {
 
 const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
   const [date, setDate] = useState({ year: '2000', month: '1', day: '1' });
+  const [flag, setFlag] = useState('');
   const [disabledMonths, setDisabledMonths] = useState({});
   const [lastDay, setLastDay] = useState(31);
   const [adjusting, setAdjusting] = useState(false);
@@ -127,6 +146,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
     day: { valid: true, error: '' }
   });
   const dateRef = useRef(date);
+  const flagRef = useRef(flag);
 
   /* Initiate with the current date */
   useEffect(() => {
@@ -134,11 +154,12 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
     const initialDate = {
       year: now.getFullYear().toString(),
       month: (now.getMonth() + 1).toString(),
-      day: now.getDate().toString(),
+      day: now.getDate().toString()
     };
     setDate(initialDate);
     dateRef.current = initialDate;
-    onDateChange(initialDate);
+    flagRef.current = '';
+    onDateChange({ ...initialDate, flag: '' });
     setDateValid(true);
   }, [onDateChange, setDateValid]);
 
@@ -147,23 +168,47 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
   }, [date]);
 
   useEffect(() => {
-    setErrorMessage('');
-  }, [date, setErrorMessage]);
+    flagRef.current = flag;
+  }, [flag]);
 
-  const handleInputChange = (event) => {
+  useEffect(() => {
+    setErrorMessage('');
+  }, [date, flag, setErrorMessage]);
+
+  const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    const newDate = { ...date, [name]: value.toString() };
-    setDate(newDate);
-    onDateChange(newDate);
+    setDate(prev => {
+      const newDate = { ...prev, [name]: value };
+      onDateChange({ ...newDate, flag });
+      setDateValid(true);
+      setDateError({
+        general: { valid: true, error: '' },
+        year: { valid: true, error: '' },
+        month: { valid: true, error: '' },
+        day: { valid: true, error: '' }
+      });  // Reset error when user starts typing
+      setAdjusting(true);
+      return newDate;
+    });
+  }, [flag, onDateChange, setDateValid]);
+
+  const handleFlagChange = useCallback(async (event, newFlag) => {
+    if (flag === newFlag) {
+      setFlag('');  // deselect
+      onDateChange({ ...date, flag: '' });
+    } else {
+      setFlag(newFlag);  // select another
+      onDateChange({ ...date, flag: newFlag });
+    }
     setDateValid(true);
-    setAdjusting(true);
     setDateError({
       general: { valid: true, error: '' },
       year: { valid: true, error: '' },
       month: { valid: true, error: '' },
       day: { valid: true, error: '' }
-    });  // Reset error when user starts typing
-  };
+    });  // Reset error when user changes the flag
+    setAdjusting(true);
+  }, [date, flag, onDateChange, setDateValid]);
 
   const debouncedAdjustDate = useMemo(
     () => debounce(adjustDate),
@@ -171,8 +216,8 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
   );
 
   const debouncedValidateDate = useMemo(
-    () => debounce((date) => {
-      const validationResult = validateDateSync(date);
+    () => debounce((date, flag) => {
+      const validationResult = validateDateSync(date, flag);
       const isValid = !Object.values(validationResult).some(item => !item.valid);
       setDateError(validationResult);
       setDateValid(isValid);
@@ -182,24 +227,23 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
 
   useEffect(() => {
     if (adjusting) {  // start adjusting
-      debouncedAdjustDate(dateRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting);
+      debouncedAdjustDate(dateRef, flagRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setDateError);
     }
     /* Cleanup function */
     return () => {
       debouncedAdjustDate.cancel();
     };
-  }, [date.year, date.month, adjusting, onDateChange, debouncedAdjustDate]);
+  }, [date.year, date.month, flag, adjusting, onDateChange, debouncedAdjustDate]);
 
   useEffect(() => {
     if (!adjusting) {
-      debouncedValidateDate(date);
+      debouncedValidateDate(date, flag);
     }
-
     /* Cleanup function */
     return () => {
       debouncedValidateDate.cancel();
     };
-  }, [date, adjusting, debouncedValidateDate]);
+  }, [date, flag, adjusting, debouncedValidateDate]);
 
   return (
     <Stack direction="column">
@@ -226,17 +270,25 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
               required
               select
               label="Month"
+              InputLabelProps={{ htmlFor: 'month-select' }}
+              inputProps={{ id: 'month-select' }}
               size="small"
               variant="outlined"
               name="month"
               value={date.month}
               onChange={handleInputChange}
+              disabled={!!flag}
               fullWidth
               error={!dateError.month.valid || !dateError.general.valid}
               helperText={!dateError.month.valid && dateError.month.error}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  'backgroundColor': !flag ? null : '#f5f5f5',
+                },
+              }}
             >
               {MONTHS.slice(1).map((month, index) => (
-                <MenuItem key={index} value={index + 1} disabled={!!disabledMonths[index + 1]}>
+                <MenuItem key={index} value={(index + 1).toString()} disabled={!!disabledMonths[index + 1]}>
                   {month.name}
                 </MenuItem>
               ))}
@@ -253,38 +305,56 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
               value={date.day}
               onChange={handleInputChange}
               inputProps={{ min: 1, max: lastDay }}
+              disabled={!!flag}
               fullWidth
               error={!dateError.day.valid || !dateError.general.valid}
               helperText={!dateError.day.valid && dateError.day.error}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  'backgroundColor': !flag ? null : '#f5f5f5',
+                },
+              }}
             />
           </Grid>
         </Grid>
 
         {!dateError.general.valid && (
-          <Typography color="error" variant="body2" sx={{ marginTop: '4px', fontSize: '0.85rem' }}>
+          <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: '0.85rem', textAlign: 'left' }}>
             {dateError.general.error}
           </Typography>
         )}
       </div>
 
       <div>
-        <Typography color="primary" variant="body1" py={1} pl={2}>
-          <Box display="flex" alignItems="center" justifyContent="center">
-            Quick Entry
-            <KeyboardArrowDownIcon />
-          </Box>
-        </Typography>
-        <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
-            {/* <Grid item xs={12} sm={6} md={2}>
-              <Button variant="outlined" fullWidth>Today</Button>
-            </Grid> */}
-          
-          {Object.entries(EQX_SOL).map(([key, value]) => (
-            <Grid item xs={12} sm={6} md={3}>
-              <Button variant="outlined" fullWidth>{value}</Button>
+        <Accordion defaultExpanded disableGutters>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            sx={{ minHeight: 0 }}
+          >
+            <Typography color="dimgray" variant="body1">
+              Quick Entry
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
+              {Object.entries(EQX_SOL_NAMES).map(([key, value]) => (
+                <Grid item xs={12} sm={6} md={3} key={key}>
+                  <CustomToggleButton
+                    color="primary"
+                    size="small"
+                    value={key}
+                    selected={flag === key}
+                    onChange={handleFlagChange}
+                    aria-label={value}
+                    fullWidth
+                  >
+                    {value}
+                  </CustomToggleButton>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+          </AccordionDetails>
+        </Accordion>
       </div>
     </Stack>
   );
@@ -293,7 +363,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
 DateInput.propTypes = {
   onDateChange: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
-  setDateValid: PropTypes.func.isRequired,
+  setDateValid: PropTypes.func.isRequired
 };
 
 export default DateInput;

@@ -35,11 +35,18 @@ const PT_NAMES = {
   T: 'Meridian Transit'
 };
 
-const EQX_SOL = {
+const EQX_SOL_NAMES = {
   ve: 'Vernal Equinox',
   ss: 'Summer Solstice',
   ae: 'Autumnal Equinox',
   ws: 'Winter Solstice',
-}
+};
 
-export { EPH_DATE_MIN, EPH_DATE_MAX, MONTHS, STARS, PT_NAMES, EQX_SOL };
+const EQX_SOL_KEYS = {
+  ve: 'vernal_time',
+  ss: 'summer_time',
+  ae: 'autumnal_time',
+  ws: 'winter_time'
+};
+
+export { EPH_DATE_MIN, EPH_DATE_MAX, MONTHS, STARS, PT_NAMES, EQX_SOL_NAMES, EQX_SOL_KEYS };

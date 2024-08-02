@@ -14,13 +14,13 @@ const theme = createTheme();  // Create the default theme
 const App = () => {
   const [diagramId, setDiagramId] = useState('');
   const [svgData, setSvgData] = useState('');
-  const [anno, setAnno] = useState('');
+  const [anno, setAnno] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
   const clearImage = useCallback(() => {
     setDiagramId('');
     setSvgData('');
-    setAnno('');
+    setAnno([]);
   }, []);
 
   const handleSetErrorMessage = useCallback((message) => {
@@ -28,74 +28,71 @@ const App = () => {
   }, []);
 
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Container maxWidth="md" sx={{ paddingY: 4 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              minHeight: '90vh',
-              textAlign: 'center',
-              gap: 1,  // Default MUI spacing: 8px
-            }}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth="md" sx={{ paddingY: 4 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            minHeight: '90vh',
+            textAlign: 'center',
+            gap: 1,  // Default MUI spacing: 8px
+          }}
+        >
+          <Typography variant="h2" component="h1" sx={{ fontSize: '2.5rem' }}>
+            Star Trail in Ancient Sky
+          </Typography>
+
+          <Typography
+            variant="body1"
+            color={theme.palette.grey[600]}
+            sx={{ fontSize: '1.2rem', marginBottom: 0 }}
+            gutterBottom
           >
-            <Typography variant="h2" component="h1" sx={{ fontSize: "3rem" }}>
-              Star Trail in Ancient Sky
-            </Typography>
+            ... hero text ...
+          </Typography>
 
-            <Typography
-              variant="body1"
-              color={
-              theme.palette.grey[600]}
-              sx={{ fontSize: "1.2rem", marginBottom: 3 }}
-              gutterBottom
-            >
-              ... hero text ...
-            </Typography>
-
-            <Box sx={{ minHeight: '1rem' }}>
-              {errorMessage &&
-                <Alert severity="error" sx={{ width: '100%' }}>
-                  {errorMessage}
-                </Alert>
-              }
-            </Box>
-
-            <Box sx={{ width: '100%', justifyContent: 'center' }}>
-              <DiagramFetcher
-                setDiagramId={setDiagramId}
-                setSvgData={setSvgData}
-                setAnno={setAnno}
-                errorMessage={errorMessage}
-                setErrorMessage={handleSetErrorMessage}
-                clearImage={clearImage}
-              />
-            </Box>
-
-            {svgData && (
-              <Box sx={{ width: '100%', justifyContent: 'center' }}>
-                <Box id="svg-container">
-                  <ImageDisplay svgData={svgData} />
-                </Box>
-                <DownloadManager
-                  svgData={svgData}
-                  filenameBase={`st_${diagramId}`}
-                  dpi="300"
-                  setErrorMessage={setErrorMessage}
-                />
-                <Box id="annotations" mt={2}>
-                  <AnnoDisplay anno={anno} />
-                </Box>
-              </Box>
+          <Box sx={{ minHeight: '1rem' }}>
+            {errorMessage && (
+              <Alert severity="error" sx={{ width: '100%' }}>
+                {errorMessage}
+              </Alert>
             )}
           </Box>
-        </Container>
-      </ThemeProvider>
-    </>
+
+          <Box sx={{ width: '100%', justifyContent: 'center' }}>
+            <DiagramFetcher
+              setDiagramId={setDiagramId}
+              setSvgData={setSvgData}
+              setAnno={setAnno}
+              errorMessage={errorMessage}
+              setErrorMessage={handleSetErrorMessage}
+              clearImage={clearImage}
+            />
+          </Box>
+
+          {svgData && (
+            <Box sx={{ width: '100%', justifyContent: 'center' }}>
+              <Box id="svg-container">
+                <ImageDisplay svgData={svgData} />
+              </Box>
+              <DownloadManager
+                svgData={svgData}
+                filenameBase={`st_${diagramId}`}
+                dpi={300}
+                setErrorMessage={setErrorMessage}
+              />
+              <Box id="annotations" mt={2}>
+                <AnnoDisplay anno={anno} />
+              </Box>
+            </Box>
+          )}
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 };
 
