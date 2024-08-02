@@ -177,20 +177,24 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    setDate(prev => {
-      const newDate = { ...prev, [name]: value };
-      onDateChange({ ...newDate, flag });
-      setDateValid(true);
-      setDateError({
-        general: { valid: true, error: '' },
-        year: { valid: true, error: '' },
-        month: { valid: true, error: '' },
-        day: { valid: true, error: '' }
-      });  // Reset error when user starts typing
-      setAdjusting(true);
-      return newDate;
-    });
-  }, [flag, onDateChange, setDateValid]);
+    const newDate = { ...date, [name]: value };
+    setDate(newDate);
+    // onDateChange({ ...newDate, flag });
+    setDateValid(true);
+    setDateError({
+      general: { valid: true, error: '' },
+      year: { valid: true, error: '' },
+      month: { valid: true, error: '' },
+      day: { valid: true, error: '' }
+    });  // Reset error when user starts typing
+    setAdjusting(true);
+  }, [date, setDateValid]);
+
+  useEffect(() => {
+    if (!adjusting) {
+      onDateChange({ ...date, flag });
+    }
+  }, [date, flag, onDateChange, adjusting]);
 
   const handleFlagChange = useCallback(async (event, newFlag) => {
     if (flag === newFlag) {
