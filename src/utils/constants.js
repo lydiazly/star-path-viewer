@@ -26,7 +26,7 @@ const STARS = {
   Saturn: 'saturn',
   Uranus: 'uranus',
   Neptune: 'neptune',
-  Pluto: 'pluto'
+  // Pluto: 'pluto'
 };
 
 const PT_NAMES = {

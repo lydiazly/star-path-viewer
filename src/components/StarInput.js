@@ -220,10 +220,10 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
         fullWidth
       >
         <ToggleButton value="name" aria-label="Input Name">
-          Planet Name
+          Planet
         </ToggleButton>
         <ToggleButton value="hip" aria-label="Input Hipparchus">
-          Hipparchus
+          Star
         </ToggleButton>
         <ToggleButton value="radec" aria-label="Input RA/Dec">
           RA/Dec (J2000)
@@ -235,7 +235,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
           required
           select
           autoComplete="off"
-          label="Celestial Object Name"
+          label="Planet Name"
           InputLabelProps={{ htmlFor: 'star-select' }}
           inputProps={{ id: 'star-select' }}
           size="small"

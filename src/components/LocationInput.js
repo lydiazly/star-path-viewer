@@ -38,8 +38,34 @@ const fetchSuggestions = async (query, setSuggestions, setErrorMessage, setLoadi
   }
 };
 
+const reverseGeocode = async (lat, lng, setSearchTerm, setLocation, setErrorMessage) => {
+  try {
+    const response = await axios.get(Config.nominatimReverseUrl, {
+      params: {
+        lat,
+        lon: lng,
+        format: 'json',
+        addressdetails: 1,
+      },
+      timeout: Config.nominatimTimeout,
+    });
+    if (response.data && response.data.display_name) {
+      setSearchTerm(response.data.display_name);
+      setLocation({
+        lat: lat.toString(),
+        lng: lng.toString(),
+        place_id: response.data.place_id,
+      });
+    } else {
+      setErrorMessage('Unable to fetch the address for the current location.');
+    }
+  } catch (error) {
+    setErrorMessage(`Error fetching address: ${error}`);
+  }
+};
+
 /* Validate the location */
-const validateLocationSync = (inputType, location, searchTerm) => {
+const validateLocationSync = (inputType, location, searchTerm, loadingLocation) => {
   let newLocationError = {
     address: { valid: true, error: '' },
     lat: { valid: true, error: '' },
@@ -47,7 +73,7 @@ const validateLocationSync = (inputType, location, searchTerm) => {
   };
 
   if (inputType === 'address') {
-    if (!searchTerm && !location.place_id) {
+    if (!searchTerm && !location.place_id && !loadingLocation) {
       return { ...newLocationError, address: { valid: false, error: 'Please search and select a location.' } };
     }
   } else {
@@ -104,23 +130,19 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
       setLoadingLocation(true);
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setLocation({
-            lat: position.coords.latitude.toString(),
-            lng: position.coords.longitude.toString(),
-            place_id: ''
-          });
-          setLoadingLocation(false);
+          const { latitude, longitude } = position.coords;
+          reverseGeocode(latitude, longitude, setSearchTerm, setLocation, setErrorMessage);
         },
         (error) => {
           setErrorMessage('Error fetching current location.');
-          setLoadingLocation(false);
         },
         {
           enableHighAccuracy: false,
-          // timeout: 10000,
-          // maximumAge: 60000
+          timeout: 10000,
+          maximumAge: 60000
         }
       );
+      setLoadingLocation(false);
     } else {
       setErrorMessage('Geolocation is not supported by this browser.');
     }
@@ -159,8 +181,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   }, [debouncedFetchSuggestions]);
 
   const debouncedValidateLocation = useMemo(
-    () => debounce((inputType, location, searchTerm) => {
-      const validationResult = validateLocationSync(inputType, location, searchTerm);
+    () => debounce((inputType, location, searchTerm, loadingLocation) => {
+      const validationResult = validateLocationSync(inputType, location, searchTerm, loadingLocation);
       const isValid = !Object.values(validationResult).some(item => !item.valid);
       setLocationError(validationResult);
       setLocationValid(isValid);
@@ -169,12 +191,12 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   );
 
   useEffect(() => {
-    debouncedValidateLocation(inputType, location, searchTerm);
+    debouncedValidateLocation(inputType, location, searchTerm, loadingLocation);
     /* Cleanup function */
     return () => {
       debouncedValidateLocation.cancel();
     };
-  }, [inputType, location, searchTerm, debouncedValidateLocation]);
+  }, [inputType, location, searchTerm, loadingLocation, debouncedValidateLocation]);
 
   const handleSearchChange = useCallback(
     (event, newInputValue) => {
@@ -254,7 +276,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
         </ToggleButton>
       </ToggleButtonGroup>
 
-      {inputType === "address" ? (
+      {inputType === 'address' ? (
         <Autocomplete
           freeSolo
           clearOnEscape
@@ -272,15 +294,9 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
             <li
               {...props}
               key={option.place_id}
-              style={
-                option.place_id === "not-found"
-                  ? { pointerEvents: "none", color: "gray" }
-                  : {}
-              }
+              style={option.place_id === 'not-found' ? { pointerEvents: 'none', color: 'gray' } : {}}
             >
-              {`${option.display_name} ${
-                option.address_type ? `(${option.address_type})` : ""
-              }`}
+              {`${option.display_name} ${option.address_type ? `(${option.address_type})` : ''}`}
             </li>
           )}
           renderInput={(params) => (
@@ -288,9 +304,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
               {...params}
               required
               error={!locationError.address.valid}
-              helperText={
-                !locationError.address.valid && locationError.address.error
-              }
+              helperText={!locationError.address.valid && locationError.address.error}
               label="Search address"
               placeholder="Enter a place, city, county, state, or country"
               size="small"
