@@ -14,7 +14,7 @@ const theme = createTheme();  // Create the default theme
 
 const App = () => {
   const [success, setSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
   const [diagramId, setDiagramId] = useState('');
   const [svgData, setSvgData] = useState('');
   const [anno, setAnno] = useState(null);
@@ -55,23 +55,13 @@ const App = () => {
             {`\u2014 Star trail of a given star in ancient sky \u2014`}
           </Typography>
 
-          <Box sx={{ width: '100%', justifyContent: 'center', minHeight: '1rem' }}>
-            {errorMessage && (
-              <Alert severity="error" sx={{ width: '100%' }}>
-                {errorMessage}
-              </Alert>
-            )}
-          </Box>
-
-          <Box sx={{ width: '100%', justifyContent: 'center' }}>
+          <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>
             <DiagramFetcher
               setDiagramId={setDiagramId}
               setInfo={setInfo}
               setSvgData={setSvgData}
               setAnno={setAnno}
               setSuccess={setSuccess}
-              errorMessage={errorMessage}
-              setErrorMessage={setErrorMessage}
               clearImage={clearImage}
             />
           </Box>
@@ -96,7 +86,12 @@ const App = () => {
                     <ImageDisplay svgData={svgData} />
                   </Box>
                   
-                  <Box id="download-diagram">
+                  <Box id="download">
+                    {errorMessage && errorMessage.id === 'download' && (
+                      <Alert severity="error" sx={{ width: '100%' }} onClose={() => setErrorMessage(null)}>
+                        {errorMessage.message}
+                      </Alert>
+                    )}
                     <DownloadManager
                       svgData={svgData}
                       filenameBase={`st_${diagramId}`}

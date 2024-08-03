@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
-import { Box, Stack, Button, CircularProgress } from '@mui/material';
+import { Box, Stack, Alert, Button, CircularProgress } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PropTypes from 'prop-types';
 import LocationInput from './LocationInput';
@@ -12,10 +12,11 @@ import { STARS } from '../utils/constants';
 import Config from '../Config';
 import CustomDivider from './ui/CustomDivider';
 
-const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, errorMessage, setErrorMessage, clearImage }) => {
+const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
   const [date, setDate] = useState({ year: '', month: '', day: '', flag: '' });  // flag: 've', 'ss', 'ae', 'ws'
   const [location, setLocation] = useState({ lat: '', lng: '' });
   const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: 'name' });  // type: 'name', 'hip', 'radec'
+  const [inputErrorMessage, setInputErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [dateValid, setDateValid] = useState(false);
   const [locationValid, setLocationValid] = useState(false);
@@ -38,7 +39,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     }
 
     clearImage();  // Clear the SVG data before making the API call
-    setErrorMessage('');  // Clear any previous error message before making the API call
+    setInputErrorMessage(null);  // Clear any previous error message before making the API call
     setSuccess(false);
     setLoading(true);
 
@@ -52,7 +53,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       params.month = parseInt(date.month).toString();
       params.day = parseInt(date.day).toString();
     } else {
-      setErrorMessage('Either year, month, or day is invalid.');
+      setInputErrorMessage({ id: 'date', message: 'Either year, month, or day is invalid.' });
       setSuccess(false);
       setLoading(false);
       return;
@@ -62,7 +63,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       params.lat = parseFloat(location.lat).toString();
       params.lng = parseFloat(location.lng).toString();
     } else {
-      setErrorMessage('Either latitude or longitude is invalid.');
+      setInputErrorMessage({ id: 'location', message: 'Either latitude or longitude is invalid.' });
       setSuccess(false);
       setLoading(false);
       return;
@@ -76,7 +77,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       params.ra = parseFloat(star.ra).toString();
       params.dec = parseFloat(star.dec).toString();
     } else {
-      setErrorMessage('Either planet name, Hipparchus catalogue number, or (ra, dec) is invalid.');
+      setInputErrorMessage({ id: 'star', message: 'Either planet name, Hipparchus catalogue number, or (ra, dec) is invalid.' });
       setSuccess(false);
       setLoading(false);
       return;
@@ -131,35 +132,50 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       setDiagramId(response.data.diagramId);
       setSvgData(sanitizedSvg);
       setAnno(response.data.annotations);
-      setErrorMessage('');  // Clear any previous error message
+      setInputErrorMessage(null);  // Clear any previous error message
       setSuccess(true);
 
     } catch (error) {
-      setErrorMessage(error.response?.data?.error || error.message || 'An error occurred');
+      setInputErrorMessage({ id: 'draw', message: error.response?.data?.error || error.message || 'An error occurred' });
       clearImage();  // Clear SVG on error
       setSuccess(false);
 
     } finally {
       setLoading(false);
     }
-  }, [date, location, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setErrorMessage]);
+  }, [date, location, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setInputErrorMessage]);
 
   return (
     <Box>
-      <Stack direction="column" spacing={2} id="input-fields">
-        <Stack direction="column" spacing={1} id="location-input">
+      <Stack id="input-fields" direction="column" spacing={2}>
+        <Stack id="location" direction="column" spacing={1}>
           <CustomDivider>LOCATION</CustomDivider>
-          <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} setLocationValid={setLocationValid} />
+          {inputErrorMessage && inputErrorMessage.id === 'location' && (
+            <Alert severity="error" onClose={() => setInputErrorMessage(null)}>
+              {inputErrorMessage.message}
+            </Alert>
+          )}
+          <LocationInput onLocationChange={setLocation} setErrorMessage={setInputErrorMessage} setLocationValid={setLocationValid} />
         </Stack>
 
-        <Stack direction="column" spacing={1} id="date-input">
+        <Stack id="date" direction="column" spacing={1}>
           <CustomDivider>DATE</CustomDivider>
-          <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} />
+          {inputErrorMessage && inputErrorMessage.id === 'date' && (
+            <Alert severity="error" onClose={() => setInputErrorMessage(null)}>
+              {inputErrorMessage.message}
+            </Alert>
+          )}
+          <DateInput onDateChange={setDate} setErrorMessage={setInputErrorMessage} setDateValid={setDateValid} />
         </Stack>
 
-        <Stack direction="column" spacing={1} id="star-input">
+        <Stack id="star" direction="column" spacing={1}>
           <CustomDivider>CELESTIAL OBJECT</CustomDivider>
-          <StarInput onStarChange={setStar} setErrorMessage={setErrorMessage} setStarValid={setStarValid} />
+          {inputErrorMessage && inputErrorMessage.id === 'star' && (
+            <Alert severity="error" onClose={() => setInputErrorMessage(null)}>
+              {inputErrorMessage.message}
+            </Alert>
+          )}
+          <StarInput onStarChange={setStar} setErrorMessage={setInputErrorMessage} setStarValid={setStarValid} />
         </Stack>
       </Stack>
 
@@ -171,7 +187,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
           : <ArrowForwardIcon />}
         sx={{ marginTop: 3 }}
-        disabled={!!errorMessage || loading || !dateValid || !locationValid || !starValid}
+        disabled={!!inputErrorMessage || loading || !dateValid || !locationValid || !starValid}
         onClick={handleDraw}
         fullWidth
       >
@@ -187,8 +203,6 @@ DiagramFetcher.propTypes = {
   setSvgData: PropTypes.func.isRequired,
   setAnno: PropTypes.func.isRequired,
   setSuccess: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string,
-  setErrorMessage: PropTypes.func.isRequired,
   clearImage: PropTypes.func.isRequired,
 };
 

@@ -13,7 +13,7 @@ import CustomToggleButton from './ui/CustomToggleButton';
 import debounce from 'lodash/debounce';
 
 /* Adjust the date */
-const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setDateError) => {
+const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage) => {
   const date = dateRef.current;
   const flag = flagRef.current;
   const year = parseInt(date.year) || new Date().getFullYear();
@@ -32,7 +32,7 @@ const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastD
   setLastDay(dayMax);
 
   if (flag && year > EPH_DATE_MIN[0] && year < EPH_DATE_MAX[0]) {
-    /* Get the date of equinox/solstice */
+    /* Get the date for the equinox/solstice of the given year */
     try {
       const response = await axios.get(`${Config.serverUrl}/equinox?year=${year}`, {
         timeout: Config.serverGetTimeout
@@ -41,7 +41,7 @@ const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastD
       day = response.data.results[EQX_SOL_KEYS[flag]][2].toString();
     } catch (error) {
       setAdjusting(false);
-      setDateError(prev => ({ ...prev, general: { valid: false, error: 'Failed to adjust date.' } }));
+      setErrorMessage({ id: 'date', message: 'Failed to get the date.' });
       return;
     }
   }
@@ -107,11 +107,9 @@ const validateDateSync = (date, flag) => {
 
   for (let key of ['year', 'month', 'day']) {
     if (!date[key]) {
-      // setErrorMessage(`Please enter a ${key}.`);
       return { ...newDateError, [key]: { valid: false, error: `Please enter a ${key}.` } };
     }
     if (!/^-?\d*$/.test(date[key])) {
-      // setErrorMessage(`The ${key} must be an integer.`);
       return { ...newDateError, [key]: { valid: false, error: `The ${key} must be an integer.` } };
     }
   }
@@ -126,10 +124,8 @@ const validateDateSync = (date, flag) => {
     (year > EPH_DATE_MAX[0] || (flag && year === EPH_DATE_MAX[0]) ||
       (year === EPH_DATE_MAX[0] && (month > EPH_DATE_MAX[1] || (month === EPH_DATE_MAX[1] && day > EPH_DATE_MAX[2]))))
   ) {
-    // setErrorMessage(`Out of the ephemeris date range: ${dateToStr({ date: EPH_DATE_MIN })} \u2013 ${dateToStr({ date: EPH_DATE_MAX })}`);
     return { ...newDateError, general: { valid: false, error: `Out of the ephemeris date range: ${dateToStr({ date: EPH_DATE_MIN })} \u2013 ${dateToStr({ date: EPH_DATE_MAX })}` } };
   }
-  // setErrorMessage('');
   return newDateError;
 };
 
@@ -170,7 +166,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
   }, [date, flag, onDateChange, adjusting]);
 
   useEffect(() => {
-    setErrorMessage('');
+    setErrorMessage(null);
   }, [date, flag, setErrorMessage]);
 
   useEffect(() => {
@@ -231,13 +227,13 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
 
   useEffect(() => {
     if (adjusting) {  // start adjusting
-      debouncedAdjustDate(dateRef, flagRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setDateError);
+      debouncedAdjustDate(dateRef, flagRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage);
     }
     /* Cleanup function */
     return () => {
       debouncedAdjustDate.cancel();
     };
-  }, [date.year, date.month, flag, adjusting, onDateChange, debouncedAdjustDate]);
+  }, [date.year, date.month, flag, adjusting, onDateChange, debouncedAdjustDate, setErrorMessage]);
 
   useEffect(() => {
     if (!adjusting) {

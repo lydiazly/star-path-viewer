@@ -12,7 +12,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
   const handleDownload = useCallback(async (format) => {
     const svgElement = document.getElementById('svg-container').querySelector('svg');
     if (!svgElement) {
-      setErrorMessage('SVG element not found');
+      setErrorMessage({ id: 'download', message: 'SVG element not found' });
       return;
     }
 
@@ -39,7 +39,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
 
       const canvas = document.createElement('canvas');
       if (!canvas || !canvas.getContext) {
-        setErrorMessage('Your browser does not support the HTML5 Canvas feature.');
+        setErrorMessage({ id: 'download', message: 'Your browser does not support the HTML5 Canvas feature.' });
         return;
       }
       
@@ -47,7 +47,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
       canvas.height = newHeightPx;
       const ctx = canvas.getContext('2d');
       if (!ctx) {
-        setErrorMessage('Your browser does not support the 2D rendering context.');
+        setErrorMessage({ id: 'download', message: 'Your browser does not support the 2D rendering context.' });
         return;
       }
 
@@ -66,7 +66,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
         if (blob) {
           saveAs(blob, filename);
         } else {
-          setErrorMessage('Failed to generate PNG.');
+          setErrorMessage({ id: 'download', message: 'Failed to generate PNG.' });
         }
       });
     /* ---------------------------------------------------------------------- */
@@ -87,7 +87,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
           pdfDoc.save(filename);
         })
         .catch((error) => {
-          setErrorMessage('Failed to generate PDF.');
+          setErrorMessage({ id: 'download', message: 'Failed to generate PDF.' });
           console.error(error);
         });
     }

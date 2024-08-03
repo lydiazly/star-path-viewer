@@ -76,7 +76,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
           place_id: locationData.place_id,
         });
       } catch (error) {
-        setErrorMessage(error.message);
+        setErrorMessage({ id: 'location', message: error.message });
       } finally {
         setLoadingLocation(false);
       }
@@ -90,7 +90,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   }, [location, onLocationChange]);
 
   useEffect(() => {
-    setErrorMessage('');
+    setErrorMessage(null);
   }, [inputType, searchTerm, location, setErrorMessage]);
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
@@ -118,7 +118,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
           const suggestions = await fetchSuggestions(query);
           setSuggestions(suggestions);
         } catch (error) {
-          setErrorMessage(error.message);
+          setErrorMessage({ id: 'location', message: error.message });
         } finally {
           setLoadingSuggestions(false);
         }

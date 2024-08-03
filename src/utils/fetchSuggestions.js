@@ -19,7 +19,7 @@ const fetchSuggestions = async (query) => {
       return [{ display_name: 'Location not found', place_id: 'not-found', address_type: '' }];
     }
   } catch (error) {
-    throw new Error(`Error fetching location suggestions: ${error}`);
+    throw new Error(`Error fetching location suggestions.`);
   }
 };
 

@@ -117,7 +117,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
   }, [star, onStarChange]);
 
   useEffect(() => {
-    setErrorMessage('');
+    setErrorMessage(null);
   }, [inputType, star, setErrorMessage]);
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
