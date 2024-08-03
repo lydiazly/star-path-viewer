@@ -17,8 +17,8 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [diagramId, setDiagramId] = useState('');
   const [svgData, setSvgData] = useState('');
-  const [anno, setAnno] = useState(null);
-  const [info, setInfo] = useState(null);
+  const [anno, setAnno] = useState(null);  // array
+  const [info, setInfo] = useState(null);  // object
 
   const clearImage = useCallback(() => {
     setDiagramId('');

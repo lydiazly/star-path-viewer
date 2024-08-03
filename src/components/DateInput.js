@@ -1,16 +1,16 @@
 // src/components/DateInput.js
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Stack, TextField, MenuItem, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX, EQX_SOL_NAMES, EQX_SOL_KEYS } from '../utils/constants';
+import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX, EQX_SOL_NAMES } from '../utils/constants';
 import { dateToStr } from '../utils/dateUtils';
 import Config from '../Config';
 import CustomToggleButton from './ui/CustomToggleButton';
 import debounce from 'lodash/debounce';
+import { fetchEquinoxSolstice } from '../utils/fetchEquinoxSolstice';
 
 /* Adjust the date */
 const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage) => {
@@ -34,14 +34,12 @@ const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastD
   if (flag && year > EPH_DATE_MIN[0] && year < EPH_DATE_MAX[0]) {
     /* Get the date for the equinox/solstice of the given year */
     try {
-      const response = await axios.get(`${Config.serverUrl}/equinox?year=${year}`, {
-        timeout: Config.serverGetTimeout
-      });
-      month = response.data.results[EQX_SOL_KEYS[flag]][1].toString();
-      day = response.data.results[EQX_SOL_KEYS[flag]][2].toString();
+      const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(year, flag);
+      month = newMonth;
+      day = newDay;
     } catch (error) {
       setAdjusting(false);
-      setErrorMessage({ id: 'date', message: 'Failed to get the date.' });
+      setErrorMessage({ id: 'date', message: error.message });
       return;
     }
   }
