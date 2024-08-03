@@ -5,142 +5,156 @@ import { TextField, Stack, ToggleButton, ToggleButtonGroup, MenuItem, RadioGroup
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { STARS } from '../utils/constants';
-import { dmsToDecimal, decimalToDMS } from '../utils/coordUtils';
-import { hmsToDecimal, decimalToHMS } from '../utils/dateUtils';
+import { dmsToDecimal } from '../utils/coordUtils';
+import { hmsToDecimal } from '../utils/dateUtils';
 import Config from '../Config';
 import debounce from 'lodash/debounce';
 
 /* Validate the star params */
 const validateStarSync = (inputType, radecFormat, star) => {
-  let newStarError = {
-    name: { valid: true, error: '' },
-    hip: { valid: true, error: '' },
-    ra: { valid: true, error: '' },
-    dec: { valid: true, error: '' },
-  };
+  let newStarError = { name: '', hip: '', ra: '', dec: '' };
 
   if (inputType === 'hip') {
-    if (!star.hip) {
-      return { ...newStarError, hip: { valid: false, error: 'Please enter a Hipparchus catalogue number.' } };
-    }
     if (!/^\d*$/.test(star.hip)) {
-      return { ...newStarError, hip: { valid: false, error: 'Invalid Hipparchus catalogue number.' } };
+      return { ...newStarError, hip: 'Invalid Hipparchus catalogue number.' };
     }
   } else if (inputType === 'radec') {
     if (radecFormat === 'decimal') {
-      if (!star.ra) {
-        return { ...newStarError, ra: { valid: false, error: 'Please enter a right ascension.' } };
-      }
-      if (!star.dec) {
-        return { ...newStarError, dec: { valid: false, error: 'Please enter a declination.' } };
-      }
       if (!/^\d*(\.\d+)?$/.test(star.ra)) {
-        return { ...newStarError, ra: { valid: false, error: 'The right ascension must be a positive decimal.' } };
+        return { ...newStarError, ra: 'The right ascension must be a positive decimal.' };
       }
       if (!/^-?\d*(\.\d+)?$/.test(star.dec)) {
-        return { ...newStarError, dec: { valid: false, error: 'The declination must be a decimal.' } };
+        return { ...newStarError, dec: 'The declination must be a decimal.' };
       }
 
-      const ra = parseFloat(star.ra);
-      if (ra < 0 || ra >= 360) {
-        return { ...newStarError, ra: { valid: false, error: 'The right ascension must be between 0° and 360°.' } };
+      if (star.ra) {
+        const ra = parseFloat(star.ra);
+        if (ra < 0 || ra >= 360) {
+          return { ...newStarError, ra: 'The right ascension must be between 0° and 360°.' };
+        }
       }
     } else {
-      if (!star.ra) {
-        return { ...newStarError, ra: { valid: false, error: 'Enter at least one of the following: hours, minutes, or seconds.' } };
-      }
-      if (!star.dec) {
-        return { ...newStarError, dec: { valid: false, error: 'Enter at least one of the following: degrees, minutes, or seconds.' } };
-      }
       if (!/^\d*$/.test(star.raHMS.hours)) {
-        return { ...newStarError, ra: { valid: false, error: 'The hours must be a positive integer.' } };
+        return { ...newStarError, ra: 'The hours must be a positive integer.' };
       }
       if (!/^-?\d*$/.test(star.decDMS.degrees)) {
-        return { ...newStarError, dec: { valid: false, error: 'The degrees must be an integer.' } };
+        return { ...newStarError, dec: 'The degrees must be an integer.' };
       }
       if (!/^\d*$/.test(star.raHMS.minutes)) {
-        return { ...newStarError, ra: { valid: false, error: 'The minutes must be a positive integer.' } };
+        return { ...newStarError, ra: 'The minutes must be a positive integer.' };
       }
       if (!/^\d*$/.test(star.decDMS.minutes)) {
-        return { ...newStarError, dec: { valid: false, error: 'The minutes must be a positive integer.' } };
+        return { ...newStarError, dec: 'The minutes must be a positive integer.' };
       }
       if (!/^\d*(\.\d+)?$/.test(star.raHMS.seconds)) {
-        return { ...newStarError, ra: { valid: false, error: 'The seconds must be a positive decimal.' } };
+        return { ...newStarError, ra: 'The seconds must be a positive decimal.' };
       }
       if (!/^\d*(\.\d+)?$/.test(star.decDMS.seconds)) {
-        return { ...newStarError, dec: { valid: false, error: 'The seconds must be a positive decimal.' } };
+        return { ...newStarError, dec: 'The seconds must be a positive decimal.' };
       }
 
-      const ra = parseFloat(star.ra);
-      const raHours = parseInt(star.raHMS.hours);
-      if ((raHours < 0 || raHours >= 24) || (ra < 0 || ra >= 360)) {
-        return { ...newStarError, ra: { valid: false, error: 'The right ascension must be between 0h and 24h.' } };
+      if (star.ra) {
+        const ra = parseFloat(star.ra);
+        const raHours = parseInt(star.raHMS.hours);
+        if ((raHours < 0 || raHours >= 24) || (ra < 0 || ra >= 360)) {
+          return { ...newStarError, ra: 'The right ascension must be between 0h and 24h.' };
+        }
       }
     }
 
-    const dec = parseFloat(star.dec);
-    if (dec < -90 || dec > 90) {
-      return { ...newStarError, dec: { valid: false, error: 'The declination must be between -90° and 90°.' } };
+    if (star.dec) {
+      const dec = parseFloat(star.dec);
+      if (dec < -90 || dec > 90) {
+        return { ...newStarError, dec: 'The declination must be between -90° and 90°.' };
+      }
     }
   }
 
   return newStarError;
 };
 
-const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
+const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, setFieldError }) => {
   const [inputType, setInputType] = useState('name');  // 'name', 'hip', 'radec'
-  const [radecFormat, setRadecFormat] = useState('decimal');  // 'decimal', 'dms'
+  const [radecFormat, setRadecFormat] = useState('dms');  // 'decimal', 'dms'
   const [star, setStar] = useState({
-    name: 'Mars',
-    hip: '87937',
-    ra: '0',
-    dec: '0',
-    raHMS: { hours: '0', minutes: '0', seconds: '0' },
-    decDMS: { degrees: '0', minutes: '0', seconds: '0' },
-    type: 'name',
+    name: '', hip: '', ra: '', dec: '',
+    raHMS: { hours: '', minutes: '', seconds: '' }, decDMS: { degrees: '', minutes: '', seconds: '' },
   });
-  const [starError, setStarError] = useState({
-    name: { valid: true, error: '' },
-    hip: { valid: true, error: '' },
-    ra: { valid: true, error: '' },
-    dec: { valid: true, error: '' },
-  });
+  const [starError, setStarError] = useState({ name: '', hip: '', ra: '', dec: '' });
+
+  const clearError = useCallback(() => {
+    setErrorMessage((prev) => ({ ...prev, star: '' }));
+    setStarError({ name: '', hip: '', ra: '', dec: '' });
+  }, [setErrorMessage]);
+
+  /* Initialize */
+  useEffect(() => {
+    clearError();
+    // setStar({
+    //   name: 'Mars', hip: '87937', ra: '0', dec: '0',
+    //   raHMS: { hours: '0', minutes: '0', seconds: '0' }, decDMS: { degrees: '0', minutes: '0', seconds: '0' },
+    // });
+  }, [clearError]);
 
   useEffect(() => {
     onStarChange({
       name: star.name,
-      hip: parseInt(star.hip).toString(),
-      ra: parseFloat(star.ra).toString(),
-      dec: parseFloat(star.dec).toString(),
-      type: star.type,
+      hip: star.hip,
+      ra: star.ra,
+      dec: star.dec,
+      type: inputType,
     });
-  }, [star, onStarChange]);
+  }, [star, inputType, onStarChange]);
+
+  /* Reset error when user starts typing */
+  useEffect(() => {
+    clearError();
+    if ((inputType === 'name' && star.name) || (inputType === 'hip' && star.hip) || (inputType === 'radec' && star.ra && star.dec)) {
+      setStarValid(true);
+    }
+  }, [star, inputType, radecFormat, clearError, setStarValid]);
 
   useEffect(() => {
-    setErrorMessage(null);
-  }, [inputType, star, setErrorMessage]);
+    setFieldError((prev) => ({ ...prev, name: '' }));
+  }, [star.name, inputType, setFieldError]);
+
+  useEffect(() => {
+    setFieldError((prev) => ({ ...prev, hip: '' }));
+  }, [star.hip, inputType, setFieldError]);
+
+  useEffect(() => {
+    setFieldError((prev) => ({ ...prev, ra: '' }));
+  }, [star.ra, inputType, radecFormat, setFieldError]);
+
+  useEffect(() => {
+    setFieldError((prev) => ({ ...prev, dec: '' }));
+  }, [star.dec, inputType, radecFormat, setFieldError]);
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
+      /* Clear the fields */
+      setStar({
+        name: '', hip: '', ra: '', dec: '',
+        raHMS: { hours: '', minutes: '', seconds: '' }, decDMS: { degrees: '', minutes: '', seconds: '' },
+      });
       setInputType(newInputType);
-      setStar((prev) => ({ ...prev, type: newInputType }));
     }
   }, []);
 
   const handleRadecFormatChange = useCallback((event) => {
+    /* Clear the fields */
+    setStar((prev) => ({
+      ...prev,
+      ra: '', dec: '',
+      raHMS: { hours: '', minutes: '', seconds: '' }, decDMS: { degrees: '', minutes: '', seconds: '' },
+    }));
     setRadecFormat(event.target.value);
-    // setStar((prev) => ({ ...prev,
-    //   ra: '0',
-    //   dec: '0',
-    //   raHMS: { hours: '0', minutes: '0', seconds: '0' },
-    //   decDMS: { degrees: '0', minutes: '0', seconds: '0' },
-    // }));
   }, []);
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    setStar((prevStar) => {
-      const newStar = { ...prevStar };
+    setStar((prev) => {
+      const newStar = { ...prev };
       const [field, subfield] = name.split('.');
 
       if (subfield && radecFormat === 'dms') {
@@ -166,37 +180,30 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
       } else {
         newStar[name] = value;
         /* Convert decimal degrees to HMS/DMS */
-        if (field === 'ra') {
-          const hms = decimalToHMS(parseFloat(value) / 15);
-          newStar.raHMS.hours = hms.hours.toString();
-          newStar.raHMS.minutes = hms.minutes.toString();
-          newStar.raHMS.seconds = hms.seconds.toString();
-        } else if (field === 'dec') {
-          const dms = decimalToDMS(parseFloat(value));
-          newStar.decDMS.degrees = dms.degrees.toString();
-          newStar.decDMS.minutes = dms.minutes.toString();
-          newStar.decDMS.seconds = dms.seconds.toString();
-        }
+        // if (field === 'ra') {
+        //   const hms = decimalToHMS(parseFloat(value) / 15);
+        //   newStar.raHMS.hours = hms.hours.toString();
+        //   newStar.raHMS.minutes = hms.minutes.toString();
+        //   newStar.raHMS.seconds = hms.seconds.toString();
+        // } else if (field === 'dec') {
+        //   const dms = decimalToDMS(parseFloat(value));
+        //   newStar.decDMS.degrees = dms.degrees.toString();
+        //   newStar.decDMS.minutes = dms.minutes.toString();
+        //   newStar.decDMS.seconds = dms.seconds.toString();
+        // }
       }
 
       return newStar;
     });
-    setStarValid(true);
-    setStarError({
-      name: { valid: true, error: '' },
-      hip: { valid: true, error: '' },
-      ra: { valid: true, error: '' },
-      dec: { valid: true, error: '' },
-    });  // Reset error when user starts typing
-  }, [radecFormat, setStarValid]);
+  }, [radecFormat]);
 
   const debouncedValidateStar = useMemo(
     () => debounce((inputType, radecFormat, star) => {
       const validationResult = validateStarSync(inputType, radecFormat, star);
-      const isValid = !Object.values(validationResult).some(item => !item.valid);
+      const isValid = !Object.values(validationResult).some(item => !!item);
       setStarError(validationResult);
       setStarValid(isValid);
-    }, Config.typingTimeout),
+    }, Config.TypingDebouncePeriod),
     [setStarValid]
   );
 
@@ -206,7 +213,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
     return () => {
       debouncedValidateStar.cancel();
     };
-  }, [inputType, radecFormat, star, debouncedValidateStar]);
+  }, [star, inputType, radecFormat, debouncedValidateStar]);
 
   return (
     <Stack direction="column">
@@ -244,10 +251,11 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
           value={star.name}
           onChange={handleInputChange}
           fullWidth
-          error={!starError.name.valid}
-          helperText={!starError.name.valid && starError.name.error}
+          error={!!starError.name || !!fieldError.name}
+          helperText={starError.name || fieldError.name}
           sx={{ marginTop: 2 }}
         >
+          <MenuItem key="none" value="" sx={{ color: 'GrayText' }}>-- Select --</MenuItem>
           {Object.keys(STARS).map((key) => (
             <MenuItem key={key} value={key}> {key} </MenuItem>
           ))}
@@ -264,8 +272,8 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
           value={star.hip}
           onChange={handleInputChange}
           fullWidth
-          error={!starError.hip.valid}
-          helperText={!starError.hip.valid && starError.hip.error}
+          error={!!starError.hip || !!fieldError.hip}
+          helperText={starError.hip || fieldError.hip}
           sx={{ marginTop: 2 }}
         />
       )}
@@ -280,9 +288,9 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
             >
               <FormControlLabel
                 size="small"
-                value="decimal"
+                value="dms"
                 control={<Radio />}
-                label="Decimal Degrees"
+                label="HMS and DMS"
                 sx={{
                   paddingX: 2,
                   marginRight: 0,
@@ -293,9 +301,9 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
               />
               <FormControlLabel
                 size="small"
-                value="dms"
+                value="decimal"
                 control={<Radio />}
-                label="HMS and DMS"
+                label="Decimal Degrees"
                 sx={{
                   paddingX: 2,
                   marginRight: 0,
@@ -321,8 +329,8 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
                   value={star.ra}
                   onChange={handleInputChange}
                   fullWidth
-                  error={!starError.ra.valid}
-                  helperText={!starError.ra.valid && starError.ra.error}
+                  error={!!starError.ra || !!fieldError.ra}
+                  helperText={starError.ra || fieldError.ra}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6}>
@@ -337,8 +345,8 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
                   value={star.dec}
                   onChange={handleInputChange}
                   fullWidth
-                  error={!starError.dec.valid}
-                  helperText={!starError.dec.valid && starError.dec.error}
+                  error={!!starError.dec || !!fieldError.dec}
+                  helperText={starError.dec || fieldError.dec}
                 />
               </Grid>
             </Grid>
@@ -392,10 +400,10 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
                     fullWidth
                   />
                 </Grid>
-                {!starError.ra.valid && (
+                {(!!starError.ra || !!fieldError.ra) && (
                   <Grid item xs={12} sm={12} md={12} style={{ paddingTop: 0 }}>
                     <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: '0.85rem', textAlign: 'left' }}>
-                      {starError.ra.error}
+                      {starError.ra || fieldError.ra}
                     </Typography>
                   </Grid>
                 )}
@@ -449,10 +457,10 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid }) => {
                     fullWidth
                   />
                 </Grid>
-                {!starError.dec.valid && (
+                {(!!starError.dec || !!fieldError.dec) && (
                   <Grid item xs={12} sm={12} md={12} style={{ paddingTop: 0 }}>
                     <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: '0.85rem', textAlign: 'left' }}>
-                      {starError.dec.error}
+                      {starError.dec || fieldError.dec}
                     </Typography>
                   </Grid>
                 )}
@@ -469,6 +477,13 @@ StarInput.propTypes = {
   onStarChange: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
   setStarValid: PropTypes.func.isRequired,
+  fieldError: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    hip: PropTypes.string.isRequired,
+    ra: PropTypes.string.isRequired,
+    dec: PropTypes.string.isRequired,
+  }).isRequired,
+  setFieldError: PropTypes.func.isRequired,
 };
 
 export default StarInput;

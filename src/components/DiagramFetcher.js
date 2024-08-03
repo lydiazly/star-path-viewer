@@ -12,26 +12,87 @@ import { STARS } from '../utils/constants';
 import Config from '../Config';
 import CustomDivider from './ui/CustomDivider';
 
-const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
-  const [date, setDate] = useState({ year: '', month: '', day: '', flag: '' });  // flag: 've', 'ss', 'ae', 'ws'
-  const [location, setLocation] = useState({ lat: '', lng: '' });
-  const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: 'name' });  // type: 'name', 'hip', 'radec'
-  const [inputErrorMessage, setInputErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [dateValid, setDateValid] = useState(false);
-  const [locationValid, setLocationValid] = useState(false);
-  const [starValid, setStarValid] = useState(false);
+/* Validate the input */
+const validateInputSync = (
+  location, date, star,
+  setLocationFieldError, setDateFieldError, setStarFieldError,
+  setLocationValid, setDateValid, setStarValid,
+) => {
+  if (location.type === 'address' && !location.place_id) {
+    setLocationFieldError((prev) => ({ ...prev, address: 'Please search and select a location.' }));
+    setLocationValid(false);
+    return false;
+  } else if (!location.lat || !location.lng) {
+    if (!location.lat) {
+      setLocationFieldError((prev) => ({ ...prev, lat: 'Please enter a latitude.' }));
+    }
+    if (!location.lng) {
+      setLocationFieldError((prev) => ({ ...prev, lng: 'Please enter a longitude.' }));
+    }
+    setLocationValid(false);
+    return false;
+  }
 
-  /* Initiate with the current date */
-  useEffect(() => {
-    const now = new Date();
-    setDate({
-      year: now.getFullYear().toString(),
-      month: (now.getMonth() + 1).toString(),
-      day: now.getDate().toString(),
-      flag: '',
-    });
+  if (date.flag && !date.year) {
+    setDateFieldError((prev) => ({ ...prev, year: 'Please enter a year.' }));
+    setDateValid(false);
+    return false;
+  } else if (!date.year || !date.month || !date.day) {
+    for (let key of ['year', 'month', 'day']) {
+      if (!date[key]) {
+        setDateFieldError((prev) => ({ ...prev, [key]: `Please enter a ${key}.` }));
+      }
+    }
+    setDateValid(false);
+    return false;
+  }
+
+  if (star.type === 'name' && !star.name) {
+    setStarFieldError((prev) => ({ ...prev, name: 'Please select a planet.' }));
+    setStarValid(false);
+    return false;
+  } else if (star.type === 'hip' && !star.hip) {
+    setStarFieldError((prev) => ({ ...prev, hip: 'Please enter a Hipparchus catalogue number.' }));
+    setStarValid(false);
+    return false;
+  } else if (star.type === 'radec' && (!star.ra || !star.dec)) {
+    if (!star.ra) {
+      setStarFieldError((prev) => ({ ...prev, ra: 'Please enter a right ascension.' }));
+    }
+    if (!star.dec) {
+      setStarFieldError((prev) => ({ ...prev, dec: 'Please enter a declination.' }));
+    }
+    setStarValid(false);
+    return false;
+  }
+
+  return true;
+};
+
+const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
+  const [location, setLocation] = useState({ lat: '', lng: '', place_id: '', type: '' });
+  const [date, setDate] = useState({ year: '', month: '', day: '', flag: '', cal: '' });  // flag: 've', 'ss', 'ae', 'ws', cal: '', 'j'
+  const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: '' });  // type: 'name', 'hip', 'radec'
+  const [errorMessage, setErrorMessage] = useState({});
+  const [locationFieldError, setLocationFieldError] = useState({ address: '', lat: '', lng: '' });
+  const [dateFieldError, setDateFieldError] = useState({ year: '', month: '', day: '' });
+  const [starFieldError, setStarFieldError] = useState({ name: '', hip: '', ra: '', dec: '' });
+  const [loading, setLoading] = useState(false);
+  const [locationValid, setLocationValid] = useState(true);
+  const [dateValid, setDateValid] = useState(true);
+  const [starValid, setStarValid] = useState(true);
+
+  const clearError = useCallback(() => {
+    setLocationFieldError({ address: '', lat: '', lng: '' });
+    setDateFieldError({ year: '', month: '', day: '' });
+    setStarFieldError({ name: '', hip: '', ra: '', dec: '' });
+    setErrorMessage({});
   }, []);
+
+  /* Initialize */
+  useEffect(() => {
+    clearError();
+  }, [clearError]);
 
   const handleDraw = useCallback(async () => {
     if (loading) {
@@ -39,53 +100,51 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     }
 
     clearImage();  // Clear the SVG data before making the API call
-    setInputErrorMessage(null);  // Clear any previous error message before making the API call
+    clearError();  // Clear any previous error message before making the API call
     setSuccess(false);
-    setLoading(true);
 
     const params = {};
-    
+
+    /* Check input values ----------------------------------------------------*/
+    // console.log("Set location", location);
+    // console.log("Set date", date);
+    // console.log("Set star", star);
+    const isValid = validateInputSync(
+      location, date, star,
+      setLocationFieldError, setDateFieldError, setStarFieldError,
+      setLocationValid, setDateValid, setStarValid,
+    );
+    if (!isValid) {
+      return;
+    }
+
+    /* Assign parameters -----------------------------------------------------*/
+    params.lat = parseFloat(location.lat).toString();
+    params.lng = parseFloat(location.lng).toString();
+
     if (date.flag && date.year) {
       params.year = parseInt(date.year).toString();
       params.flag = date.flag;
-    } else if (date.year && date.month && date.day) {
+    } else {
       params.year = parseInt(date.year).toString();
       params.month = parseInt(date.month).toString();
       params.day = parseInt(date.day).toString();
-    } else {
-      setInputErrorMessage({ id: 'date', message: 'Either year, month, or day is invalid.' });
-      setSuccess(false);
-      setLoading(false);
-      return;
+      params.cal = date.cal;
     }
 
-    if (location.lat && location.lng) {
-      params.lat = parseFloat(location.lat).toString();
-      params.lng = parseFloat(location.lng).toString();
-    } else {
-      setInputErrorMessage({ id: 'location', message: 'Either latitude or longitude is invalid.' });
-      setSuccess(false);
-      setLoading(false);
-      return;
-    }
-    
-    if (star.type === 'name' && STARS[star.name]) {
+    if (star.type === 'name') {
       params.name = STARS[star.name];
-    } else if (star.type === 'hip' && star.hip) {
+    } else if (star.type === 'hip') {
       params.hip = parseInt(star.hip).toString();
-    } else if (star.type === 'radec' && star.ra && star.dec) {
+    } else if (star.type === 'radec') {
       params.ra = parseFloat(star.ra).toString();
       params.dec = parseFloat(star.dec).toString();
-    } else {
-      setInputErrorMessage({ id: 'star', message: 'Either planet name, Hipparchus catalogue number, or (ra, dec) is invalid.' });
-      setSuccess(false);
-      setLoading(false);
-      return;
     }
     // console.log("params", params);
 
+    /* Plot ------------------------------------------------------------------*/
     try {
-      /* Plot */
+      setLoading(true);
       const response = await axios.get(`${Config.serverUrl}/diagram`, {
         params,
         timeout: Config.serverGetDiagramTimeout
@@ -95,11 +154,11 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         if (response.data.hasOwnProperty(key)) info[key] = response.data[key].toString();
         return info;
       }, {});
-      
+
       if (response.data.hasOwnProperty('name')) {
         newInfo.name = response.data.name;
       }
-      
+
       newInfo.eqxSolTime = [];
       if (response.data.flag && response.data.eqxSolTime.length > 0) {
         const res_month = response.data.eqxSolTime[1].toString();
@@ -132,68 +191,80 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       setDiagramId(response.data.diagramId);
       setSvgData(sanitizedSvg);
       setAnno(response.data.annotations);
-      setInputErrorMessage(null);  // Clear any previous error message
+      clearError();  // Clear any previous error message
       setSuccess(true);
 
     } catch (error) {
-      setInputErrorMessage({ id: 'draw', message: error.response?.data?.error || error.message || 'An error occurred' });
+      if (error.response) {
+        setErrorMessage({ draw: `Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}` });
+      } else {
+        setErrorMessage({ draw: 'Unable to connect to the server.' });
+      }
       clearImage();  // Clear SVG on error
       setSuccess(false);
 
     } finally {
       setLoading(false);
     }
-  }, [date, location, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setInputErrorMessage]);
+  }, [location, date, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setErrorMessage, clearError]);
 
   return (
-    <Box>
+    <Stack direction="column" spacing={2}>
       <Stack id="input-fields" direction="column" spacing={2}>
         <Stack id="location" direction="column" spacing={1}>
           <CustomDivider>LOCATION</CustomDivider>
-          {inputErrorMessage && inputErrorMessage.id === 'location' && (
-            <Alert severity="error" onClose={() => setInputErrorMessage(null)}>
-              {inputErrorMessage.message}
+          <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} setLocationValid={setLocationValid} fieldError={locationFieldError} setFieldError={setLocationFieldError} />
+          {!!errorMessage.location && (
+            <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, location: '' }))}>
+              {errorMessage.location}
             </Alert>
           )}
-          <LocationInput onLocationChange={setLocation} setErrorMessage={setInputErrorMessage} setLocationValid={setLocationValid} />
         </Stack>
 
         <Stack id="date" direction="column" spacing={1}>
           <CustomDivider>DATE</CustomDivider>
-          {inputErrorMessage && inputErrorMessage.id === 'date' && (
-            <Alert severity="error" onClose={() => setInputErrorMessage(null)}>
-              {inputErrorMessage.message}
+          <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} fieldError={dateFieldError} setFieldError={setDateFieldError} />
+          {!!errorMessage.date && (
+            <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
+              {errorMessage.date}
             </Alert>
           )}
-          <DateInput onDateChange={setDate} setErrorMessage={setInputErrorMessage} setDateValid={setDateValid} />
         </Stack>
 
         <Stack id="star" direction="column" spacing={1}>
           <CustomDivider>CELESTIAL OBJECT</CustomDivider>
-          {inputErrorMessage && inputErrorMessage.id === 'star' && (
-            <Alert severity="error" onClose={() => setInputErrorMessage(null)}>
-              {inputErrorMessage.message}
+          <StarInput onStarChange={setStar} setErrorMessage={setErrorMessage} setStarValid={setStarValid} fieldError={starFieldError} setFieldError={setStarFieldError} />
+          {!!errorMessage.star && (
+            <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, star: '' }))}>
+              {errorMessage.star}
             </Alert>
           )}
-          <StarInput onStarChange={setStar} setErrorMessage={setInputErrorMessage} setStarValid={setStarValid} />
         </Stack>
       </Stack>
 
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        startIcon={loading
-          ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
-          : <ArrowForwardIcon />}
-        sx={{ marginTop: 3 }}
-        disabled={!!inputErrorMessage || loading || !dateValid || !locationValid || !starValid}
-        onClick={handleDraw}
-        fullWidth
-      >
-        Draw Star Trail
-      </Button>
-    </Box>
+      <Stack id="draw" direction="column" spacing={1}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={loading
+            ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
+            : <ArrowForwardIcon />}
+          sx={{ marginTop: 3 }}
+          disabled={!!errorMessage.location || !!errorMessage.date || !!errorMessage.star || !!errorMessage.draw ||
+            loading || !dateValid || !locationValid || !starValid}
+          onClick={handleDraw}
+          fullWidth
+        >
+          Draw Star Trail
+        </Button>
+        {!!errorMessage.draw && (
+          <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}>
+            {errorMessage.draw}
+          </Alert>
+        )}
+      </Stack>
+    </Stack>
   );
 };
 

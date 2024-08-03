@@ -13,12 +13,17 @@ import debounce from 'lodash/debounce';
 import { fetchEquinoxSolstice } from '../utils/fetchEquinoxSolstice';
 
 /* Adjust the date */
-const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage) => {
+const adjustDate = async (dateRef, flag, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage) => {
   const date = dateRef.current;
-  const flag = flagRef.current;
+  // const flag = flagRef.current;
+  if (!date.year || (!flag && (!date.month || !date.day))) {
+    setAdjusting(false);
+    return;
+  }
+
   const year = parseInt(date.year) || new Date().getFullYear();
-  let month = parseInt(date.month) || 1;
-  let day = parseInt(date.day) || 1;
+  let month = date.month ? parseInt(date.month) : 0;
+  let day = date.day ? parseInt(date.day) : 0;
   const newDisabledMonths = {};
   let dayMin = 1;
   let dayMax = 31;
@@ -31,19 +36,19 @@ const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastD
   }
   setLastDay(dayMax);
 
+  /* Get the date for the equinox/solstice of the given year */
   if (flag && year > EPH_DATE_MIN[0] && year < EPH_DATE_MAX[0]) {
-    /* Get the date for the equinox/solstice of the given year */
     try {
       const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(year, flag);
       month = newMonth;
       day = newDay;
     } catch (error) {
+      setErrorMessage({ date: error.message });
       setAdjusting(false);
-      setErrorMessage({ id: 'date', message: error.message });
       return;
     }
   }
-  
+
   if (year) {
     /* Enable all month options before EPH_DATE_MIN */
     Object.keys(newDisabledMonths).forEach((key) => {
@@ -94,119 +99,115 @@ const adjustDate = async (dateRef, flagRef, setDate, setDisabledMonths, setLastD
 };
 
 /* Validate the date */
-const validateDateSync = (date, flag) => {
+const validateDateSync = (date, flag, cal) => {
   // console.log(`get date: '${date.year}' '${date.month}' '${date.day}' '${flag}'`);
-  let newDateError = {
-    general: { valid: true, error: '' },
-    year: { valid: true, error: '' },
-    month: { valid: true, error: '' },
-    day: { valid: true, error: '' },
-  };
+  let newDateError = { general: '', year: '', month: '', day: '' };
 
   for (let key of ['year', 'month', 'day']) {
-    if (!date[key]) {
-      return { ...newDateError, [key]: { valid: false, error: `Please enter a ${key}.` } };
-    }
     if (!/^-?\d*$/.test(date[key])) {
-      return { ...newDateError, [key]: { valid: false, error: `The ${key} must be an integer.` } };
+      return { ...newDateError, [key]: `The ${key} must be an integer.` };
     }
   }
 
-  const year = parseInt(date.year);
-  const month = parseInt(date.month);
-  const day = parseInt(date.day);
+  if (date.year && date.month && date.day ) {
+    const year = parseInt(date.year);
+    const month = parseInt(date.month);
+    const day = parseInt(date.day);
 
-  if (
-    (year < EPH_DATE_MIN[0] || (flag && year === EPH_DATE_MIN[0]) ||
-      (year === EPH_DATE_MIN[0] && (month < EPH_DATE_MIN[1] || (month === EPH_DATE_MIN[1] && day < EPH_DATE_MIN[2])))) ||
-    (year > EPH_DATE_MAX[0] || (flag && year === EPH_DATE_MAX[0]) ||
-      (year === EPH_DATE_MAX[0] && (month > EPH_DATE_MAX[1] || (month === EPH_DATE_MAX[1] && day > EPH_DATE_MAX[2]))))
-  ) {
-    return { ...newDateError, general: { valid: false, error: `Out of the ephemeris date range: ${dateToStr({ date: EPH_DATE_MIN })} \u2013 ${dateToStr({ date: EPH_DATE_MAX })}` } };
+    if (
+      (year < EPH_DATE_MIN[0] || (flag && year === EPH_DATE_MIN[0]) ||
+        (year === EPH_DATE_MIN[0] && (month < EPH_DATE_MIN[1] || (month === EPH_DATE_MIN[1] && day < EPH_DATE_MIN[2])))) ||
+      (year > EPH_DATE_MAX[0] || (flag && year === EPH_DATE_MAX[0]) ||
+        (year === EPH_DATE_MAX[0] && (month > EPH_DATE_MAX[1] || (month === EPH_DATE_MAX[1] && day > EPH_DATE_MAX[2]))))
+    ) {
+      return { ...newDateError, general: `Out of the ephemeris date range: ${dateToStr({ date: EPH_DATE_MIN })} \u2013 ${dateToStr({ date: EPH_DATE_MAX })}` };
+    }
   }
+
   return newDateError;
 };
 
-const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
-  const [date, setDate] = useState({ year: '2000', month: '1', day: '1' });
+const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, setFieldError }) => {
+  const [date, setDate] = useState({ year: '', month: '', day: '' });
   const [flag, setFlag] = useState('');
+  const [cal, setFCal] = useState('');  // '': Gregorian, 'j': Julian
   const [disabledMonths, setDisabledMonths] = useState({});
   const [lastDay, setLastDay] = useState(31);
   const [adjusting, setAdjusting] = useState(false);
-  const [dateError, setDateError] = useState({
-    general: { valid: true, error: '' },
-    year: { valid: true, error: '' },
-    month: { valid: true, error: '' },
-    day: { valid: true, error: '' }
-  });
+  const [dateError, setDateError] = useState({ general: '', year: '', month: '', day: '' });
   const dateRef = useRef(date);
-  const flagRef = useRef(flag);
+  // const flagRef = useRef(flag);
 
-  /* Initiate with the current date */
+  const clearError = useCallback(() => {
+    setErrorMessage((prev) => ({ ...prev, date: '' }));
+    setDateError({ general: '', year: '', month: '', day: '' });
+  }, [setErrorMessage]);
+
+  /* Initialize */
   useEffect(() => {
-    const now = new Date();
-    const initialDate = {
-      year: now.getFullYear().toString(),
-      month: (now.getMonth() + 1).toString(),
-      day: now.getDate().toString(),
-    };
-    setDate(initialDate);
-    dateRef.current = initialDate;
-    flagRef.current = '';
-    // onDateChange({ ...initialDate, flag: '' });
-    setDateValid(true);
-  }, [setDateValid]);
+    clearError();
+    // const now = new Date();
+    // const initialDate = {
+    //   year: now.getFullYear().toString(),
+    //   month: (now.getMonth() + 1).toString(),
+    //   day: now.getDate().toString(),
+    // };
+    // setDate(initialDate);
+    // dateRef.current = initialDate;
+    dateRef.current = '';
+    // flagRef.current = '';
+  }, [clearError]);
 
   useEffect(() => {
     if (!adjusting) {
-      onDateChange({ ...date, flag });
+      onDateChange({ ...date, flag, cal});
     }
-  }, [date, flag, onDateChange, adjusting]);
+  }, [date, flag, cal, onDateChange, adjusting]);
+
+  /* Reset error when user starts typing */
+  useEffect(() => {
+    clearError();
+    if (date.year && date.month && date.day) {
+      setDateValid(true);
+    }
+  }, [date, flag, cal, setErrorMessage, clearError, setDateValid]);
 
   useEffect(() => {
-    setErrorMessage(null);
-  }, [date, flag, setErrorMessage]);
+    setFieldError((prev) => ({ ...prev, year: '' }));
+  }, [date.year, flag, cal, setFieldError]);
+
+  useEffect(() => {
+    setFieldError((prev) => ({ ...prev, month: '' }));
+  }, [date.month, flag, cal, setFieldError]);
+
+  useEffect(() => {
+    setFieldError((prev) => ({ ...prev, day: '' }));
+  }, [date.day, flag, cal, setFieldError]);
 
   useEffect(() => {
     dateRef.current = date;
   }, [date]);
 
-  useEffect(() => {
-    flagRef.current = flag;
-  }, [flag]);
+  // useEffect(() => {
+  //   flagRef.current = flag;
+  // }, [flag]);
 
-  const handleInputChange = useCallback((event) => {
-    const { name, value } = event.target;
-    const newDate = { ...date, [name]: value };
-    setDate(newDate);
-    // onDateChange({ ...newDate, flag });
-    setDateValid(true);
-    setDateError({
-      general: { valid: true, error: '' },
-      year: { valid: true, error: '' },
-      month: { valid: true, error: '' },
-      day: { valid: true, error: '' },
-    });  // Reset error when user starts typing
-    setAdjusting(true);
-  }, [date, setDateValid]);
-
-  const handleFlagChange = useCallback(async (event, newFlag) => {
+  const handleFlagChange = useCallback(async (event, newFlag) => {  // TODO: async?
     if (flag === newFlag) {
       setFlag('');  // deselect
       onDateChange({ ...date, flag: '' });
     } else {
       setFlag(newFlag);  // select another
-      onDateChange({ ...date, flag: newFlag });
+      onDateChange({ ...date, flag: newFlag, cal: newFlag ? '' : cal });
     }
-    setDateValid(true);
-    setDateError({
-      general: { valid: true, error: '' },
-      year: { valid: true, error: '' },
-      month: { valid: true, error: '' },
-      day: { valid: true, error: '' },
-    });  // Reset error when user changes the flag
     setAdjusting(true);
-  }, [date, flag, onDateChange, setDateValid]);
+  }, [date, flag, cal, onDateChange]);
+
+  const handleInputChange = useCallback((event) => {
+    const { name, value } = event.target;
+    setDate((prev) => ({ ...prev, [name]: value }));
+    setAdjusting(true);
+  }, []);
 
   const debouncedAdjustDate = useMemo(
     () => debounce(adjustDate),
@@ -214,34 +215,34 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
   );
 
   const debouncedValidateDate = useMemo(
-    () => debounce((date, flag) => {
-      const validationResult = validateDateSync(date, flag);
-      const isValid = !Object.values(validationResult).some(item => !item.valid);
+    () => debounce((date, flag, cal) => {
+      const validationResult = validateDateSync(date, flag, cal);
+      const isValid = !Object.values(validationResult).some(item => !!item);
       setDateError(validationResult);
       setDateValid(isValid);
-    }, Config.typingTimeout),
+    }, Config.TypingDebouncePeriod),
     [setDateValid]
   );
 
   useEffect(() => {
     if (adjusting) {  // start adjusting
-      debouncedAdjustDate(dateRef, flagRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage);
+      debouncedAdjustDate(dateRef, flag, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage);
     }
     /* Cleanup function */
     return () => {
       debouncedAdjustDate.cancel();
     };
-  }, [date.year, date.month, flag, adjusting, onDateChange, debouncedAdjustDate, setErrorMessage]);
+  }, [date.year, date.month, flag, cal, adjusting, onDateChange, debouncedAdjustDate, setErrorMessage]);
 
   useEffect(() => {
     if (!adjusting) {
-      debouncedValidateDate(date, flag);
+      debouncedValidateDate(date, flag, cal);
     }
     /* Cleanup function */
     return () => {
       debouncedValidateDate.cancel();
     };
-  }, [date, flag, adjusting, debouncedValidateDate]);
+  }, [date, flag, cal, adjusting, debouncedValidateDate]);
 
   return (
     <Stack direction="column">
@@ -259,8 +260,8 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
               inputProps={{ min: -5000, max: 5000 }}
               onChange={handleInputChange}
               fullWidth
-              error={!dateError.year.valid || !dateError.general.valid}
-              helperText={!dateError.year.valid && dateError.year.error}
+              error={!!dateError.year || !!fieldError.year}
+              helperText={dateError.year || fieldError.year}
             />
           </Grid>
           <Grid item xs={12} sm={4} md={4}>
@@ -277,14 +278,15 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
               onChange={handleInputChange}
               disabled={!!flag}
               fullWidth
-              error={!dateError.month.valid || !dateError.general.valid}
-              helperText={!dateError.month.valid && dateError.month.error}
+              error={!!dateError.month || !!fieldError.month}
+              helperText={dateError.month || fieldError.month}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   'backgroundColor': !flag ? null : '#f5f5f5',
                 },
               }}
             >
+              <MenuItem key="none" value="" sx={{ color: 'GrayText' }}>-- Select --</MenuItem>
               {MONTHS.slice(1).map((month, index) => (
                 <MenuItem key={index} value={(index + 1).toString()} disabled={!!disabledMonths[index + 1]}>
                   {month.name}
@@ -305,8 +307,8 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
               inputProps={{ min: 1, max: lastDay }}
               disabled={!!flag}
               fullWidth
-              error={!dateError.day.valid || !dateError.general.valid}
-              helperText={!dateError.day.valid && dateError.day.error}
+              error={!!dateError.day || !!fieldError.day}
+              helperText={dateError.day || fieldError.day}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   'backgroundColor': !flag ? null : '#f5f5f5',
@@ -316,9 +318,9 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid }) => {
           </Grid>
         </Grid>
 
-        {!dateError.general.valid && (
+        {!!dateError.general && (
           <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: '0.85rem', textAlign: 'left' }}>
-            {dateError.general.error}
+            {dateError.general}
           </Typography>
         )}
       </div>
@@ -367,6 +369,12 @@ DateInput.propTypes = {
   onDateChange: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
   setDateValid: PropTypes.func.isRequired,
+  fieldError: PropTypes.shape({
+    year: PropTypes.string.isRequired,
+    month: PropTypes.string.isRequired,
+    day: PropTypes.string.isRequired,
+  }).isRequired,
+  setFieldError: PropTypes.func.isRequired,
 };
 
 export default DateInput;

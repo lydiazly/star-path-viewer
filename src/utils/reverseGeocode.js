@@ -20,10 +20,14 @@ const reverseGeocode = async (lat, lng) => {
         place_id: response.data.place_id,
       };
     } else {
-      throw new Error('Unable to fetch the address for the current location.');
+      throw new Error('Unable to fetch the address for this location.');
     }
   } catch (error) {
-    throw new Error(`Error fetching address: ${error.message}`);
+    if (error.response) {
+      throw new Error(`Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}`);
+    } else {
+      throw new Error(`Unable to connect to ${nominatimReverseUrl}.`);
+    }
   }
 };
 

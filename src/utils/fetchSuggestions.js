@@ -19,7 +19,11 @@ const fetchSuggestions = async (query) => {
       return [{ display_name: 'Location not found', place_id: 'not-found', address_type: '' }];
     }
   } catch (error) {
-    throw new Error(`Error fetching location suggestions.`);
+    if (error.response) {
+      throw new Error(`Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}`);
+    } else {
+      throw new Error(`Unable to connect to ${nominatimSearchUrl}.`);
+    }
   }
 };
 

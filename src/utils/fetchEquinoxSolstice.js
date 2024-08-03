@@ -17,6 +17,10 @@ export const fetchEquinoxSolstice = async (year, flag) => {
 
     return { year, month, day, hours, minutes, seconds };
   } catch (error) {
-    throw new Error('Failed to get the date.');
+    if (error.response) {
+      throw new Error(`Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}`);
+    } else {
+      throw new Error('Unable to connect to the server.');
+    }
   }
 };

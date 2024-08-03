@@ -3,7 +3,7 @@
 import './App.css';
 import React, { useState, useCallback } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Container, CssBaseline, Typography, Box, Alert } from '@mui/material';
+import { Container, CssBaseline, Box, Stack, Typography, Alert } from '@mui/material';
 import DiagramFetcher from './components/DiagramFetcher';
 import InfoDisplay from './components/InfoDisplay';
 import ImageDisplay from './components/ImageDisplay';
@@ -14,11 +14,16 @@ const theme = createTheme();  // Create the default theme
 
 const App = () => {
   const [success, setSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState({});
   const [diagramId, setDiagramId] = useState('');
   const [svgData, setSvgData] = useState('');
   const [anno, setAnno] = useState(null);  // array
-  const [info, setInfo] = useState(null);  // object
+  const [info, setInfo] = useState({
+    lat: '', lng: '',
+    year: '', month: '', day: '', flag: '', cal: '',
+    name: '', hip: '', ra: '', dec: '',
+    eqxSolTime: '',
+  });
 
   const clearImage = useCallback(() => {
     setDiagramId('');
@@ -41,7 +46,7 @@ const App = () => {
             gap: 1,  // Default MUI spacing: 8px
           }}
         >
-          
+
           <Typography variant="h2" component="h1" sx={{ fontSize: '2.5rem' }}>
             Star Trail
           </Typography>
@@ -68,40 +73,39 @@ const App = () => {
 
           {success && (
             <Box sx={{ width: '100%', justifyContent: 'center' }}>
-              {info && (
-                <Box id="information" mt={1}>
-                  <InfoDisplay
-                    date={{ year: info.year, month: info.month, day: info.day }}
-                    location={{ lat: info.lat, lng: info.lng }}
-                    star={{ name: info.name, hip: info.hip, ra: info.ra, dec: info.dec }}
-                    flag={info.flag}
-                    eqxSolTime={info.eqxSolTime}
-                  />
-                </Box>
-              )}
-              
+              <Box id="information" mt={1}>
+                <InfoDisplay
+                  location={{ lat: info.lat, lng: info.lng }}
+                  date={{ year: info.year, month: info.month, day: info.day }}
+                  star={{ name: info.name, hip: info.hip, ra: info.ra, dec: info.dec }}
+                  flag={info.flag}
+                  cal={info.cal}
+                  eqxSolTime={info.eqxSolTime}
+                />
+              </Box>
+
               {svgData && (
                 <Box id="diagram">
                   <Box id="svg-container">
                     <ImageDisplay svgData={svgData} />
                   </Box>
-                  
-                  <Box id="download">
-                    {errorMessage && errorMessage.id === 'download' && (
-                      <Alert severity="error" sx={{ width: '100%' }} onClose={() => setErrorMessage(null)}>
-                        {errorMessage.message}
-                      </Alert>
-                    )}
+
+                  <Stack id="download" direction="column" spacing={1}>
                     <DownloadManager
                       svgData={svgData}
                       filenameBase={`st_${diagramId}`}
                       dpi={300}
                       setErrorMessage={setErrorMessage}
                     />
-                  </Box>
+                    {!!errorMessage.download && (
+                      <Alert severity="error" sx={{ width: '100%', paddingTop: 1 }} onClose={() => setErrorMessage((prev) => ({ ...prev, download: '' }))}>
+                        {errorMessage.download}
+                      </Alert>
+                    )}
+                  </Stack>
                 </Box>
               )}
-              
+
               {anno && (
                 <Box id="annotations" mt={2}>
                   <AnnoDisplay anno={anno} />

@@ -10,88 +10,95 @@ import debounce from 'lodash/debounce';
 import fetchGeolocation from '../utils/fetchGeolocation'; // Import the geolocation fetching utility
 import fetchSuggestions from '../utils/fetchSuggestions'; // Import the suggestions fetching utility
 
-/* Validate the location */
-const validateLocationSync = (inputType, location, searchTerm, loadingLocation) => {
-  let newLocationError = {
-    address: { valid: true, error: '' },
-    lat: { valid: true, error: '' },
-    lng: { valid: true, error: '' },
-  };
+const fetchLocation = async (setSearchTerm, setLocation, setErrorMessage) => {
+  try {
+    const locationData = await fetchGeolocation();
+    setSearchTerm(locationData.display_name);
+    setLocation({
+      lat: locationData.lat,
+      lng: locationData.lng,
+      place_id: locationData.place_id,
+    });
+  } catch (error) {
+    setErrorMessage({ location: error.message });
+  }
+};
 
-  if (inputType === 'address') {
-    if (!searchTerm && !location.place_id && !loadingLocation) {
-      return { ...newLocationError, address: { valid: false, error: 'Please search and select a location.' } };
-    }
-  } else {
-    if (!location.lat) {
-      return { ...newLocationError, lat: { valid: false, error: 'Please enter a latitude.' } };
-    }
-    if (!location.lng) {
-      return { ...newLocationError, lng: { valid: false, error: 'Please enter a longitude.' } };
-    }
+/* Validate the location */
+const validateLocationSync = (inputType, location) => {
+  let newLocationError = { address: '', lat: '', lng: '' };
+
+  if (inputType === 'coordinates') {
     if (!/^-?\d*(\.\d+)?$/.test(location.lat)) {
-      return { ...newLocationError, lat: { valid: false, error: 'The latitude must be a decimal.' } };
+      return { ...newLocationError, lat: 'The latitude must be a decimal.' };
     }
     if (!/^-?\d*(\.\d+)?$/.test(location.lng)) {
-      return { ...newLocationError, lng: { valid: false, error: 'The longitude must be a decimal.' } };
+      return { ...newLocationError, lng: 'The longitude must be a decimal.' };
     }
 
-    const lat = parseFloat(location.lat);
-    const lng = parseFloat(location.lng);
-    if (lat < -90 || lat > 90) {
-      return { ...newLocationError, lat: { valid: false, error: 'The latitude must be between -90° and 90°.' } };
+    if (location.lat) {
+      const lat = parseFloat(location.lat);
+      if (lat < -90 || lat > 90) {
+        return { ...newLocationError, lat: 'The latitude must be between -90° and 90°.' };
+      }
     }
-    if (lng < -180 || lng > 180) {
-      return { ...newLocationError, lng: { valid: false, error: 'The longitude must be between -180° and 180°.' } };
+    if (location.lng) {
+      const lng = parseFloat(location.lng);
+      if (lng < -180 || lng > 180) {
+        return { ...newLocationError, lng: 'The longitude must be between -180° and 180°.' };
+      }
     }
   }
 
   return newLocationError;
 };
 
-const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) => {
+const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fieldError, setFieldError }) => {
   const [inputType, setInputType] = useState('address');  // 'address' or 'coordinates'
-  const [location, setLocation] = useState({ lat: '0', lng: '0', place_id: '' });
+  const [location, setLocation] = useState({ lat: '', lng: '', place_id: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [locationError, setLocationError] = useState({
-    address: { valid: true, error: '' },
-    lat: { valid: true, error: '' },
-    lng: { valid: true, error: '' },
-  });
+  const [locationError, setLocationError] = useState({ address: '', lat: '', lng: '' });
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
 
-  /* Initiate with the current location */
-  useEffect(() => {
-    const fetchLocation = async () => {
-      setLoadingLocation(true);
-      try {
-        const locationData = await fetchGeolocation();
-        setSearchTerm(locationData.display_name);
-        setLocation({
-          lat: locationData.lat,
-          lng: locationData.lng,
-          place_id: locationData.place_id,
-        });
-      } catch (error) {
-        setErrorMessage({ id: 'location', message: error.message });
-      } finally {
-        setLoadingLocation(false);
-      }
-    };
-
-    fetchLocation();
+  const clearError = useCallback(() => {
+    setErrorMessage((prev) => ({ ...prev, location: '' }));
+    setLocationError({ address: '', lat: '', lng: '' });
   }, [setErrorMessage]);
 
+  /* Initialize */
   useEffect(() => {
-    onLocationChange(location);
-  }, [location, onLocationChange]);
+    clearError();
+    // setLoadingLocation(true);
+    // fetchLocation(setSearchTerm, setLocation, setErrorMessage);
+    // setLoadingLocation(false);
+  }, [clearError]);
 
   useEffect(() => {
-    setErrorMessage(null);
-  }, [inputType, searchTerm, location, setErrorMessage]);
+    onLocationChange({ ...location, type: inputType });
+  }, [location, inputType, onLocationChange]);
+
+  /* Reset error when user starts typing */
+  useEffect(() => {
+    clearError();
+    if (location.lat && location.lng) {
+      setLocationValid(true);
+    }
+  }, [searchTerm, location, inputType, clearError, setLocationValid]);
+
+  useEffect(() => {
+    setFieldError((prev) => ({ ...prev, address: '' }));
+  }, [searchTerm, inputType, setFieldError]);
+
+  useEffect(() => {
+    setFieldError((prev) => ({ ...prev, lat: '' }));
+  }, [location.lat, inputType, setFieldError]);
+
+  useEffect(() => {
+    setFieldError((prev) => ({ ...prev, lng: '' }));
+  }, [location.lng, inputType, setFieldError]);
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
@@ -101,14 +108,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    setLocation(prev => ({ ...prev, [name]: value }));
-    setLocationValid(true);
-    setLocationError({
-      address: { valid: true, error: '' },
-      lat: { valid: true, error: '' },
-      lng: { valid: true, error: '' },
-    });  // Reset error when user starts typing
-  }, [setLocationValid]);
+    setLocation((prev) => ({ ...prev, [name]: value }));
+  }, []);
 
   const debouncedFetchSuggestions = useMemo(
     () =>
@@ -118,11 +119,11 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
           const suggestions = await fetchSuggestions(query);
           setSuggestions(suggestions);
         } catch (error) {
-          setErrorMessage({ id: 'location', message: error.message });
+          setErrorMessage({ location: error.message });
         } finally {
           setLoadingSuggestions(false);
         }
-      }, Config.typingTimeout),
+      }, Config.TypingDebouncePeriod),
     [setErrorMessage]
   );
 
@@ -134,22 +135,22 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
   }, [debouncedFetchSuggestions]);
 
   const debouncedValidateLocation = useMemo(
-    () => debounce((inputType, location, searchTerm, loadingLocation) => {
-      const validationResult = validateLocationSync(inputType, location, searchTerm, loadingLocation);
-      const isValid = !Object.values(validationResult).some(item => !item.valid);
+    () => debounce((inputType, location) => {
+      const validationResult = validateLocationSync(inputType, location);
+      const isValid = !Object.values(validationResult).some(item => !!item);
       setLocationError(validationResult);
       setLocationValid(isValid);
-    }, Config.typingTimeout),
+    }, Config.TypingDebouncePeriod),
     [setLocationValid]
   );
 
   useEffect(() => {
-    debouncedValidateLocation(inputType, location, searchTerm, loadingLocation);
+    debouncedValidateLocation(inputType, location);
     /* Cleanup function */
     return () => {
       debouncedValidateLocation.cancel();
     };
-  }, [inputType, location, searchTerm, loadingLocation, debouncedValidateLocation]);
+  }, [location, inputType, debouncedValidateLocation]);
 
   const handleSearchChange = useCallback(
     (event, newInputValue) => {
@@ -195,13 +196,12 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
             lng: highlightedSuggestion.lon,
             place_id: highlightedSuggestion.place_id,
           });
-          setLocationValid(true);
           setSearchTerm(highlightedSuggestion.display_name);
           setSuggestions([]);
         }
       }
     }
-  }, [highlightedIndex, suggestions, setLocationValid]);
+  }, [highlightedIndex, suggestions]);
 
   const handleHighlightChange = useCallback((event, option, reason) => {
     if (reason === 'keyboard' || reason === 'mouse') {
@@ -256,8 +256,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
             <TextField
               {...params}
               required
-              error={!locationError.address.valid}
-              helperText={!locationError.address.valid && locationError.address.error}
+              error={!!locationError.address || !!fieldError.address}
+              helperText={locationError.address || fieldError.address}
               label="Search address"
               placeholder="Enter a place, city, county, state, or country"
               size="small"
@@ -297,8 +297,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
                 type="number"
                 inputProps={{ min: -90, max: 90 }}
                 fullWidth
-                error={!locationError.lat.valid}
-                helperText={!locationError.lat.valid && locationError.lat.error}
+                error={!!locationError.lat || !!fieldError.lat}
+                helperText={locationError.lat || fieldError.lat}
                 InputProps={{
                   endAdornment: loadingLocation ? (
                     <InputAdornment position="end">
@@ -321,8 +321,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid }) 
                 type="number"
                 inputProps={{ min: -180, max: 180 }}
                 fullWidth
-                error={!locationError.lng.valid}
-                helperText={!locationError.lng.valid && locationError.lng.error}
+                error={!!locationError.lng || !!fieldError.lng}
+                helperText={locationError.lng || fieldError.lng}
                 InputProps={{
                   endAdornment: loadingLocation ? (
                     <InputAdornment position="end">
@@ -343,6 +343,12 @@ LocationInput.propTypes = {
   onLocationChange: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
   setLocationValid: PropTypes.func.isRequired,
+  fieldError: PropTypes.shape({
+    address: PropTypes.string.isRequired,
+    lat: PropTypes.string.isRequired,
+    lng: PropTypes.string.isRequired,
+  }).isRequired,
+  setFieldError: PropTypes.func.isRequired,
 };
 
 export default LocationInput;

@@ -14,12 +14,13 @@ const AnnoDisplay = ({ anno }) => {
     <Box>
       <TableContainer component={Paper}>
         <Table>
+          <caption>{redAsterisk} Not in Daylight Saving Time.</caption>
           <TableHead>
             <TableRow>
               <TableCell rowSpan={2}>Point</TableCell>
               <TableCell rowSpan={2}>Altitude</TableCell>
               <TableCell rowSpan={2}>Azimuth</TableCell>
-              <TableCell colSpan={2}>{`Standard Time${redAsterisk} (${tzStr})`}</TableCell>
+              <TableCell colSpan={2}>{`Standard Time (${tzStr})`} {redAsterisk}</TableCell>
               <TableCell colSpan={2}>Universal Time (UT1)</TableCell>
             </TableRow>
             <TableRow>
@@ -44,9 +45,9 @@ const AnnoDisplay = ({ anno }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'left', mt: 1 }}>
+      {/* <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'left', mt: 1 }}>
         {redAsterisk} Not in Daylight Saving Time.
-      </Typography>
+      </Typography> */}
     </Box>
   );
 };

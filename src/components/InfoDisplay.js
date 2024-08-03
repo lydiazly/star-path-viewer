@@ -12,7 +12,10 @@ const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const InfoDisplay = ({ date, location, star, flag = '', eqxSolTime = [] }) => {
+const InfoDisplay = ({ location, date, star, flag = '', cal = '', eqxSolTime = [] }) => {
+  const latStr = useMemo(() => formatCoordinate(parseFloat(location.lat), 'lat'), [location.lat]);
+  const lngStr = useMemo(() => formatCoordinate(parseFloat(location.lng), 'lng'), [location.lng]);
+
   const dateStr = useMemo(() => formatDateTime({
     year: parseInt(date.year),
     month: parseInt(date.month),
@@ -27,9 +30,6 @@ const InfoDisplay = ({ date, location, star, flag = '', eqxSolTime = [] }) => {
     day: parseInt(date.day),
   }).date, [date]);
 
-  const latStr = useMemo(() => formatCoordinate(parseFloat(location.lat), 'lat'), [location.lat]);
-  const lngStr = useMemo(() => formatCoordinate(parseFloat(location.lng), 'lng'), [location.lng]);
-  
   const { name, hip, ra, dec } = star;
 
   const raStr = useMemo(() => formatHMS(decimalToHMS(parseFloat(ra) / 15)), [ra]);
@@ -49,25 +49,25 @@ const InfoDisplay = ({ date, location, star, flag = '', eqxSolTime = [] }) => {
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
           <Grid item xs={12} sm={8} md="auto">
             <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
-              [DATE] {dateStrISO} ({dateStr})
+              [{!cal ? 'Gregorian' : 'Julian'} Date] {dateStrISO} ({dateStr})
             </Typography>
           </Grid>
 
           <Grid item xs={12} sm={4} md="auto">
             <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
-              [COORDINATES] {latStr}/{lngStr}
+              [Location] {latStr}/{lngStr}
             </Typography>
           </Grid>
-          
+
           <Grid item xs={12} sm={12} md="auto">
             <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
               {name ? (
-                `[NAME] ${capitalize(name)}`
+                `[Planet Name] ${capitalize(name)}`
               ) : (
                 hip ? (
-                  `[HIPPARCHUS] ${hip}`
+                  `[Hipparchus Catalogue Number] ${hip}`
                 ) : (ra && dec && (
-                  `[RA/DEC] ${raStr}/${decStr}`
+                  `[RA/Dec] ${raStr}/${decStr}`
                 ))
               )}
             </Typography>
@@ -87,14 +87,14 @@ const InfoDisplay = ({ date, location, star, flag = '', eqxSolTime = [] }) => {
 };
 
 InfoDisplay.propTypes = {
+  location: PropTypes.shape({
+    lat: PropTypes.string.isRequired,
+    lng: PropTypes.string.isRequired,
+  }).isRequired,
   date: PropTypes.shape({
     year: PropTypes.string.isRequired,
     month: PropTypes.string.isRequired,
     day: PropTypes.string.isRequired,
-  }).isRequired,
-  location: PropTypes.shape({
-    lat: PropTypes.string.isRequired,
-    lng: PropTypes.string.isRequired,
   }).isRequired,
   star: PropTypes.shape({
     name: PropTypes.string,
@@ -103,6 +103,7 @@ InfoDisplay.propTypes = {
     dec: PropTypes.string,
   }).isRequired,
   flag: PropTypes.string,
+  cal: PropTypes.string,
   eqxSolTime: PropTypes.arrayOf(PropTypes.number),
 };
 
