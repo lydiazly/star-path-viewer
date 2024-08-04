@@ -1,7 +1,7 @@
 // src/components/DateInput.js
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, TextField, MenuItem, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Stack, TextField, MenuItem, RadioGroup, Radio, FormControl, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -9,6 +9,7 @@ import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX, EQX_SOL_NAMES } from '../utils/cons
 import { dateToStr } from '../utils/dateUtils';
 import Config from '../Config';
 import CustomToggleButton from './ui/CustomToggleButton';
+import CustomFormControlLabel from './ui/CustomFormControlLabel';
 import debounce from 'lodash/debounce';
 import { fetchEquinoxSolstice } from '../utils/fetchEquinoxSolstice';
 
@@ -130,7 +131,7 @@ const validateDateSync = (date, flag, cal) => {
 const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, setFieldError }) => {
   const [date, setDate] = useState({ year: '', month: '', day: '' });
   const [flag, setFlag] = useState('');
-  const [cal, setFCal] = useState('');  // '': Gregorian, 'j': Julian
+  const [cal, setCal] = useState('');  // '': Gregorian, 'j': Julian
   const [disabledMonths, setDisabledMonths] = useState({});
   const [lastDay, setLastDay] = useState(31);
   const [adjusting, setAdjusting] = useState(false);
@@ -192,16 +193,26 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   //   flagRef.current = flag;
   // }, [flag]);
 
+  const handleCalChange = useCallback((event) => {
+    /* Keep the date values */
+    setCal(event.target.value);
+  }, []);
+  
   const handleFlagChange = useCallback(async (event, newFlag) => {  // TODO: async?
     if (flag === newFlag) {
       setFlag('');  // deselect
       onDateChange({ ...date, flag: '' });
     } else {
       setFlag(newFlag);  // select another
-      onDateChange({ ...date, flag: newFlag, cal: newFlag ? '' : cal });
+      if (newFlag) {
+        setCal('');  // Force to use Gregorian
+        onDateChange({ ...date, flag: newFlag, cal: '' });
+      } else {
+        onDateChange({ ...date, flag: newFlag });
+      }
     }
     setAdjusting(true);
-  }, [date, flag, cal, onDateChange]);
+  }, [date, flag, onDateChange]);
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
@@ -247,6 +258,30 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   return (
     <Stack direction="column">
       <div>
+        <FormControl>
+          <RadioGroup
+            row
+            sx={{ marginTop: -1, marginBottom: 1, justifyContent: 'space-around' }}
+            value={cal}
+            onChange={handleCalChange}
+          >
+            <CustomFormControlLabel
+              size="small"
+              value=""
+              control={<Radio />}
+              label="Gregorian Date"
+              checked={cal === ''}
+            />
+            <CustomFormControlLabel
+              size="small"
+              value="j"
+              control={<Radio disabled={!!flag} />}
+              label="Julian Date"
+              checked={cal === 'j'}
+            />
+          </RadioGroup>
+        </FormControl>
+        
         <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
           <Grid item xs={12} sm={4} md={4}>
             <TextField

@@ -1,13 +1,14 @@
 // src/components/StarInput.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, Stack, ToggleButton, ToggleButtonGroup, MenuItem, RadioGroup, Radio, FormControlLabel, FormControl, Typography } from '@mui/material';
+import { TextField, Stack, ToggleButton, ToggleButtonGroup, MenuItem, RadioGroup, Radio, FormControl, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import { STARS } from '../utils/constants';
 import { dmsToDecimal } from '../utils/coordUtils';
 import { hmsToDecimal } from '../utils/dateUtils';
 import Config from '../Config';
+import CustomFormControlLabel from './ui/CustomFormControlLabel';
 import debounce from 'lodash/debounce';
 
 /* Validate the star params */
@@ -282,35 +283,23 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
           <FormControl>
             <RadioGroup
               row
-              sx={{ marginTop: 0.8, marginBottom: 1, justifyContent: 'center' }}
+              sx={{ marginTop: 0.8, marginBottom: 1, justifyContent: 'space-around' }}
               value={radecFormat}
               onChange={handleRadecFormatChange}
             >
-              <FormControlLabel
+              <CustomFormControlLabel
                 size="small"
                 value="dms"
                 control={<Radio />}
                 label="HMS and DMS"
-                sx={{
-                  paddingX: 2,
-                  marginRight: 0,
-                  '& .MuiSvgIcon-root': {
-                    fontSize: '1rem',
-                  },
-                }}
+                checked={radecFormat === 'dms'}
               />
-              <FormControlLabel
+              <CustomFormControlLabel
                 size="small"
                 value="decimal"
                 control={<Radio />}
                 label="Decimal Degrees"
-                sx={{
-                  paddingX: 2,
-                  marginRight: 0,
-                  '& .MuiSvgIcon-root': {
-                    fontSize: '1rem',
-                  },
-                }}
+                checked={radecFormat === 'decimal'}
               />
             </RadioGroup>
           </FormControl>
