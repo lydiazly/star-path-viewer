@@ -321,7 +321,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
                 },
               }}
             >
-              <MenuItem key="none" value="" sx={{ color: 'GrayText' }}>-- Select --</MenuItem>
+              <MenuItem key="none" value="" sx={{ color: 'GrayText' }}>-- Select a month --</MenuItem>
               {MONTHS.slice(1).map((month, index) => (
                 <MenuItem key={index} value={(index + 1).toString()} disabled={!!disabledMonths[index + 1]}>
                   {month.name}
