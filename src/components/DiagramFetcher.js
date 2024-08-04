@@ -70,6 +70,7 @@ const validateInputSync = (
 };
 
 const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
+  // console.log('Rendering DiagramFetcher');
   const [location, setLocation] = useState({ lat: '', lng: '', place_id: '', type: '' });
   const [date, setDate] = useState({ year: '', month: '', day: '', flag: '', cal: '' });  // flag: 've', 'ss', 'ae', 'ws', cal: '', 'j'
   const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: '' });  // type: 'name', 'hip', 'radec'
@@ -93,6 +94,26 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
   useEffect(() => {
     clearError();
   }, [clearError]);
+
+  useEffect(() => {
+    if (date.flag) {
+      if (!location.lat || !location.lng) {
+        if (location.type === 'address') {
+          setLocationFieldError((prev) => ({ ...prev, address: 'Please search and select a location.' }));
+        } else {
+          if (!location.lat) {
+            setLocationFieldError((prev) => ({ ...prev, lat: 'Please enter a latitude.' }));
+          }
+          if (!location.lng) {
+            setLocationFieldError((prev) => ({ ...prev, lng: 'Please enter a longitude.' }));
+          }
+        }
+      }
+      if (!date.year) {
+        setDateFieldError((prev) => ({ ...prev, year: 'Please enter a year.' }));
+      }
+    }
+  }, [date, location, setDateFieldError]);
 
   const handleDraw = useCallback(async () => {
     if (loading) {
@@ -226,8 +247,8 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         </Stack>
 
         <Stack id="date" direction="column" spacing={1}>
-          <CustomDivider>DATE</CustomDivider>
-          <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} fieldError={dateFieldError} setFieldError={setDateFieldError} />
+          <CustomDivider>LOCAL DATE</CustomDivider>
+          <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} fieldError={dateFieldError} setFieldError={setDateFieldError} location={{ lat: location.lat, lng: location.lng }} />
           {!!errorMessage.date && (
             <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
               {errorMessage.date}
@@ -281,4 +302,4 @@ DiagramFetcher.propTypes = {
   clearImage: PropTypes.func.isRequired,
 };
 
-export default DiagramFetcher;
+export default React.memo(DiagramFetcher);

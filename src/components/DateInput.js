@@ -14,10 +14,11 @@ import debounce from 'lodash/debounce';
 import { fetchEquinoxSolstice } from '../utils/fetchEquinoxSolstice';
 
 /* Adjust the date */
-const adjustDate = async (dateRef, flag, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage) => {
+const adjustDate = async (dateRef, flagRef, locationRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage) => {
   const date = dateRef.current;
-  // const flag = flagRef.current;
-  if (!date.year || (!flag && (!date.month || !date.day))) {
+  const flag = flagRef.current;
+  const location = locationRef.current;
+  if (!date.year || (!flag && (!date.month || !date.day)) || (flag && (!location.lat || !location.lng))) {
     setAdjusting(false);
     return;
   }
@@ -40,7 +41,7 @@ const adjustDate = async (dateRef, flag, setDate, setDisabledMonths, setLastDay,
   /* Get the date for the equinox/solstice of the given year */
   if (flag && year > EPH_DATE_MIN[0] && year < EPH_DATE_MAX[0]) {
     try {
-      const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(year, flag);
+      const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(location.lat, location.lng, year, flag);
       month = newMonth;
       day = newDay;
     } catch (error) {
@@ -128,7 +129,8 @@ const validateDateSync = (date, flag, cal) => {
   return newDateError;
 };
 
-const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, setFieldError }) => {
+const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, setFieldError, location }) => {
+  // console.log('Rendering DateInput');
   const [date, setDate] = useState({ year: '', month: '', day: '' });
   const [flag, setFlag] = useState('');
   const [cal, setCal] = useState('');  // '': Gregorian, 'j': Julian
@@ -137,7 +139,8 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   const [adjusting, setAdjusting] = useState(false);
   const [dateError, setDateError] = useState({ general: '', year: '', month: '', day: '' });
   const dateRef = useRef(date);
-  // const flagRef = useRef(flag);
+  const flagRef = useRef(flag);
+  const locationRef = useRef(location);
 
   const clearError = useCallback(() => {
     setErrorMessage((prev) => ({ ...prev, date: '' }));
@@ -156,7 +159,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
     // setDate(initialDate);
     // dateRef.current = initialDate;
     dateRef.current = '';
-    // flagRef.current = '';
+    flagRef.current = '';
   }, [clearError]);
 
   useEffect(() => {
@@ -189,9 +192,16 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
     dateRef.current = date;
   }, [date]);
 
-  // useEffect(() => {
-  //   flagRef.current = flag;
-  // }, [flag]);
+  useEffect(() => {
+    flagRef.current = flag;
+  }, [flag]);
+
+  useEffect(() => {
+    if (locationRef.current.lat !== location.lat || locationRef.current.lng !== location.lng) {
+      setAdjusting(true);
+      locationRef.current = location;
+    }
+  }, [location]);
 
   const handleCalChange = useCallback((event) => {
     /* Keep the date values */
@@ -237,7 +247,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
 
   useEffect(() => {
     if (adjusting) {  // start adjusting
-      debouncedAdjustDate(dateRef, flag, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage);
+      debouncedAdjustDate(dateRef, flagRef, locationRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage);
     }
     /* Cleanup function */
     return () => {
@@ -410,6 +420,10 @@ DateInput.propTypes = {
     day: PropTypes.string.isRequired,
   }).isRequired,
   setFieldError: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    lat: PropTypes.string.isRequired,
+    lng: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
-export default DateInput;
+export default React.memo(DateInput);

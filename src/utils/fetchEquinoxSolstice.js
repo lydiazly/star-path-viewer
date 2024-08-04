@@ -3,9 +3,9 @@ import axios from 'axios';
 import Config from '../Config';
 import { EQX_SOL_KEYS } from './constants';
 
-export const fetchEquinoxSolstice = async (year, flag) => {
+export const fetchEquinoxSolstice = async (lat, lng, year, flag) => {
   try {
-    const response = await axios.get(`${Config.serverUrl}/equinox?year=${year}`, {
+    const response = await axios.get(`${Config.serverUrl}/equinox?lat=${lat}&lng=${lng}&year=${year}`, {
       timeout: Config.serverGetTimeout
     });
 

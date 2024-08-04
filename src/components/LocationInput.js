@@ -58,6 +58,7 @@ const validateLocationSync = (inputType, location) => {
 };
 
 const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fieldError, setFieldError }) => {
+  // console.log('Rendering LocationInput');
   const [inputType, setInputType] = useState('address');  // 'address' or 'coordinates'
   const [location, setLocation] = useState({ lat: '', lng: '', place_id: '' });
   const [searchTerm, setSearchTerm] = useState('');
@@ -87,8 +88,12 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   /* Reset error when user starts typing */
   useEffect(() => {
     clearError();
-    if (location.lat && location.lng) {
-      setLocationValid(true);
+    setLocationValid(true);
+    /* Clear address if lat or lng is empty */
+    if (searchTerm && inputType === 'coordinates' && (!location.lat || !location.lng)) {
+      setSearchTerm('');
+      setSuggestions([]);
+      setLocation((prev) => ({ ...prev, place_id: '' }));
     }
   }, [searchTerm, location, inputType, clearError, setLocationValid]);
 
@@ -126,8 +131,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   const debouncedFetchSuggestions = useMemo(
     () =>
       debounce(async (query) => {
-        setLoadingSuggestions(true);
         try {
+          setLoadingSuggestions(true);
           const suggestions = await fetchSuggestions(query);
           setSuggestions(suggestions);
         } catch (error) {
@@ -165,10 +170,11 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   }, [location, inputType, debouncedValidateLocation]);
 
   const handleSearchChange = useCallback(
-    (event, newInputValue) => {
-      setSearchTerm(newInputValue);
-      if (newInputValue) {
-        debouncedFetchSuggestions(newInputValue);
+    (event, newSearchTerm) => {
+      const trimmedNewSearchTerm = newSearchTerm.trim();
+      setSearchTerm(trimmedNewSearchTerm);
+      if (trimmedNewSearchTerm) {
+        debouncedFetchSuggestions(trimmedNewSearchTerm);
       } else {
         setLocation({ lat: '', lng: '', place_id: '' });
       }
@@ -366,4 +372,4 @@ LocationInput.propTypes = {
   setFieldError: PropTypes.func.isRequired,
 };
 
-export default LocationInput;
+export default React.memo(LocationInput);

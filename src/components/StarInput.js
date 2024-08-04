@@ -75,6 +75,7 @@ const validateStarSync = (inputType, radecFormat, star) => {
 };
 
 const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, setFieldError }) => {
+  // console.log('Rendering StarInput');
   const [inputType, setInputType] = useState('name');  // 'name', 'hip', 'radec'
   const [radecFormat, setRadecFormat] = useState('dms');  // 'decimal', 'dms'
   const [star, setStar] = useState({
@@ -475,4 +476,4 @@ StarInput.propTypes = {
   setFieldError: PropTypes.func.isRequired,
 };
 
-export default StarInput;
+export default React.memo(StarInput);
