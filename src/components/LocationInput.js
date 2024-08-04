@@ -1,17 +1,19 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress } from '@mui/material';
+import { Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import SearchIcon from '@mui/icons-material/Search';
+// import SearchIcon from '@mui/icons-material/Search';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import Config from '../Config';
 import debounce from 'lodash/debounce';
 import fetchGeolocation from '../utils/fetchGeolocation'; // Import the geolocation fetching utility
 import fetchSuggestions from '../utils/fetchSuggestions'; // Import the suggestions fetching utility
 
-const fetchLocation = async (setSearchTerm, setLocation, setErrorMessage) => {
+const fetchLocation = async (setSearchTerm, setLocation, setLoadingLocation, setErrorMessage) => {
   try {
+    setLoadingLocation(true);
     const locationData = await fetchGeolocation();
     setSearchTerm(locationData.display_name);
     setLocation({
@@ -21,6 +23,8 @@ const fetchLocation = async (setSearchTerm, setLocation, setErrorMessage) => {
     });
   } catch (error) {
     setErrorMessage({ location: error.message });
+  } finally {
+    setLoadingLocation(false);
   }
 };
 
@@ -100,6 +104,14 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
     setFieldError((prev) => ({ ...prev, lng: '' }));
   }, [location.lng, inputType, setFieldError]);
 
+  const handleGpsClick = useCallback(
+    () => {
+      clearError();
+      fetchLocation(setSearchTerm, setLocation, setLoadingLocation, setErrorMessage);
+    },
+    [clearError, setErrorMessage]
+  );
+
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
       setInputType(newInputType);
@@ -155,7 +167,11 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   const handleSearchChange = useCallback(
     (event, newInputValue) => {
       setSearchTerm(newInputValue);
-      debouncedFetchSuggestions(newInputValue);
+      if (newInputValue) {
+        debouncedFetchSuggestions(newInputValue);
+      } else {
+        setLocation({ lat: '', lng: '', place_id: '' });
+      }
     },
     [debouncedFetchSuggestions]
   );
@@ -266,14 +282,13 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
               InputProps={{
                 ...params.InputProps,
                 startAdornment: (
-                  <InputAdornment position="start" sx={{ marginRight: 0 }}>
-                    {!loadingSuggestions ? (
-                      <SearchIcon color="disabled" />
+                  <InputAdornment position="start" sx={{ ml: 0.2, mr: 0 }}>
+                    {!loadingSuggestions && !loadingLocation ? (
+                      <IconButton onClick={handleGpsClick}>
+                        <GpsFixedIcon size={20} sx={{ color: "grey", p: '2px', mx: -1, cursor: 'pointer' }} />
+                      </IconButton>
                     ) : (
-                      <CircularProgress
-                        size={20}
-                        sx={{ color: "lightgrey", marginRight: 0.5 }}
-                      />
+                      <CircularProgress size={20} sx={{ color: "grey", mr: 0.5 }} />
                     )}
                   </InputAdornment>
                 ),
