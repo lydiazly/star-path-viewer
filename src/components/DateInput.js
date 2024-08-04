@@ -269,14 +269,14 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
               size="small"
               value=""
               control={<Radio />}
-              label="Gregorian Date"
+              label="Gregorian Calendar"
               checked={cal === ''}
             />
             <CustomFormControlLabel
               size="small"
               value="j"
               control={<Radio disabled={!!flag} />}
-              label="Julian Date"
+              label="Julian Calendar"
               checked={cal === 'j'}
             />
           </RadioGroup>

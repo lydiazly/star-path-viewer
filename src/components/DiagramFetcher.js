@@ -122,15 +122,19 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     params.lat = parseFloat(location.lat).toString();
     params.lng = parseFloat(location.lng).toString();
 
-    if (date.flag && date.year) {
-      params.year = parseInt(date.year).toString();
-      params.flag = date.flag;
-    } else {
-      params.year = parseInt(date.year).toString();
-      params.month = parseInt(date.month).toString();
-      params.day = parseInt(date.day).toString();
-      params.cal = date.cal;
-    }
+    // if (date.flag && date.year) {
+    //   params.year = parseInt(date.year).toString();
+    //   params.flag = date.flag;
+    // } else {
+    //   params.year = parseInt(date.year).toString();
+    //   params.month = parseInt(date.month).toString();
+    //   params.day = parseInt(date.day).toString();
+    //   params.cal = date.cal;
+    // }
+    params.year = parseInt(date.year).toString();
+    params.month = parseInt(date.month).toString();
+    params.day = parseInt(date.day).toString();
+    params.cal = date.cal;
 
     if (star.type === 'name') {
       params.name = STARS[star.name];
@@ -160,14 +164,14 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       }
 
       newInfo.eqxSolTime = [];
-      if (response.data.flag && response.data.eqxSolTime.length > 0) {
-        const res_month = response.data.eqxSolTime[1].toString();
-        const res_day = response.data.eqxSolTime[2].toString();
-        newInfo.eqxSolTime = response.data.eqxSolTime;
-        newInfo.month = res_month;
-        newInfo.day = res_day;
-        setDate({ ...date, month: res_month, day: res_day });
-      }
+      // if (response.data.flag && response.data.eqxSolTime.length > 0) {
+      //   const res_month = response.data.eqxSolTime[1].toString();
+      //   const res_day = response.data.eqxSolTime[2].toString();
+      //   newInfo.eqxSolTime = response.data.eqxSolTime;
+      //   newInfo.month = res_month;
+      //   newInfo.day = res_day;
+      //   setDate({ ...date, month: res_month, day: res_day });
+      // }
       setInfo(newInfo);
       // console.log("info: ", newInfo);
 

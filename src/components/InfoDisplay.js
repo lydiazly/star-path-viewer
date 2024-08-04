@@ -35,13 +35,13 @@ const InfoDisplay = ({ location, date, star, flag = '', cal = '', eqxSolTime = [
   const raStr = useMemo(() => formatHMS(decimalToHMS(parseFloat(ra) / 15)), [ra]);
   const decStr = useMemo(() => formatDecimalDgrees(parseFloat(dec)), [dec]);
 
-  const eqxSolTimeStr = useMemo(() => {
-    if (EQX_SOL_NAMES.hasOwnProperty(flag) && eqxSolTime.length === 6) {
-      return `${EQX_SOL_NAMES[flag]}: ${dateTimeToStr({ dateTime: eqxSolTime })}`;
-    } else {
-      return '';
-    }
-  }, [flag, eqxSolTime]);
+  // const eqxSolTimeStr = useMemo(() => {
+  //   if (EQX_SOL_NAMES.hasOwnProperty(flag) && eqxSolTime.length === 6) {
+  //     return `${EQX_SOL_NAMES[flag]}: ${dateTimeToStr({ dateTime: eqxSolTime })}`;
+  //   } else {
+  //     return '';
+  //   }
+  // }, [flag, eqxSolTime]);
 
   return (
     <Box mt={4} sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -49,7 +49,7 @@ const InfoDisplay = ({ location, date, star, flag = '', cal = '', eqxSolTime = [
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
           <Grid item xs={12} sm={8} md="auto">
             <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
-              [{!cal ? 'Gregorian' : 'Julian'} Date] {dateStrISO} ({dateStr})
+              [{!cal ? 'Gregorian' : 'Julian'}] {dateStrISO} ({dateStr})
             </Typography>
           </Grid>
 
@@ -73,13 +73,13 @@ const InfoDisplay = ({ location, date, star, flag = '', cal = '', eqxSolTime = [
             </Typography>
           </Grid>
 
-          {eqxSolTimeStr && (
+          {/* {eqxSolTimeStr && (
             <Grid item xs={12} sm={12} md={12}>
               <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
                 {eqxSolTimeStr}
               </Typography>
             </Grid>
-          )}
+          )} */}
         </Grid>
       </div>
     </Box>
