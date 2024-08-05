@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
-import { Stack, Alert, Button, CircularProgress } from '@mui/material';
+import { Box, Stack, Alert, Button, CircularProgress } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PropTypes from 'prop-types';
 import LocationInput from './LocationInput';
@@ -276,9 +276,14 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           variant="contained"
           color="primary"
           size="large"
-          startIcon={loading
-            ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
-            : <ArrowForwardIcon />}
+          startIcon={
+            <Box display="flex" alignItems="center" sx={{ pb: '1.5px' }}>
+              {loading
+              ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
+              : <ArrowForwardIcon />
+              }
+            </Box>
+          }
           sx={{ marginTop: 3 }}
           disabled={!!errorMessage.location || !!errorMessage.date || !!errorMessage.star || !!errorMessage.draw ||
             loading || !dateValid || !locationValid || !starValid}

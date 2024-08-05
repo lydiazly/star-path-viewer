@@ -1,7 +1,7 @@
 // src/components/DateInput.js
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, TextField, MenuItem, RadioGroup, Radio, FormControl, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { Box, Stack, TextField, MenuItem, RadioGroup, Radio, FormControl, Typography, Accordion, AccordionSummary, AccordionDetails, CircularProgress } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -14,13 +14,14 @@ import debounce from 'lodash/debounce';
 import { fetchEquinoxSolstice } from '../utils/fetchEquinoxSolstice';
 
 /* Get the date for the equinox/solstice of the given year */
-const fetchDate = (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid) => {
-  // console.log('Fetching date...', date.year, flag);
+const fetchDate = async (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, signal, abortControllerRef) => {
+  console.log('Fetching date...', date.year, flag);
   // const date = dateRef.current;
   // const flag = flagRef.current;
   const location = locationRef.current;
   if (!date.year || !location.lat || !location.lng) {
     setFetching(false);
+    abortControllerRef.current = null;
     return;
   }
 
@@ -28,37 +29,34 @@ const fetchDate = (date, flag, locationRef, setDate, setFetching, setErrorMessag
 
   if (year <= EPH_DATE_MIN[0] || year >= EPH_DATE_MAX[0]) {
     setFetching(false);
+    abortControllerRef.current = null;
     return;
   }
 
   setDateValid(false);
-  fetchEquinoxSolstice(location.lat, location.lng, year, flag)
-    .then(({ month: newMonth, day: newDay }) => {
-      const month = newMonth;
-      const day = newDay;
-      /* Reset month and day if needed */
-      const newDate = {
-        ...date,
-        month: month.toString(),
-        day: day.toString(),
-      };
-      setDate(newDate);
-      setFetching(false);
-    })
-    .catch((error) => {
+  try {
+    const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(location.lat, location.lng, year, flag, signal);
+    const month = newMonth;
+    const day = newDay;
+    /* Reset month and day if needed */
+    const newDate = {
+      ...date,
+      month: month.toString(),
+      day: day.toString(),
+    };
+    setDate(newDate);
+    abortControllerRef.current = null;
+  } catch (error) {
+    if (error.name !== 'CanceledError') {
       setErrorMessage({ date: error.message });
-      setFetching(false);
-    });
-
-  // try {
-  //   const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(location.lat, location.lng, year, flag);
-  //   month = newMonth;
-  //   day = newDay;
-  // } catch (error) {
-  //   setErrorMessage({ date: error.message });
-  //   setAdjusting(false);
-  //   return;
-  // }
+      abortControllerRef.current = null;
+    }
+    // else {
+    //   console.log(`Request for ${date.year}-${flag} canceled.`);
+    // }
+  } finally {
+    setFetching(false);
+  }
 };
 
 /* Adjust the date */
@@ -185,6 +183,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   // const dateRef = useRef(date);
   // const flagRef = useRef(flag);
   const locationRef = useRef(location);
+  const abortControllerRef = useRef(null);
 
   const clearError = useCallback(() => {
     setErrorMessage((prev) => ({ ...prev, date: '' }));
@@ -206,7 +205,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
 
   useEffect(() => {
     if (!adjusting && !fetching) {
-      onDateChange({ ...date, flag, cal});
+      onDateChange({ ...date, flag, cal });
     }
   }, [date, flag, cal, onDateChange, adjusting, fetching]);
 
@@ -285,12 +284,22 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   }, [flag, fetching, setDateValid]);
 
   const debouncedFetchDate = useMemo(
-    () => debounce(fetchDate, Config.TypingDebouncePeriod + 200),
+    () => debounce(async (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid) => {
+      // console.log("Last controller: ", abortControllerRef.current?.signal);
+      if (abortControllerRef.current) {
+        // console.log("Aborting...");
+        abortControllerRef.current.abort();  // Cancel the previous request
+      }
+      const controller = new AbortController();
+      // console.log("New controller: ", controller?.signal);
+      abortControllerRef.current = controller;
+      await fetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, controller.signal, abortControllerRef);
+    }, Config.TypingDelay + 200),
     []
   );
 
   const debouncedAdjustDate = useMemo(
-    () => debounce(adjustDate, Config.TypingDebouncePeriod),
+    () => debounce(adjustDate, Config.TypingDelay),
     []
   );
 
@@ -302,7 +311,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
       if (!flag || (date.year && locationRef.current.lat && locationRef.current.lng)) {
         setDateValid(isValid);
       }
-    }, Config.TypingDebouncePeriod),
+    }, Config.TypingDelay),
     [setDateValid]
   );
 
@@ -327,7 +336,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   }, [date, cal, adjusting, debouncedAdjustDate]);
 
   useEffect(() => {
-    if (!adjusting && !fetching) {
+    if (!adjusting && !fetching && !abortControllerRef.current) {
       debouncedValidateDate(date, flag, cal);
     }
     /* Cleanup function */
@@ -452,14 +461,21 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
               }
             }}
           >
-            <Stack direction="row" spacing={1}>
-              <Typography color="primary" variant="body1">
-                Quick Entry
-              </Typography>
-              <Typography color="grey" variant="body1">
-                {!!date.year && fetching && ('(fetching the date...)')}
-              </Typography>
-            </Stack>
+            <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} alignItems="start" pr={1}>
+              <Box flex="1 0 auto" textAlign="left" mr={1}>
+                <Typography color="primary" variant="body1">
+                  Quick Entry
+                </Typography>
+              </Box>
+              {!!date.year && fetching && abortControllerRef.current && (
+                <Box display="flex" alignItems="center" textAlign="left">
+                  <Typography color="grey" variant="body1">
+                    &gt; Quering the {EQX_SOL_NAMES[flag]} of the year {date.year} ...
+                  </Typography>
+                  <CircularProgress size="0.8rem" sx={{ color: 'grey', ml: 1 }} />
+                </Box>
+              )}
+            </Box>
           </AccordionSummary>
           <AccordionDetails sx={{ paddingX: 1.5, paddingTop: 0, paddingBottom: 1.5 }}>
             <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>

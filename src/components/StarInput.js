@@ -205,7 +205,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
       const isValid = !Object.values(validationResult).some(item => !!item);
       setStarError(validationResult);
       setStarValid(isValid);
-    }, Config.TypingDebouncePeriod / 2),
+    }, Config.TypingDelay / 2),
     [setStarValid]
   );
 

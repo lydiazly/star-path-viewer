@@ -3,10 +3,12 @@ import axios from 'axios';
 import Config from '../Config';
 import { EQX_SOL_KEYS } from './constants';
 
-export const fetchEquinoxSolstice = async (lat, lng, year, flag) => {
+export const fetchEquinoxSolstice = async (lat, lng, year, flag, signal) => {
   try {
-    const response = await axios.get(`${Config.serverUrl}/equinox?lat=${lat}&lng=${lng}&year=${year}`, {
-      timeout: Config.serverGetTimeout
+    const response = await axios.get(`${Config.serverUrl}/equinox`, {
+      params: { lat, lng, year },
+      timeout: Config.serverGetTimeout,
+      signal,
     });
 
     const month = response.data.results[EQX_SOL_KEYS[flag]][1];
@@ -17,7 +19,9 @@ export const fetchEquinoxSolstice = async (lat, lng, year, flag) => {
 
     return { year, month, day, hours, minutes, seconds };  // numbers
   } catch (error) {
-    if (error.response) {
+    if (error.name === 'CanceledError') {
+      throw error; // Let the caller handle the cancel error
+    } else if (error.response) {
       throw new Error(`Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}`);
     } else {
       throw new Error('Unable to connect to the server.');

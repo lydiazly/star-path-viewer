@@ -141,7 +141,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
         } finally {
           setLoadingSuggestions(false);
         }
-      }, Config.TypingDebouncePeriod),
+      }, Config.TypingDelay),
     [setErrorMessage]
   );
 
@@ -158,7 +158,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
       const isValid = !Object.values(validationResult).some(item => !!item);
       setLocationError(validationResult);
       setLocationValid(isValid);
-    }, Config.TypingDebouncePeriod / 2),
+    }, Config.TypingDelay / 2),
     [setLocationValid]
   );
 
