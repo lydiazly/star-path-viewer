@@ -49,13 +49,17 @@ const App = () => {
           }}
         >
 
-          <Typography variant="h2" component="h1" sx={{ fontSize: '2.5rem', fontWeight: 200 }}>
+          <Typography
+            variant="h1"
+            sx={{ fontSize: '2.75rem' }}
+          >
             Trace This Star
           </Typography>
 
           <Typography
             variant="subtutle1"
             color="grey"
+            fontWeight={400}
             sx={{ fontSize: '1.1rem', marginBottom: 1 }}
             gutterBottom
           >
