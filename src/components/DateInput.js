@@ -15,7 +15,7 @@ import { fetchEquinoxSolstice } from '../utils/fetchEquinoxSolstice';
 
 /* Get the date for the equinox/solstice of the given year */
 const fetchDate = async (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, signal, abortControllerRef) => {
-  console.log('Fetching date...', date.year, flag);
+  // console.log('Fetching date...', date.year, flag);
   // const date = dateRef.current;
   // const flag = flagRef.current;
   const location = locationRef.current;
@@ -467,7 +467,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
                   Quick Entry
                 </Typography>
               </Box>
-              {!!date.year && fetching && abortControllerRef.current && (
+              {!!date.year && fetching && (
                 <Box display="flex" alignItems="center" textAlign="left">
                   <Typography color="grey" variant="body1">
                     &gt; Quering the {EQX_SOL_NAMES[flag]} of the year {date.year} ...
