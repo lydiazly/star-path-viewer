@@ -14,8 +14,8 @@ import debounce from 'lodash/debounce';
 import { fetchEquinoxSolstice } from '../utils/fetchEquinoxSolstice';
 
 /* Adjust the date */
-const adjustDate = (date, flag, cal, locationRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage) => {
-  console.log('Adjusting...', date);
+const adjustDate = (date, flag, cal, locationRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage, setDateValid) => {
+  // console.log('Adjusting...', date);
   // const date = dateRef.current;
   // const flag = flagRef.current;
   const location = locationRef.current;
@@ -35,6 +35,7 @@ const adjustDate = (date, flag, cal, locationRef, setDate, setDisabledMonths, se
       return;
     }
 
+    setDateValid(false);
     fetchEquinoxSolstice(location.lat, location.lng, year, flag)
       .then(({ month: newMonth, day: newDay }) => {
         month = newMonth;
@@ -133,7 +134,7 @@ const adjustDate = (date, flag, cal, locationRef, setDate, setDisabledMonths, se
 
 /* Validate the date */
 const validateDateSync = (date, flag, cal) => {
-  console.log('Validating...', date);
+  // console.log('Validating...', date);
   // console.log(`get date: '${date.year}' '${date.month}' '${date.day}' '${flag}'`);
   let newDateError = { general: '', year: '', month: '', day: '' };
   const ephDateMin = cal === 'j' ? EPH_DATE_MIN_JULIAN : EPH_DATE_MIN;
@@ -205,10 +206,9 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   /* Reset error when user starts typing */
   useEffect(() => {
     clearError();
-    // setDateValid(true);
-    if (date.year && date.month && date.day) {
-      setDateValid(true);
-    }
+    // if (date.year && date.month && date.day) {
+    //   setDateValid(true);
+    // }
   }, [date, flag, cal, setErrorMessage, clearError, setDateValid]);
 
   useEffect(() => {
@@ -267,7 +267,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   }, []);
 
   const debouncedAdjustDate = useMemo(
-    () => debounce(adjustDate, Config.TypingDebouncePeriod),
+    () => debounce(adjustDate, Config.TypingDebouncePeriod / 2),
     []
   );
 
@@ -277,19 +277,19 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
       const isValid = !Object.values(validationResult).some(item => !!item);
       setDateError(validationResult);
       setDateValid(isValid);
-    }, Config.TypingDebouncePeriod),
+    }, Config.TypingDebouncePeriod / 2),
     [setDateValid]
   );
 
   useEffect(() => {
     if (adjusting) {  // start adjusting
-      debouncedAdjustDate(date, flag, cal, locationRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage);
+      debouncedAdjustDate(date, flag, cal, locationRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage, setDateValid);
     }
     /* Cleanup function */
     return () => {
       debouncedAdjustDate.cancel();
     };
-  }, [date, flag, cal, adjusting, onDateChange, debouncedAdjustDate, setErrorMessage]);
+  }, [date, flag, cal, adjusting, onDateChange, debouncedAdjustDate, setErrorMessage, setDateValid]);
 
   useEffect(() => {
     if (!adjusting) {
@@ -417,9 +417,14 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
               }
             }}
           >
-            <Typography color="dimgray" variant="body1">
-              Quick Entry
-            </Typography>
+            <Stack direction="row" spacing={1}>
+              <Typography color="primary" variant="body1">
+                Quick Entry
+              </Typography>
+              <Typography color="grey" variant="body1">
+                {!!flag && adjusting && ('(fetching the date...)')}
+              </Typography>
+            </Stack>
           </AccordionSummary>
           <AccordionDetails sx={{ paddingX: 1.5, paddingTop: 0, paddingBottom: 1.5 }}>
             <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>

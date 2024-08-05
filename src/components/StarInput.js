@@ -111,9 +111,9 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
   /* Reset error when user starts typing */
   useEffect(() => {
     clearError();
-    if ((inputType === 'name' && star.name) || (inputType === 'hip' && star.hip) || (inputType === 'radec' && star.ra && star.dec)) {
-      setStarValid(true);
-    }
+    // if ((inputType === 'name' && star.name) || (inputType === 'hip' && star.hip) || (inputType === 'radec' && star.ra && star.dec)) {
+    //   setStarValid(true);
+    // }
   }, [star, inputType, radecFormat, clearError, setStarValid]);
 
   useEffect(() => {
@@ -205,7 +205,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
       const isValid = !Object.values(validationResult).some(item => !!item);
       setStarError(validationResult);
       setStarValid(isValid);
-    }, Config.TypingDebouncePeriod),
+    }, Config.TypingDebouncePeriod / 2),
     [setStarValid]
   );
 

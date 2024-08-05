@@ -88,7 +88,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   /* Reset error when user starts typing */
   useEffect(() => {
     clearError();
-    setLocationValid(true);
+    // setLocationValid(true);
     /* Clear address if lat or lng is empty */
     if (searchTerm && inputType === 'coordinates' && (!location.lat || !location.lng)) {
       setSearchTerm('');
@@ -158,7 +158,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
       const isValid = !Object.values(validationResult).some(item => !!item);
       setLocationError(validationResult);
       setLocationValid(isValid);
-    }, Config.TypingDebouncePeriod),
+    }, Config.TypingDebouncePeriod / 2),
     [setLocationValid]
   );
 
