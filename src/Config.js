@@ -3,7 +3,7 @@ const Config = {
   serverUrl: process.env.REACT_APP_SERVER_URL || 'https://localhost:5001',
   serverGetTimeout: 6000,
   serverGetDiagramTimeout: 20000,
-  TypingDebouncePeriod: 300,
+  TypingDebouncePeriod: 450,
 };
 
 export default Config;

@@ -17,10 +17,12 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState({});
   const [diagramId, setDiagramId] = useState('');
   const [svgData, setSvgData] = useState('');
-  const [anno, setAnno] = useState(null);  // array
+  const [anno, setAnno] = useState([]);
   const [info, setInfo] = useState({
     lat: '', lng: '',
-    year: '', month: '', day: '', flag: '', cal: '',
+    dateG: { year: '', month: '', day: '' },
+    dateJ: { year: '', month: '', day: '' },
+    flag: '', cal: '',
     name: '', hip: '', ra: '', dec: '',
     eqxSolTime: '',
   });
@@ -47,17 +49,17 @@ const App = () => {
           }}
         >
 
-          <Typography variant="h2" component="h1" sx={{ fontSize: '2.5rem' }}>
-            Star Trail
+          <Typography variant="h2" component="h1" sx={{ fontSize: '2.5rem', fontWeight: 200 }}>
+            Trace This Star
           </Typography>
 
           <Typography
             variant="subtutle1"
             color="grey"
-            sx={{ fontSize: '1.1rem', marginBottom: 0 }}
+            sx={{ fontSize: '1.1rem', marginBottom: 1 }}
             gutterBottom
           >
-            {`\u2014 Star trail of a given star in ancient sky \u2014`}
+            {`\u2014`} Draw&nbsp;the star&nbsp;trail of a celestial&nbsp;object in&nbsp;the ancient&nbsp;sky {`\u2014`}
           </Typography>
 
           <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>
@@ -74,14 +76,7 @@ const App = () => {
           {success && (
             <Box sx={{ width: '100%', justifyContent: 'center' }}>
               <Box id="information" mt={1}>
-                <InfoDisplay
-                  location={{ lat: info.lat, lng: info.lng }}
-                  date={{ year: info.year, month: info.month, day: info.day }}
-                  star={{ name: info.name, hip: info.hip, ra: info.ra, dec: info.dec }}
-                  flag={info.flag}
-                  cal={info.cal}
-                  eqxSolTime={info.eqxSolTime}
-                />
+                <InfoDisplay info={info} />
               </Box>
 
               {svgData && (
@@ -106,7 +101,7 @@ const App = () => {
                 </Box>
               )}
 
-              {anno && (
+              {anno.length > 0 && (
                 <Box id="annotations" mt={2}>
                   <AnnoDisplay anno={anno} />
                 </Box>

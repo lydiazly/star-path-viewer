@@ -1,110 +1,144 @@
 // src/components/InfoDisplay.js
 import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, Stack } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { EQX_SOL_NAMES } from '../utils/constants';
-import { formatDateTime, formatDateTimeISO, dateTimeToStr, decimalToHMS, formatHMS } from '../utils/dateUtils';
+// import { EQX_SOL_NAMES } from '../utils/constants';
+import CustomDivider from './ui/CustomDivider';
+import { formatDateTime, formatDateTimeISO, decimalToHMS, formatHMS } from '../utils/dateUtils';
 import { formatCoordinate, formatDecimalDgrees } from '../utils/coordUtils';
 
 const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const InfoDisplay = ({ location, date, star, flag = '', cal = '', eqxSolTime = [] }) => {
-  const latStr = useMemo(() => formatCoordinate(parseFloat(location.lat), 'lat'), [location.lat]);
-  const lngStr = useMemo(() => formatCoordinate(parseFloat(location.lng), 'lng'), [location.lng]);
+const InfoDisplay = ({ info }) => {
+  // console.log('Rendering InfoDisplay');
+  const latStr = useMemo(() => formatCoordinate(parseFloat(info.lat), 'lat'), [info.lat]);
+  const lngStr = useMemo(() => formatCoordinate(parseFloat(info.lng), 'lng'), [info.lng]);
 
-  const dateStr = useMemo(() => formatDateTime({
-    year: parseInt(date.year),
-    month: parseInt(date.month),
-    day: parseInt(date.day),
+  const dateStrG = useMemo(() => formatDateTime({
+    year: parseInt(info.dateG.year),
+    month: parseInt(info.dateG.month),
+    day: parseInt(info.dateG.day),
     monthFirst: true,
     abbr: false,
-  }).date, [date]);
+  }).date, [info]);
 
-  const dateStrISO = useMemo(() => formatDateTimeISO({
-    year: parseInt(date.year),
-    month: parseInt(date.month),
-    day: parseInt(date.day),
-  }).date, [date]);
+  const dateStrIsoG = useMemo(() => formatDateTimeISO({
+    year: parseInt(info.dateG.year),
+    month: parseInt(info.dateG.month),
+    day: parseInt(info.dateG.day),
+  }).date, [info]);
 
-  const { name, hip, ra, dec } = star;
 
-  const raStr = useMemo(() => formatHMS(decimalToHMS(parseFloat(ra) / 15)), [ra]);
-  const decStr = useMemo(() => formatDecimalDgrees(parseFloat(dec)), [dec]);
+  const dateStrJ = useMemo(() => formatDateTime({
+    year: parseInt(info.dateJ.year),
+    month: parseInt(info.dateJ.month),
+    day: parseInt(info.dateJ.day),
+    monthFirst: true,
+    abbr: false,
+  }).date, [info]);
+
+  const dateStrIsoJ = useMemo(() => formatDateTimeISO({
+    year: parseInt(info.dateJ.year),
+    month: parseInt(info.dateJ.month),
+    day: parseInt(info.dateJ.day),
+  }).date, [info]);
+
+  const raStr = useMemo(() => info.ra ? formatHMS(decimalToHMS(parseFloat(info.ra) / 15)) : '', [info.ra]);
+  const decStr = useMemo(() => info.dec ? formatDecimalDgrees(parseFloat(info.dec)) : '', [info.dec]);
 
   // const eqxSolTimeStr = useMemo(() => {
-  //   if (EQX_SOL_NAMES.hasOwnProperty(flag) && eqxSolTime.length === 6) {
-  //     return `${EQX_SOL_NAMES[flag]}: ${dateTimeToStr({ dateTime: eqxSolTime })}`;
+  //   if (EQX_SOL_NAMES.hasOwnProperty(info.flag) && info.eqxSolTime.length === 6) {
+  //     return `${EQX_SOL_NAMES[info.flag]}: ${dateTimeToStr({ dateTime: info.eqxSolTime })}`;
   //   } else {
   //     return '';
   //   }
-  // }, [flag, eqxSolTime]);
+  // }, [info.flag, info.eqxSolTime]);
 
   return (
-    <Box mt={4} sx={{ display: 'flex', justifyContent: 'center' }}>
-      <div>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2 }}>
-          <Grid item xs={12} sm={8} md="auto">
-            <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
-              [{!cal ? 'Gregorian' : 'Julian'}] {dateStrISO} ({dateStr})
-            </Typography>
-          </Grid>
-
-          <Grid item xs={12} sm={4} md="auto">
-            <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
-              [Location] {latStr}/{lngStr}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={12} sm={12} md="auto">
-            <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
-              {name ? (
-                `[Planet Name] ${capitalize(name)}`
-              ) : (
-                hip ? (
-                  `[Hipparchus Catalogue Number] ${hip}`
-                ) : (ra && dec && (
-                  `[RA/Dec] ${raStr}/${decStr}`
-                ))
-              )}
-            </Typography>
-          </Grid>
-
-          {/* {eqxSolTimeStr && (
-            <Grid item xs={12} sm={12} md={12}>
-              <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
-                {eqxSolTimeStr}
+    <Box mt={1}>
+      <CustomDivider sx={{ mb: 0.5 }} />
+      <Grid container paddingRight={10} rowSpacing={0.5} columnSpacing={5} sx={{ maxWidth: '100%', margin: 'auto' }}>
+        <Grid item xs={12} sm={12} md={6.5}>
+          <Stack direction="column" spacing={0.5}>
+            <Box display="flex" alignItems="start">
+              <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
+                [Gregorian]
               </Typography>
-            </Grid>
-          )} */}
+              <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+                {dateStrIsoG} ({dateStrG})
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="start">
+              <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
+                [Julian]
+              </Typography>
+              <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+                {dateStrIsoJ} ({dateStrJ})
+              </Typography>
+            </Box>
+          </Stack>
         </Grid>
-      </div>
+
+        <Grid item xs={12} sm={12} md={5.5}>
+          <Stack direction="column" spacing={0.5}>
+            <Box display="flex" alignItems="start">
+              <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
+                [Location]
+              </Typography>
+              <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+                {latStr}/{lngStr}
+              </Typography>
+            </Box>
+
+            {info.name ? (
+              <Box display="flex" alignItems="start">
+                <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
+                  [Planet]
+                </Typography>
+                <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+                  {capitalize(info.name)}
+                </Typography>
+              </Box>
+            ) : (
+              info.hip ? (
+                <Box display="flex" alignItems="start">
+                  <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
+                    [Hipparchus Catalogue Number]
+                  </Typography>
+                  <Typography variant="subtitle1" textAlign="left" ml={1} sx={{ textAlign: 'left' }}>
+                    {info.hip}
+                  </Typography>
+                </Box>
+              ) : (
+                info.ra && info.dec && (
+                  <Box display="flex" alignItems="start">
+                    <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
+                      [RA/Dec]
+                    </Typography>
+                    <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+                      {raStr}/{decStr}
+                    </Typography>
+                  </Box>
+                )
+              )
+            )}
+          </Stack>
+        </Grid>
+
+        {/* {eqxSolTimeStr && (
+          <Grid item xs={12} sm={12} md={12}>
+            <Typography variant="subtitle1" sx={{ textAlign: 'left' }}>
+              {eqxSolTimeStr}
+            </Typography>
+          </Grid>
+        )} */}
+      </Grid>
+      <CustomDivider />
     </Box>
   );
 };
 
-InfoDisplay.propTypes = {
-  location: PropTypes.shape({
-    lat: PropTypes.string.isRequired,
-    lng: PropTypes.string.isRequired,
-  }).isRequired,
-  date: PropTypes.shape({
-    year: PropTypes.string.isRequired,
-    month: PropTypes.string.isRequired,
-    day: PropTypes.string.isRequired,
-  }).isRequired,
-  star: PropTypes.shape({
-    name: PropTypes.string,
-    hip: PropTypes.string,
-    ra: PropTypes.string,
-    dec: PropTypes.string,
-  }).isRequired,
-  flag: PropTypes.string,
-  cal: PropTypes.string,
-  eqxSolTime: PropTypes.arrayOf(PropTypes.number),
-};
-
-export default InfoDisplay;
+export default React.memo(InfoDisplay);

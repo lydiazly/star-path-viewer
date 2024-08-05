@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 
 const ImageDisplay = ({ svgData }) => {
+  // console.log('Rendering ImageDisplay');
   return (
     <Box
       id="svg-container"
@@ -22,4 +23,4 @@ ImageDisplay.propTypes = {
   svgData: PropTypes.string.isRequired,
 };
 
-export default ImageDisplay;
+export default React.memo(ImageDisplay);

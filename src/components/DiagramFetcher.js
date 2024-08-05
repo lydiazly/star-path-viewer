@@ -175,13 +175,17 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         timeout: Config.serverGetDiagramTimeout
       });
 
-      const newInfo = Object.keys(params).reduce((info, key) => {
-        if (response.data.hasOwnProperty(key)) info[key] = response.data[key].toString();
+      const newInfo = ['lat', 'lng', 'flag', 'cal', 'name', 'hip', 'ra', 'dec'].reduce((info, key) => {
+        if (response.data && response.data.hasOwnProperty(key)) info[key] = response.data[key]?.toString();
         return info;
       }, {});
 
-      if (response.data.hasOwnProperty('name')) {
-        newInfo.name = response.data.name;
+      if (date.cal === 'j') {
+        newInfo.dateG = { year: response.data.year, month: response.data.month, day: response.data.day };
+        newInfo.dateJ = { year: date.year, month: date.month, day: date.day };
+      } else {
+        newInfo.dateG = { year: date.year, month: date.month, day: date.day };
+        newInfo.dateJ = { year: response.data.year, month: response.data.month, day: response.data.day };
       }
 
       newInfo.eqxSolTime = [];
@@ -189,8 +193,8 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       //   const res_month = response.data.eqxSolTime[1].toString();
       //   const res_day = response.data.eqxSolTime[2].toString();
       //   newInfo.eqxSolTime = response.data.eqxSolTime;
-      //   newInfo.month = res_month;
-      //   newInfo.day = res_day;
+      //   newInfo.dateG.month = res_month;
+      //   newInfo.dateG.day = res_day;
       //   setDate({ ...date, month: res_month, day: res_day });
       // }
       setInfo(newInfo);

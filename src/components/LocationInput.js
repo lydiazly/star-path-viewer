@@ -112,6 +112,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   const handleGpsClick = useCallback(
     () => {
       clearError();
+      setSuggestions([]);
       fetchLocation(setSearchTerm, setLocation, setLoadingLocation, setErrorMessage);
     },
     [clearError, setErrorMessage]
@@ -177,6 +178,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
         debouncedFetchSuggestions(trimmedNewSearchTerm);
       } else {
         setLocation({ lat: '', lng: '', place_id: '' });
+        setSuggestions([]);
       }
     },
     [debouncedFetchSuggestions]

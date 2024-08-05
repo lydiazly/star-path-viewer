@@ -2,6 +2,9 @@
 const EPH_DATE_MIN = [-3000, 1, 29];  // 29 January 3001 BCE
 const EPH_DATE_MAX = [3000, 5, 6];    // 6 May 3000 CE
 
+const EPH_DATE_MIN_JULIAN = [-3000, 2, 23];  // 23 February 3001 BCE
+const EPH_DATE_MAX_JULIAN = [3000, 4, 15];   // 15 April 3000 CE
+
 const MONTHS = [
   { abbr: '', name: '' },
   { abbr: 'Jan', name: 'January' },
@@ -49,4 +52,4 @@ const EQX_SOL_KEYS = {
   ws: 'winter_time',
 };
 
-export { EPH_DATE_MIN, EPH_DATE_MAX, MONTHS, STARS, PT_NAMES, EQX_SOL_NAMES, EQX_SOL_KEYS };
+export { EPH_DATE_MIN, EPH_DATE_MAX, EPH_DATE_MIN_JULIAN, EPH_DATE_MAX_JULIAN, MONTHS, STARS, PT_NAMES, EQX_SOL_NAMES, EQX_SOL_KEYS };

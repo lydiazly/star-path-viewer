@@ -9,6 +9,7 @@ import { jsPDF } from 'jspdf';
 import 'svg2pdf.js';
 
 const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setErrorMessage }) => {
+  // console.log('Rendering DownloadManager');
   const handleDownload = useCallback(async (format) => {
     const svgElement = document.getElementById('svg-container').querySelector('svg');
     if (!svgElement) {
@@ -117,4 +118,4 @@ DownloadManager.propTypes = {
   setErrorMessage: PropTypes.func.isRequired,
 };
 
-export default DownloadManager;
+export default React.memo(DownloadManager);

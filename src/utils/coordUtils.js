@@ -1,6 +1,8 @@
 // src/utils/coordUtils.js
 import { hmsToDecimal, decimalToHMS } from './dateUtils';
 
+const pad = number => number.toString().padStart(2, '0');
+
 /**
  * Converts DMS (Degrees, Minutes, Seconds) to decimal degrees.
  * 
@@ -91,7 +93,7 @@ const formatCoordinate = (coordinate, type) => {
   const direction = type === 'lat'
     ? coordinate >= 0 ? 'N' : 'S'
     : coordinate >= 0 ? 'E' : 'W';
-  return `${degrees}°${minutes}'${seconds.toFixed(2)}"${direction}`;
+  return `${degrees}°${pad(minutes)}'${seconds.toFixed(2).padStart(5, '0')}"${direction}`;
 };
 
 export {
