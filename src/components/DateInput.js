@@ -13,12 +13,58 @@ import CustomFormControlLabel from './ui/CustomFormControlLabel';
 import debounce from 'lodash/debounce';
 import { fetchEquinoxSolstice } from '../utils/fetchEquinoxSolstice';
 
-/* Adjust the date */
-const adjustDate = (date, flag, cal, locationRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage, setDateValid) => {
-  // console.log('Adjusting...', date);
+/* Get the date for the equinox/solstice of the given year */
+const fetchDate = (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid) => {
+  // console.log('Fetching date...', date.year, flag);
   // const date = dateRef.current;
   // const flag = flagRef.current;
   const location = locationRef.current;
+  if (!date.year || !location.lat || !location.lng) {
+    setFetching(false);
+    return;
+  }
+
+  const year = parseInt(date.year);
+
+  if (year <= EPH_DATE_MIN[0] || year >= EPH_DATE_MAX[0]) {
+    setFetching(false);
+    return;
+  }
+
+  setDateValid(false);
+  fetchEquinoxSolstice(location.lat, location.lng, year, flag)
+    .then(({ month: newMonth, day: newDay }) => {
+      const month = newMonth;
+      const day = newDay;
+      /* Reset month and day if needed */
+      const newDate = {
+        ...date,
+        month: month.toString(),
+        day: day.toString(),
+      };
+      setDate(newDate);
+      setFetching(false);
+    })
+    .catch((error) => {
+      setErrorMessage({ date: error.message });
+      setFetching(false);
+    });
+
+  // try {
+  //   const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(location.lat, location.lng, year, flag);
+  //   month = newMonth;
+  //   day = newDay;
+  // } catch (error) {
+  //   setErrorMessage({ date: error.message });
+  //   setAdjusting(false);
+  //   return;
+  // }
+};
+
+/* Adjust the date */
+const adjustDate = (date, cal, setDate, setDisabledMonths, setLastDay, setAdjusting) => {
+  // console.log('Adjusting...', date);
+  // const date = dateRef.current;
   if (!date.year) {
     setAdjusting(false);
     return;
@@ -28,114 +74,74 @@ const adjustDate = (date, flag, cal, locationRef, setDate, setDisabledMonths, se
   let month = parseInt(date.month) || 1;
   let day = parseInt(date.day) || 1;
 
-  /* Get the date for the equinox/solstice of the given year -----------------*/
-  if (flag) {
-    if (!location.lat || !location.lng || year <= EPH_DATE_MIN[0] || year >= EPH_DATE_MAX[0]) {
-      setAdjusting(false);
-      return;
-    }
+  const ephDateMin = cal === 'j' ? EPH_DATE_MIN_JULIAN : EPH_DATE_MIN;
+  const ephDateMax = cal === 'j' ? EPH_DATE_MAX_JULIAN : EPH_DATE_MAX;
+  const newDisabledMonths = {};
+  let dayMin = 1;
+  let dayMax = 31;
 
-    setDateValid(false);
-    fetchEquinoxSolstice(location.lat, location.lng, year, flag)
-      .then(({ month: newMonth, day: newDay }) => {
-        month = newMonth;
-        day = newDay;
-        /* Reset the month and the day if needed */
-        const newDate = {
-          ...date,
-          month: flag || date.month ? month.toString() : '',
-          day: flag || date.day ? day.toString() : '',
-        };
-        setDate(newDate);
-        setAdjusting(false);
-      })
-      .catch((error) => {
-        setErrorMessage({ date: error.message });
-        setAdjusting(false);
-      });
-
-    // try {
-    //   const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(location.lat, location.lng, year, flag);
-    //   month = newMonth;
-    //   day = newDay;
-    // } catch (error) {
-    //   setErrorMessage({ date: error.message });
-    //   setAdjusting(false);
-    //   return;
-    // }
-
-  /* Adjust the date ---------------------------------------------------------*/
-  } else {
-    const ephDateMin = cal === 'j' ? EPH_DATE_MIN_JULIAN : EPH_DATE_MIN;
-    const ephDateMax = cal === 'j' ? EPH_DATE_MAX_JULIAN : EPH_DATE_MAX;
-    const newDisabledMonths = {};
-    let dayMin = 1;
-    let dayMax = 31;
-
-    /* Reset the last day of a month */
-    if (month === 2) {
-      dayMax = (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) ? 29 : 28;
-    } else if ([4, 6, 9, 11].includes(month)) {
-      dayMax = 30;
-    }
-
-    /* Enable all month options */
-    Object.keys(newDisabledMonths).forEach((key) => {
-      newDisabledMonths[key] = false;
-    });
-
-    if (year === ephDateMin[0]) {
-      /* Disable the month options before ephDateMin */
-      for (let i = ephDateMin[1] - 1; i >= 1; i--) {
-        newDisabledMonths[i] = true;
-      }
-
-      if (date.month && month <= ephDateMin[1]) {
-        month = ephDateMin[1];
-        dayMin = ephDateMin[2];
-      }
-    } else if (year === ephDateMax[0]) {
-      /* Disable the month options after ephDateMax */
-      for (let i = ephDateMax[1] + 1; i <= 12; i++) {
-        newDisabledMonths[i] = true;
-      }
-
-      if (date.month && month >= ephDateMax[1]) {
-        month = ephDateMax[1];
-        dayMax = ephDateMax[2];
-      } else if (month === ephDateMax[1]) {
-        dayMax = ephDateMax[2];
-      }
-    }
-
-    if (date.day && day < dayMin) {
-      day = dayMin;
-    }
-    if (date.day && day > dayMax) {
-      day = dayMax;
-    }
-
-    setDisabledMonths(newDisabledMonths);
-    setLastDay(dayMax);
-
-    /* Reset the month and the day if needed */
-    if (month.toString() !== date.month || day.toString() !== date.day) {
-      const newDate = {
-        ...date,
-        month: flag || date.month ? month.toString() : '',
-        day: flag || date.day ? day.toString() : '',
-      };
-      setDate(newDate);
-      // onDateChange(newDate);
-    }
-    setAdjusting(false);
+  /* Reset the last day of a month */
+  if (month === 2) {
+    dayMax = (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) ? 29 : 28;
+  } else if ([4, 6, 9, 11].includes(month)) {
+    dayMax = 30;
   }
+
+  /* Enable all month options */
+  Object.keys(newDisabledMonths).forEach((key) => {
+    newDisabledMonths[key] = false;
+  });
+
+  if (year === ephDateMin[0]) {
+    /* Disable the month options before ephDateMin */
+    for (let i = ephDateMin[1] - 1; i >= 1; i--) {
+      newDisabledMonths[i] = true;
+    }
+
+    if (date.month && month <= ephDateMin[1]) {
+      month = ephDateMin[1];
+      dayMin = ephDateMin[2];
+    }
+  } else if (year === ephDateMax[0]) {
+    /* Disable the month options after ephDateMax */
+    for (let i = ephDateMax[1] + 1; i <= 12; i++) {
+      newDisabledMonths[i] = true;
+    }
+
+    if (date.month && month >= ephDateMax[1]) {
+      month = ephDateMax[1];
+      dayMax = ephDateMax[2];
+    } else if (month === ephDateMax[1]) {
+      dayMax = ephDateMax[2];
+    }
+  }
+
+  if (date.day && day < dayMin) {
+    day = dayMin;
+  }
+  if (date.day && day > dayMax) {
+    day = dayMax;
+  }
+
+  setDisabledMonths(newDisabledMonths);
+  setLastDay(dayMax);
+
+  /* Reset month and day if needed */
+  if (month.toString() !== date.month || day.toString() !== date.day) {
+    const newDate = {
+      ...date,
+      month: date.month ? month.toString() : '',
+      day: date.day ? day.toString() : '',
+    };
+    setDate(newDate);
+    // onDateChange(newDate);
+  }
+  setAdjusting(false);
 };
 
 /* Validate the date */
 const validateDateSync = (date, flag, cal) => {
   // console.log('Validating...', date);
-  // console.log(`get date: '${date.year}' '${date.month}' '${date.day}' '${flag}'`);
   let newDateError = { general: '', year: '', month: '', day: '' };
   const ephDateMin = cal === 'j' ? EPH_DATE_MIN_JULIAN : EPH_DATE_MIN;
   const ephDateMax = cal === 'j' ? EPH_DATE_MAX_JULIAN : EPH_DATE_MAX;
@@ -174,6 +180,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   const [disabledMonths, setDisabledMonths] = useState({});
   const [lastDay, setLastDay] = useState(31);
   const [adjusting, setAdjusting] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [dateError, setDateError] = useState({ general: '', year: '', month: '', day: '' });
   // const dateRef = useRef(date);
   // const flagRef = useRef(flag);
@@ -198,10 +205,10 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   }, [clearError]);
 
   useEffect(() => {
-    if (!adjusting) {
+    if (!adjusting && !fetching) {
       onDateChange({ ...date, flag, cal});
     }
-  }, [date, flag, cal, onDateChange, adjusting]);
+  }, [date, flag, cal, onDateChange, adjusting, fetching]);
 
   /* Reset error when user starts typing */
   useEffect(() => {
@@ -233,10 +240,13 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
 
   useEffect(() => {
     if (locationRef.current.lat !== location.lat || locationRef.current.lng !== location.lng) {
-      setAdjusting(true);
+      if (flag) {
+        setFetching(true);
+        setDateValid(false);
+      }
       locationRef.current = location;
     }
-  }, [location]);
+  }, [location, flag, setDateValid]);
 
   const handleCalChange = useCallback((event) => {
     /* Keep the date values */
@@ -250,6 +260,8 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
     } else {
       setFlag(newFlag);  // select another
       if (newFlag) {
+        setFetching(true);
+        setDateValid(false);
         setCal('');  // Force to use Gregorian
         // onDateChange({ ...date, flag: newFlag, cal: '' });
       }
@@ -257,17 +269,28 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
       //   onDateChange({ ...date, flag: newFlag });
       // }
     }
-    setAdjusting(true);
-  }, [flag]);
+  }, [flag, setDateValid]);
 
   const handleInputChange = useCallback((event) => {
-    const { name, value } = event.target;
-    setDate((prev) => ({ ...prev, [name]: value }));
-    setAdjusting(true);
-  }, []);
+    if (!fetching) {
+      const { name, value } = event.target;
+      setDate((prev) => ({ ...prev, [name]: value }));
+      if (!flag) {
+        setAdjusting(true);
+      } else {
+        setFetching(true);
+        setDateValid(false);
+      }
+    }
+  }, [flag, fetching, setDateValid]);
+
+  const debouncedFetchDate = useMemo(
+    () => debounce(fetchDate, Config.TypingDebouncePeriod + 200),
+    []
+  );
 
   const debouncedAdjustDate = useMemo(
-    () => debounce(adjustDate, Config.TypingDebouncePeriod / 2),
+    () => debounce(adjustDate, Config.TypingDebouncePeriod),
     []
   );
 
@@ -276,30 +299,42 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
       const validationResult = validateDateSync(date, flag, cal);
       const isValid = !Object.values(validationResult).some(item => !!item);
       setDateError(validationResult);
-      setDateValid(isValid);
-    }, Config.TypingDebouncePeriod / 2),
+      if (!flag || (date.year && locationRef.current.lat && locationRef.current.lng)) {
+        setDateValid(isValid);
+      }
+    }, Config.TypingDebouncePeriod),
     [setDateValid]
   );
 
   useEffect(() => {
+    if (fetching) {  // start fetching
+      debouncedFetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid);
+    }
+    /* Cleanup function */
+    return () => {
+      debouncedFetchDate.cancel();
+    };
+  }, [date, flag, fetching, debouncedFetchDate, setErrorMessage, setDateValid]);
+
+  useEffect(() => {
     if (adjusting) {  // start adjusting
-      debouncedAdjustDate(date, flag, cal, locationRef, setDate, setDisabledMonths, setLastDay, onDateChange, setAdjusting, setErrorMessage, setDateValid);
+      debouncedAdjustDate(date, cal, setDate, setDisabledMonths, setLastDay, setAdjusting);
     }
     /* Cleanup function */
     return () => {
       debouncedAdjustDate.cancel();
     };
-  }, [date, flag, cal, adjusting, onDateChange, debouncedAdjustDate, setErrorMessage, setDateValid]);
+  }, [date, cal, adjusting, debouncedAdjustDate]);
 
   useEffect(() => {
-    if (!adjusting) {
+    if (!adjusting && !fetching) {
       debouncedValidateDate(date, flag, cal);
     }
     /* Cleanup function */
     return () => {
       debouncedValidateDate.cancel();
     };
-  }, [date, flag, cal, adjusting, debouncedValidateDate]);
+  }, [date, flag, cal, adjusting, fetching, debouncedValidateDate]);
 
   return (
     <Stack direction="column">
@@ -422,7 +457,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
                 Quick Entry
               </Typography>
               <Typography color="grey" variant="body1">
-                {!!flag && adjusting && ('(fetching the date...)')}
+                {!!date.year && fetching && ('(fetching the date...)')}
               </Typography>
             </Stack>
           </AccordionSummary>
