@@ -45,17 +45,17 @@ const fetchDate = async (date, flag, locationRef, setDate, setFetching, setError
       day: day.toString(),
     };
     setDate(newDate);
+    setFetching(false);
     abortControllerRef.current = null;
   } catch (error) {
     if (error.name !== 'CanceledError') {
       setErrorMessage({ date: error.message });
+      setFetching(false);
       abortControllerRef.current = null;
     }
     // else {
     //   console.log(`Request for ${date.year}-${flag} canceled.`);
     // }
-  } finally {
-    setFetching(false);
   }
 };
 
@@ -184,6 +184,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   // const flagRef = useRef(flag);
   const locationRef = useRef(location);
   const abortControllerRef = useRef(null);
+  const fetchingFromRef = useRef('');  // 'click', 'change'
 
   const clearError = useCallback(() => {
     setErrorMessage((prev) => ({ ...prev, date: '' }));
@@ -240,12 +241,12 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   useEffect(() => {
     if (locationRef.current.lat !== location.lat || locationRef.current.lng !== location.lng) {
       if (flag) {
+        fetchingFromRef.current = 'change';
         setFetching(true);
-        setDateValid(false);
       }
       locationRef.current = location;
     }
-  }, [location, flag, setDateValid]);
+  }, [location, flag]);
 
   const handleCalChange = useCallback((event) => {
     /* Keep the date values */
@@ -259,8 +260,9 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
     } else {
       setFlag(newFlag);  // select another
       if (newFlag) {
+        fetchingFromRef.current = 'click';
         setFetching(true);
-        setDateValid(false);
+        // setDateValid(false);
         setCal('');  // Force to use Gregorian
         // onDateChange({ ...date, flag: newFlag, cal: '' });
       }
@@ -268,20 +270,19 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
       //   onDateChange({ ...date, flag: newFlag });
       // }
     }
-  }, [flag, setDateValid]);
+  }, [flag]);
 
   const handleInputChange = useCallback((event) => {
-    if (!fetching) {
-      const { name, value } = event.target;
-      setDate((prev) => ({ ...prev, [name]: value }));
-      if (!flag) {
-        setAdjusting(true);
-      } else {
+    const { name, value } = event.target;
+    setDate((prev) => ({ ...prev, [name]: value }));
+    if (!flag) {
+      setAdjusting(true);
+    } else {
+        fetchingFromRef.current = 'change';
         setFetching(true);
-        setDateValid(false);
-      }
+        // setDateValid(false);
     }
-  }, [flag, fetching, setDateValid]);
+  }, [flag]);
 
   const debouncedFetchDate = useMemo(
     () => debounce(async (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid) => {
@@ -294,7 +295,20 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
       // console.log("New controller: ", controller?.signal);
       abortControllerRef.current = controller;
       await fetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, controller.signal, abortControllerRef);
-    }, Config.TypingDelay + 200),
+      fetchingFromRef.current = '';
+    }, Config.TypingDelay),
+    []
+  );
+
+  const debouncedFetchDateDelayed = useMemo(
+    () => debounce(async (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid) => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();  // Cancel the previous request
+      }
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+      await fetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, controller.signal, abortControllerRef);
+    }, Config.TypingDelay + 300),
     []
   );
 
@@ -317,13 +331,17 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
 
   useEffect(() => {
     if (fetching) {  // start fetching
-      debouncedFetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid);
+      if (fetchingFromRef.current === 'click') {
+        debouncedFetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid);
+      } else {
+        debouncedFetchDateDelayed(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid);
+      }
     }
     /* Cleanup function */
     return () => {
       debouncedFetchDate.cancel();
     };
-  }, [date, flag, fetching, debouncedFetchDate, setErrorMessage, setDateValid]);
+  }, [date, flag, fetching, debouncedFetchDate, debouncedFetchDateDelayed, setErrorMessage, setDateValid]);
 
   useEffect(() => {
     if (adjusting) {  // start adjusting
@@ -467,10 +485,10 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
                   Quick Entry
                 </Typography>
               </Box>
-              {!!date.year && fetching && (
+              {!!date.year && fetching && !!abortControllerRef.current && (
                 <Box display="flex" alignItems="center" textAlign="left">
                   <Typography color="grey" variant="body1">
-                    &gt; Quering the {EQX_SOL_NAMES[flag]} of the year {date.year} ...
+                    &gt; Quering the {EQX_SOL_NAMES[flag]} of this year at this location ...
                   </Typography>
                   <CircularProgress size="0.8rem" sx={{ color: 'grey', ml: 1 }} />
                 </Box>
