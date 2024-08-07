@@ -53,7 +53,7 @@ const App = () => {
             variant="h1"
             sx={{ fontSize: '2.75rem' }}
           >
-            Trace This Star
+            Star Trail Viewer
           </Typography>
 
           <Typography
@@ -63,7 +63,8 @@ const App = () => {
             sx={{ fontSize: '1.1rem', marginBottom: 1 }}
             gutterBottom
           >
-            &mdash;&nbsp;Draw&nbsp;the star&nbsp;trail of a celestial&nbsp;object in&nbsp;the ancient&nbsp;sky&nbsp;&mdash;
+            &mdash;&nbsp;Trace&nbsp;a celestial&nbsp;object in&nbsp;the ancient&nbsp;sky&nbsp;&mdash;
+            {/* &mdash;&nbsp;Draw&nbsp;the star&nbsp;trail of a celestial&nbsp;object in&nbsp;the ancient&nbsp;sky&nbsp;&mdash; */}
           </Typography>
 
           <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>
