@@ -71,7 +71,7 @@ const validateInputSync = (
 
 const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
   // console.log('Rendering DiagramFetcher');
-  const [location, setLocation] = useState({ lat: '', lng: '', place_id: '', type: '' });
+  const [location, setLocation] = useState({ lat: '', lng: '', place_id: '', tz: '', type: '' });
   const [date, setDate] = useState({ year: '', month: '', day: '', flag: '', cal: '' });  // flag: 've', 'ss', 'ae', 'ws', cal: '', 'j'
   const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: '' });  // type: 'name', 'hip', 'radec'
   const [errorMessage, setErrorMessage] = useState({});
@@ -94,6 +94,11 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
   useEffect(() => {
     clearError();
   }, [clearError]);
+
+  /* Reset error when user starts typing */
+  useEffect(() => {
+    clearError();
+  }, [location, date, star, clearError]);
 
   useEffect(() => {
     if (date.flag) {
@@ -142,6 +147,9 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     /* Assign parameters -----------------------------------------------------*/
     params.lat = parseFloat(location.lat).toString();
     params.lng = parseFloat(location.lng).toString();
+    if (location.tz) {
+      params.tz = location.tz;
+    }
 
     // if (date.flag && date.year) {
     //   params.year = parseInt(date.year).toString();
@@ -175,16 +183,16 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         timeout: Config.serverGetDiagramTimeout
       });
 
-      const newInfo = ['lat', 'lng', 'flag', 'cal', 'name', 'hip', 'ra', 'dec'].reduce((info, key) => {
-        if (response.data && response.data.hasOwnProperty(key)) info[key] = response.data[key]?.toString();
+      const newInfo = ['lat', 'lng', 'tz', 'offset', 'flag', 'cal', 'name', 'hip', 'ra', 'dec'].reduce((info, key) => {
+        if (response.data && response.data.hasOwnProperty(key)) info[key] = response.data[key];
         return info;
       }, {});
 
       if (date.cal === 'j') {
         newInfo.dateG = { year: response.data.year, month: response.data.month, day: response.data.day };
-        newInfo.dateJ = { year: date.year, month: date.month, day: date.day };
+        newInfo.dateJ = { year: parseInt(date.year), month: parseInt(date.month), day: parseInt(date.day) };
       } else {
-        newInfo.dateG = { year: date.year, month: date.month, day: date.day };
+        newInfo.dateG = { year: parseInt(date.year), month: parseInt(date.month), day: parseInt(date.day) };
         newInfo.dateJ = { year: response.data.year, month: response.data.month, day: response.data.day };
       }
 
@@ -252,7 +260,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
 
         <Stack id="date" direction="column" spacing={1}>
           <CustomDivider>LOCAL DATE</CustomDivider>
-          <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} fieldError={dateFieldError} setFieldError={setDateFieldError} location={{ lat: location.lat, lng: location.lng }} />
+          <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} fieldError={dateFieldError} setFieldError={setDateFieldError} location={{ lat: location.lat, lng: location.lng, tz: location.tz }} />
           {!!errorMessage.date && (
             <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
               {errorMessage.date}

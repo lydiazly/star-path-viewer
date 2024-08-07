@@ -15,32 +15,32 @@ const AnnoDisplay = ({ anno }) => {
     <Box>
       <TableContainer component={Paper}>
         <Table>
-          <caption>{redAsterisk} Not in Daylight Saving Time.</caption>
+          <caption>{redAsterisk} Daylight Saving Time not included.</caption>
           <TableHead>
             <TableRow>
-              <TableCell rowSpan={2}>Point</TableCell>
-              <TableCell rowSpan={2}>Altitude</TableCell>
-              <TableCell rowSpan={2}>Azimuth</TableCell>
-              <TableCell colSpan={2}>{`Standard Time (${tzStr})`} {redAsterisk}</TableCell>
-              <TableCell colSpan={2}>Universal Time (UT1)</TableCell>
+              <TableCell rowSpan={2} sx={{ textAlign: 'center' }}>Point</TableCell>
+              <TableCell rowSpan={2} sx={{ textAlign: 'center' }}>Altitude</TableCell>
+              <TableCell rowSpan={2} sx={{ textAlign: 'center' }}>Azimuth</TableCell>
+              <TableCell colSpan={2} sx={{ textAlign: 'center' }}>{`Standard Time (${tzStr})`} {redAsterisk}</TableCell>
+              <TableCell colSpan={2} sx={{ textAlign: 'center' }}>Universal Time (UT1)</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Gregorian</TableCell>
-              <TableCell>Julian</TableCell>
-              <TableCell>Gregorian</TableCell>
-              <TableCell>Julian</TableCell>
+              <TableCell sx={{ textAlign: 'center' }}>Gregorian</TableCell>
+              <TableCell sx={{ textAlign: 'center' }}>Julian</TableCell>
+              <TableCell sx={{ textAlign: 'center' }}>Gregorian</TableCell>
+              <TableCell sx={{ textAlign: 'center' }}>Julian</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {filteredAnno.map((item, index) => (
               <TableRow key={index}>
-                <TableCell>{PT_NAMES[item.name] || item.name}</TableCell>
-                <TableCell>{formatDecimalDgrees(parseFloat(item.alt))}</TableCell>
-                <TableCell>{formatDecimalDgrees(parseFloat(item.az))}</TableCell>
-                <TableCell>{dateTimeToStr({ dateTime: item.time_local })}</TableCell>
-                <TableCell>{dateTimeToStr({ dateTime: item.time_local_julian })}</TableCell>
-                <TableCell>{dateTimeToStr({ dateTime: item.time_ut1 })}</TableCell>
-                <TableCell>{dateTimeToStr({ dateTime: item.time_ut1_julian })}</TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>{PT_NAMES[item.name] || item.name}</TableCell>
+                <TableCell sx={{ textAlign: 'right' }}>{formatDecimalDgrees(parseFloat(item.alt))}</TableCell>
+                <TableCell sx={{ textAlign: 'right' }}>{formatDecimalDgrees(parseFloat(item.az))}</TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>{dateTimeToStr({ dateTime: item.time_local })}</TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>{dateTimeToStr({ dateTime: item.time_local_julian })}</TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>{dateTimeToStr({ dateTime: item.time_ut1 })}</TableCell>
+                <TableCell sx={{ textAlign: 'center' }}>{dateTimeToStr({ dateTime: item.time_ut1_julian })}</TableCell>
               </TableRow>
             ))}
           </TableBody>

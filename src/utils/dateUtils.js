@@ -43,7 +43,7 @@ const decimalToHMS = (decimalHours) => {
  * @returns {string} The formatted HMS string
  */
 const formatHMS = ({ hours, minutes, seconds }) => {
-  return `${hours < 0 ? '-' : '+'}${Math.abs(hours)}h${minutes}m${seconds.toFixed(2)}s`;
+  return `${hours < 0 ? '-' : '+'}${Math.abs(hours)}h${pad(minutes)}m${seconds.toFixed(2).padStart(5, '0')}s`;
 };
 
 /**
@@ -159,7 +159,7 @@ const dateToStr = ({ date, iso = true, monthFirst = true, abbr = false }) => {
  */
 const formatTimezone = (tz) => {
   const { hours, minutes } = decimalToHMS(tz);
-  return `${tz < 0 ? '-' : '+'}${pad(Math.abs(hours))}${pad(minutes)}`;
+  return `${tz < 0 ? '-' : '+'}${pad(Math.abs(hours))}:${pad(minutes)}`;
 };
 
 export {

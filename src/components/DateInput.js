@@ -14,12 +14,12 @@ import debounce from 'lodash/debounce';
 import { fetchEquinoxSolstice } from '../utils/fetchEquinoxSolstice';
 
 /* Get the date for the equinox/solstice of the given year */
-const fetchDate = async (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, signal, abortControllerRef) => {
-  // console.log('Fetching date...', date.year, flag);
+const fetchDate = async (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, signal, abortControllerRef, requestId, latestRequest) => {
+  // console.log('Fetching date...', date.year, locationRef.current, flag);
   // const date = dateRef.current;
   // const flag = flagRef.current;
   const location = locationRef.current;
-  if (!date.year || !location.lat || !location.lng) {
+  if (!flag || !date.year || !location.lat || !location.lng || !location.tz) {
     setFetching(false);
     abortControllerRef.current = null;
     return;
@@ -33,22 +33,24 @@ const fetchDate = async (date, flag, locationRef, setDate, setFetching, setError
     return;
   }
 
-  setDateValid(false);
+  // setDateValid(false);
   try {
-    const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(location.lat, location.lng, year, flag, signal);
-    const month = newMonth;
-    const day = newDay;
-    /* Reset month and day if needed */
-    const newDate = {
-      ...date,
-      month: month.toString(),
-      day: day.toString(),
-    };
-    setDate(newDate);
-    setFetching(false);
-    abortControllerRef.current = null;
+    const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(location.lat, location.lng, location.tz, year, flag, signal);
+    if (requestId === latestRequest.current) {
+      const month = newMonth;
+      const day = newDay;
+      /* Reset month and day if needed */
+      const newDate = {
+        ...date,
+        month: month.toString(),
+        day: day.toString(),
+      };
+      setDate(newDate);
+      setFetching(false);
+      abortControllerRef.current = null;
+    }
   } catch (error) {
-    if (error.name !== 'CanceledError') {
+    if (error.name !== 'CanceledError' && requestId === latestRequest.current) {
       setErrorMessage({ date: error.message });
       setFetching(false);
       abortControllerRef.current = null;
@@ -185,6 +187,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   const locationRef = useRef(location);
   const abortControllerRef = useRef(null);
   const fetchingFromRef = useRef('');  // 'click', 'change'
+  const latestRequest = useRef(0);
 
   const clearError = useCallback(() => {
     setErrorMessage((prev) => ({ ...prev, date: '' }));
@@ -216,7 +219,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
     // if (date.year && date.month && date.day) {
     //   setDateValid(true);
     // }
-  }, [date, flag, cal, setErrorMessage, clearError, setDateValid]);
+  }, [date, flag, cal, setErrorMessage, clearError]);
 
   useEffect(() => {
     setFieldError((prev) => ({ ...prev, year: '' }));
@@ -239,7 +242,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
   // }, [flag]);
 
   useEffect(() => {
-    if (locationRef.current.lat !== location.lat || locationRef.current.lng !== location.lng) {
+    if (locationRef.current.lat !== location.lat || locationRef.current.lng !== location.lng || locationRef.current.tz !== location.tz) {
       if (flag) {
         fetchingFromRef.current = 'change';
         setFetching(true);
@@ -278,9 +281,9 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
     if (!flag) {
       setAdjusting(true);
     } else {
-        fetchingFromRef.current = 'change';
-        setFetching(true);
-        // setDateValid(false);
+      fetchingFromRef.current = 'change';
+      setFetching(true);
+      // setDateValid(false);
     }
   }, [flag]);
 
@@ -294,7 +297,8 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
       const controller = new AbortController();
       // console.log("New controller: ", controller?.signal);
       abortControllerRef.current = controller;
-      await fetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, controller.signal, abortControllerRef);
+      const requestId = ++latestRequest.current; // Increment and capture the current request ID
+      await fetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, controller.signal, abortControllerRef, requestId, latestRequest);
       fetchingFromRef.current = '';
     }, Config.TypingDelay),
     []
@@ -307,7 +311,8 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
       }
       const controller = new AbortController();
       abortControllerRef.current = controller;
-      await fetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, controller.signal, abortControllerRef);
+      const requestId = ++latestRequest.current; // Increment and capture the current request ID
+      await fetchDate(date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, controller.signal, abortControllerRef, requestId, latestRequest);
     }, Config.TypingDelay + 300),
     []
   );
@@ -479,18 +484,18 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
               }
             }}
           >
-            <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} alignItems="start" pr={1}>
+            <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} alignItems="center" pr={1}>
               <Box flex="1 0 auto" textAlign="left" mr={1}>
                 <Typography color="primary" variant="body1">
                   Quick Entry
                 </Typography>
               </Box>
-              {!!date.year && fetching && !!abortControllerRef.current && (
+              {!!date.year && fetching && (
                 <Box display="flex" alignItems="center" textAlign="left">
-                  <Typography color="grey" variant="body1">
+                  {/* <Typography color="grey" variant="body1">
                     &gt; Quering the {EQX_SOL_NAMES[flag]} of this year at this location ...
-                  </Typography>
-                  <CircularProgress size="0.8rem" sx={{ color: 'grey', ml: 1 }} />
+                  </Typography> */}
+                  <CircularProgress size="0.8rem" sx={{ color: 'grey' }} />
                 </Box>
               )}
             </Box>

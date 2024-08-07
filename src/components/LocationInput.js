@@ -1,5 +1,5 @@
 // src/components/LocationInput.js
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
@@ -30,6 +30,7 @@ const fetchLocation = async (setSearchTerm, setLocation, setLoadingLocation, set
 
 /* Validate the location */
 const validateLocationSync = (inputType, location) => {
+  console.log(location);
   let newLocationError = { address: '', lat: '', lng: '' };
 
   if (inputType === 'coordinates') {
@@ -60,13 +61,14 @@ const validateLocationSync = (inputType, location) => {
 const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fieldError, setFieldError }) => {
   // console.log('Rendering LocationInput');
   const [inputType, setInputType] = useState('address');  // 'address' or 'coordinates'
-  const [location, setLocation] = useState({ lat: '', lng: '', place_id: '' });
+  const [location, setLocation] = useState({ lat: '', lng: '', place_id: '', tz: '' });
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [locationError, setLocationError] = useState({ address: '', lat: '', lng: '' });
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const latestRequest = useRef(0);
 
   const clearError = useCallback(() => {
     setErrorMessage((prev) => ({ ...prev, location: '' }));
@@ -89,13 +91,23 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   useEffect(() => {
     clearError();
     // setLocationValid(true);
-    /* Clear address if lat or lng is empty */
+  }, [searchTerm, location, inputType, clearError]);
+
+  /* Clear address and tz if lat or lng is empty */
+  useEffect(() => {
     if (searchTerm && inputType === 'coordinates' && (!location.lat || !location.lng)) {
       setSearchTerm('');
       setSuggestions([]);
-      setLocation((prev) => ({ ...prev, place_id: '' }));
+      setLocation((prev) => ({ ...prev, place_id: '', tz: '' }));
     }
-  }, [searchTerm, location, inputType, clearError, setLocationValid]);
+  }, [searchTerm, location, inputType]);
+
+  /* Clear tz if lat or lng is empty */
+  useEffect(() => {
+    if (location.tz && (!location.lat || !location.lng)) {
+      setLocation((prev) => ({ ...prev, tz: '' }));
+    }
+  }, [location]);
 
   useEffect(() => {
     setFieldError((prev) => ({ ...prev, address: '' }));
@@ -108,6 +120,33 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   useEffect(() => {
     setFieldError((prev) => ({ ...prev, lng: '' }));
   }, [location.lng, inputType, setFieldError]);
+
+  /* Get timezone */
+  useEffect(() => {
+    const lat = parseFloat(location.lat);
+    const lng = parseFloat(location.lng);
+    if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+      const fetchTimeZone = async () => {
+        const requestId = ++latestRequest.current; // Increment and capture the current request ID
+        try {
+          const [tz] = await window.GeoTZ.find(lat, lng);
+          /* Only update if this request is the latest one */
+          if (requestId === latestRequest.current) {
+            setLocation((prev) => ({ ...prev, tz }));
+          }
+        } catch (error) {
+          if (requestId === latestRequest.current) {
+            setLocation((prev) => ({ ...prev, tz: '' }));
+          }
+        }
+      };
+      const debounceTimeout = setTimeout(fetchTimeZone, Config.TypingDelay / 2);
+      /* Cleanup timeout on unmount or dependency change */
+      return () => {
+        clearTimeout(debounceTimeout);
+      };
+    }
+  }, [location.lat, location.lng, setErrorMessage]);
 
   const handleGpsClick = useCallback(
     () => {
@@ -177,7 +216,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
       if (trimmedNewSearchTerm) {
         debouncedFetchSuggestions(trimmedNewSearchTerm);
       } else {
-        setLocation({ lat: '', lng: '', place_id: '' });
+        setLocation({ lat: '', lng: '', place_id: '', tz: '' });
         setSuggestions([]);
       }
     },
@@ -186,7 +225,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
 
   const handleSelect = useCallback((event, value) => {
     if (!value || value.place_id === 'not-found') {
-      setLocation({ lat: '', lng: '', place_id: '' });
+      setLocation({ lat: '', lng: '', place_id: '', tz: '' });
       setLocationValid(false);
       setSearchTerm('');
       setSuggestions([]);

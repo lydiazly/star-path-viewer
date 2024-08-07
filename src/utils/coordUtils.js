@@ -43,7 +43,7 @@ const decimalToDMS = (decimalDegrees) => {
  * @returns {string} The formatted DMS string
  */
 const formatDMS = ({ degrees, minutes, seconds }) => {
-  return `${degrees < 0 ? '-' : '+'}${Math.abs(degrees)}°${minutes}'${seconds.toFixed(2)}"`;
+  return `${degrees < 0 ? '-' : '+'}${Math.abs(degrees)}°${pad(minutes)}'${seconds.toFixed(2).padStart(5, '0')}"`;
 };
 
 /**

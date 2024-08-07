@@ -14,8 +14,8 @@ const capitalize = (string) => {
 
 const InfoDisplay = ({ info }) => {
   // console.log('Rendering InfoDisplay');
-  const latStr = useMemo(() => formatCoordinate(parseFloat(info.lat), 'lat'), [info.lat]);
-  const lngStr = useMemo(() => formatCoordinate(parseFloat(info.lng), 'lng'), [info.lng]);
+  const latStr = useMemo(() => formatCoordinate(info.lat, 'lat'), [info.lat]);
+  const lngStr = useMemo(() => formatCoordinate(info.lng, 'lng'), [info.lng]);
 
   const dateStrG = useMemo(() => formatDateTime({
     year: parseInt(info.dateG.year),
@@ -46,8 +46,8 @@ const InfoDisplay = ({ info }) => {
     day: parseInt(info.dateJ.day),
   }).date, [info]);
 
-  const raStr = useMemo(() => info.ra ? formatHMS(decimalToHMS(parseFloat(info.ra) / 15)) : '', [info.ra]);
-  const decStr = useMemo(() => info.dec ? formatDecimalDgrees(parseFloat(info.dec)) : '', [info.dec]);
+  const raStr = useMemo(() => info.ra ? formatHMS(decimalToHMS(info.ra / 15)) : '', [info.ra]);
+  const decStr = useMemo(() => info.dec ? formatDecimalDgrees(info.dec) : '', [info.dec]);
 
   // const eqxSolTimeStr = useMemo(() => {
   //   if (EQX_SOL_NAMES.hasOwnProperty(info.flag) && info.eqxSolTime.length === 6) {
