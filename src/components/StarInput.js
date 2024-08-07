@@ -19,6 +19,12 @@ const validateStarSync = (inputType, radecFormat, star) => {
     if (!/^\d*$/.test(star.hip)) {
       return { ...newStarError, hip: 'Invalid Hipparchus catalogue number.' };
     }
+    if (star.hip) {
+      const hip = parseInt(star.hip);
+      if (hip < 1 || hip > 118322) {
+        return { ...newStarError, hip: 'The Hipparchus Catalogue Number must be in the range [1, 118322].' };
+      }
+    }
   } else if (inputType === 'radec') {
     if (radecFormat === 'decimal') {
       if (!/^\d*(\.\d+)?$/.test(star.ra)) {

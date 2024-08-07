@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
-import { Box, Stack, Alert, Button, CircularProgress } from '@mui/material';
+import { Box, Stack, Alert, Button, Typography, CircularProgress } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PropTypes from 'prop-types';
 import LocationInput from './LocationInput';
@@ -304,6 +304,11 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}>
             {errorMessage.draw}
           </Alert>
+        )}
+        {loading && (
+          <Typography color="darkgrey" variant="body1" sx={{ pt: 1, pl: 2, textAlign: 'center' }}>
+            <em>Please wait. This may take a few seconds.</em>
+          </Typography>
         )}
       </Stack>
     </Stack>
