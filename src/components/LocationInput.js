@@ -30,7 +30,7 @@ const fetchLocation = async (setSearchTerm, setLocation, setLoadingLocation, set
 
 /* Validate the location */
 const validateLocationSync = (inputType, location) => {
-  console.log(location);
+  // console.log(location);
   let newLocationError = { address: '', lat: '', lng: '' };
 
   if (inputType === 'coordinates') {
@@ -44,13 +44,13 @@ const validateLocationSync = (inputType, location) => {
     if (location.lat) {
       const lat = parseFloat(location.lat);
       if (lat < -90 || lat > 90) {
-        return { ...newLocationError, lat: 'The latitude must be between -90° and 90°.' };
+        return { ...newLocationError, lat: 'The latitude must be in the range [-90°, 90°].' };
       }
     }
     if (location.lng) {
       const lng = parseFloat(location.lng);
       if (lng < -180 || lng > 180) {
-        return { ...newLocationError, lng: 'The longitude must be between -180° and 180°.' };
+        return { ...newLocationError, lng: 'The longitude must be in the range [-180°, 180°].' };
       }
     }
   }

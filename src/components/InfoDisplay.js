@@ -93,7 +93,7 @@ const InfoDisplay = ({ info }) => {
               </Typography>
             </Box>
 
-            {info.name ? (
+            {info.name && !info.hip ? (
               <Box display="flex" alignItems="start">
                 <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
                   [Planet]
@@ -102,8 +102,18 @@ const InfoDisplay = ({ info }) => {
                   {capitalize(info.name)}
                 </Typography>
               </Box>
-            ) : (
-              info.hip ? (
+            ) : info.hip ? (
+              <>
+                {info.name && (
+                  <Box display="flex" alignItems="start">
+                    <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
+                      [Star]
+                    </Typography>
+                    <Typography variant="subtitle1" textAlign="left" ml={1} sx={{ textAlign: 'left' }}>
+                      {info.name}
+                    </Typography>
+                  </Box>
+                )}
                 <Box display="flex" alignItems="start">
                   <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
                     [Hipparchus Catalogue Number]
@@ -112,18 +122,16 @@ const InfoDisplay = ({ info }) => {
                     {info.hip}
                   </Typography>
                 </Box>
-              ) : (
-                info.ra && info.dec && (
-                  <Box display="flex" alignItems="start">
-                    <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
-                      [RA/Dec]
-                    </Typography>
-                    <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
-                      {raStr}/{decStr}
-                    </Typography>
-                  </Box>
-                )
-              )
+              </>
+            ) : info.ra && info.dec && (
+              <Box display="flex" alignItems="start">
+                <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
+                  [RA/Dec]
+                </Typography>
+                <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+                  {raStr}/{decStr}
+                </Typography>
+              </Box>
             )}
           </Stack>
         </Grid>

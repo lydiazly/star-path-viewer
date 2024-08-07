@@ -31,7 +31,7 @@ const validateStarSync = (inputType, radecFormat, star) => {
       if (star.ra) {
         const ra = parseFloat(star.ra);
         if (ra < 0 || ra >= 360) {
-          return { ...newStarError, ra: 'The right ascension must be between 0° and 360°.' };
+          return { ...newStarError, ra: 'The right ascension must be in the range [0°, 360°).' };
         }
       }
     } else {
@@ -58,7 +58,7 @@ const validateStarSync = (inputType, radecFormat, star) => {
         const ra = parseFloat(star.ra);
         const raHours = parseInt(star.raHMS.hours);
         if ((raHours < 0 || raHours >= 24) || (ra < 0 || ra >= 360)) {
-          return { ...newStarError, ra: 'The right ascension must be between 0h and 24h.' };
+          return { ...newStarError, ra: 'The right ascension must be in the range [0h, 24h).' };
         }
       }
     }
@@ -66,7 +66,7 @@ const validateStarSync = (inputType, radecFormat, star) => {
     if (star.dec) {
       const dec = parseFloat(star.dec);
       if (dec < -90 || dec > 90) {
-        return { ...newStarError, dec: 'The declination must be between -90° and 90°.' };
+        return { ...newStarError, dec: 'The declination must be in the range [-90°, 90°].' };
       }
     }
   }
@@ -259,7 +259,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
         >
           <MenuItem key="none" value="" sx={{ color: 'GrayText' }}>-- Select a name --</MenuItem>
           {Object.keys(STARS).map((key) => (
-            <MenuItem key={key} value={key}> {key} </MenuItem>
+            <MenuItem key={key} value={key}>{key}</MenuItem>
           ))}
         </TextField>
       )}
