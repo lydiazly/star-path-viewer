@@ -25,7 +25,7 @@
     "web-vitals": "^4.2.3"
   },
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "REACT_APP_SERVER_URL=https://equinoxcoord.pythonanywhere.com npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
