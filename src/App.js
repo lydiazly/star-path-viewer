@@ -60,10 +60,10 @@ const App = () => {
             variant="subtutle1"
             color="grey"
             fontWeight={400}
-            sx={{ fontSize: '1.1rem', marginBottom: 1 }}
+            sx={{ fontSize: '1rem', mt: 0.5, mb: 1 }}
             gutterBottom
           >
-            &mdash;&nbsp;Trace&nbsp;a celestial&nbsp;object in&nbsp;the ancient&nbsp;sky&nbsp;&mdash;
+            &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from -3000-01-29 to 3000-05-06&nbsp;&mdash;
             {/* &mdash;&nbsp;Draw&nbsp;the star&nbsp;trail of a celestial&nbsp;object in&nbsp;the ancient&nbsp;sky&nbsp;&mdash; */}
           </Typography>
 
