@@ -109,7 +109,7 @@ const InfoDisplay = ({ info }) => {
           {info.name && (
             <Box display="flex" alignItems="start">
               <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
-                [Star]
+                [Star Name]
               </Typography>
               <Typography variant="subtitle1" textAlign="left" ml={1} sx={{ textAlign: 'left' }}>
                 {info.name}
