@@ -12,6 +12,8 @@ const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+const labelStyle = { minWidth: '5.5rem', fontWeight: 'bold' };
+
 const InfoDisplay = ({ info }) => {
   // console.log('Rendering InfoDisplay');
   const latStr = useMemo(() => formatCoordinate(info.lat, 'lat'), [info.lat]);
@@ -57,82 +59,100 @@ const InfoDisplay = ({ info }) => {
   //   }
   // }, [info.flag, info.eqxSolTime]);
 
+  const dateInfoItem = useMemo(() => (
+    <>
+      <Box display="flex" alignItems="start">
+        <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
+          [Gregorian]
+        </Typography>
+        <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+          {dateStrIsoG} ({dateStrG})
+        </Typography>
+      </Box>
+      <Box display="flex" alignItems="start">
+        <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
+          [Julian]
+        </Typography>
+        <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+          {dateStrIsoJ} ({dateStrJ})
+        </Typography>
+      </Box>
+    </>
+  ), [dateStrG, dateStrIsoG, dateStrJ, dateStrIsoJ]);
+
+  const locationInfoItem = useMemo(() => (
+    <>
+      <Box display="flex" alignItems="start">
+        <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
+          [Location]
+        </Typography>
+        <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+          {latStr}/{lngStr}
+        </Typography>
+      </Box>
+    </>
+  ), [latStr, lngStr]);
+
+  const starInfoItem = useMemo(() => (
+    <>
+      {info.name && !info.hip ? (
+        <Box display="flex" alignItems="start">
+          <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
+            [Planet]
+          </Typography>
+          <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+            {capitalize(info.name)}
+          </Typography>
+        </Box>
+      ) : info.hip ? (
+        <>
+          {info.name && (
+            <Box display="flex" alignItems="start">
+              <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
+                [Star]
+              </Typography>
+              <Typography variant="subtitle1" textAlign="left" ml={1} sx={{ textAlign: 'left' }}>
+                {info.name}
+              </Typography>
+            </Box>
+          )}
+          <Box display="flex" alignItems="start">
+            <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
+              [Hipparchus Catalogue Number]
+            </Typography>
+            <Typography variant="subtitle1" textAlign="left" ml={1} sx={{ textAlign: 'left' }}>
+              {info.hip}
+            </Typography>
+          </Box>
+        </>
+      ) : info.ra && info.dec && (
+        <Box display="flex" alignItems="start">
+          <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
+            [RA/Dec]
+          </Typography>
+          <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
+            {raStr}/{decStr}
+          </Typography>
+        </Box>
+      )}
+    </>
+  ), [info.name, info.hip, info.ra, info.dec, raStr, decStr]);
+
   return (
     <Box mt={1}>
       <CustomDivider sx={{ mb: 0.5 }} />
       <Grid container paddingRight={10} rowSpacing={0.5} columnSpacing={5} sx={{ maxWidth: '100%', margin: 'auto' }}>
         <Grid item xs={12} sm={12} md={6.5}>
           <Stack direction="column" spacing={0.5}>
-            <Box display="flex" alignItems="start">
-              <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
-                [Gregorian]
-              </Typography>
-              <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
-                {dateStrIsoG} ({dateStrG})
-              </Typography>
-            </Box>
-            <Box display="flex" alignItems="start">
-              <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
-                [Julian]
-              </Typography>
-              <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
-                {dateStrIsoJ} ({dateStrJ})
-              </Typography>
-            </Box>
+            {dateInfoItem}
+            {info.name && info.hip && locationInfoItem}
           </Stack>
         </Grid>
 
         <Grid item xs={12} sm={12} md={5.5}>
           <Stack direction="column" spacing={0.5}>
-            <Box display="flex" alignItems="start">
-              <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
-                [Location]
-              </Typography>
-              <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
-                {latStr}/{lngStr}
-              </Typography>
-            </Box>
-
-            {info.name && !info.hip ? (
-              <Box display="flex" alignItems="start">
-                <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
-                  [Planet]
-                </Typography>
-                <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
-                  {capitalize(info.name)}
-                </Typography>
-              </Box>
-            ) : info.hip ? (
-              <>
-                {info.name && (
-                  <Box display="flex" alignItems="start">
-                    <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
-                      [Star]
-                    </Typography>
-                    <Typography variant="subtitle1" textAlign="left" ml={1} sx={{ textAlign: 'left' }}>
-                      {info.name}
-                    </Typography>
-                  </Box>
-                )}
-                <Box display="flex" alignItems="start">
-                  <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
-                    [Hipparchus Catalogue Number]
-                  </Typography>
-                  <Typography variant="subtitle1" textAlign="left" ml={1} sx={{ textAlign: 'left' }}>
-                    {info.hip}
-                  </Typography>
-                </Box>
-              </>
-            ) : info.ra && info.dec && (
-              <Box display="flex" alignItems="start">
-                <Typography variant="subtitle1" textAlign="left" sx={{ minWidth: '5.5rem', fontWeight: 'bold' }}>
-                  [RA/Dec]
-                </Typography>
-                <Typography variant="subtitle1" textAlign="left" sx={{ textAlign: 'left' }}>
-                  {raStr}/{decStr}
-                </Typography>
-              </Box>
-            )}
+            {(!info.name || !info.hip) && locationInfoItem}
+            {starInfoItem}
           </Stack>
         </Grid>
 
