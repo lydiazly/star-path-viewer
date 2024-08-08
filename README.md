@@ -1,1 +1,1 @@
-# star-trail-coord-react
+# star-trail-viewer
