@@ -1,7 +1,7 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Stack, Autocomplete, TextField, Typography, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton, Chip } from '@mui/material';
+import { Box, Stack, Autocomplete, TextField, Typography, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton, Chip, Snackbar } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 // import SearchIcon from '@mui/icons-material/Search';
@@ -411,6 +411,13 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
           </Grid>
         </div>
       )}
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={location.osm_id < 0}
+        autoHideDuration={10000}
+        onClose={() => setLocation((prev) => ({ ...prev, osm_id: 0 }))}
+        message="Sorry, we could only fetch the latitude and longitude for this location. You can also enter other coordinates manually."
+      />
     </Stack>
   );
 };

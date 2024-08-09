@@ -247,7 +247,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
 
   return (
     <Stack direction="column" spacing={2}>
-      <Stack id="input-fields" direction="column" spacing={2}>
+      <Stack id="input-fields" direction="column" spacing={1.5}>
         <Stack id="location" direction="column" spacing={1}>
           <CustomDivider>LOCATION</CustomDivider>
           <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} setLocationValid={setLocationValid} fieldError={locationFieldError} setFieldError={setLocationFieldError} />

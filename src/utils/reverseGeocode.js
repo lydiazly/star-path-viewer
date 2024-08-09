@@ -28,11 +28,15 @@ const reverseGeocode = async (lat, lng) => {
     //   throw new Error('Unable to fetch the address for this location.');
     // }
   } catch (error) {
-    if (error.response) {
-      throw new Error(`Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}`);
-    } else {
-      throw new Error(`Unable to connect to ${nominatimReverseUrl}.`);
-    }
+    // if (error.response) {
+    //   throw new Error(`Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}`);
+    // } else {
+    //   throw new Error(`Unable to connect to ${nominatimReverseUrl}.`);
+    // }
+    return {
+      display_name: 'unknown',
+      osm_id: -1,
+    };
   }
 };
 
