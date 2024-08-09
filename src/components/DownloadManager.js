@@ -8,7 +8,7 @@ import { Canvg } from 'canvg';
 import { jsPDF } from 'jspdf';
 import 'svg2pdf.js';
 
-const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setErrorMessage }) => {
+const DownloadManager = ({ svgData, filenameBase, dpi = 300, setErrorMessage }) => {
   // console.log('Rendering DownloadManager');
   const handleDownload = useCallback(async (format) => {
     const svgElement = document.getElementById('svg-container').querySelector('svg');
@@ -113,7 +113,7 @@ const DownloadManager = ({ svgData, filenameBase = 'star_trail', dpi = 300, setE
 
 DownloadManager.propTypes = {
   svgData: PropTypes.string.isRequired,
-  filenameBase: PropTypes.string,
+  filenameBase: PropTypes.string.isRequired,
   dpi: PropTypes.number,
   setErrorMessage: PropTypes.func.isRequired,
 };
