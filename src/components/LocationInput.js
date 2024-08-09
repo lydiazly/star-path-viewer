@@ -231,7 +231,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   );
 
   const handleSelect = useCallback((event, value) => {
-    if (!value || value.osm_id === 0) {
+    if (!value || value.osm_id <= 0) {
       setLocation({ lat: '', lng: '', osm_id: 0, tz: '' });
       setLocationValid(false);
       setSearchTerm('');
@@ -317,7 +317,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
             <li
               {...props}
               key={option.osm_id}
-              style={option.osm_id === 0 ? { pointerEvents: 'none', color: 'gray' } : {}}
+              style={option.osm_id <= 0 ? { pointerEvents: 'none', color: 'gray', fontStyle: 'italic' } : {}}
             >
               <Stack direction="row" spacing={1} sx={{ width: '100%', justifyContent: 'space-between' }}>
                 <Typography>
