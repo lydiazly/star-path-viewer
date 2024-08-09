@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const fetchSuggestions = async (query) => {
-  const nominatimSearchUrl = 'https://nominatim.openstreetmap.org/searchX';
+  const nominatimSearchUrl = 'https://nominatim.openstreetmap.org/search';
   const timeout = 5000;
   try {
     const response = await axios.get(nominatimSearchUrl, {
