@@ -484,14 +484,14 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
               }
             }}
           >
-            <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} alignItems="center" pr={1}>
+            <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} alignItems="center" pr={1} flexWrap="wrap">
               <Box flex="1 0 auto" textAlign="left" mr={1}>
                 <Typography color="primary" variant="body1">
                   Quick Entry
                 </Typography>
               </Box>
               {!!date.year && fetching && (
-                <Box display="flex" alignItems="center" textAlign="left">
+                <Box display="flex" alignItems="center" textAlign="left" flexWrap="wrap">
                   {/* <Typography color="grey" variant="body1">
                     &gt; Quering the {EQX_SOL_NAMES[flag]} of this year at this location ...
                   </Typography> */}

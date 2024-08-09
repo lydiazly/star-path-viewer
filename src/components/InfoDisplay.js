@@ -61,7 +61,7 @@ const InfoDisplay = ({ info }) => {
 
   const dateInfoItem = useMemo(() => (
     <>
-      <Box display="flex" alignItems="start">
+      <Box display="flex" alignItems="start" flexWrap="wrap">
         <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
           [Gregorian]
         </Typography>
@@ -69,7 +69,7 @@ const InfoDisplay = ({ info }) => {
           {dateStrIsoG} ({dateStrG})
         </Typography>
       </Box>
-      <Box display="flex" alignItems="start">
+      <Box display="flex" alignItems="start" flexWrap="wrap">
         <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
           [Julian]
         </Typography>
@@ -82,7 +82,7 @@ const InfoDisplay = ({ info }) => {
 
   const locationInfoItem = useMemo(() => (
     <>
-      <Box display="flex" alignItems="start">
+      <Box display="flex" alignItems="start" flexWrap="wrap">
         <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
           [Location]
         </Typography>
@@ -96,7 +96,7 @@ const InfoDisplay = ({ info }) => {
   const starInfoItem = useMemo(() => (
     <>
       {info.name && !info.hip ? (
-        <Box display="flex" alignItems="start">
+        <Box display="flex" alignItems="start" flexWrap="wrap">
           <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
             [Planet]
           </Typography>
@@ -107,8 +107,8 @@ const InfoDisplay = ({ info }) => {
       ) : info.hip ? (
         <>
           {info.name && (
-            <Box display="flex" alignItems="start">
-              <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
+            <Box display="flex" alignItems="start" flexWrap="wrap">
+              <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
                 [Star Name]
               </Typography>
               <Typography variant="subtitle1" textAlign="left" ml={1} sx={{ textAlign: 'left' }}>
@@ -116,7 +116,7 @@ const InfoDisplay = ({ info }) => {
               </Typography>
             </Box>
           )}
-          <Box display="flex" alignItems="start">
+          <Box display="flex" alignItems="start" flexWrap="wrap">
             <Typography variant="subtitle1" textAlign="left" sx={{ fontWeight: 'bold' }}>
               [Hipparchus Catalogue Number]
             </Typography>
@@ -126,7 +126,7 @@ const InfoDisplay = ({ info }) => {
           </Box>
         </>
       ) : info.ra && info.dec && (
-        <Box display="flex" alignItems="start">
+        <Box display="flex" alignItems="start" flexWrap="wrap">
           <Typography variant="subtitle1" textAlign="left" sx={labelStyle}>
             [RA/Dec]
           </Typography>
@@ -141,15 +141,15 @@ const InfoDisplay = ({ info }) => {
   return (
     <Box mt={1}>
       <CustomDivider sx={{ mb: 0.5 }} />
-      <Grid container paddingRight={10} rowSpacing={0.5} columnSpacing={5} sx={{ maxWidth: '100%', margin: 'auto' }}>
-        <Grid item xs={12} sm={12} md={6.5}>
+      <Grid container paddingRight={0.5} rowSpacing={0.5} columnSpacing="4%" sx={{ maxWidth: '100%', margin: 'auto' }}>
+        <Grid item xs={12} sm={12} md={6}>
           <Stack direction="column" spacing={0.5}>
             {dateInfoItem}
             {info.name && info.hip && locationInfoItem}
           </Stack>
         </Grid>
 
-        <Grid item xs={12} sm={12} md={5.5}>
+        <Grid item xs={12} sm={12} md={6}>
           <Stack direction="column" spacing={0.5}>
             {(!info.name || !info.hip) && locationInfoItem}
             {starInfoItem}

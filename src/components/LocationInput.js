@@ -1,7 +1,7 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Stack, Autocomplete, TextField, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton } from '@mui/material';
+import { Box, Stack, Autocomplete, TextField, Typography, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton, Chip } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 // import SearchIcon from '@mui/icons-material/Search';
@@ -11,16 +11,21 @@ import debounce from 'lodash/debounce';
 import fetchGeolocation from '../utils/fetchGeolocation'; // Import the geolocation fetching utility
 import fetchSuggestions from '../utils/fetchSuggestions'; // Import the suggestions fetching utility
 
-const fetchLocation = async (setSearchTerm, setLocation, setLoadingLocation, setErrorMessage) => {
+const fetchCurrentLocation = async (setSearchTerm, setLocation, setInputType, setLoadingLocation, setErrorMessage) => {
   try {
     setLoadingLocation(true);
     const locationData = await fetchGeolocation();
-    setSearchTerm(locationData.display_name);
+    if (locationData.display_name !== 'unknown') {
+      setSearchTerm(locationData.display_name);
+    }
     setLocation({
       lat: locationData.lat,
       lng: locationData.lng,
-      place_id: locationData.place_id,
+      osm_id: locationData.osm_id,
     });
+    if (locationData.osm_id < 0) {
+      setInputType('coordinates');
+    }
   } catch (error) {
     setErrorMessage({ location: error.message });
   } finally {
@@ -61,14 +66,15 @@ const validateLocationSync = (inputType, location) => {
 const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fieldError, setFieldError }) => {
   // console.log('Rendering LocationInput');
   const [inputType, setInputType] = useState('address');  // 'address' or 'coordinates'
-  const [location, setLocation] = useState({ lat: '', lng: '', place_id: '', tz: '' });
+  const [location, setLocation] = useState({ lat: '', lng: '', osm_id: 0, tz: '' });  // 0: not-found, -1: unknown
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [locationError, setLocationError] = useState({ address: '', lat: '', lng: '' });
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
-  const latestRequest = useRef(0);
+  const latestTzRequest = useRef(0);
+  const latestSuggestionRequest = useRef(0);
 
   const clearError = useCallback(() => {
     setErrorMessage((prev) => ({ ...prev, location: '' }));
@@ -79,7 +85,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   useEffect(() => {
     clearError();
     // setLoadingLocation(true);
-    // fetchLocation(setSearchTerm, setLocation, setErrorMessage);
+    // fetchCurrentLocation(setSearchTerm, setInputType, setLocation, setErrorMessage);
     // setLoadingLocation(false);
   }, [clearError]);
 
@@ -91,16 +97,13 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   useEffect(() => {
     clearError();
     // setLocationValid(true);
-  }, [searchTerm, location, inputType, clearError]);
-
-  /* Clear address and tz if lat or lng is empty */
-  useEffect(() => {
-    if (searchTerm && inputType === 'coordinates' && (!location.lat || !location.lng)) {
+    /* Clear address and tz if lat or lng is empty */
+    if (searchTerm.trim() && inputType === 'coordinates' && (!location.lat || !location.lng)) {
       setSearchTerm('');
       setSuggestions([]);
-      setLocation((prev) => ({ ...prev, place_id: '', tz: '' }));
+      setLocation((prev) => ({ ...prev, osm_id: 0, tz: '' }));
     }
-  }, [searchTerm, location, inputType]);
+  }, [searchTerm, location, inputType, clearError]);
 
   /* Clear tz if lat or lng is empty */
   useEffect(() => {
@@ -127,15 +130,15 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
     const lng = parseFloat(location.lng);
     if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
       const fetchTimeZone = async () => {
-        const requestId = ++latestRequest.current; // Increment and capture the current request ID
+        const requestId = ++latestTzRequest.current; // Increment and capture the current request ID
         try {
           const [tz] = await window.GeoTZ.find(lat, lng);
           /* Only update if this request is the latest one */
-          if (requestId === latestRequest.current) {
+          if (requestId === latestTzRequest.current) {
             setLocation((prev) => ({ ...prev, tz }));
           }
         } catch (error) {
-          if (requestId === latestRequest.current) {
+          if (requestId === latestTzRequest.current) {
             setLocation((prev) => ({ ...prev, tz: '' }));
           }
         }
@@ -152,7 +155,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
     () => {
       clearError();
       setSuggestions([]);
-      fetchLocation(setSearchTerm, setLocation, setLoadingLocation, setErrorMessage);
+      fetchCurrentLocation(setSearchTerm, setLocation, setInputType, setLoadingLocation, setErrorMessage);
     },
     [clearError, setErrorMessage]
   );
@@ -173,14 +176,18 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
       debounce(async (query) => {
         try {
           setLoadingSuggestions(true);
+          const requestId = ++latestSuggestionRequest.current; // Increment and capture the current request ID
           const suggestions = await fetchSuggestions(query);
-          setSuggestions(suggestions);
+          /* Only update if this request is the latest one */
+          if (requestId === latestSuggestionRequest.current) {
+            setSuggestions(suggestions);
+          }
         } catch (error) {
           setErrorMessage({ location: error.message });
         } finally {
           setLoadingSuggestions(false);
         }
-      }, Config.TypingDelay),
+      }, Config.TypingDelay + 300),
     [setErrorMessage]
   );
 
@@ -211,12 +218,12 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
 
   const handleSearchChange = useCallback(
     (event, newSearchTerm) => {
-      const trimmedNewSearchTerm = newSearchTerm.trim();
+      const trimmedNewSearchTerm = newSearchTerm.trim() ? newSearchTerm: '';
       setSearchTerm(trimmedNewSearchTerm);
       if (trimmedNewSearchTerm) {
         debouncedFetchSuggestions(trimmedNewSearchTerm);
       } else {
-        setLocation({ lat: '', lng: '', place_id: '', tz: '' });
+        setLocation({ lat: '', lng: '', osm_id: 0, tz: '' });
         setSuggestions([]);
       }
     },
@@ -224,8 +231,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   );
 
   const handleSelect = useCallback((event, value) => {
-    if (!value || value.place_id === 'not-found') {
-      setLocation({ lat: '', lng: '', place_id: '', tz: '' });
+    if (!value || value.osm_id === 0) {
+      setLocation({ lat: '', lng: '', osm_id: 0, tz: '' });
       setLocationValid(false);
       setSearchTerm('');
       setSuggestions([]);
@@ -233,13 +240,13 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
     }
 
     const selectedSuggestion = suggestions.find(
-      (suggestion) => suggestion.place_id === value.place_id
+      (suggestion) => suggestion.osm_id === value.osm_id
     );
     if (selectedSuggestion) {
       setLocation({
         lat: selectedSuggestion.lat,
         lng: selectedSuggestion.lon,
-        place_id: selectedSuggestion.place_id,
+        osm_id: selectedSuggestion.osm_id,
       });
       setSearchTerm(selectedSuggestion.display_name);
       setSuggestions([]);
@@ -253,11 +260,11 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
       /* Select the highlighted suggestion */
       if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
         const highlightedSuggestion = suggestions[highlightedIndex];
-        if (highlightedSuggestion.place_id !== 'not-found') {
+        if (highlightedSuggestion.osm_id > 0) {
           setLocation({
             lat: highlightedSuggestion.lat,
             lng: highlightedSuggestion.lon,
-            place_id: highlightedSuggestion.place_id,
+            osm_id: highlightedSuggestion.osm_id,
           });
           setSearchTerm(highlightedSuggestion.display_name);
           setSuggestions([]);
@@ -268,7 +275,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
 
   const handleHighlightChange = useCallback((event, option, reason) => {
     if (reason === 'keyboard' || reason === 'mouse') {
-      const index = suggestions.findIndex((suggestion) => suggestion.place_id === option.place_id);
+      const index = suggestions.findIndex((suggestion) => suggestion.osm_id === option.osm_id);
       setHighlightedIndex(index);
     }
   }, [suggestions]);
@@ -296,7 +303,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
         <Autocomplete
           freeSolo
           clearOnEscape
-          options={suggestions}
+          options={searchTerm.trim() ? suggestions : []}
           getOptionLabel={(option) => option.display_name}
           inputValue={searchTerm}
           onInputChange={handleSearchChange}
@@ -309,10 +316,17 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
           renderOption={(props, option) => (
             <li
               {...props}
-              key={option.place_id}
-              style={option.place_id === 'not-found' ? { pointerEvents: 'none', color: 'gray' } : {}}
+              key={option.osm_id}
+              style={option.osm_id === 0 ? { pointerEvents: 'none', color: 'gray' } : {}}
             >
-              {`${option.display_name} ${option.address_type ? `(${option.address_type})` : ''}`}
+              <Stack direction="row" spacing={1} sx={{ width: '100%', justifyContent: 'space-between' }}>
+                <Typography>
+                  {option.display_name}
+                </Typography>
+                <Box>
+                  {option.addresstype ? <Chip label={option.addresstype} size="small" color="primary" variant="outlined" /> : ''}
+                </Box>
+              </Stack>
             </li>
           )}
           renderInput={(params) => (

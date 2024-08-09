@@ -16,7 +16,7 @@ const fetchSuggestions = async (query) => {
     if (response.data.length > 0) {
       return response.data;
     } else {
-      return [{ display_name: 'Location not found', place_id: 'not-found', address_type: '' }];
+      return [{ display_name: 'Location not found', osm_id: 0, addresstype: '' }];
     }
   } catch (error) {
     if (error.response) {

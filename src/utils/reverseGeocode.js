@@ -15,14 +15,18 @@ const reverseGeocode = async (lat, lng) => {
       },
       timeout,
     });
-    if (response.data && response.data.display_name) {
-      return {
-        display_name: response.data.display_name,
-        place_id: response.data.place_id,
-      };
-    } else {
-      throw new Error('Unable to fetch the address for this location.');
-    }
+    return {
+      display_name: response.data?.display_name || 'unknown',
+      osm_id: response.data?.osm_id || -1,
+    };
+    // if (response.data && response.data.display_name) {
+    //   return {
+    //     display_name: response.data.display_name,
+    //     osm_id: response.data.osm_id,
+    //   };
+    // } else {
+    //   throw new Error('Unable to fetch the address for this location.');
+    // }
   } catch (error) {
     if (error.response) {
       throw new Error(`Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}`);

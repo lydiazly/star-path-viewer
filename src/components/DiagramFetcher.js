@@ -18,7 +18,7 @@ const validateInputSync = (
   setLocationFieldError, setDateFieldError, setStarFieldError,
   setLocationValid, setDateValid, setStarValid,
 ) => {
-  if (location.type === 'address' && !location.place_id) {
+  if (location.type === 'address' && location.osm_id === 0) {
     setLocationFieldError((prev) => ({ ...prev, address: 'Please search and select a location.' }));
     setLocationValid(false);
     return false;
@@ -71,7 +71,7 @@ const validateInputSync = (
 
 const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
   // console.log('Rendering DiagramFetcher');
-  const [location, setLocation] = useState({ lat: '', lng: '', place_id: '', tz: '', type: '' });
+  const [location, setLocation] = useState({ lat: '', lng: '', osm_id: 0, tz: '', type: '' });  // 0: not-found, -1: unknown
   const [date, setDate] = useState({ year: '', month: '', day: '', flag: '', cal: '' });  // flag: 've', 'ss', 'ae', 'ws', cal: '', 'j'
   const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: '' });  // type: 'name', 'hip', 'radec'
   const [errorMessage, setErrorMessage] = useState({});
