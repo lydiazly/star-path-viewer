@@ -1,7 +1,7 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Stack, Autocomplete, TextField, Typography, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton, Chip, Snackbar } from '@mui/material';
+import { Box, Stack, Autocomplete, TextField, Typography, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton, Chip, Snackbar, Alert } from '@mui/material';
 import Grid from '@mui/material/Grid'; // Grid version 1
 // import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 // import SearchIcon from '@mui/icons-material/Search';
@@ -280,6 +280,10 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
     }
   }, [suggestions]);
 
+  const handleSnackbarClose = useCallback((event, reason) => {
+    setLocation((prev) => ({ ...prev, osm_id: 0 }));
+  }, [])
+
   return (
     <Stack direction="column" spacing={2}>
       <ToggleButtonGroup
@@ -346,7 +350,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
                   <InputAdornment position="start" sx={{ ml: 0.2, mr: 0 }}>
                     {!loadingSuggestions && !loadingLocation ? (
                       <IconButton onClick={handleGpsClick}>
-                        <GpsFixedIcon size={20} sx={{ color: "grey", p: '2px', mx: -1, cursor: 'pointer' }} />
+                        <GpsFixedIcon size={20} sx={{ color: "grey", p: '2px', m: -1, cursor: 'pointer' }} />
                       </IconButton>
                     ) : (
                       <CircularProgress size={20} sx={{ color: "grey", mr: 0.5 }} />
@@ -414,10 +418,13 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={location.osm_id < 0}
-        autoHideDuration={10000}
-        onClose={() => setLocation((prev) => ({ ...prev, osm_id: 0 }))}
-        message="Sorry, we could only fetch the latitude and longitude for this location. You can also enter other coordinates manually."
-      />
+        autoHideDuration={12000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity="warning" sx={{ width: '100%' }}>
+          Sorry, we could only fetch the latitude and longitude for this location. You can also enter other coordinates manually.
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 };
