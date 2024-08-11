@@ -1,5 +1,5 @@
 {
-  "name": "star-trail-coord-react",
+  "name": "star-trail-viewer",
   "version": "0.1.0",
   "homepage": "https://lydiazly.github.io/star-trail-viewer",
   "private": true,
@@ -26,7 +26,7 @@
     "web-vitals": "^4.2.3"
   },
   "scripts": {
-    "predeploy": "REACT_APP_SERVER_URL=https://equinoxcoord.pythonanywhere.com npm run build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
