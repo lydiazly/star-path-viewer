@@ -18,7 +18,6 @@ Input the date, location, and a celestial object's infomation to view the star t
 - [Run the React app locally in development mode](#run-the-react-app-locally-in-development-mode)
   - [1. Install packages](#1-install-packages)
   - [2. Provide environment variables](#2-provide-environment-variables)
-- [License](#license)
 
 ## Features
 
@@ -36,6 +35,8 @@ This project relies on the following open course services:
 1. **[browser-geo-tz](https://github.com/kevmo314/browser-geo-tz)** - A browser variant of the geographical timezone lookup package [node-geo-tz](https://github.com/evansiroky/node-geo-tz).
 
 2. **[Nominatim API](https://nominatim.org/release-docs/latest/api/Overview)** - An API to search [OSM](www.openstreetmap.org) data by name and address (geocoding) and to generate synthetic addresses of OSM points (reverse geocoding).
+
+3. **[Baidu Web Service API](https://lbsyun.baidu.com/faq/api?title=webapi)** - Only if unable to connect to Nominatim, fallback to this geocoding service.
 
 ## Run the React app locally in development mode
 
@@ -94,7 +95,3 @@ This project relies on the following open course services:
   - Including `::1` ensures that the certificate is also valid IPv6.
 
   (4) Clear browser cookies of localhost and restart the browser to test again
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

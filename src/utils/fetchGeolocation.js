@@ -1,7 +1,7 @@
 // src/utils/fetchGeolocation.js
 import reverseGeocode from './reverseGeocode';
 
-const fetchGeolocation = async () => {
+const fetchGeolocation = async (service) => {
   if ("geolocation" in navigator) {
     try {
       /* Get the latitude and longitude */
@@ -18,12 +18,12 @@ const fetchGeolocation = async () => {
       });
       const { latitude, longitude } = position.coords;
       /* Get the address from the latitude and longitude */
-      const locationData = await reverseGeocode(latitude, longitude);
+      const locationData = await reverseGeocode(latitude, longitude, service);
       return {
         lat: latitude.toString(),
         lng: longitude.toString(),
         display_name: locationData.display_name,
-        osm_id: locationData.osm_id,  // number (> 0)
+        id: locationData.id,
       };
     } catch (error) {
       throw new Error(error.message);

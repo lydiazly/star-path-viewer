@@ -18,7 +18,7 @@ const validateInputSync = (
   setLocationFieldError, setDateFieldError, setStarFieldError,
   setLocationValid, setDateValid, setStarValid,
 ) => {
-  if (location.type === 'address' && location.osm_id === 0) {
+  if (location.type === 'address' && !location.id) {
     setLocationFieldError((prev) => ({ ...prev, address: 'Please search and select a location.' }));
     setLocationValid(false);
     return false;
@@ -71,7 +71,7 @@ const validateInputSync = (
 
 const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
   // console.log('Rendering DiagramFetcher');
-  const [location, setLocation] = useState({ lat: '', lng: '', osm_id: 0, tz: '', type: '' });  // 0: not-found, -1: unknown
+  const [location, setLocation] = useState({ lat: '', lng: '', id: '', tz: '', type: '' });  // 0: not-found, -1: unknown
   const [date, setDate] = useState({ year: '', month: '', day: '', flag: '', cal: '' });  // flag: 've', 'ss', 'ae', 'ws', cal: '', 'j'
   const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: '' });  // type: 'name', 'hip', 'radec'
   const [errorMessage, setErrorMessage] = useState({});
@@ -132,9 +132,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     const params = {};
 
     /* Check input values ----------------------------------------------------*/
-    // console.log("Set location", location);
-    // console.log("Set date", date);
-    // console.log("Set star", star);
+    // console.log("Set: ", location, date, star);
     const isValid = validateInputSync(
       location, date, star,
       setLocationFieldError, setDateFieldError, setStarFieldError,

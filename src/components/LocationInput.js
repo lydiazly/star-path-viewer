@@ -8,22 +8,24 @@ import Grid from '@mui/material/Grid'; // Grid version 1
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import Config from '../Config';
 import debounce from 'lodash/debounce';
-import fetchGeolocation from '../utils/fetchGeolocation'; // Import the geolocation fetching utility
-import fetchSuggestions from '../utils/fetchSuggestions'; // Import the suggestions fetching utility
+import { useService } from '../context/ServiceContext';
+import determineService from '../utils/determineService';
+import fetchGeolocation from '../utils/fetchGeolocation';
+import fetchSuggestions from '../utils/fetchSuggestions';
 
-const fetchCurrentLocation = async (setSearchTerm, setLocation, setInputType, setLoadingLocation, setErrorMessage) => {
+const fetchCurrentLocation = async (service, setSearchTerm, setLocation, setInputType, setLoadingLocation, setErrorMessage) => {
   try {
     setLoadingLocation(true);
-    const locationData = await fetchGeolocation();
+    const locationData = await fetchGeolocation(service);
     if (locationData.display_name !== 'unknown') {
       setSearchTerm(locationData.display_name);
     }
     setLocation({
       lat: locationData.lat,
       lng: locationData.lng,
-      osm_id: locationData.osm_id,
+      id: locationData.id,
     });
-    if (locationData.osm_id < 0) {
+    if (locationData.id === 'unknown') {
       setInputType('coordinates');
     }
   } catch (error) {
@@ -66,15 +68,17 @@ const validateLocationSync = (inputType, location) => {
 const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fieldError, setFieldError }) => {
   // console.log('Rendering LocationInput');
   const [inputType, setInputType] = useState('address');  // 'address' or 'coordinates'
-  const [location, setLocation] = useState({ lat: '', lng: '', osm_id: 0, tz: '' });  // 0: not-found, -1: unknown
+  const [location, setLocation] = useState({ lat: '', lng: '', id: '', tz: '' });  // 0: not-found, -1: unknown
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [locationError, setLocationError] = useState({ address: '', lat: '', lng: '' });
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const { serviceChosen, setServiceChosen } = useService();
   const latestTzRequest = useRef(0);
   const latestSuggestionRequest = useRef(0);
+  const isSelecting = useRef(false);
 
   const clearError = useCallback(() => {
     setErrorMessage((prev) => ({ ...prev, location: '' }));
@@ -85,7 +89,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   useEffect(() => {
     clearError();
     // setLoadingLocation(true);
-    // fetchCurrentLocation(setSearchTerm, setInputType, setLocation, setErrorMessage);
+    // fetchCurrentLocation(serviceChosen, setSearchTerm, setInputType, setLocation, setErrorMessage);
     // setLoadingLocation(false);
   }, [clearError]);
 
@@ -101,7 +105,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
     if (searchTerm.trim() && inputType === 'coordinates' && (!location.lat || !location.lng)) {
       setSearchTerm('');
       setSuggestions([]);
-      setLocation((prev) => ({ ...prev, osm_id: 0, tz: '' }));
+      setLocation((prev) => ({ ...prev, id: '', tz: '' }));
     }
   }, [searchTerm, location, inputType, clearError]);
 
@@ -123,6 +127,17 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   useEffect(() => {
     setFieldError((prev) => ({ ...prev, lng: '' }));
   }, [location.lng, inputType, setFieldError]);
+
+  /* Choose geocoding service */
+  useEffect(() => {
+    const setService = async () => {
+      if (serviceChosen === null) {
+          const service = await determineService();
+          setServiceChosen(service);
+      }
+    };
+    setService();
+  }, [serviceChosen, setServiceChosen]);
 
   /* Get timezone */
   useEffect(() => {
@@ -155,9 +170,9 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
     () => {
       clearError();
       setSuggestions([]);
-      fetchCurrentLocation(setSearchTerm, setLocation, setInputType, setLoadingLocation, setErrorMessage);
+      fetchCurrentLocation(serviceChosen, setSearchTerm, setLocation, setInputType, setLoadingLocation, setErrorMessage);
     },
-    [clearError, setErrorMessage]
+    [serviceChosen, clearError, setErrorMessage]
   );
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
@@ -173,20 +188,23 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
 
   const debouncedFetchSuggestions = useMemo(
     () =>
-      debounce(async (query) => {
-        try {
-          setLoadingSuggestions(true);
-          const requestId = ++latestSuggestionRequest.current; // Increment and capture the current request ID
-          const suggestions = await fetchSuggestions(query);
-          /* Only update if this request is the latest one */
-          if (requestId === latestSuggestionRequest.current) {
-            setSuggestions(suggestions);
+      debounce(async (query, serviceChosen) => {
+        if (!isSelecting.current) {
+          try {
+            setLoadingSuggestions(true);
+            const requestId = ++latestSuggestionRequest.current; // Increment and capture the current request ID
+            const suggestions = await fetchSuggestions(query, serviceChosen);
+            /* Only update if this request is the latest one */
+            if (requestId === latestSuggestionRequest.current) {
+              setSuggestions(suggestions);
+            }
+          } catch (error) {
+            setErrorMessage({ location: error.message });
+          } finally {
+            setLoadingSuggestions(false);
           }
-        } catch (error) {
-          setErrorMessage({ location: error.message });
-        } finally {
-          setLoadingSuggestions(false);
         }
+        isSelecting.current = false;
       }, Config.TypingDelay + 300),
     [setErrorMessage]
   );
@@ -221,18 +239,18 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
       const trimmedNewSearchTerm = newSearchTerm.trim() ? newSearchTerm: '';
       setSearchTerm(trimmedNewSearchTerm);
       if (trimmedNewSearchTerm) {
-        debouncedFetchSuggestions(trimmedNewSearchTerm);
+        debouncedFetchSuggestions(trimmedNewSearchTerm, serviceChosen);
       } else {
-        setLocation({ lat: '', lng: '', osm_id: 0, tz: '' });
+        setLocation({ lat: '', lng: '', id: 0, tz: '' });
         setSuggestions([]);
       }
     },
-    [debouncedFetchSuggestions]
+    [serviceChosen, debouncedFetchSuggestions]
   );
 
   const handleSelect = useCallback((event, value) => {
-    if (!value || value.osm_id <= 0) {
-      setLocation({ lat: '', lng: '', osm_id: 0, tz: '' });
+    if (!value || !value.id || value.id === 'unknown') {
+      setLocation({ lat: '', lng: '', id: '', tz: '' });
       setLocationValid(false);
       setSearchTerm('');
       setSuggestions([]);
@@ -240,13 +258,14 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
     }
 
     const selectedSuggestion = suggestions.find(
-      (suggestion) => suggestion.osm_id === value.osm_id
+      (suggestion) => suggestion.id === value.id
     );
     if (selectedSuggestion) {
+      isSelecting.current = true;
       setLocation({
         lat: selectedSuggestion.lat,
-        lng: selectedSuggestion.lon,
-        osm_id: selectedSuggestion.osm_id,
+        lng: selectedSuggestion.lng,
+        id: selectedSuggestion.id,
       });
       setSearchTerm(selectedSuggestion.display_name);
       setSuggestions([]);
@@ -255,16 +274,17 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
 
   const handleKeyDown = useCallback((event) => {
     if (event.key === 'Enter') {
-      /* Prevent's default 'Enter' behavior */
+      /* Prevent default 'Enter' behavior */
       event.defaultMuiPrevented = true;
       /* Select the highlighted suggestion */
       if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
         const highlightedSuggestion = suggestions[highlightedIndex];
-        if (highlightedSuggestion.osm_id > 0) {
+        if (highlightedSuggestion.id && highlightedSuggestion.id !== 'unknown') {
+          isSelecting.current = true;
           setLocation({
             lat: highlightedSuggestion.lat,
-            lng: highlightedSuggestion.lon,
-            osm_id: highlightedSuggestion.osm_id,
+            lng: highlightedSuggestion.lng,
+            id: highlightedSuggestion.id,
           });
           setSearchTerm(highlightedSuggestion.display_name);
           setSuggestions([]);
@@ -275,13 +295,13 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
 
   const handleHighlightChange = useCallback((event, option, reason) => {
     if (reason === 'keyboard' || reason === 'mouse') {
-      const index = suggestions.findIndex((suggestion) => suggestion.osm_id === option.osm_id);
+      const index = suggestions.findIndex((suggestion) => suggestion.id === option.id);
       setHighlightedIndex(index);
     }
   }, [suggestions]);
 
   const handleSnackbarClose = useCallback((event, reason) => {
-    setLocation((prev) => ({ ...prev, osm_id: 0 }));
+    setLocation((prev) => ({ ...prev, id: '' }));
   }, [])
 
   return (
@@ -307,6 +327,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
         <Autocomplete
           freeSolo
           clearOnEscape
+          disabled={!serviceChosen}
           options={searchTerm.trim() ? suggestions : []}
           getOptionLabel={(option) => option.display_name}
           inputValue={searchTerm}
@@ -320,8 +341,8 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
           renderOption={(props, option) => (
             <li
               {...props}
-              key={option.osm_id}
-              style={option.osm_id <= 0 ? { pointerEvents: 'none', color: 'gray', fontStyle: 'italic' } : {}}
+              key={option.id}
+              style={!option.id || option.id === 'unknown' ? { pointerEvents: 'none', color: 'gray', fontStyle: 'italic' } : {}}
             >
               <Stack direction="row" spacing={1} sx={{ width: '100%', justifyContent: 'space-between' }}>
                 <Typography>
@@ -417,12 +438,12 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
       )}
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={location.osm_id < 0}
+        open={location.id === 'unknown'}
         autoHideDuration={12000}
         onClose={handleSnackbarClose}
       >
         <Alert onClose={handleSnackbarClose} severity="warning" sx={{ width: '100%' }}>
-          Sorry, we could only fetch the latitude and longitude for this location. You can also enter other coordinates manually.
+          Sorry, we couldn't fetch the address, but you can use these coordinates for this location.
         </Alert>
       </Snackbar>
     </Stack>
