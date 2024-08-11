@@ -100,7 +100,7 @@ const App = () => {
                         setErrorMessage={setErrorMessage}
                       />
                       {!!errorMessage.download && (
-                        <Alert severity="error" sx={{ width: '100%', paddingTop: 1 }} onClose={() => setErrorMessage((prev) => ({ ...prev, download: '' }))}>
+                        <Alert severity="error" sx={{ width: '100%', paddingTop: 1, textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, download: '' }))}>
                           {errorMessage.download}
                         </Alert>
                       )}

@@ -29,7 +29,7 @@ const fetchCurrentLocation = async (service, setSearchTerm, setLocation, setInpu
       setInputType('coordinates');
     }
   } catch (error) {
-    setErrorMessage({ location: error.message });
+    setErrorMessage((prev) => ({ ...prev, location: error.message }));
   } finally {
     setLoadingLocation(false);
   }
@@ -199,7 +199,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
               setSuggestions(suggestions);
             }
           } catch (error) {
-            setErrorMessage({ location: error.message });
+            setErrorMessage((prev) => ({ ...prev, location: error.message }));
           } finally {
             setLoadingSuggestions(false);
           }
@@ -442,7 +442,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
         autoHideDuration={12000}
         onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleSnackbarClose} severity="warning" sx={{ width: '100%', textAlign: 'left' }}>
+        <Alert severity="warning" sx={{ width: '100%', textAlign: 'left' }} onClose={handleSnackbarClose}>
           Sorry, we couldn't fetch the address, but you can use these coordinates for this location.
         </Alert>
       </Snackbar>

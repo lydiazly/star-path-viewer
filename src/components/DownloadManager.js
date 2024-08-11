@@ -13,7 +13,7 @@ const DownloadManager = ({ svgData, filenameBase, dpi = 300, setErrorMessage }) 
   const handleDownload = useCallback(async (format) => {
     const svgElement = document.getElementById('svg-container').querySelector('svg');
     if (!svgElement) {
-      setErrorMessage({ download: 'SVG element not found' });
+      setErrorMessage((prev) => ({ ...prev, download: 'SVG element not found' }));
       return;
     }
 
@@ -40,7 +40,7 @@ const DownloadManager = ({ svgData, filenameBase, dpi = 300, setErrorMessage }) 
 
       const canvas = document.createElement('canvas');
       if (!canvas || !canvas.getContext) {
-        setErrorMessage({ download: 'Your browser does not support the HTML5 Canvas feature.' });
+        setErrorMessage((prev) => ({ ...prev, download: 'Your browser does not support the HTML5 Canvas feature.' }));
         return;
       }
 
@@ -48,7 +48,7 @@ const DownloadManager = ({ svgData, filenameBase, dpi = 300, setErrorMessage }) 
       canvas.height = newHeightPx;
       const ctx = canvas.getContext('2d');
       if (!ctx) {
-        setErrorMessage({ download: 'Your browser does not support the 2D rendering context.' });
+        setErrorMessage((prev) => ({ ...prev, download: 'Your browser does not support the 2D rendering context.' }));
         return;
       }
 
@@ -67,7 +67,7 @@ const DownloadManager = ({ svgData, filenameBase, dpi = 300, setErrorMessage }) 
         if (blob) {
           saveAs(blob, filename);
         } else {
-          setErrorMessage({ download: 'Failed to generate PNG.' });
+          setErrorMessage((prev) => ({ ...prev, download: 'Failed to generate PNG.' }));
         }
       });
     /* ---------------------------------------------------------------------- */
@@ -88,7 +88,7 @@ const DownloadManager = ({ svgData, filenameBase, dpi = 300, setErrorMessage }) 
           pdfDoc.save(filename);
         })
         .catch((error) => {
-          setErrorMessage({ download: 'Failed to generate PDF.' });
+          setErrorMessage((prev) => ({ ...prev, download: 'Failed to generate PDF.' }));
         });
     }
     /* ---------------------------------------------------------------------- */

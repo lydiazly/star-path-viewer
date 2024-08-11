@@ -51,7 +51,7 @@ const fetchDate = async (date, flag, locationRef, setDate, setFetching, setError
     }
   } catch (error) {
     if (error.name !== 'CanceledError' && requestId === latestRequest.current) {
-      setErrorMessage({ date: error.message });
+      setErrorMessage((prev) => ({ ...prev, date: error.message }));
       setFetching(false);
       abortControllerRef.current = null;
     }
@@ -219,7 +219,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
     // if (date.year && date.month && date.day) {
     //   setDateValid(true);
     // }
-  }, [date, flag, cal, setErrorMessage, clearError]);
+  }, [date, flag, cal, clearError]);
 
   useEffect(() => {
     setFieldError((prev) => ({ ...prev, year: '' }));

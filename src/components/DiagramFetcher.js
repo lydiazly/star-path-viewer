@@ -87,17 +87,17 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     setLocationFieldError({ address: '', lat: '', lng: '' });
     setDateFieldError({ year: '', month: '', day: '' });
     setStarFieldError({ name: '', hip: '', ra: '', dec: '' });
-    setErrorMessage({});
   }, []);
 
   /* Initialize */
-  useEffect(() => {
-    clearError();
-  }, [clearError]);
+  // useEffect(() => {
+  //   clearError();
+  // }, [clearError]);
 
   /* Reset error when user starts typing */
   useEffect(() => {
     clearError();
+    setErrorMessage((prev) => ({ ...prev, draw: '', download: '' }));
   }, [location, date, star, clearError]);
 
   useEffect(() => {
@@ -231,9 +231,9 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
 
     } catch (error) {
       if (error.response) {
-        setErrorMessage({ draw: `Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}` });
+        setErrorMessage((prev) => ({ ...prev, draw: `Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}` }));
       } else {
-        setErrorMessage({ draw: 'Unable to connect to the server.' });
+        setErrorMessage((prev) => ({ ...prev, draw: 'Unable to connect to the server.' }));
       }
       clearImage();  // Clear SVG on error
       setSuccess(false);
@@ -250,7 +250,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           <CustomDivider>LOCATION</CustomDivider>
           <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} setLocationValid={setLocationValid} fieldError={locationFieldError} setFieldError={setLocationFieldError} />
           {!!errorMessage.location && (
-            <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, location: '' }))}>
+            <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, location: '' }))}>
               {errorMessage.location}
             </Alert>
           )}
@@ -260,7 +260,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           <CustomDivider>LOCAL DATE</CustomDivider>
           <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} fieldError={dateFieldError} setFieldError={setDateFieldError} location={{ lat: location.lat, lng: location.lng, tz: location.tz }} />
           {!!errorMessage.date && (
-            <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
+            <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
               {errorMessage.date}
             </Alert>
           )}
@@ -270,7 +270,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           <CustomDivider>CELESTIAL OBJECT</CustomDivider>
           <StarInput onStarChange={setStar} setErrorMessage={setErrorMessage} setStarValid={setStarValid} fieldError={starFieldError} setFieldError={setStarFieldError} />
           {!!errorMessage.star && (
-            <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, star: '' }))}>
+            <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, star: '' }))}>
               {errorMessage.star}
             </Alert>
           )}
@@ -299,7 +299,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           Draw Star Trail
         </Button>
         {!!errorMessage.draw && (
-          <Alert severity="error" onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}>
+          <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}>
             {errorMessage.draw}
           </Alert>
         )}
