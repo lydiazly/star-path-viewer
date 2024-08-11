@@ -8,7 +8,7 @@ const fetchGeolocation = async (service) => {
       const position = await new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(
           (position) => resolve(position),
-          (error) => reject(new Error('Error fetching current location.')),
+          (error) => reject(new Error('Unable to fetch current location. Please enter the coordinates manually ⤴')),
           {
             enableHighAccuracy: false,
             timeout: 20000,

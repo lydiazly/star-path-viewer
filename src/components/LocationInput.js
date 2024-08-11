@@ -442,7 +442,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
         autoHideDuration={12000}
         onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleSnackbarClose} severity="warning" sx={{ width: '100%' }}>
+        <Alert onClose={handleSnackbarClose} severity="warning" sx={{ width: '100%', textAlign: 'left' }}>
           Sorry, we couldn't fetch the address, but you can use these coordinates for this location.
         </Alert>
       </Snackbar>
