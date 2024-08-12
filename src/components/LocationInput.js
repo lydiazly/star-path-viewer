@@ -1,9 +1,7 @@
 // src/components/LocationInput.js
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Stack, Autocomplete, TextField, Typography, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton, Chip, Snackbar, Alert } from '@mui/material';
-import Grid from '@mui/material/Grid'; // Grid version 1
-// import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import { Box, Stack, Grid, Autocomplete, TextField, Typography, ToggleButton, ToggleButtonGroup, InputAdornment, CircularProgress, IconButton, Chip, Snackbar, Alert } from '@mui/material';
 // import SearchIcon from '@mui/icons-material/Search';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import Config from '../Config';

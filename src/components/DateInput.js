@@ -1,9 +1,7 @@
 // src/components/DateInput.js
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Stack, TextField, MenuItem, RadioGroup, Radio, FormControl, Typography, Accordion, AccordionSummary, AccordionDetails, CircularProgress } from '@mui/material';
-import Grid from '@mui/material/Grid'; // Grid version 1
-// import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import { Box, Stack, Grid, TextField, MenuItem, RadioGroup, Radio, FormControl, Typography, Accordion, AccordionSummary, AccordionDetails, CircularProgress } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MONTHS, EPH_DATE_MIN, EPH_DATE_MAX, EPH_DATE_MIN_JULIAN, EPH_DATE_MAX_JULIAN, EQX_SOL_NAMES } from '../utils/constants';
 import { dateToStr } from '../utils/dateUtils';

@@ -6,15 +6,15 @@ const pad = number => number.toString().padStart(2, '0');
 /**
  * Converts HMS (Hours, Minutes, Seconds) to decimal hours.
  * 
- * @param {Object} params - An object containing hours, minutes, and seconds
+ * @param {Object} params - An object containing sign, absolute hours, minutes, and seconds
+ * @param {number} params.sign - -1 or 1
  * @param {number} params.hours - The hours component
  * @param {number} params.minutes - The minutes component
  * @param {number} params.seconds - The seconds component
  * @returns {number} The decimal hours of the given HMS values
  */
-const hmsToDecimal = ({ hours, minutes, seconds }) => {
-  const sign = hours < 0 ? -1 : 1;
-  const decimalHours = Math.abs(hours) + (minutes / 60) + (seconds / 3600);
+const hmsToDecimal = ({ sign, hours, minutes, seconds }) => {
+  const decimalHours = hours + (minutes / 60) + (seconds / 3600);
   return sign * decimalHours;
 };
 
@@ -22,7 +22,7 @@ const hmsToDecimal = ({ hours, minutes, seconds }) => {
  * Converts decimal hours to HMS (Hours, Minutes, Seconds).
  * 
  * @param {number} decimalHours - Decimal hours
- * @returns {Object} An object containing hours, minutes, and seconds
+ * @returns {Object} An object containing sign, absolute hours, minutes, and seconds
  */
 const decimalToHMS = (decimalHours) => {
   const sign = decimalHours < 0 ? -1 : 1;
@@ -30,20 +30,21 @@ const decimalToHMS = (decimalHours) => {
   const absHours = Math.floor(absDecimalHours);
   const minutes = Math.floor((absDecimalHours - absHours) * 60);
   const seconds = ((absDecimalHours - absHours) * 60 - minutes) * 60;
-  return { hours: sign * absHours, minutes, seconds };
+  return { sign, hours: absHours, minutes, seconds };
 };
 
 /**
  * Formats HMS (Hours, Minutes, Seconds) into a string.
  * 
- * @param {Object} params - An object containing hours, minutes, and seconds
+ * @param {Object} params - An object containing sign, absolute hours, minutes, and seconds
+ * @param {number} params.sign - -1 or 1
  * @param {number} params.hours - The hours component
  * @param {number} params.minutes - The minutes component
  * @param {number} params.seconds - The seconds component
  * @returns {string} The formatted HMS string
  */
-const formatHMS = ({ hours, minutes, seconds }) => {
-  return `${hours < 0 ? '-' : '+'}${Math.abs(hours)}h${pad(minutes)}m${seconds.toFixed(2).padStart(5, '0')}s`;
+const formatHMS = ({ sign, hours, minutes, seconds }) => {
+  return `${sign < 0 ? '-' : '+'}${hours}h${pad(minutes)}m${seconds.toFixed(2).padStart(5, '0')}s`;
 };
 
 /**
@@ -158,8 +159,8 @@ const dateToStr = ({ date, iso = true, monthFirst = true, abbr = false }) => {
  * @returns {string} The formatted UTC offset string
  */
 const formatTimezone = (tz) => {
-  const { hours, minutes } = decimalToHMS(tz);
-  return `${tz < 0 ? '-' : '+'}${pad(Math.abs(hours))}:${pad(minutes)}`;
+  const hms = decimalToHMS(tz);
+  return `${tz < 0 ? '-' : '+'}${pad(hms.hours)}:${pad(hms.minutes)}`;
 };
 
 export {

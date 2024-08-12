@@ -6,15 +6,15 @@ const pad = number => number.toString().padStart(2, '0');
 /**
  * Converts DMS (Degrees, Minutes, Seconds) to decimal degrees.
  * 
- * @param {Object} params - An object containing degrees, minutes, and seconds
- * @param {number} params.degrees - The degrees component
+ * @param {Object} params - An object containing sign, absolute degrees, minutes, and seconds
+ * @param {number} params.sign - -1 or 1
+ * @param {number} params.degrees - The absolute degrees component
  * @param {number} params.minutes - The minutes component
  * @param {number} params.seconds - The seconds component
  * @returns {number} The decimal degrees of the given DMS values
  */
-const dmsToDecimal = ({ degrees, minutes, seconds }) => {
-  const sign = degrees < 0 ? -1 : 1;
-  const decimalDegrees = Math.abs(degrees) + (minutes / 60) + (seconds / 3600);
+const dmsToDecimal = ({ sign, degrees, minutes, seconds }) => {
+  const decimalDegrees = degrees + (minutes / 60) + (seconds / 3600);
   return sign * decimalDegrees;
 };
 
@@ -22,7 +22,7 @@ const dmsToDecimal = ({ degrees, minutes, seconds }) => {
  * Converts decimal degrees to DMS (Degrees, Minutes, Seconds).
  * 
  * @param {number} decimalDegrees - Decimal degrees
- * @returns {Object} An object containing degrees, minutes, and seconds
+ * @returns {Object} An object containing sign, absolute degrees, minutes, and seconds
  */
 const decimalToDMS = (decimalDegrees) => {
   const sign = decimalDegrees < 0 ? -1 : 1;
@@ -30,20 +30,21 @@ const decimalToDMS = (decimalDegrees) => {
   const absDegrees = Math.floor(absDecimalDegrees);
   const minutes = Math.floor((absDecimalDegrees - absDegrees) * 60);
   const seconds = ((absDecimalDegrees - absDegrees) * 60 - minutes) * 60;
-  return { degrees: sign * absDegrees, minutes, seconds };
+  return { sign, degrees: absDegrees, minutes, seconds };
 };
 
 /**
  * Formats DMS (Degrees, Minutes, Seconds) into a string.
  * 
- * @param {Object} params - An object containing degrees, minutes, and seconds
+ * @param {Object} params - An object containing sign, absolute degrees, minutes, and seconds
+ * @param {number} params.sign - -1 or 1
  * @param {number} params.degrees - The degrees component
  * @param {number} params.minutes - The minutes component
  * @param {number} params.seconds - The seconds component
  * @returns {string} The formatted DMS string
  */
-const formatDMS = ({ degrees, minutes, seconds }) => {
-  return `${degrees < 0 ? '-' : '+'}${Math.abs(degrees)}°${pad(minutes)}'${seconds.toFixed(2).padStart(5, '0')}"`;
+const formatDMS = ({ sign, degrees, minutes, seconds }) => {
+  return `${sign < 0 ? '-' : '+'}${degrees}°${pad(minutes)}'${seconds.toFixed(2).padStart(5, '0')}"`;
 };
 
 /**
@@ -72,8 +73,8 @@ const dmsToHMS = (dms) => {
 /**
  * Converts HMS (Hours, Minutes, Seconds) to DMS (Degrees, Minutes, Seconds).
  * 
- * @param {Object} hms - An object containing hours, minutes, and seconds
- * @returns {Object} An object containing degrees, minutes, and seconds
+ * @param {Object} hms - An object containing sign, absolute hours, minutes, and seconds
+ * @returns {Object} An object containing sign, absolute degrees, minutes, and seconds
  */
 const hmsToDMS = (hms) => {
   const decimalHours = hmsToDecimal(hms);
@@ -84,16 +85,16 @@ const hmsToDMS = (hms) => {
 /**
  * Formats a geographic coordinate value into a string.
  * 
- * @param {number} coordinate - A geographic coordinate value
+ * @param {number} coordinate - A geographic coordinate value in decimal
  * @param {string} type - 'lat' or 'lng'
  * @returns {string} The formatted geographic coordinate string
  */
 const formatCoordinate = (coordinate, type) => {
-  const { degrees, minutes, seconds } = decimalToDMS(coordinate);
+  const dms = decimalToDMS(coordinate);
   const direction = type === 'lat'
-    ? coordinate >= 0 ? 'N' : 'S'
-    : coordinate >= 0 ? 'E' : 'W';
-  return `${degrees}°${pad(minutes)}'${seconds.toFixed(2).padStart(5, '0')}"${direction}`;
+    ? coordinate < 0 ? 'S' : 'N'
+    : coordinate < 0 ? 'W' : 'E';
+  return `${dms.degrees}°${pad(dms.minutes)}'${dms.seconds.toFixed(2).padStart(5, '0')}"${direction}`;
 };
 
 export {

@@ -1,9 +1,7 @@
 // src/components/StarInput.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, Stack, ToggleButton, ToggleButtonGroup, MenuItem, RadioGroup, Radio, FormControl, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid'; // Grid version 1
-// import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import { TextField, Stack, Grid, ToggleButton, ToggleButtonGroup, MenuItem, RadioGroup, Radio, FormControl, Typography } from '@mui/material';
 import { STARS } from '../utils/constants';
 import { dmsToDecimal } from '../utils/coordUtils';
 import { hmsToDecimal } from '../utils/dateUtils';
@@ -62,8 +60,7 @@ const validateStarSync = (inputType, radecFormat, star) => {
 
       if (star.ra) {
         const ra = parseFloat(star.ra);
-        const raHours = parseInt(star.raHMS.hours);
-        if ((raHours < 0 || raHours >= 24) || (ra < 0 || ra >= 360)) {
+        if (ra < 0 || ra >= 360) {
           return { ...newStarError, ra: 'The right ascension must be in the range [0h, 24h).' };
         }
       }
@@ -171,17 +168,19 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
         if (field === 'raHMS') {
           newStar.ra = newStar.raHMS.hours || newStar.raHMS.minutes || newStar.raHMS.seconds
             ? (hmsToDecimal({
-                hours: newStar.raHMS.hours || 0,
-                minutes: newStar.raHMS.minutes || 0,
-                seconds: newStar.raHMS.seconds || 0,
+                sign: newStar.raHMS.hours[0] === '-' ? -1 : 1,
+                hours: Math.abs(parseInt(newStar.raHMS.hours)) || 0,
+                minutes: parseInt(newStar.raHMS.minutes) || 0,
+                seconds: parseInt(newStar.raHMS.seconds) || 0,
               }) * 15).toString()
             : '';
         } else if (field === 'decDMS') {
           newStar.dec = newStar.decDMS.degrees || newStar.decDMS.minutes || newStar.decDMS.seconds
             ? dmsToDecimal({
-                degrees: newStar.decDMS.degrees || 0,
-                minutes: newStar.decDMS.minutes || 0,
-                seconds: newStar.decDMS.seconds || 0,
+                sign: newStar.decDMS.degrees[0] === '-' ? -1 : 1,
+                degrees: Math.abs(parseInt(newStar.decDMS.degrees)) || 0,
+                minutes: parseInt(newStar.decDMS.minutes) || 0,
+                seconds: parseInt(newStar.decDMS.seconds) || 0,
               }).toString()
             : '';
         }
@@ -190,12 +189,12 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
         /* Convert decimal degrees to HMS/DMS */
         // if (field === 'ra') {
         //   const hms = decimalToHMS(parseFloat(value) / 15);
-        //   newStar.raHMS.hours = hms.hours.toString();
+        //   newStar.raHMS.hours = `${hms.sign < 0 '-' : ''}${hms.hours}`;
         //   newStar.raHMS.minutes = hms.minutes.toString();
         //   newStar.raHMS.seconds = hms.seconds.toString();
         // } else if (field === 'dec') {
         //   const dms = decimalToDMS(parseFloat(value));
-        //   newStar.decDMS.degrees = dms.degrees.toString();
+        //   newStar.decDMS.degrees = `${dms.sign < 0 '-' : ''}${dms.degrees}`;
         //   newStar.decDMS.minutes = dms.minutes.toString();
         //   newStar.decDMS.seconds = dms.seconds.toString();
         // }

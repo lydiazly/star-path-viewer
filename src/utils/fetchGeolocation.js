@@ -11,8 +11,8 @@ const fetchGeolocation = async (service) => {
           (error) => reject(new Error('Unable to fetch current location. Please enter the coordinates manually ⤴')),
           {
             enableHighAccuracy: false,
-            timeout: 20000,
-            maximumAge: 60000,
+            timeout: 10000,
+            maximumAge: 300000,
           }
         );
       });

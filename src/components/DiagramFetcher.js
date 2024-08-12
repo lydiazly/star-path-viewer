@@ -205,6 +205,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       // }
       setInfo(newInfo);
       // console.log("info: ", newInfo);
+      // console.log(response.data.annotations);
 
       const svgBase64 = response.data.svgData;
       /* Decode base64 to binary string */

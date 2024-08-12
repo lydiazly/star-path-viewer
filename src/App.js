@@ -92,7 +92,7 @@ const App = () => {
                       <ImageDisplay svgData={svgData} />
                     </Box>
       
-                    <Stack id="download" direction="column" spacing={1}>
+                    <Stack id="download" direction="column" spacing={1} sx={{ mt: -1 }}>
                       <DownloadManager
                         svgData={svgData}
                         filenameBase={`stv_${diagramId}`}
