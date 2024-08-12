@@ -40,7 +40,7 @@ const fetchSuggestionsWithBaidu = async (query) => {
     return data.result.map((item) => ({
       lat: item.location.lat.toString(),
       lng: item.location.lng.toString(),
-      display_name: item.name,
+      display_name: item.address || item.name,
       id: item.uid || `${item.location.lat},${item.location.lng}`,
       addresstype: item.tag || '',
     }));
