@@ -57,7 +57,7 @@ const fetchSuggestions = async (query, service) => {
       return await fetchSuggestionsWithBaidu(query);
     }
   } catch (error) {
-    return [{ display_name: 'Service not available. Please enter the coordinates manually ⤴', id: '', addresstype: '' }];
+    return [{ display_name: 'Service not available. Please enter the coordinates manually. ⤴', id: '', addresstype: '' }];
   }
 };
 
