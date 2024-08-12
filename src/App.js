@@ -5,6 +5,7 @@ import React, { useState, useCallback } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Container, CssBaseline, Box, Stack, Typography, Alert } from '@mui/material';
 import { ServiceProvider } from './context/ServiceContext';
+import Footer from './components/Footer';
 import DiagramFetcher from './components/DiagramFetcher';
 import InfoDisplay from './components/InfoDisplay';
 import ImageDisplay from './components/ImageDisplay';
@@ -38,14 +39,14 @@ const App = () => {
     <ServiceProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Container maxWidth="md" sx={{ paddingY: 4 }}>
+        <Container maxWidth="md" sx={{ pt: 3, pb: 1 }}>
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'flex-start',
-              minHeight: '90vh',
+              minHeight: '88vh',
               textAlign: 'center',
               gap: 1,  // Default MUI spacing: 8px
             }}
@@ -116,6 +117,8 @@ const App = () => {
               </Box>
             )}
           </Box>
+
+          <Footer />
         </Container>
       </ThemeProvider>
     </ServiceProvider>
