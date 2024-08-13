@@ -15,7 +15,7 @@ const headStyle = { textAlign: 'center' };
 const cellStyleHead = { paddingX: 1.5, paddingY: 1.5, textAlign: 'center', fontWeight: 500 };
 const cellStyleCenter = { paddingX: 1.5, paddingY: 1.5, textAlign: 'center' };
 const cellStyleRight = { paddingX: 1.5, paddingY: 1.5, textAlign: 'right' };
-const timeMinWidth = '6rem';
+const timeMinWidth = '6.5rem';
 
 const Line = styled('div')(({ type }) => ({
   width: '35px',
