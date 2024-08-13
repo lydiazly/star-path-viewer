@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/star-trail-viewer/static/css/main.792b3898.css",
-    "main.js": "/star-trail-viewer/static/js/main.a9f69e51.js",
+    "main.js": "/star-trail-viewer/static/js/main.c698a03e.js",
     "static/js/52.2ed3ba6c.chunk.js": "/star-trail-viewer/static/js/52.2ed3ba6c.chunk.js",
     "static/js/493.29dce07b.chunk.js": "/star-trail-viewer/static/js/493.29dce07b.chunk.js",
     "static/js/685.48202385.chunk.js": "/star-trail-viewer/static/js/685.48202385.chunk.js",
@@ -9,6 +9,6 @@
   },
   "entrypoints": [
     "static/css/main.792b3898.css",
-    "static/js/main.a9f69e51.js"
+    "static/js/main.c698a03e.js"
   ]
 }
