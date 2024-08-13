@@ -368,7 +368,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
                 startAdornment: (
                   <InputAdornment position="start" sx={{ ml: 0.2, mr: 0 }}>
                     {!loadingSuggestions && !loadingLocation ? (
-                      <IconButton onClick={handleGpsClick}>
+                      <IconButton aria-label="gps" onClick={handleGpsClick}>
                         <GpsFixedIcon size={20} sx={{ color: "grey", p: '2px', m: -1, cursor: 'pointer' }} />
                       </IconButton>
                     ) : (

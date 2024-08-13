@@ -36,8 +36,13 @@ const decimalToDMS = (decimalDegrees) => {
     seconds = 0;
     minutes += 1;
   }
-  absDegrees += Math.floor(minutes / 60);
-  minutes = minutes % 60;
+  if (minutes === 60) {
+    minutes = 0;
+    absDegrees += 1;
+  }
+  if (absDegrees === 360) {
+    absDegrees = 0;
+  }
   return { sign, degrees: absDegrees, minutes, seconds };
 };
 

@@ -15,7 +15,7 @@ const headStyle = { textAlign: 'center' };
 const cellStyleHead = { paddingX: 1.5, paddingY: 1.5, textAlign: 'center', fontWeight: 500 };
 const cellStyleCenter = { paddingX: 1.5, paddingY: 1.5, textAlign: 'center' };
 const cellStyleRight = { paddingX: 1.5, paddingY: 1.5, textAlign: 'right' };
-const timeMinWidth = 100;
+const timeMinWidth = '6rem';
 
 const Line = styled('div')(({ type }) => ({
   width: '35px',
@@ -38,13 +38,13 @@ const AnnoDisplay = ({ anno }) => {
   return (
     <Box>
       <CustomDivider sx={{ pt: 1.5, mb: 0.5 }} />
-      <Stack direction="column" spacing={1} sx={{ width: '100%', pt: 1, pl: '6%', pr: '4%' }}>
+      <Stack direction="column" spacing={0.6} sx={{ width: '100%', pt: 1, pl: '6%', pr: '4%' }}>
         {Object.keys(LINE_DETAIL).map((type, index) => (
-          <Grid container key={index} display="flex" alignItems="start" flexWrap="wrap">
-            <Grid item xs={12} sm={1} md={2.5} sx={labelStyle}>
+          <Grid container key={index} display="flex" alignItems="flex-start" flexWrap="wrap">
+            <Grid item xs={12} sm={0.6} md={0.6} sx={labelStyle}>
               <Line type={type} />
             </Grid>
-            <Grid item xs={12} sm={11} md={9.5}>
+            <Grid item xs={12} sm={11.4} md={11.4} pl={1.5}>
               <Typography variant="body2" sx={detailStyle}>
                 {LINE_DETAIL[type]}
               </Typography>
@@ -53,20 +53,18 @@ const AnnoDisplay = ({ anno }) => {
         ))}
 
         {filteredAnno.map((item, index) => (
-          <Grid container key={index} display="flex" alignItems="start">
-            <Grid item xs={12} sm={12} md={2.5}>
-              <Box display="flex" alignItems="start" flexWrap="wrap">
-                <Typography variant="body2" color="red" sx={{ ...labelStyle, minWidth: '2rem' }}>
-                  &#9679; {item.name}
-                </Typography>
-                <Typography variant="body2" sx={labelStyle}>
-                  ({PT_DETAIL[item.name].name})
-                </Typography>
-              </Box>
+          <Grid container key={index} display="flex" alignItems="flex-start">
+            <Grid item xs={12} sm={0.6} md={0.6}>
+              <Typography variant="body2" color="red" sx={{ ...labelStyle, mt: '2px', minWidth: '2rem' }}>
+                &#9679; {item.name}
+              </Typography>
             </Grid>
-            <Grid item xs={12} sm={12} md={9.5}>
+            <Grid item xs={12} sm={11.4} md={11.4} pl={1.5}>
               <Typography variant="body2" sx={detailStyle}>
-                {PT_DETAIL[item.name].detail}
+                <Typography component="span" fontWeight={500}>
+                  {PT_DETAIL[item.name].name}
+                </Typography>
+                &nbsp;-&nbsp;{PT_DETAIL[item.name].detail}
               </Typography>
             </Grid>
           </Grid>

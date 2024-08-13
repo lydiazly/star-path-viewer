@@ -36,8 +36,10 @@ const decimalToHMS = (decimalHours) => {
     seconds = 0;
     minutes += 1;
   }
-  absHours += Math.floor(minutes / 60);
-  minutes = minutes % 60;
+  if (minutes === 60) {
+    minutes = 0;
+    absHours += 1;
+  }
   return { sign, hours: absHours, minutes, seconds };
 };
 

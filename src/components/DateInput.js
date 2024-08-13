@@ -505,10 +505,10 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
                   <CustomToggleButton
                     color="primary"
                     size="small"
+                    aria-label={value}
                     value={key}
                     selected={flag === key}
                     onChange={handleFlagChange}
-                    aria-label={value}
                     fullWidth
                   >
                     {value}
