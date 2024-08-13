@@ -95,10 +95,6 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
   /* Initialize */
   useEffect(() => {
     clearError();
-    // setStar({
-    //   name: 'Mars', hip: '87937', ra: '0', dec: '0',
-    //   raHMS: { hours: '0', minutes: '0', seconds: '0' }, decDMS: { degrees: '0', minutes: '0', seconds: '0' },
-    // });
   }, [clearError]);
 
   useEffect(() => {
@@ -114,9 +110,6 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
   /* Reset error when user starts typing */
   useEffect(() => {
     clearError();
-    // if ((inputType === 'name' && star.name) || (inputType === 'hip' && star.hip) || (inputType === 'radec' && star.ra && star.dec)) {
-    //   setStarValid(true);
-    // }
   }, [star, inputType, radecFormat, clearError, setStarValid]);
 
   useEffect(() => {

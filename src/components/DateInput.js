@@ -31,7 +31,6 @@ const fetchDate = async (date, flag, locationRef, setDate, setFetching, setError
     return;
   }
 
-  // setDateValid(false);
   try {
     const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(location.lat, location.lng, location.tz, year, flag, signal);
     if (requestId === latestRequest.current) {

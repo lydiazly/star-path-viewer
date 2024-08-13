@@ -54,7 +54,15 @@ const App = () => {
       
             <Typography
               variant="h1"
-              sx={{ fontSize: '2.75rem' }}
+              sx={{
+                fontSize: '2rem',
+                [theme.breakpoints.up('sm')]: {
+                  fontSize: '2.4rem',
+                },
+                [theme.breakpoints.up('md')]: {
+                  fontSize: '2.7rem',
+                },
+              }}
             >
               Star Trail Viewer
             </Typography>
@@ -63,11 +71,20 @@ const App = () => {
               variant="subtutle1"
               color="rgba(0, 0, 0, 0.55)"
               fontWeight={400}
-              sx={{ fontSize: '1rem', mt: 0.5, mb: 1 }}
+              sx={{
+                mt: 0.5,
+                mb: 1,
+                fontSize: '0.7rem',
+                [theme.breakpoints.up('sm')]: {
+                  fontSize: '0.85rem',
+                },
+                [theme.breakpoints.up('md')]: {
+                  fontSize: '1rem',
+                },
+              }}
               gutterBottom
             >
               &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from -3000-01-29 to 3000-05-06&nbsp;&mdash;
-              {/* &mdash;&nbsp;Draw&nbsp;the star&nbsp;trail of a celestial&nbsp;object in&nbsp;the ancient&nbsp;sky&nbsp;&mdash; */}
             </Typography>
       
             <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>

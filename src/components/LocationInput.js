@@ -98,7 +98,6 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   /* Reset error when user starts typing */
   useEffect(() => {
     clearError();
-    // setLocationValid(true);
     /* Clear address and tz if lat or lng is empty */
     if (searchTerm.trim() && inputType === 'coordinates' && (!location.lat || !location.lng)) {
       setSearchTerm('');

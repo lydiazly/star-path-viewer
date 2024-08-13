@@ -13,7 +13,7 @@ const reverseGeocodeWithNominatim = async (lat, lng) => {
       lon: lng,
       format: 'json',
       addressdetails: 1,
-      zoom: 10, // zoom level around 10 is typically for city level
+      zoom: 10, // city level
     },
     timeout,
   });

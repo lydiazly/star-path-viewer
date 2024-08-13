@@ -89,11 +89,6 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     setStarFieldError({ name: '', hip: '', ra: '', dec: '' });
   }, []);
 
-  /* Initialize */
-  // useEffect(() => {
-  //   clearError();
-  // }, [clearError]);
-
   /* Reset error when user starts typing */
   useEffect(() => {
     clearError();
@@ -149,15 +144,6 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       params.tz = location.tz;
     }
 
-    // if (date.flag && date.year) {
-    //   params.year = parseInt(date.year).toString();
-    //   params.flag = date.flag;
-    // } else {
-    //   params.year = parseInt(date.year).toString();
-    //   params.month = parseInt(date.month).toString();
-    //   params.day = parseInt(date.day).toString();
-    //   params.cal = date.cal;
-    // }
     params.year = parseInt(date.year).toString();
     params.month = parseInt(date.month).toString();
     params.day = parseInt(date.day).toString();

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 
 const ImageDisplay = ({ svgData }) => {
-  // console.log('Rendering ImageDisplay');
   return (
     <Box
       id="svg-container"

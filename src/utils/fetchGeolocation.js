@@ -29,7 +29,7 @@ const fetchGeolocation = async (service) => {
         navigator.geolocation.getCurrentPosition(
           (position) => resolve(position),
           async (error) => {
-            console.error(error.message);
+            // console.error(error.message);
             /* If geolocation fails, fallback to IP-based geolocation */
             try {
               const ipLocation = await fetchIpLocation();

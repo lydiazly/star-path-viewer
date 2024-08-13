@@ -31,7 +31,7 @@ const decimalToHMS = (decimalHours) => {
   const decimalMinutes = (absDecimalHours - absHours) * 60;
   let minutes = Math.floor(decimalMinutes);
   let seconds = Math.round((decimalMinutes - minutes) * 60);  // int
-  // Handle carryover
+  /* Handle carryover */
   if (seconds === 60) {
     seconds = 0;
     minutes += 1;

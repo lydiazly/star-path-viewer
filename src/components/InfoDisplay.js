@@ -1,7 +1,6 @@
 // src/components/InfoDisplay.js
 import React, { useMemo } from 'react';
 import { Box, Stack, Grid, Typography } from '@mui/material';
-// import { EQX_SOL_NAMES } from '../utils/constants';
 import CustomDivider from './ui/CustomDivider';
 import { formatDateTime, formatDateTimeISO, decimalToHMS, formatHMS } from '../utils/dateUtils';
 import { formatCoordinate, formatDecimalDgrees } from '../utils/coordUtils';
