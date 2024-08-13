@@ -237,7 +237,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         <Stack id="location" direction="column" spacing={1}>
           <CustomDivider>LOCATION</CustomDivider>
           <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} setLocationValid={setLocationValid} fieldError={locationFieldError} setFieldError={setLocationFieldError} />
-          {!!errorMessage.location && (
+          {errorMessage.location && (
             <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, location: '' }))}>
               {errorMessage.location}
             </Alert>
@@ -247,7 +247,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         <Stack id="date" direction="column" spacing={1}>
           <CustomDivider>LOCAL DATE</CustomDivider>
           <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} fieldError={dateFieldError} setFieldError={setDateFieldError} location={{ lat: location.lat, lng: location.lng, tz: location.tz }} />
-          {!!errorMessage.date && (
+          {errorMessage.date && (
             <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
               {errorMessage.date}
             </Alert>
@@ -257,7 +257,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         <Stack id="star" direction="column" spacing={1}>
           <CustomDivider>CELESTIAL OBJECT</CustomDivider>
           <StarInput onStarChange={setStar} setErrorMessage={setErrorMessage} setStarValid={setStarValid} fieldError={starFieldError} setFieldError={setStarFieldError} />
-          {!!errorMessage.star && (
+          {errorMessage.star && (
             <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, star: '' }))}>
               {errorMessage.star}
             </Alert>
@@ -287,8 +287,12 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         >
           Draw Star Trail
         </Button>
-        {!!errorMessage.draw && (
-          <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}>
+        {errorMessage.draw && (
+          <Alert
+            severity={errorMessage.draw.includes('never rises') ? "warning" : "error"}
+            sx={{ width: '100%', textAlign: 'left' }}
+            onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}
+          >
             {errorMessage.draw}
           </Alert>
         )}

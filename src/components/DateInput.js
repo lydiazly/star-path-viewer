@@ -463,7 +463,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
           </Grid>
         </Grid>
 
-        {!!dateError.general && (
+        {dateError.general && (
           <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: '0.85rem', textAlign: 'left' }}>
             {dateError.general}
           </Typography>
@@ -487,7 +487,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
                   Quick Entry
                 </Typography>
               </Box>
-              {!!date.year && fetching && (
+              {date.year && fetching && (
                 <Box display="flex" alignItems="center" textAlign="left" flexWrap="wrap">
                   {/* <Typography color="grey" variant="body1">
                     &gt; Quering the {EQX_SOL_NAMES[flag]} of this year at this location ...

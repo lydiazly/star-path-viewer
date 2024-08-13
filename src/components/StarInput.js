@@ -388,7 +388,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
                     fullWidth
                   />
                 </Grid>
-                {(!!starError.ra || !!fieldError.ra) && (
+                {(starError.ra || fieldError.ra) && (
                   <Grid item xs={12} sm={12} md={12} style={{ paddingTop: 0 }}>
                     <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: '0.85rem', textAlign: 'left' }}>
                       {starError.ra || fieldError.ra}
@@ -445,7 +445,7 @@ const StarInput = ({ onStarChange, setErrorMessage, setStarValid, fieldError, se
                     fullWidth
                   />
                 </Grid>
-                {(!!starError.dec || !!fieldError.dec) && (
+                {(starError.dec || fieldError.dec) && (
                   <Grid item xs={12} sm={12} md={12} style={{ paddingTop: 0 }}>
                     <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: '0.85rem', textAlign: 'left' }}>
                       {starError.dec || fieldError.dec}
