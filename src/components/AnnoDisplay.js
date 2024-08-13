@@ -10,10 +10,12 @@ import { PT_DETAIL, LINE_DETAIL } from '../utils/constants';
 const redAsterisk = <span style={{ color: 'red' }}>*</span>;
 
 const labelStyle = { textAlign: 'left', fontWeight: 500 };
-const detailStyle = { textAlign: 'left', color: 'rgba(0, 0, 0, 0.7)' };
+const detailStyle = { textAlign: 'left', color: 'rgba(0, 0, 0, 0.75)' };
 const headStyle = { textAlign: 'center' };
-const cellStyleCenter = { paddingX: 1, textAlign: 'center' };
-const cellStyleRight = { paddingX: 1, textAlign: 'right' };
+const cellStyleHead = { paddingX: 1.5, paddingY: 1.5, textAlign: 'center', fontWeight: 500 };
+const cellStyleCenter = { paddingX: 1.5, paddingY: 1.5, textAlign: 'center' };
+const cellStyleRight = { paddingX: 1.5, paddingY: 1.5, textAlign: 'right' };
+const timeMinWidth = 100;
 
 const Line = styled('div')(({ type }) => ({
   width: '35px',
@@ -36,7 +38,7 @@ const AnnoDisplay = ({ anno }) => {
   return (
     <Box>
       <CustomDivider sx={{ pt: 1.5, mb: 0.5 }} />
-      <Stack direction="column" spacing={0.8} sx={{ width: '100%', pt: 1, pl: '6%', pr: '4%' }}>
+      <Stack direction="column" spacing={1} sx={{ width: '100%', pt: 1, pl: '6%', pr: '4%' }}>
         {Object.keys(LINE_DETAIL).map((type, index) => (
           <Grid container key={index} display="flex" alignItems="start" flexWrap="wrap">
             <Grid item xs={12} sm={1} md={2.5} sx={labelStyle}>
@@ -54,8 +56,8 @@ const AnnoDisplay = ({ anno }) => {
           <Grid container key={index} display="flex" alignItems="start">
             <Grid item xs={12} sm={12} md={2.5}>
               <Box display="flex" alignItems="start" flexWrap="wrap">
-                <Typography variant="body2" sx={{ ...labelStyle, minWidth: '1.5rem' }}>
-                  {item.name}
+                <Typography variant="body2" color="red" sx={{ ...labelStyle, minWidth: '2rem' }}>
+                  &#9679; {item.name}
                 </Typography>
                 <Typography variant="body2" sx={labelStyle}>
                   ({PT_DETAIL[item.name].name})
@@ -70,11 +72,10 @@ const AnnoDisplay = ({ anno }) => {
           </Grid>
         ))}
       </Stack>
-      <CustomDivider sx={{ mt: 0.5, mb: 2 }} />
+      <CustomDivider sx={{ mt: 0.5, mb: 2.5 }} />
 
       <TableContainer component={Paper}>
         <Table size="small">
-          <caption>{redAsterisk} Daylight Saving Time not included.</caption>
           <TableHead>
             <TableRow>
               <TableCell rowSpan={2} sx={headStyle}>Point</TableCell>
@@ -84,16 +85,16 @@ const AnnoDisplay = ({ anno }) => {
               <TableCell colSpan={2} sx={headStyle}>Universal Time (UT1)</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell sx={headStyle}>Gregorian</TableCell>
-              <TableCell sx={headStyle}>Julian</TableCell>
-              <TableCell sx={headStyle}>Gregorian</TableCell>
-              <TableCell sx={headStyle}>Julian</TableCell>
+              <TableCell sx={{ ...headStyle, minWidth: timeMinWidth }}>Gregorian</TableCell>
+              <TableCell sx={{ ...headStyle, minWidth: timeMinWidth }}>Julian</TableCell>
+              <TableCell sx={{ ...headStyle, minWidth: timeMinWidth }}>Gregorian</TableCell>
+              <TableCell sx={{ ...headStyle, minWidth: timeMinWidth }}>Julian</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {filteredAnno.map((item, index) => (
               <TableRow key={index}>
-                <TableCell component="th" scope="row" sx={{ ...cellStyleCenter, fontWeight: 500 }}>{item.name}</TableCell>
+                <TableCell component="th" scope="row" sx={cellStyleHead}>{item.name}</TableCell>
                 <TableCell sx={cellStyleRight}>{formatDecimalDgrees(item.alt)}</TableCell>
                 <TableCell sx={cellStyleRight}>{formatDecimalDgrees(item.az)}</TableCell>
                 <TableCell sx={cellStyleCenter}>{dateTimeToStr({ dateTime: item.time_local })}</TableCell>
@@ -106,9 +107,9 @@ const AnnoDisplay = ({ anno }) => {
         </Table>
       </TableContainer>
 
-      {/* <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'left', mt: 1 }}>
-        {redAsterisk} Not in Daylight Saving Time.
-      </Typography> */}
+      <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'left', mt: 1, ml: 1 }}>
+        {redAsterisk} Daylight Saving Time not included.
+      </Typography>
     </Box>
   );
 };

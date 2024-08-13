@@ -61,7 +61,7 @@ const App = () => {
       
             <Typography
               variant="subtutle1"
-              color="grey"
+              color="rgba(0, 0, 0, 0.55)"
               fontWeight={400}
               sx={{ fontSize: '1rem', mt: 0.5, mb: 1 }}
               gutterBottom

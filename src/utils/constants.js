@@ -48,10 +48,10 @@ const PT_DETAIL = {
 };
 
 const LINE_DETAIL = {
-  dotted: "The star's path in the daytime sky.",
   solid: "The star's path in the nighttime sky.",
-  lightDashed: "The star's path during civil twilight.",
   darkDashed: "The star's path during nautical twilight.",
+  lightDashed: "The star's path during civil twilight.",
+  dotted: "The star's path in the daytime sky.",
 }
 
 const EQX_SOL_NAMES = {

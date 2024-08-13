@@ -47,8 +47,8 @@ const InfoDisplay = ({ info }) => {
     day: parseInt(info.dateJ.day),
   }).date, [info]);
 
-  const raStr = useMemo(() => info.ra ? formatHMS(decimalToHMS(info.ra / 15)) : '', [info.ra]);
-  const decStr = useMemo(() => info.dec ? formatDecimalDgrees(info.dec) : '', [info.dec]);
+  const raStr = useMemo(() => info.ra !== null && info.ra !== undefined ? formatHMS(decimalToHMS(info.ra / 15)) : '', [info.ra]);
+  const decStr = useMemo(() => info.dec !== null && info.dec !== undefined ? formatDecimalDgrees(info.dec) : '', [info.dec]);
 
   // const eqxSolTimeStr = useMemo(() => {
   //   if (EQX_SOL_NAMES.hasOwnProperty(info.flag) && info.eqxSolTime.length === 6) {
@@ -124,7 +124,7 @@ const InfoDisplay = ({ info }) => {
             </Typography>
           </Box>
         </>
-      ) : info.ra && info.dec && (
+      ) : raStr && decStr && (
         <Box display="flex" alignItems="start" flexWrap="wrap">
           <Typography variant="subtitle1" sx={labelStyle}>
             [RA/Dec]
@@ -135,7 +135,7 @@ const InfoDisplay = ({ info }) => {
         </Box>
       )}
     </>
-  ), [info.name, info.hip, info.ra, info.dec, raStr, decStr]);
+  ), [info.name, info.hip, raStr, decStr]);
 
   return (
     <Box mt={1}>

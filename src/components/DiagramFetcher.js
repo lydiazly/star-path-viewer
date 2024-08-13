@@ -284,7 +284,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           color="primary"
           size="large"
           startIcon={
-            <Box display="flex" alignItems="center" sx={{ pb: '1.5px' }}>
+            <Box display="flex" alignItems="center" sx={{ pb: '1.5px', ml:-2.5 }}>
               {loading
               ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
               : <ArrowForwardIcon />
@@ -305,7 +305,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           </Alert>
         )}
         {loading && (
-          <Typography color="darkgrey" variant="body1" sx={{ pt: 1, pl: 2, textAlign: 'center' }}>
+          <Typography color="darkgrey" variant="body1" sx={{ pt: 1, textAlign: 'center' }}>
             <em>Please wait. This may take a few seconds.</em>
           </Typography>
         )}
