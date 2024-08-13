@@ -55,13 +55,13 @@ const AnnoDisplay = ({ anno }) => {
         {filteredAnno.map((item, index) => (
           <Grid container key={index} display="flex" alignItems="flex-start">
             <Grid item xs={12} sm={0.6} md={0.6}>
-              <Typography variant="body2" color="red" sx={{ ...labelStyle, mt: '2px', minWidth: '2rem' }}>
+              <Typography variant="body2" color="red" sx={{ ...labelStyle, minWidth: '2rem' }}>
                 &#9679; {item.name}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={11.4} md={11.4} pl={1.5}>
               <Typography variant="body2" sx={detailStyle}>
-                <Typography component="span" fontWeight={500}>
+                <Typography variant="body2" component="span" fontWeight={500}>
                   {PT_DETAIL[item.name].name}
                 </Typography>
                 &nbsp;-&nbsp;{PT_DETAIL[item.name].detail}
