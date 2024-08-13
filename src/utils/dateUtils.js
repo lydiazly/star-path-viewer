@@ -5,7 +5,7 @@ const pad = number => number.toString().padStart(2, '0');
 
 /**
  * Converts HMS (Hours, Minutes, Seconds) to decimal hours.
- * 
+ *
  * @param {Object} params - An object containing sign, absolute hours, minutes, and seconds
  * @param {number} params.sign - -1 or 1
  * @param {number} params.hours - The hours component
@@ -20,22 +20,30 @@ const hmsToDecimal = ({ sign, hours, minutes, seconds }) => {
 
 /**
  * Converts decimal hours to HMS (Hours, Minutes, Seconds).
- * 
+ *
  * @param {number} decimalHours - Decimal hours
  * @returns {Object} An object containing sign, absolute hours, minutes, and seconds
  */
 const decimalToHMS = (decimalHours) => {
   const sign = decimalHours < 0 ? -1 : 1;
   const absDecimalHours = Math.abs(decimalHours);
-  const absHours = Math.floor(absDecimalHours);
-  const minutes = Math.floor((absDecimalHours - absHours) * 60);
-  const seconds = ((absDecimalHours - absHours) * 60 - minutes) * 60;
+  let absHours = Math.floor(absDecimalHours);
+  const decimalMinutes = (absDecimalHours - absHours) * 60;
+  let minutes = Math.floor(decimalMinutes);
+  let seconds = Math.round((decimalMinutes - minutes) * 60);  // int
+  // Handle carryover
+  if (seconds === 60) {
+    seconds = 0;
+    minutes += 1;
+  }
+  absHours += Math.floor(minutes / 60);
+  minutes = minutes % 60;
   return { sign, hours: absHours, minutes, seconds };
 };
 
 /**
  * Formats HMS (Hours, Minutes, Seconds) into a string.
- * 
+ *
  * @param {Object} params - An object containing sign, absolute hours, minutes, and seconds
  * @param {number} params.sign - -1 or 1
  * @param {number} params.hours - The hours component
@@ -44,12 +52,13 @@ const decimalToHMS = (decimalHours) => {
  * @returns {string} The formatted HMS string
  */
 const formatHMS = ({ sign, hours, minutes, seconds }) => {
-  return `${sign < 0 ? '-' : '+'}${hours}h${pad(minutes)}m${seconds.toFixed(2).padStart(5, '0')}s`;
+  // return `${sign < 0 ? '-' : '+'}${hours}h${pad(minutes)}m${seconds.toFixed(2).padStart(5, '0')}s`;
+  return `${sign < 0 ? '-' : '+'}${hours}h${pad(minutes)}m${pad(seconds)}s`;
 };
 
 /**
  * Formats decimal hours into an HMS string.
- * 
+ *
  * @param {number} decimalHours - Decimal hours
  * @returns {string} The formatted HMS string
  */
@@ -79,7 +88,8 @@ const formatDateTime = ({ year, month = 1, day = 1, hour = 12, minute = 0, secon
   const dateStr = monthFirst
     ? `${monthStr} ${day}, ${yearStr}`
     : `${day} ${monthStr} ${yearStr}`;
-  const secondStr = Number.isInteger(second) ? pad(second) : second.toFixed(3).padStart(6, '0');
+  // const secondStr = Number.isInteger(second) ? pad(second) : second.toFixed(3).padStart(6, '0');
+  const secondStr = second.toFixed().padStart(2, '0');
   const timeStr = `${pad(hour)}:${pad(minute)}:${secondStr}`;
   return { date: dateStr, time: timeStr, year: yearStr };
 };
@@ -98,14 +108,15 @@ const formatDateTime = ({ year, month = 1, day = 1, hour = 12, minute = 0, secon
  */
 const formatDateTimeISO = ({ year, month = 1, day = 1, hour = 12, minute = 0, second = 0 }) => {
   const dateStr = [year, pad(month), pad(day)].join('-');
-  const secondStr = Number.isInteger(second) ? pad(second) : second.toFixed(3).padStart(6, '0');
+  // const secondStr = Number.isInteger(second) ? pad(second) : second.toFixed(3).padStart(6, '0');
+  const secondStr = second.toFixed().padStart(2, '0');
   const timeStr = `${pad(hour)}:${pad(minute)}:${secondStr}`;
   return { date: dateStr, time: timeStr };
 };
 
 /**
  * Formats a date and time array into a string.
- * 
+ *
  * @param {Object} params - An object containing a date and time array and other parameters
  * @param {number[]} params.dateTime - An array containing [year, month, day, hour, minute, second]
  * @param {boolean} [params.iso=true] - use ISO format or not
@@ -121,7 +132,7 @@ const dateTimeToStr = ({ dateTime, iso = true, delim = ' ', monthFirst = true, a
     if (index === 5) return parseFloat(value);  // Parse the second as float
     return parseInt(value);  // Parse other values as int
   });
-  
+
   const dateTimeStrList = iso
     ? formatDateTimeISO({ year, month, day, hour, minute, second })
     : formatDateTime({ year, month, day, hour, minute, second, monthFirst, abbr });
@@ -133,7 +144,7 @@ const dateTimeToStr = ({ dateTime, iso = true, delim = ' ', monthFirst = true, a
 
 /**
  * Formats a date array into a string.
- * 
+ *
  * @param {Object} params - An object containing a date array and other parameters
  * @param {number[]} params.date - An array containing [year, month, day]
  * @param {boolean} [params.iso=true] - use ISO format or not
@@ -145,7 +156,7 @@ const dateToStr = ({ date, iso = true, monthFirst = true, abbr = false }) => {
   if (!Array.isArray(date) || date.length < 3) return '';
 
   const [year, month, day] = date.map((value) => parseInt(value));
-  
+
   const dateStr = iso
     ? formatDateTimeISO({ year, month, day }).date
     : formatDateTime({ year, month, day, monthFirst, abbr }).date;
@@ -154,7 +165,7 @@ const dateToStr = ({ date, iso = true, monthFirst = true, abbr = false }) => {
 
 /**
  * Formats a decimal UTC offset into a string.
- * 
+ *
  * @param {number} tz - Decimal UTC offset
  * @returns {string} The formatted UTC offset string
  */
