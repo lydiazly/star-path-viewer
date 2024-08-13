@@ -22,7 +22,8 @@ export const fetchEquinoxSolstice = async (lat, lng, tz, year, flag, signal) => 
     if (error.name === 'CanceledError') {
       throw error; // Let the caller handle the cancel error
     } else if (error.response) {
-      throw new Error(`Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}`);
+      // throw new Error(`Error ${error.response.status}: ${error.response.data?.error || error.message || 'unknown error'}`);
+      throw new Error(`${error.response.data?.error || error.message || 'unknown error'}`);
     } else {
       throw new Error('Unable to connect to the server.');
     }
