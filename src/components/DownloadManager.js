@@ -99,6 +99,7 @@ const DownloadManager = ({ svgData, filenameBase, dpi = 300, setErrorMessage }) 
       {['svg', 'png', 'pdf'].map((format) => (
         <Button
           variant="contained"
+          aria-label={format}
           key={format}
           onClick={() => handleDownload(format)}
           startIcon={<DownloadIcon />}

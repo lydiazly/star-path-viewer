@@ -283,6 +283,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           variant="contained"
           color="primary"
           size="large"
+          aria-label="draw"
           startIcon={
             <Box display="flex" alignItems="center" sx={{ pb: '1.5px', ml:-2.5 }}>
               {loading

@@ -474,7 +474,7 @@ const DateInput = ({ onDateChange, setErrorMessage, setDateValid, fieldError, se
       <div>
         <Accordion defaultExpanded disableGutters>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon sx={{ color: 'primary.main' }} />}
             sx={{
               minHeight: 0,
               '& .MuiAccordionSummary-content': {
