@@ -113,7 +113,7 @@ const App = () => {
                     <Stack id="download" direction="column" spacing={1} sx={{ mt: -1 }}>
                       <DownloadManager
                         svgData={svgData}
-                        filenameBase={`stv_${diagramId}`}
+                        filenameBase={`sp_${diagramId}`}
                         dpi={300}
                         setErrorMessage={setErrorMessage}
                       />
