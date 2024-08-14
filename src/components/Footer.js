@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <Box 
       component="footer" 
-      sx={{ pt: 1, pb: 0, px: 2, mt: 2, textAlign: 'center', width: '100%' }}
+      sx={{ pt: 2, pb: 1, px: 2, textAlign: 'center', width: '100%' }}
     >
       <Typography variant="body2" color="rgba(0, 0, 0, 0.55)">
         &copy; {new Date().getFullYear()} Star Trail Viewer. All rights reserved.
