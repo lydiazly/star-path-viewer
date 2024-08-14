@@ -64,7 +64,7 @@ const App = () => {
                 },
               }}
             >
-              Star Trail Viewer
+              Star Path Viewer
             </Typography>
       
             <Typography

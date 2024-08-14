@@ -8,7 +8,7 @@
 
 [StarPathViewer](https://lydiazly.github.io/star-path-viewer) is a [React](https://react.dev) web application of [this project](https://github.com/claude-hao/equinox-coord) as a RESTful client for [this Flask server](https://github.com/lydiazly/equinox-coord-flask).
 
-Input the date, location, and a celestial object's infomation to view the star trail and rising/setting details.
+Input the date, location, and a celestial object's infomation to view the star path and rising/setting details.
 
 ## Table of Contents<!-- omit in toc -->
 
@@ -21,7 +21,7 @@ Input the date, location, and a celestial object's infomation to view the star t
 
 ## Features
 
-- Input the date, location, and star infomation to view the star trail and rising/setting details.
+- Input the date, location, and star infomation to view the star path and rising/setting details.
 - Fetch the dates of the equinoxes and solstices of a given year.
 - Support Gregorian/Julian date input.
 - Location search, geographical position lookup, or enter the latitude and longitude manually.
