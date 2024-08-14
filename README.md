@@ -1,4 +1,4 @@
-# StarTrailViewer
+# StarPathViewer
 
 [![npm](https://img.shields.io/badge/npm-10.2.4-CB3837?logo=npm&logoColor=white)](https://www.npmjs.com) [![react](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react&logoColor=white)](https://react.dev) [![mui](https://img.shields.io/badge/MUI-5.16.6-007FFF?logo=mui&logoColor=white)](https://mui.com)
 
@@ -6,7 +6,7 @@
 
 ## Introduction
 
-[StarTrailViewer](https://lydiazly.github.io/star-path-viewer) is a [React](https://react.dev) web application of [this project](https://github.com/claude-hao/equinox-coord) as a RESTful client for [this Flask server](https://github.com/lydiazly/equinox-coord-flask).
+[StarPathViewer](https://lydiazly.github.io/star-path-viewer) is a [React](https://react.dev) web application of [this project](https://github.com/claude-hao/equinox-coord) as a RESTful client for [this Flask server](https://github.com/lydiazly/equinox-coord-flask).
 
 Input the date, location, and a celestial object's infomation to view the star trail and rising/setting details.
 
