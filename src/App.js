@@ -17,7 +17,7 @@ const App = () => {
     <ServiceProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router basename="/star-trail-viewer">
+        <Router basename="/star-path-viewer">
           <Box
             sx={{
               display: 'flex',

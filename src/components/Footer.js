@@ -9,7 +9,7 @@ const Footer = () => {
       sx={{ pt: 2, pb: 1, px: 2, textAlign: 'center', width: '100%' }}
     >
       <Typography variant="body2" color="rgba(0, 0, 0, 0.55)">
-        &copy; {new Date().getFullYear()} Star Trail Viewer. All rights reserved.
+        &copy; {new Date().getFullYear()} Star Path Viewer. All rights reserved.
       </Typography>
     </Box>
   );

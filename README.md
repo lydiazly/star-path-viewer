@@ -1,14 +1,14 @@
-# StarTrailViewer
+# StarPathViewer
 
 [![npm](https://img.shields.io/badge/npm-10.2.4-CB3837?logo=npm&logoColor=white)](https://www.npmjs.com) [![react](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react&logoColor=white)](https://react.dev) [![mui](https://img.shields.io/badge/MUI-5.16.6-007FFF?logo=mui&logoColor=white)](https://mui.com)
 
-[→ Go to website](https://lydiazly.github.io/star-trail-viewer)
+[→ Go to website](https://lydiazly.github.io/star-path-viewer)
 
 ## Introduction
 
-[StarTrailViewer](https://lydiazly.github.io/star-trail-viewer) is a [React](https://react.dev) web application of [this project](https://github.com/claude-hao/equinox-coord) as a RESTful client for [this Flask server](https://github.com/lydiazly/equinox-coord-flask).
+[StarPathViewer](https://lydiazly.github.io/star-path-viewer) is a [React](https://react.dev) web application of [this project](https://github.com/claude-hao/equinox-coord) as a RESTful client for [this Flask server](https://github.com/lydiazly/equinox-coord-flask).
 
-Input the date, location, and a celestial object's infomation to view the star trail and rising/setting details.
+Input the date, location, and a celestial object's infomation to view the star path and rising/setting details.
 
 ## Table of Contents<!-- omit in toc -->
 
@@ -21,7 +21,7 @@ Input the date, location, and a celestial object's infomation to view the star t
 
 ## Features
 
-- Input the date, location, and star infomation to view the star trail and rising/setting details.
+- Input the date, location, and star infomation to view the star path and rising/setting details.
 - Fetch the dates of the equinoxes and solstices of a given year.
 - Support Gregorian/Julian date input.
 - Location search, geographical position lookup, or enter the latitude and longitude manually.
@@ -64,7 +64,7 @@ This project relies on the following open course services:
   npm start
   ```
 
-  View in the brower at <https://localhost:3000/star-trail-viewer>
+  View in the brower at <https://localhost:3000/star-path-viewer>
 
 - SSL
 

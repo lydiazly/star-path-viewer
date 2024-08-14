@@ -285,7 +285,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           onClick={handleDraw}
           fullWidth
         >
-          Draw Star Trail
+          Draw Star Path
         </Button>
         {errorMessage.draw && (
           <Alert
