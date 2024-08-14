@@ -1,7 +1,7 @@
 {
-  "name": "star-trail-viewer",
+  "name": "star-path-viewer",
   "version": "0.1.0",
-  "homepage": "https://lydiazly.github.io/star-trail-viewer",
+  "homepage": "https://lydiazly.github.io/star-path-viewer",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.0",
