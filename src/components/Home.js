@@ -2,11 +2,13 @@
 import React, { useState, useCallback } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Box, Stack, Typography, Alert } from '@mui/material';
+import { Link } from 'react-router-dom';
 import DiagramFetcher from './DiagramFetcher';
 import InfoDisplay from './InfoDisplay';
 import ImageDisplay from './ImageDisplay';
 import DownloadManager from './DownloadManager';
 import AnnoDisplay from './AnnoDisplay';
+import TitleImage from '../assets/title-image.png';
 
 const Home = () => {
   const theme = useTheme();
@@ -32,22 +34,37 @@ const Home = () => {
 
   return (
       <>
-        <Typography
-          variant="h1"
+        <Box
           sx={{
-            fontSize: '2rem',
-            [theme.breakpoints.up('sm')]: {
-              fontSize: '2.4rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginX: 'auto',
+            marginBottom: '0.6rem',
+            maxWidth: '320px',
+            width: {
+              xs: '100%',
+              sm: '100%',
+              md: '90%',
             },
-            [theme.breakpoints.up('md')]: {
-              fontSize: '2.7rem',
+            [theme.breakpoints.up('sm')]: {
+              marginBottom: '1rem',
             },
           }}
-          gutterBottom
         >
-          Star Path Viewer
-        </Typography>
-      
+          <Link to="/" style={{ width: '100%' }}>
+            <img
+              src={TitleImage}
+              alt="Star Path Viewer Title"
+              style={{
+                width: '100%',
+                height: 'auto',
+                cursor: 'pointer',
+              }}
+            />
+          </Link>
+        </Box>
+
         <Typography
           variant="subtitle1"
           color="rgba(0, 0, 0, 0.55)"
@@ -66,7 +83,7 @@ const Home = () => {
         >
           &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from -3000-01-29 to 3000-05-06&nbsp;&mdash;
         </Typography>
-      
+
         <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>
           <DiagramFetcher
             setDiagramId={setDiagramId}
@@ -77,19 +94,19 @@ const Home = () => {
             clearImage={clearImage}
           />
         </Box>
-      
+
         {success && (
           <Box sx={{ width: '100%', justifyContent: 'center' }}>
             <Box id="information" mt={1}>
               <InfoDisplay info={info} />
             </Box>
-      
+
             {svgData && (
               <Box id="diagram">
                 <Box id="svg-container">
                   <ImageDisplay svgData={svgData} />
                 </Box>
-      
+
                 <Stack id="download" direction="column" spacing={1} sx={{ mt: -1 }}>
                   <DownloadManager
                     svgData={svgData}
@@ -105,7 +122,7 @@ const Home = () => {
                 </Stack>
               </Box>
             )}
-      
+
             {anno.length > 0 && (
               <Box id="annotations" mt={2}>
                 <AnnoDisplay anno={anno} />
