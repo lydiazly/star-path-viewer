@@ -11,6 +11,7 @@ import InfoDisplay from './components/InfoDisplay';
 import ImageDisplay from './components/ImageDisplay';
 import DownloadManager from './components/DownloadManager';
 import AnnoDisplay from './components/AnnoDisplay';
+import TitleImage from './assets/title-image.png';
 
 const theme = createTheme();  // Create the default theme
 
@@ -51,22 +52,35 @@ const App = () => {
               gap: 1,  // Default MUI spacing: 8px
             }}
           >
-      
-            <Typography
-              variant="h1"
+
+            <Box
               sx={{
-                fontSize: '2rem',
-                [theme.breakpoints.up('sm')]: {
-                  fontSize: '2.4rem',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginX: 'auto',
+                marginBottom: '0.6rem',
+                maxWidth: '320px',
+                width: {
+                  xs: '100%',
+                  sm: '100%',
+                  md: '90%',
                 },
-                [theme.breakpoints.up('md')]: {
-                  fontSize: '2.7rem',
+                [theme.breakpoints.up('sm')]: {
+                  marginBottom: '1rem',
                 },
               }}
             >
-              Star Path Viewer
-            </Typography>
-      
+              <img
+                src={TitleImage}
+                alt="Star Path Viewer Title"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                }}
+              />
+            </Box>
+
             <Typography
               variant="subtutle1"
               color="rgba(0, 0, 0, 0.55)"
@@ -86,7 +100,7 @@ const App = () => {
             >
               &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from -3000-01-29 to 3000-05-06&nbsp;&mdash;
             </Typography>
-      
+
             <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>
               <DiagramFetcher
                 setDiagramId={setDiagramId}
@@ -97,19 +111,19 @@ const App = () => {
                 clearImage={clearImage}
               />
             </Box>
-      
+
             {success && (
               <Box sx={{ width: '100%', justifyContent: 'center' }}>
                 <Box id="information" mt={1}>
                   <InfoDisplay info={info} />
                 </Box>
-      
+
                 {svgData && (
                   <Box id="diagram">
                     <Box id="svg-container">
                       <ImageDisplay svgData={svgData} />
                     </Box>
-      
+
                     <Stack id="download" direction="column" spacing={1} sx={{ mt: -1 }}>
                       <DownloadManager
                         svgData={svgData}
@@ -125,7 +139,7 @@ const App = () => {
                     </Stack>
                   </Box>
                 )}
-      
+
                 {anno.length > 0 && (
                   <Box id="annotations" mt={2}>
                     <AnnoDisplay anno={anno} />
