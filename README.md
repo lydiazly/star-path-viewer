@@ -6,7 +6,7 @@
 
 ## Introduction
 
-[StarPathViewer](https://lydiazly.github.io/star-path-viewer) is a [React](https://react.dev) web application of [this project](https://github.com/claude-hao/equinox-coord) as a RESTful client for [this Flask server](https://github.com/lydiazly/equinox-coord-flask).
+[StarPathViewer](https://lydiazly.github.io/star-path-viewer) is a [React](https://react.dev) web application of [this project](https://github.com/claude-hao/star-path-calculator) as a RESTful client for [this Flask server](https://github.com/lydiazly/star-path-calculator-flask).
 
 Input the date, location, and a celestial object's infomation to view the star path and rising/setting details.
 
@@ -58,7 +58,7 @@ This project relies on the following open course services:
   SSL_KEY_FILE=./localhost-key.pem
   ```
 
-  where `<server_url>` is the [remote](https://github.com/lydiazly/equinox-coord-flask) or local server's URL, `localhost.pem` and `localhost-key.pem` are the CA certificate and its key (see below).
+  where `<server_url>` is the [remote](https://github.com/lydiazly/star-path-calculator-flask) or local server's URL, `localhost.pem` and `localhost-key.pem` are the CA certificate and its key (see below).
 
   ```sh
   npm start
