@@ -297,7 +297,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
           </Alert>
         )}
         {loading && (
-          <Typography color="darkgrey" variant="body1" sx={{ pt: 1, textAlign: 'center' }}>
+          <Typography color="action.active" variant="body1" sx={{ pt: 1, textAlign: 'center' }}>
             <em>Please wait. This may take a few seconds.</em>
           </Typography>
         )}

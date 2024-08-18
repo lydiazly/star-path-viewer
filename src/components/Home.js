@@ -2,13 +2,13 @@
 import React, { useState, useCallback } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Box, Stack, Typography, Alert } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import DiagramFetcher from './DiagramFetcher';
 import InfoDisplay from './InfoDisplay';
 import ImageDisplay from './ImageDisplay';
 import DownloadManager from './DownloadManager';
 import AnnoDisplay from './AnnoDisplay';
-import TitleImage from '../assets/title-image.png';
+import TitleImage from '../assets/title-image.svg';
 
 const Home = () => {
   const theme = useTheme();
@@ -33,104 +33,99 @@ const Home = () => {
   }, []);
 
   return (
-      <>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginX: 'auto',
-            marginBottom: '0.6rem',
-            maxWidth: '320px',
-            width: {
-              xs: '100%',
-              sm: '100%',
-              md: '90%',
-            },
-            [theme.breakpoints.up('sm')]: {
-              marginBottom: '1rem',
-            },
-          }}
-        >
-          <Link to="/" style={{ width: '100%' }}>
-            <img
-              src={TitleImage}
-              alt="Star Path Viewer Title"
-              style={{
-                width: '100%',
-                height: 'auto',
-                cursor: 'pointer',
-              }}
-            />
-          </Link>
-        </Box>
-
-        <Typography
-          variant="subtitle1"
-          color="rgba(0, 0, 0, 0.55)"
-          fontWeight={400}
-          sx={{
-            mt: 0,
-            mb: 1,
-            fontSize: '0.7rem',
-            [theme.breakpoints.up('sm')]: {
-              fontSize: '0.85rem',
-            },
-            [theme.breakpoints.up('md')]: {
-              fontSize: '1rem',
-            },
-          }}
-        >
-          &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from -3000-01-29 to 3000-05-06&nbsp;&mdash;
-        </Typography>
-
-        <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>
-          <DiagramFetcher
-            setDiagramId={setDiagramId}
-            setInfo={setInfo}
-            setSvgData={setSvgData}
-            setAnno={setAnno}
-            setSuccess={setSuccess}
-            clearImage={clearImage}
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingX: 1,
+          marginX: 'auto',
+          marginTop: { xs: 2, sm: 3, md: 3 },
+          marginBottom: 1,
+          width: '100%',
+        }}
+      >
+        <RouterLink to="/">
+          <img
+            src={TitleImage}
+            alt="Star Path Viewer Title"
+            style={{
+              maxHeight: '2.1rem',
+              width: '100%',
+              objectFit: 'contain',  // Maintain aspect ratio and contain the image within the Box
+              cursor: 'pointer',
+            }}
           />
-        </Box>
+        </RouterLink>
+      </Box>
 
-        {success && (
-          <Box sx={{ width: '100%', justifyContent: 'center' }}>
-            <Box id="information" mt={1}>
-              <InfoDisplay info={info} />
-            </Box>
+      <Typography
+        variant="subtitle1"
+        color="action.active"
+        fontWeight={400}
+        sx={{
+          mt: 0,
+          mb: 0.8,
+          fontSize: '0.7rem',
+          [theme.breakpoints.up('sm')]: {
+            fontSize: '0.85rem',
+          },
+          [theme.breakpoints.up('md')]: {
+            fontSize: '1rem',
+          },
+        }}
+      >
+        &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from -3000-01-29 to 3000-05-06&nbsp;&mdash;
+      </Typography>
 
-            {svgData && (
-              <Box id="diagram">
-                <Box id="svg-container">
-                  <ImageDisplay svgData={svgData} />
-                </Box>
+      <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>
+        <DiagramFetcher
+          setDiagramId={setDiagramId}
+          setInfo={setInfo}
+          setSvgData={setSvgData}
+          setAnno={setAnno}
+          setSuccess={setSuccess}
+          clearImage={clearImage}
+        />
+      </Box>
 
-                <Stack id="download" direction="column" spacing={1} sx={{ mt: -1 }}>
-                  <DownloadManager
-                    svgData={svgData}
-                    filenameBase={`sp_${diagramId}`}
-                    dpi={300}
-                    setErrorMessage={setErrorMessage}
-                  />
-                  {errorMessage.download && (
-                    <Alert severity="error" sx={{ width: '100%', paddingTop: 1, textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, download: '' }))}>
-                      {errorMessage.download}
-                    </Alert>
-                  )}
-                </Stack>
-              </Box>
-            )}
-
-            {anno.length > 0 && (
-              <Box id="annotations" mt={2}>
-                <AnnoDisplay anno={anno} />
-              </Box>
-            )}
+      {success && (
+        <Box sx={{ width: '100%', justifyContent: 'center' }}>
+          <Box id="information" mt={1}>
+            <InfoDisplay info={info} />
           </Box>
-        )}
-      </>
+
+          {svgData && (
+            <Box id="diagram">
+              <Box id="svg-container">
+                <ImageDisplay svgData={svgData} />
+              </Box>
+
+              <Stack id="download" direction="column" spacing={1} sx={{ mt: -1 }}>
+                <DownloadManager
+                  svgData={svgData}
+                  filenameBase={`sp_${diagramId}`}
+                  dpi={300}
+                  setErrorMessage={setErrorMessage}
+                />
+                {errorMessage.download && (
+                  <Alert severity="error" sx={{ width: '100%', paddingTop: 1, textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, download: '' }))}>
+                    {errorMessage.download}
+                  </Alert>
+                )}
+              </Stack>
+            </Box>
+          )}
+
+          {anno.length > 0 && (
+            <Box id="annotations" mt={2}>
+              <AnnoDisplay anno={anno} />
+            </Box>
+          )}
+        </Box>
+      )}
+    </>
   );
 };
 
