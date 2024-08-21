@@ -41,8 +41,8 @@ const Home = () => {
           alignItems: 'center',
           paddingX: 1,
           marginX: 'auto',
-          marginTop: { xs: 2, sm: 3, md: 3 },
-          marginBottom: 1,
+          marginTop: { xs: 3, sm: 5, md: 5 },
+          marginBottom: { xs: 1, sm: 2, md: 2 },
           width: '100%',
         }}
       >
@@ -65,8 +65,8 @@ const Home = () => {
         color="action.active"
         fontWeight={400}
         sx={{
-          mt: 0,
-          mb: 0.8,
+          mt: 0.5,
+          mb: { xs: 1, sm: 2, md: 2 },
           fontSize: '0.7rem',
           [theme.breakpoints.up('sm')]: {
             fontSize: '0.85rem',

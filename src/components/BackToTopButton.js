@@ -9,6 +9,8 @@ const StyledFab = styled(Fab)(({ theme }) => ({
   bottom: theme.spacing(2),
   right: theme.spacing(2),
   opacity: 0.5, // Initial opacity
+  backgroundColor: theme.palette.grey[300],
+  border: `1px solid ${theme.palette.action.disabled}`,
   '&:hover': {
     opacity: 1, // Fully opaque when hovered
     color: theme.palette.primary.main,
@@ -28,7 +30,7 @@ const StyledFab = styled(Fab)(({ theme }) => ({
 const ScrollTop = ({ children }) => {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 100, // When the button appears
+    threshold: 500, // When the button appears
   });
 
   const handleClick = useCallback((event) => {

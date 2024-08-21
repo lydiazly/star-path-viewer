@@ -59,7 +59,7 @@ const CustomAppBar = () => {
         }}
       >
         {/* Left Side */}
-        <Box display="flex" gap={1.5}>
+        <Box display="flex" justifyContent="flex-start" alignItems="center" minWidth="82px" gap={1.5}>
           {currentRoute.pathname === '/' ? (
             <Tooltip title="About Us" placement="bottom-start">
               <RouterLink to="/about">
@@ -68,8 +68,11 @@ const CustomAppBar = () => {
                   alt="Logo"
                   style={{
                     maxHeight: '1.3rem',
+                    maxWidth: '82.58px',
                     width: '100%',
                     objectFit: 'contain',  // Maintain aspect ratio and contain the image within the Box
+                    justifyContent: 'flex-start',
+                    marginTop: '6px',
                     cursor: 'pointer',
                   }}
                 />
@@ -96,7 +99,7 @@ const CustomAppBar = () => {
             <IconButton
               href="https://github.com/stardial-astro/star-path-viewer"
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               aria-label="GitHub"
               size="small"
               color="action.active"

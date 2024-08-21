@@ -232,7 +232,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
   }, [location, date, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setErrorMessage, clearError]);
 
   return (
-    <Stack direction="column" spacing={2}>
+    <Stack direction="column" spacing={3}>
       <Stack id="input-fields" direction="column" spacing={1.5}>
         <Stack id="location" direction="column" spacing={1}>
           <CustomDivider>LOCATION</CustomDivider>
