@@ -45,18 +45,18 @@ const About = () => {
       <Box display="flex" flexWrap="wrap" gap="1rem" marginX={{ xs: 1.5, sm: 2.5, md: 3 }} paddingLeft={1.8}>
         <Typography variant="body1" textAlign="left">
           We are{' '}
-          <Link href="https://github.com/stardial-astro" target="_blank" rel="noopener noreferrer">
+          <Link href="https://github.com/stardial-astro" target="_blank" rel="noopener">
             Stardial
           </Link>
           , a development team passionate about science and the humanities. Our goal is to create precise, user-friendly, and intuitive astronomical tools to support research in history and social sciences.
         </Typography>
         <Typography variant="body1" textAlign="left">
           <em>Star Path Viewer</em> is our first web application designed to help historians intuitively understand the motion of a celestial object on any given date in ancient times. Utilizing the{' '}
-          <Link href="https://rhodesmill.org/skyfield" target="_blank" rel="noopener noreferrer">
+          <Link href="https://rhodesmill.org/skyfield" target="_blank" rel="noopener">
             Skyfield
           </Link>
           {' '}Python package and{' '}
-          <Link href="https://ssd.jpl.nasa.gov" target="_blank" rel="noopener noreferrer">
+          <Link href="https://ssd.jpl.nasa.gov" target="_blank" rel="noopener">
             JPL ephemeris
           </Link>
           , <em>Star Path Viewer</em> provides an accurate approach to replicate the view ancient stargazers would have had of celestial objects crossing the sky.
