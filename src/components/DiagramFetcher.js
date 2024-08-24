@@ -2,73 +2,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import DOMPurify from 'dompurify';
+import PropTypes from 'prop-types';
 import { Box, Stack, Alert, Button, Typography, CircularProgress } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import PropTypes from 'prop-types';
+import Config from '../Config';
 import { LocationInputProvider } from '../context/LocationInputContext';
+import { DateInputProvider } from '../context/DateInputContext';
+import { STARS } from '../utils/constants';
+import { validateInputSync } from '../utils/inputUtils';
 import LocationInput from './LocationInput';
 import DateInput from './DateInput';
 import StarInput from './StarInput';
-import { STARS } from '../utils/constants';
-import Config from '../Config';
 import CustomDivider from './ui/CustomDivider';
-
-/* Validate the input */
-const validateInputSync = (
-  location, date, star,
-  setLocationFieldError, setDateFieldError, setStarFieldError,
-  setLocationValid, setDateValid, setStarValid,
-) => {
-  if (location.type === 'address' && !location.id) {
-    setLocationFieldError((prev) => ({ ...prev, address: 'Please search and select a location.' }));
-    setLocationValid(false);
-    return false;
-  } else if (!location.lat || !location.lng) {
-    if (!location.lat) {
-      setLocationFieldError((prev) => ({ ...prev, lat: 'Please enter a latitude.' }));
-    }
-    if (!location.lng) {
-      setLocationFieldError((prev) => ({ ...prev, lng: 'Please enter a longitude.' }));
-    }
-    setLocationValid(false);
-    return false;
-  }
-
-  if (date.flag && !date.year) {
-    setDateFieldError((prev) => ({ ...prev, year: 'Please enter a year.' }));
-    setDateValid(false);
-    return false;
-  } else if (!date.year || !date.month || !date.day) {
-    for (let key of ['year', 'month', 'day']) {
-      if (!date[key]) {
-        setDateFieldError((prev) => ({ ...prev, [key]: `Please enter a ${key}.` }));
-      }
-    }
-    setDateValid(false);
-    return false;
-  }
-
-  if (star.type === 'name' && !star.name) {
-    setStarFieldError((prev) => ({ ...prev, name: 'Please select a planet.' }));
-    setStarValid(false);
-    return false;
-  } else if (star.type === 'hip' && !star.hip) {
-    setStarFieldError((prev) => ({ ...prev, hip: 'Please enter a Hipparchus catalogue number.' }));
-    setStarValid(false);
-    return false;
-  } else if (star.type === 'radec' && (!star.ra || !star.dec)) {
-    if (!star.ra) {
-      setStarFieldError((prev) => ({ ...prev, ra: 'Please enter a right ascension.' }));
-    }
-    if (!star.dec) {
-      setStarFieldError((prev) => ({ ...prev, dec: 'Please enter a declination.' }));
-    }
-    setStarValid(false);
-    return false;
-  }
-
-  return true;
-};
 
 const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
   // console.log('Rendering DiagramFetcher');
@@ -117,15 +62,11 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
   }, [date, location, setDateFieldError]);
 
   const handleDraw = useCallback(async () => {
-    if (loading) {
-      return;
-    }
+    if (loading) return;
 
     clearImage();  // Clear the SVG data before making the API call
     clearError();  // Clear any previous error message before making the API call
     setSuccess(false);
-
-    const params = {};
 
     /* Check input values ----------------------------------------------------*/
     // console.log("Set: ", location, date, star);
@@ -134,21 +75,21 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       setLocationFieldError, setDateFieldError, setStarFieldError,
       setLocationValid, setDateValid, setStarValid,
     );
-    if (!isValid) {
-      return;
-    }
+    if (!isValid) return;
 
     /* Assign parameters -----------------------------------------------------*/
-    params.lat = parseFloat(location.lat).toString();
-    params.lng = parseFloat(location.lng).toString();
+    const params = {
+      lat: parseFloat(location.lat).toString(),
+      lng: parseFloat(location.lng).toString(),
+      year: parseInt(date.year).toString(),
+      month: parseInt(date.month).toString(),
+      day: parseInt(date.day).toString(),
+      cal: date.cal,
+    };
+
     if (location.tz) {
       params.tz = location.tz;
     }
-
-    params.year = parseInt(date.year).toString();
-    params.month = parseInt(date.month).toString();
-    params.day = parseInt(date.day).toString();
-    params.cal = date.cal;
 
     if (star.type === 'name') {
       params.name = STARS[star.name];
@@ -234,96 +175,98 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
 
   return (
     <LocationInputProvider>
-      <Stack direction="column" spacing={3}>
-        <Stack id="input-fields" direction="column" spacing={1.5}>
-          <Stack id="location" direction="column" spacing={1}>
-            <CustomDivider>LOCATION</CustomDivider>
-            <LocationInput
-              onLocationChange={setLocation}
-              setErrorMessage={setErrorMessage}
-              setLocationValid={setLocationValid}
-              fieldError={locationFieldError}
-              setFieldError={setLocationFieldError}
-            />
-            {errorMessage.location && (
-              <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, location: '' }))}>
-                {errorMessage.location}
-              </Alert>
-            )}
+      <DateInputProvider>
+        <Stack direction="column" spacing={3}>
+          <Stack id="input-fields" direction="column" spacing={1.5}>
+            <Stack id="location" direction="column" spacing={1}>
+              <CustomDivider>LOCATION</CustomDivider>
+              <LocationInput
+                onLocationChange={setLocation}
+                setErrorMessage={setErrorMessage}
+                setLocationValid={setLocationValid}
+                fieldError={locationFieldError}
+                setFieldError={setLocationFieldError}
+              />
+              {errorMessage.location && (
+                <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, location: '' }))}>
+                  {errorMessage.location}
+                </Alert>
+              )}
+            </Stack>
+
+            <Stack id="date" direction="column" spacing={1}>
+              <CustomDivider>LOCAL DATE</CustomDivider>
+              <DateInput
+                onDateChange={setDate}
+                setErrorMessage={setErrorMessage}
+                setDateValid={setDateValid}
+                fieldError={dateFieldError}
+                setFieldError={setDateFieldError}
+                location={{ lat: location.lat, lng: location.lng, tz: location.tz }}
+              />
+              {errorMessage.date && (
+                <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
+                  {errorMessage.date}
+                </Alert>
+              )}
+            </Stack>
+
+            <Stack id="star" direction="column" spacing={1}>
+              <CustomDivider>CELESTIAL OBJECT</CustomDivider>
+              <StarInput
+                onStarChange={setStar}
+                setErrorMessage={setErrorMessage}
+                setStarValid={setStarValid}
+                fieldError={starFieldError}
+                setFieldError={setStarFieldError}
+              />
+              {errorMessage.star && (
+                <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, star: '' }))}>
+                  {errorMessage.star}
+                </Alert>
+              )}
+            </Stack>
           </Stack>
 
-          <Stack id="date" direction="column" spacing={1}>
-            <CustomDivider>LOCAL DATE</CustomDivider>
-            <DateInput
-              onDateChange={setDate}
-              setErrorMessage={setErrorMessage}
-              setDateValid={setDateValid}
-              fieldError={dateFieldError}
-              setFieldError={setDateFieldError}
-              location={{ lat: location.lat, lng: location.lng, tz: location.tz }}
-            />
-            {errorMessage.date && (
-              <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
-                {errorMessage.date}
-              </Alert>
-            )}
-          </Stack>
-
-          <Stack id="star" direction="column" spacing={1}>
-            <CustomDivider>CELESTIAL OBJECT</CustomDivider>
-            <StarInput
-              onStarChange={setStar}
-              setErrorMessage={setErrorMessage}
-              setStarValid={setStarValid}
-              fieldError={starFieldError}
-              setFieldError={setStarFieldError}
-            />
-            {errorMessage.star && (
-              <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, star: '' }))}>
-                {errorMessage.star}
-              </Alert>
-            )}
-          </Stack>
-        </Stack>
-
-        <Stack id="draw" direction="column" spacing={1}>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            aria-label="draw"
-            startIcon={
-              <Box display="flex" alignItems="center" sx={{ pb: '1.5px', ml:-2.5 }}>
-                {loading
-                ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
-                : <ArrowForwardIcon />
-                }
-              </Box>
-            }
-            sx={{ marginTop: 3 }}
-            disabled={!!errorMessage.location || !!errorMessage.date || !!errorMessage.star || !!errorMessage.draw ||
-              loading || !dateValid || !locationValid || !starValid}
-            onClick={handleDraw}
-            fullWidth
-          >
-            Draw Star Path
-          </Button>
-          {errorMessage.draw && (
-            <Alert
-              severity={errorMessage.draw.includes('never rises') ? "warning" : "error"}
-              sx={{ width: '100%', textAlign: 'left' }}
-              onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}
+          <Stack id="draw" direction="column" spacing={1}>
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              aria-label="draw"
+              startIcon={
+                <Box display="flex" alignItems="center" sx={{ pb: '1.5px', ml: -2.5 }}>
+                  {loading
+                  ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
+                  : <ArrowForwardIcon />
+                  }
+                </Box>
+              }
+              sx={{ marginTop: 3 }}
+              disabled={!!errorMessage.location || !!errorMessage.date || !!errorMessage.star || !!errorMessage.draw ||
+                loading || !dateValid || !locationValid || !starValid}
+              onClick={handleDraw}
+              fullWidth
             >
-              {errorMessage.draw}
-            </Alert>
-          )}
-          {loading && (
-            <Typography color="action.active" variant="body1" sx={{ pt: 1, textAlign: 'center' }}>
-              <em>Please wait. This may take a few seconds.</em>
-            </Typography>
-          )}
+              Draw Star Path
+            </Button>
+            {errorMessage.draw && (
+              <Alert
+                severity={errorMessage.draw.includes('never rises') ? "warning" : "error"}
+                sx={{ width: '100%', textAlign: 'left' }}
+                onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}
+              >
+                {errorMessage.draw}
+              </Alert>
+            )}
+            {loading && (
+              <Typography color="action.active" variant="body1" sx={{ pt: 1, textAlign: 'center' }}>
+                <em>Please wait. This may take a few seconds.</em>
+              </Typography>
+            )}
+          </Stack>
         </Stack>
-      </Stack>
+      </DateInputProvider>
     </LocationInputProvider>
   );
 };

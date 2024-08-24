@@ -6,7 +6,7 @@ import Config from '../Config';
 import { useLocationInput } from '../context/LocationInputContext';
 import { validateLocationSync, clearError } from '../utils/locationInputUtils';
 import determineService from '../utils/determineService';
-import InputTypeToggle from './InputTypeToggle';
+import LocationInputTypeToggle from './LocationInputTypeToggle';
 import AddressInput from './AddressInput';
 import CoordinatesInput from './CoordinatesInput';
 import TimezoneFetcher from './TimezoneFetcher';
@@ -15,8 +15,8 @@ import debounce from 'lodash/debounce';
 const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fieldError, setFieldError }) => {
   // console.log('Rendering LocationInput');
   const {
-    inputType,
-    location, setLocation,
+    inputType,  // 'address' or 'coordinates'
+    location, setLocation,  // 0: not-found, -1: unknown
     searchTerm, setSearchTerm,
     setSuggestions,
     setLocationError,
@@ -101,10 +101,10 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
 
   return (
     <Stack direction="column" spacing={2}>
-      <InputTypeToggle />
+      <LocationInputTypeToggle />
       {inputType === 'address' ? (
         <AddressInput
-          setErrorMessage={setErrorMessage} 
+          setErrorMessage={setErrorMessage}
           fieldError={fieldError}
           setFieldError={setFieldError}
         />
