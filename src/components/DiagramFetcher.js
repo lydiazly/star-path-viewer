@@ -5,6 +5,7 @@ import DOMPurify from 'dompurify';
 import { Box, Stack, Alert, Button, Typography, CircularProgress } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PropTypes from 'prop-types';
+import { LocationInputProvider } from '../context/LocationInputContext';
 import LocationInput from './LocationInput';
 import DateInput from './DateInput';
 import StarInput from './StarInput';
@@ -232,77 +233,98 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
   }, [location, date, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setErrorMessage, clearError]);
 
   return (
-    <Stack direction="column" spacing={3}>
-      <Stack id="input-fields" direction="column" spacing={1.5}>
-        <Stack id="location" direction="column" spacing={1}>
-          <CustomDivider>LOCATION</CustomDivider>
-          <LocationInput onLocationChange={setLocation} setErrorMessage={setErrorMessage} setLocationValid={setLocationValid} fieldError={locationFieldError} setFieldError={setLocationFieldError} />
-          {errorMessage.location && (
-            <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, location: '' }))}>
-              {errorMessage.location}
-            </Alert>
-          )}
+    <LocationInputProvider>
+      <Stack direction="column" spacing={3}>
+        <Stack id="input-fields" direction="column" spacing={1.5}>
+          <Stack id="location" direction="column" spacing={1}>
+            <CustomDivider>LOCATION</CustomDivider>
+            <LocationInput
+              onLocationChange={setLocation}
+              setErrorMessage={setErrorMessage}
+              setLocationValid={setLocationValid}
+              fieldError={locationFieldError}
+              setFieldError={setLocationFieldError}
+            />
+            {errorMessage.location && (
+              <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, location: '' }))}>
+                {errorMessage.location}
+              </Alert>
+            )}
+          </Stack>
+
+          <Stack id="date" direction="column" spacing={1}>
+            <CustomDivider>LOCAL DATE</CustomDivider>
+            <DateInput
+              onDateChange={setDate}
+              setErrorMessage={setErrorMessage}
+              setDateValid={setDateValid}
+              fieldError={dateFieldError}
+              setFieldError={setDateFieldError}
+              location={{ lat: location.lat, lng: location.lng, tz: location.tz }}
+            />
+            {errorMessage.date && (
+              <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
+                {errorMessage.date}
+              </Alert>
+            )}
+          </Stack>
+
+          <Stack id="star" direction="column" spacing={1}>
+            <CustomDivider>CELESTIAL OBJECT</CustomDivider>
+            <StarInput
+              onStarChange={setStar}
+              setErrorMessage={setErrorMessage}
+              setStarValid={setStarValid}
+              fieldError={starFieldError}
+              setFieldError={setStarFieldError}
+            />
+            {errorMessage.star && (
+              <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, star: '' }))}>
+                {errorMessage.star}
+              </Alert>
+            )}
+          </Stack>
         </Stack>
 
-        <Stack id="date" direction="column" spacing={1}>
-          <CustomDivider>LOCAL DATE</CustomDivider>
-          <DateInput onDateChange={setDate} setErrorMessage={setErrorMessage} setDateValid={setDateValid} fieldError={dateFieldError} setFieldError={setDateFieldError} location={{ lat: location.lat, lng: location.lng, tz: location.tz }} />
-          {errorMessage.date && (
-            <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, date: '' }))}>
-              {errorMessage.date}
-            </Alert>
-          )}
-        </Stack>
-
-        <Stack id="star" direction="column" spacing={1}>
-          <CustomDivider>CELESTIAL OBJECT</CustomDivider>
-          <StarInput onStarChange={setStar} setErrorMessage={setErrorMessage} setStarValid={setStarValid} fieldError={starFieldError} setFieldError={setStarFieldError} />
-          {errorMessage.star && (
-            <Alert severity="error" sx={{ width: '100%', textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, star: '' }))}>
-              {errorMessage.star}
-            </Alert>
-          )}
-        </Stack>
-      </Stack>
-
-      <Stack id="draw" direction="column" spacing={1}>
-        <Button
-          variant="contained"
-          color="primary"
-          size="large"
-          aria-label="draw"
-          startIcon={
-            <Box display="flex" alignItems="center" sx={{ pb: '1.5px', ml:-2.5 }}>
-              {loading
-              ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
-              : <ArrowForwardIcon />
-              }
-            </Box>
-          }
-          sx={{ marginTop: 3 }}
-          disabled={!!errorMessage.location || !!errorMessage.date || !!errorMessage.star || !!errorMessage.draw ||
-            loading || !dateValid || !locationValid || !starValid}
-          onClick={handleDraw}
-          fullWidth
-        >
-          Draw Star Path
-        </Button>
-        {errorMessage.draw && (
-          <Alert
-            severity={errorMessage.draw.includes('never rises') ? "warning" : "error"}
-            sx={{ width: '100%', textAlign: 'left' }}
-            onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}
+        <Stack id="draw" direction="column" spacing={1}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            aria-label="draw"
+            startIcon={
+              <Box display="flex" alignItems="center" sx={{ pb: '1.5px', ml:-2.5 }}>
+                {loading
+                ? <CircularProgress color="inherit" size="1rem" sx={{ mr: 1 }} />
+                : <ArrowForwardIcon />
+                }
+              </Box>
+            }
+            sx={{ marginTop: 3 }}
+            disabled={!!errorMessage.location || !!errorMessage.date || !!errorMessage.star || !!errorMessage.draw ||
+              loading || !dateValid || !locationValid || !starValid}
+            onClick={handleDraw}
+            fullWidth
           >
-            {errorMessage.draw}
-          </Alert>
-        )}
-        {loading && (
-          <Typography color="action.active" variant="body1" sx={{ pt: 1, textAlign: 'center' }}>
-            <em>Please wait. This may take a few seconds.</em>
-          </Typography>
-        )}
+            Draw Star Path
+          </Button>
+          {errorMessage.draw && (
+            <Alert
+              severity={errorMessage.draw.includes('never rises') ? "warning" : "error"}
+              sx={{ width: '100%', textAlign: 'left' }}
+              onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}
+            >
+              {errorMessage.draw}
+            </Alert>
+          )}
+          {loading && (
+            <Typography color="action.active" variant="body1" sx={{ pt: 1, textAlign: 'center' }}>
+              <em>Please wait. This may take a few seconds.</em>
+            </Typography>
+          )}
+        </Stack>
       </Stack>
-    </Stack>
+    </LocationInputProvider>
   );
 };
 
