@@ -3,30 +3,36 @@ import React, { useCallback } from 'react';
 import { Box, Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useDateInput } from '../context/DateInputContext';
+import { SET_FLAG, SET_CAL, SET_DATE_FETCHING, SET_DATE_VALID } from '../context/dateInputActionTypes';
 import CustomToggleButton from './ui/CustomToggleButton';
 import { EQX_SOL_NAMES } from '../utils/constants';
 
-const QuickEntryAccordion = ({ setDateValid }) => {
-  const { flag, setFlag, setCal, setFetching, fetchingFromRef } = useDateInput();
+const QuickEntryAccordion = () => {
+  const {
+    flag,
+    queryDateFromRef,
+    dateDispatch,
+  } = useDateInput();
 
   const handleFlagChange = useCallback((event, newFlag) => {
     if (flag === newFlag) {
-      setFlag('');  // deselect
+      // setFlag('');  // DEPRECATED
+      dateDispatch({ type: SET_FLAG, payload: '' });  // Deselect
       // onDateChange({ ...date, flag: '' });
     } else {
-      setFlag(newFlag);  // select another
+      // setFlag(newFlag);  // DEPRECATED
+      dateDispatch({ type: SET_FLAG, payload: newFlag });  // Select another
       if (newFlag) {
-        fetchingFromRef.current = 'click';
-        setFetching(true);
-        setDateValid(false);
-        setCal('');  // Force to use Gregorian
-        // onDateChange({ ...date, flag: newFlag, cal: '' });
+        queryDateFromRef.current = 'click';
+        // setFetching(true);  // DEPRECATED
+        dateDispatch({ type: SET_DATE_FETCHING, payload: true });
+        // setDateValid(false);  // DEPRECATED
+        dateDispatch({ type: SET_DATE_VALID, payload: false });
+        // setCal('');  // DEPRECATED
+        dateDispatch({ type: SET_CAL, payload: '' });  // Force to use Gregorian
       }
-      // else {
-      //   onDateChange({ ...date, flag: newFlag });
-      // }
     }
-  }, [flag, fetchingFromRef, setFlag, setCal, setFetching, setDateValid]);
+  }, [flag, queryDateFromRef, dateDispatch]);
 
   return (
     <Accordion defaultExpanded disableGutters>
@@ -45,7 +51,7 @@ const QuickEntryAccordion = ({ setDateValid }) => {
               Quick Entry
             </Typography>
           </Box>
-          {/* {date.year && fetching && (
+          {/* {date.year && dateFetching && (
             <Box display="flex" alignItems="center" textAlign="left" flexWrap="wrap">
               <Typography color="action.active" variant="body1">
                 &gt; Quering the {EQX_SOL_NAMES[flag]} of this year at this location ...

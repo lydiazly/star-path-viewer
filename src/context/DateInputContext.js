@@ -1,35 +1,69 @@
 // src/context/DateInputContext.js
-import React, { createContext, useContext, useState, useRef } from 'react';
+import React, { createContext, useContext, useReducer, useRef } from 'react';
+import * as actionTypes from './dateInputActionTypes';
 
 const DateInputContext = createContext();
 
-export const DateInputProvider = ({ children, location }) => {
-  const [date, setDate] = useState({ year: '', month: '', day: '' });
-  const [flag, setFlag] = useState('');
-  const [cal, setCal] = useState('');  // '': Gregorian, 'j': Julian
-  const [disabledMonths, setDisabledMonths] = useState({});
-  const [lastDay, setLastDay] = useState(31);
-  const [adjusting, setAdjusting] = useState(false);
-  const [fetching, setFetching] = useState(false);
-  const [dateError, setDateError] = useState({ general: '', year: '', month: '', day: '' });
+/* Define initial state for the reducer */
+const initialState = {
+  date: { year: '', month: '', day: '' },
+  flag: '',
+  cal: '',  // '': Gregorian, 'j': Julian
+  disabledMonths: {},
+  lastDay: 31,
+  dateAdjusting: false,
+  dateFetching: false,
+  dateError: { general: '', year: '', month: '', day: '' },
+  dateValid: true,
+};
+
+/* Define the reducer function */
+const dateInputReducer = (state, action) => {
+  switch (action.type) {
+    case actionTypes.SET_DATE:
+      return { ...state, date: action.payload };
+    case actionTypes.SET_FLAG:
+      return { ...state, flag: action.payload };
+    case actionTypes.SET_CAL:
+      return { ...state, cal: action.payload };
+    case actionTypes.SET_DISABLED_MONTHS:
+      return { ...state, disabledMonths: action.payload };
+    case actionTypes.SET_LAST_DAY:
+      return { ...state, lastDay: action.payload };
+    case actionTypes.SET_DATE_ADJUSTING:
+      return { ...state, dateAdjusting: action.payload };
+    case actionTypes.SET_DATE_FETCHING:
+      return { ...state, dateFetching: action.payload };
+    case actionTypes.SET_DATE_ERROR:
+      return { ...state, dateError: action.payload };
+    case actionTypes.SET_DATE_VALID:
+      return { ...state, dateValid: action.payload };
+    case actionTypes.CLEAR_DATE_ERROR:
+      return {
+        ...state,
+        dateError: { general: '', year: '', month: '', day: '' },
+      };
+    default:
+      return state;
+  }
+};
+
+export const DateInputProvider = ({ children }) => {
+  const [dateState, dateDispatch] = useReducer(dateInputReducer, initialState);
   const abortControllerRef = useRef(null);
-  const fetchingFromRef = useRef('');  // 'click', 'change'
-  const latestRequest = useRef(0);
+  const queryDateFromRef = useRef('');  // 'click', 'change'
+  const latestDateRequest = useRef(0);
 
   return (
-    <DateInputContext.Provider value={{
-      date, setDate,
-      flag, setFlag,
-      cal, setCal,
-      disabledMonths, setDisabledMonths,
-      lastDay, setLastDay,
-      adjusting, setAdjusting,
-      fetching, setFetching,
-      dateError, setDateError,
-      abortControllerRef,
-      fetchingFromRef,
-      latestRequest,
-    }}>
+    <DateInputContext.Provider
+      value={{
+        ...dateState,
+        abortControllerRef,
+        queryDateFromRef,
+        latestDateRequest,
+        dateDispatch,
+      }}
+    >
       {children}
     </DateInputContext.Provider>
   );

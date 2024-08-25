@@ -1,11 +1,17 @@
 // src/utils/inputUtils.js
+import { CLEAR_DATE_ERROR } from '../context/dateInputActionTypes';
+
 /* Validate the input */
 const validateInputSync = (
-  location, date, star,
-  setLocationFieldError, setDateFieldError, setStarFieldError,
+  location,
+  date, flag, cal,
+  star,
+  setLocationFieldError,
+  dateError, setDateError,
+  setStarFieldError,
   setLocationValid, setDateValid, setStarValid
 ) => {
-  /* Validate Location */
+  /* Validate location */
   if (location.type === 'address' && !location.id) {
     setLocationFieldError((prev) => ({ ...prev, address: 'Please search and select a location.' }));
     setLocationValid(false);
@@ -21,22 +27,24 @@ const validateInputSync = (
     return false;
   }
 
-  /* Validate Date */
-  if (date.flag && !date.year) {
-    setDateFieldError((prev) => ({ ...prev, year: 'Please enter a year.' }));
+  /* Validate date */
+  let newDateError = dateError;
+  if (flag && !date.year) {
+    setDateError({ ...newDateError, year: 'Please enter a year.' });
     setDateValid(false);
     return false;
   } else if (!date.year || !date.month || !date.day) {
     for (let key of ['year', 'month', 'day']) {
       if (!date[key]) {
-        setDateFieldError((prev) => ({ ...prev, [key]: `Please enter a ${key}.` }));
+        newDateError[key] = `Please enter a ${key}.`;
       }
     }
+    setDateError(newDateError);
     setDateValid(false);
     return false;
   }
 
-  /* Validate Star */
+  /* Validate star */
   if (star.type === 'name' && !star.name) {
     setStarFieldError((prev) => ({ ...prev, name: 'Please select a planet.' }));
     setStarValid(false);
@@ -59,6 +67,15 @@ const validateInputSync = (
   return true;
 };
 
+/* Clear any field errors */
+const clearFieldError = (dateDispatch, setLocationFieldError, setStarFieldError) => {
+  setLocationFieldError({ address: '', lat: '', lng: '' });
+  // setDateError({ general: '', year: '', month: '', day: '' });  // DEPRECATED
+  dateDispatch({ type: CLEAR_DATE_ERROR });
+  setStarFieldError({ name: '', hip: '', ra: '', dec: '' });
+};
+
 export {
   validateInputSync,
+  clearFieldError,
 };

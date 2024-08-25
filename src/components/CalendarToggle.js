@@ -2,20 +2,23 @@
 import React, { useCallback } from 'react';
 import { FormControl, RadioGroup, Radio } from '@mui/material';
 import { useDateInput } from '../context/DateInputContext';
+import { SET_CAL, SET_DATE_ADJUSTING } from '../context/dateInputActionTypes';
 import CustomFormControlLabel from './ui/CustomFormControlLabel';
 
 const CalendarToggle = () => {
   const {
     flag,
-    cal, setCal,
-    setAdjusting,
+    cal,
+    dateDispatch,
   } = useDateInput();
 
   const handleCalChange = useCallback((event) => {
     /* Keep the date values */
-    setCal(event.target.value);
-    setAdjusting(true);
-  }, [setCal, setAdjusting]);
+    // setCal(event.target.value);  // DEPRECATED
+    // setAdjusting(true);  // DEPRECATED
+    dateDispatch({ type: SET_CAL, payload: event.target.value });
+    dateDispatch({ type: SET_DATE_ADJUSTING, payload: true });
+  }, [dateDispatch]);
 
   return (
     <FormControl>

@@ -2,30 +2,34 @@
 import React, { useCallback } from 'react';
 import { Grid, TextField, MenuItem, InputAdornment, CircularProgress } from '@mui/material';
 import { useDateInput } from '../context/DateInputContext';
+import { SET_DATE, SET_DATE_ADJUSTING, SET_DATE_FETCHING } from '../context/dateInputActionTypes';
 import { MONTHS } from '../utils/constants';
 
-const DateFields = ({ dateError, fieldError }) => {
+const DateFields = () => {
   const {
-    date, setDate,
+    date,
     flag,
     disabledMonths,
     lastDay,
-    setAdjusting,
-    fetching, setFetching,
-    fetchingFromRef,
+    dateFetching,
+    dateError,
+    queryDateFromRef,
+    dateDispatch,
   } = useDateInput();
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    setDate((prev) => ({ ...prev, [name]: value }));
+    // setDate((prev) => ({ ...prev, [name]: value }));  // DEPRECATED
+    dateDispatch({ type: SET_DATE, payload: { ...date, [name]: value } });
     if (!flag) {
-      setAdjusting(true);
+      // setAdjusting(true);  // DEPRECATED
+      dateDispatch({ type: SET_DATE_ADJUSTING, payload: true });
     } else {
-      fetchingFromRef.current = 'change';
-      setFetching(true);
-      // setDateValid(false);
+      queryDateFromRef.current = 'change';
+      // setFetching(true);  // DEPRECATED
+      dateDispatch({ type: SET_DATE_FETCHING, payload: true });
     }
-  }, [flag, fetchingFromRef, setDate, setAdjusting, setFetching]);
+  }, [date, flag, dateDispatch, queryDateFromRef]);
 
   return (
     <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
@@ -41,8 +45,8 @@ const DateFields = ({ dateError, fieldError }) => {
           inputProps={{ min: -5000, max: 5000 }}
           onChange={handleInputChange}
           fullWidth
-          error={!!dateError.year || !!fieldError.year}
-          helperText={dateError.year || fieldError.year}
+          error={!!dateError.year}
+          helperText={dateError.year}
         />
       </Grid>
       <Grid item xs={12} sm={4} md={4}>
@@ -59,15 +63,15 @@ const DateFields = ({ dateError, fieldError }) => {
           onChange={handleInputChange}
           disabled={!!flag}
           fullWidth
-          error={!!dateError.month || !!fieldError.month}
-          helperText={dateError.month || fieldError.month}
+          error={!!dateError.month}
+          helperText={dateError.month}
           sx={{
             '& .MuiOutlinedInput-root': {
               backgroundColor: !flag ? null : '#f5f5f5',
             },
           }}
           InputProps={{
-            endAdornment: date.year && fetching ? (
+            endAdornment: date.year && dateFetching ? (
               <InputAdornment position="end" sx={{ mr: 2 }}>
                 <CircularProgress size={20} sx={{ color: 'action.disabled' }} />
               </InputAdornment>
@@ -95,15 +99,15 @@ const DateFields = ({ dateError, fieldError }) => {
           inputProps={{ min: 1, max: lastDay }}
           disabled={!!flag}
           fullWidth
-          error={!!dateError.day || !!fieldError.day}
-          helperText={dateError.day || fieldError.day}
+          error={!!dateError.day}
+          helperText={dateError.day}
           sx={{
             '& .MuiOutlinedInput-root': {
               backgroundColor: !flag ? null : '#f5f5f5',
             },
           }}
           InputProps={{
-            endAdornment: date.year && fetching ? (
+            endAdornment: date.year && dateFetching ? (
               <InputAdornment position="end">
                 <CircularProgress size={20} sx={{ color: 'action.disabled' }} />
               </InputAdornment>

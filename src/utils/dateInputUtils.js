@@ -1,17 +1,18 @@
 // src/utils/dateInputUtils.js
 import { EPH_DATE_MIN, EPH_DATE_MAX, EPH_DATE_MIN_JULIAN, EPH_DATE_MAX_JULIAN } from './constants';
+import { SET_DATE, SET_DISABLED_MONTHS, SET_LAST_DAY, SET_DATE_ADJUSTING, SET_DATE_FETCHING, SET_DATE_VALID, CLEAR_DATE_ERROR } from '../context/dateInputActionTypes';
 import { dateToStr } from './dateUtils';
 import { fetchEquinoxSolstice } from './fetchEquinoxSolstice';
 
 /* Fetch the date for the equinox/solstice of the given year */
-const fetchDate = async (date, flag, locationRef, setDate, setFetching, setErrorMessage, setDateValid, signal, abortControllerRef, requestId, latestRequest) => {
+const fetchDate = async (date, flag, locationRef, dateDispatch, setErrorMessage, signal, abortControllerRef, requestId, latestDateRequest) => {
   // console.log('Fetching date...', date.year, locationRef.current, flag);
   // const date = dateRef.current;
   // const flag = flagRef.current;
   const location = locationRef.current;
 
   if (!flag || !date.year || !location.lat || !location.lng || !location.tz) {
-    setFetching(false);
+    dateDispatch({ type: SET_DATE_FETCHING, payload: false });
     abortControllerRef.current = null;
     return;
   }
@@ -19,17 +20,17 @@ const fetchDate = async (date, flag, locationRef, setDate, setFetching, setError
   const year = parseInt(date.year);
 
   if (year <= EPH_DATE_MIN[0] || year >= EPH_DATE_MAX[0]) {
-    setFetching(false);
+    dateDispatch({ type: SET_DATE_FETCHING, payload: false });
     abortControllerRef.current = null;
     return;
   }
 
   try {
     const { month: newMonth, day: newDay } = await fetchEquinoxSolstice(location.lat, location.lng, location.tz, year, flag, signal);
-    if (requestId === latestRequest.current) {
+    if (requestId === latestDateRequest.current) {
       if (!(newMonth > 0 && newDay > 0)) {
         setErrorMessage((prev) => ({ ...prev, date: 'Unable to fetch the date.' }));
-        setFetching(false);
+        dateDispatch({ type: SET_DATE_FETCHING, payload: false });
         abortControllerRef.current = null;
         return;
       }
@@ -42,15 +43,15 @@ const fetchDate = async (date, flag, locationRef, setDate, setFetching, setError
         month: month.toString(),
         day: day.toString(),
       };
-      setDate(newDate);
-      setFetching(false);
-      setDateValid(true);
+      dateDispatch({ type: SET_DATE, payload: newDate });
+      dateDispatch({ type: SET_DATE_FETCHING, payload: false });
+      dateDispatch({ type: SET_DATE_VALID, payload: true });
       abortControllerRef.current = null;
     }
   } catch (error) {
-    if (error.name !== 'CanceledError' && requestId === latestRequest.current) {
+    if (error.name !== 'CanceledError' && requestId === latestDateRequest.current) {
       setErrorMessage((prev) => ({ ...prev, date: error.message }));
-      setFetching(false);
+      dateDispatch({ type: SET_DATE_FETCHING, payload: false });
       abortControllerRef.current = null;
     }
     // else {
@@ -60,11 +61,11 @@ const fetchDate = async (date, flag, locationRef, setDate, setFetching, setError
 };
 
 /* Adjust the date based on the selected calendar and flag */
-const adjustDate = (date, cal, setDate, setDisabledMonths, setLastDay, setAdjusting) => {
+const adjustDate = (date, cal, dateDispatch) => {
   // console.log('Adjusting...', date);
   // const date = dateRef.current;
   if (!date.year) {
-    setAdjusting(false);
+    dateDispatch({ type: SET_DATE_ADJUSTING, payload: false });
     return;
   }
 
@@ -121,8 +122,8 @@ const adjustDate = (date, cal, setDate, setDisabledMonths, setLastDay, setAdjust
     day = dayMax;
   }
 
-  setDisabledMonths(newDisabledMonths);
-  setLastDay(dayMax);
+  dateDispatch({ type: SET_DISABLED_MONTHS, payload: newDisabledMonths });
+  dateDispatch({ type: SET_LAST_DAY, payload: dayMax });
 
   /* Reset month and day if needed */
   if (month.toString() !== date.month || day.toString() !== date.day) {
@@ -131,10 +132,9 @@ const adjustDate = (date, cal, setDate, setDisabledMonths, setLastDay, setAdjust
       month: date.month ? month.toString() : '',
       day: date.day ? day.toString() : '',
     };
-    setDate(newDate);
-    // onDateChange(newDate);
+    dateDispatch({ type: SET_DATE, payload: newDate });
   }
-  setAdjusting(false);
+  dateDispatch({ type: SET_DATE_ADJUSTING, payload: false });
 };
 
 /* Validate the date */
@@ -171,14 +171,15 @@ const validateDateSync = (date, flag, cal) => {
 };
 
 /* Clear any date-related errors */
-const clearError = (setErrorMessage, setDateError) => {
+const clearDateError = (dateDispatch, setErrorMessage) => {
   setErrorMessage((prev) => ({ ...prev, date: '' }));
-  setDateError({ general: '', year: '', month: '', day: '' });
+  // setDateError({ general: '', year: '', month: '', day: '' });  // DEPRECATED
+  dateDispatch({ type: CLEAR_DATE_ERROR });
 };
 
 export {
   fetchDate,
   adjustDate,
   validateDateSync,
-  clearError,
+  clearDateError,
 };
