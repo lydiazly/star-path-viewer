@@ -1,11 +1,11 @@
 // src/utils/constants.js
-const EPH_DATE_MIN = [-3000, 1, 29];  // 29 January 3001 BCE
-const EPH_DATE_MAX = [3000, 5, 6];    // 6 May 3000 CE
+export const EPH_DATE_MIN = [-3000, 1, 29];  // 29 January 3001 BCE
+export const EPH_DATE_MAX = [3000, 5, 6];    // 6 May 3000 CE
 
-const EPH_DATE_MIN_JULIAN = [-3000, 2, 23];  // 23 February 3001 BCE
-const EPH_DATE_MAX_JULIAN = [3000, 4, 15];   // 15 April 3000 CE
+export const EPH_DATE_MIN_JULIAN = [-3000, 2, 23];  // 23 February 3001 BCE
+export const EPH_DATE_MAX_JULIAN = [3000, 4, 15];   // 15 April 3000 CE
 
-const MONTHS = [
+export const MONTHS = [
   { abbr: '', name: '' },
   { abbr: 'Jan', name: 'January' },
   { abbr: 'Feb', name: 'February' },
@@ -21,7 +21,7 @@ const MONTHS = [
   { abbr: 'Dec', name: 'December' },
 ];
 
-const STARS = {
+export const STARS = {
   Mercury: 'mercury',
   Venus: 'venus',
   Mars: 'mars',
@@ -32,7 +32,7 @@ const STARS = {
   // Pluto: 'pluto',
 };
 
-const PT_DETAIL = {
+export const PT_DETAIL = {
   D1: { name: "Nautical Dawn", detail: "The star's position when the sun is 12 degrees below the horizon before sunrise." },
   D2: { name: "Civil Dawn", detail: "The star's position when the sun is 6 degrees below the horizon before sunrise." },
   D3: { name: "Sunrise", detail: "The star's position at sunrise." },
@@ -47,25 +47,28 @@ const PT_DETAIL = {
   Z: { name: 'zenith', detail: '' },
 };
 
-const LINE_DETAIL = {
+export const LINE_DETAIL = {
   solid: "The star's path in the nighttime sky.",
   darkDashed: "The star's path during nautical twilight.",
   lightDashed: "The star's path during civil twilight.",
   dotted: "The star's path in the daytime sky.",
 }
 
-const EQX_SOL_NAMES = {
+export const EQX_SOL_NAMES = {
   ve: 'Vernal Equinox',
   ss: 'Summer Solstice',
   ae: 'Autumnal Equinox',
   ws: 'Winter Solstice',
 };
 
-const EQX_SOL_KEYS = {
+export const EQX_SOL_KEYS = {
   ve: 'vernal_time',
   ss: 'summer_time',
   ae: 'autumnal_time',
   ws: 'winter_time',
 };
 
-export { EPH_DATE_MIN, EPH_DATE_MAX, EPH_DATE_MIN_JULIAN, EPH_DATE_MAX_JULIAN, MONTHS, STARS, PT_DETAIL, LINE_DETAIL, EQX_SOL_NAMES, EQX_SOL_KEYS };
+export const TYPE_ADD = 'address';
+export const TYPE_COORD = 'coordinates';
+
+export const ADD_UNKNOWN = 'unknown';

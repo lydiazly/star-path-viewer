@@ -2,14 +2,29 @@
 import React, { useCallback } from 'react';
 import { Grid, TextField, InputAdornment, CircularProgress } from '@mui/material';
 import { useLocationInput } from '../../../context/LocationInputContext';
+import * as actionTypes from '../../../context/locationInputActionTypes';
 
-const CoordinatesInput = ({ fieldError, setFieldError }) => {
-  const { location, setLocation, locationError, loadingLocation } = useLocationInput();
+const CoordinatesInput = () => {
+  const {
+    location,
+    locationLoading,
+    locationError, locationNullError,
+    locationDispatch,
+  } = useLocationInput();
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    setLocation((prev) => ({ ...prev, [name]: value }));
-  }, [setLocation]);
+    switch (name) {
+      case 'lat':
+        locationDispatch({ type: actionTypes.SET_LAT, payload: value });
+        break;
+      case 'lng':
+        locationDispatch({ type: actionTypes.SET_LNG, payload: value });
+        break;
+      default:
+        return;
+    }
+  }, [locationDispatch]);
 
   return (
     <div>
@@ -27,10 +42,10 @@ const CoordinatesInput = ({ fieldError, setFieldError }) => {
             type="number"
             inputProps={{ min: -90, max: 90 }}
             fullWidth
-            error={!!locationError.lat || !!fieldError.lat}
-            helperText={locationError.lat || fieldError.lat}
+            error={!!locationError.lat || !!locationNullError.lat}
+            helperText={locationError.lat || locationNullError.lat}
             InputProps={{
-              endAdornment: loadingLocation ? (
+              endAdornment: locationLoading ? (
                 <InputAdornment position="end">
                   <CircularProgress size={20} sx={{ color: "action.disabled" }} />
                 </InputAdornment>
@@ -51,10 +66,10 @@ const CoordinatesInput = ({ fieldError, setFieldError }) => {
             type="number"
             inputProps={{ min: -180, max: 180 }}
             fullWidth
-            error={!!locationError.lng || !!fieldError.lng}
-            helperText={locationError.lng || fieldError.lng}
+            error={!!locationError.lng || !!locationNullError.lng}
+            helperText={locationError.lng || locationNullError.lng}
             InputProps={{
-              endAdornment: loadingLocation ? (
+              endAdornment: locationLoading ? (
                 <InputAdornment position="end">
                   <CircularProgress size={20} sx={{ color: "action.disabled" }} />
                 </InputAdornment>

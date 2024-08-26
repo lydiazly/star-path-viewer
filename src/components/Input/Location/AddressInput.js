@@ -1,13 +1,14 @@
 // src/components/Input/Location/AddressInput.js
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Autocomplete, TextField, IconButton, Tooltip, CircularProgress, InputAdornment, Typography, Stack, Box, Chip } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import Config from '../../../Config';
 import { useLocationInput } from '../../../context/LocationInputContext';
+import * as actionTypes from '../../../context/locationInputActionTypes';
+import useDebouncedFetchSuggestions from '../../../hooks/useDebouncedFetchSuggestions';
+import { ADD_UNKNOWN } from '../../../utils/constants';
 import { fetchCurrentLocation } from '../../../utils/locationInputUtils';
-import fetchSuggestions from '../../../utils/fetchSuggestions';
-import { clearError } from '../../../utils/locationInputUtils';
-import debounce from 'lodash/debounce';
+import { clearLocationError } from '../../../utils/locationInputUtils';
 
 const gpsBtnStyle = {
   color: "action.active",
@@ -18,55 +19,39 @@ const gpsBtnStyle = {
   cursor: 'pointer',
 };
 
-const AddressInput = ({ setErrorMessage, fieldError, setFieldError }) => {
+const AddressInput = ({ setErrorMessage }) => {
   const {
-    setInputType,
-    setLocation,
-    searchTerm, setSearchTerm,
-    suggestions, setSuggestions,
-    highlightedIndex, setHighlightedIndex,
-    locationError, setLocationError,
-    setLoadingLocation,
-    loadingLocation,
-    loadingSuggestions, setLoadingSuggestions,
+    searchTerm,
+    suggestions,
+    highlightedIndex,
+    locationLoading,
+    suggestionsLoading,
+    locationError, locationNullError,
     serviceChosen,
     latestSuggestionRequest,
     isSelecting,
+    locationDispatch,
   } = useLocationInput();
 
   const handleGpsClick = useCallback(
     () => {
-      clearError(setErrorMessage, setLocationError);
-      setSuggestions([]);
-      fetchCurrentLocation(serviceChosen, setSearchTerm, setLocation, setInputType, setLoadingLocation, setErrorMessage);
+      clearLocationError(locationDispatch, setErrorMessage);
+      locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+      fetchCurrentLocation(serviceChosen, locationDispatch, setErrorMessage);
     },
-    [serviceChosen, setSearchTerm, setLocation, setInputType, setLoadingLocation, setSuggestions, setErrorMessage, setLocationError]
+    [serviceChosen, locationDispatch, setErrorMessage]
   );
 
-  const debouncedFetchSuggestions = useMemo(
-    () =>
-      debounce(async (query, serviceChosen) => {
-        if (!isSelecting.current) {
-          try {
-            setLoadingSuggestions(true);
-            const requestId = ++latestSuggestionRequest.current;  // Increment and capture the current request ID
-            const suggestions = await fetchSuggestions(query, serviceChosen);
-            /* Only update if this request is the latest one */
-            if (requestId === latestSuggestionRequest.current) {
-              setSuggestions(suggestions);
-            }
-          } catch (error) {
-            setErrorMessage((prev) => ({ ...prev, location: error.message }));
-          } finally {
-            setLoadingSuggestions(false);
-          }
-        }
-        isSelecting.current = false;
-      }, Config.TypingDelay + 300),
-    [isSelecting, latestSuggestionRequest, setSuggestions, setLoadingSuggestions, setErrorMessage]
+  const debouncedFetchSuggestions = useDebouncedFetchSuggestions(
+    isSelecting,
+    latestSuggestionRequest,
+    actionTypes,
+    locationDispatch,
+    setErrorMessage,
+    Config.TypingDelay + 300
   );
 
-  /* Cancel the debounce function when the component unmounts */
+  /* Cleanup the debounced function on unmount */
   useEffect(() => {
     return () => {
       debouncedFetchSuggestions.cancel();
@@ -76,23 +61,23 @@ const AddressInput = ({ setErrorMessage, fieldError, setFieldError }) => {
   const handleSearchChange = useCallback(
     (event, newSearchTerm) => {
       const trimmedNewSearchTerm = newSearchTerm.trim() ? newSearchTerm : '';
-      setSearchTerm(trimmedNewSearchTerm);
+      locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: trimmedNewSearchTerm });
       if (trimmedNewSearchTerm) {
         debouncedFetchSuggestions(trimmedNewSearchTerm, serviceChosen);
       } else {
-        setLocation({ lat: '', lng: '', id: '', tz: '' });
-        setSuggestions([]);
+        locationDispatch({ type: actionTypes.CLEAR_LOCATION });
+        locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       }
     },
-    [serviceChosen, setSearchTerm, setLocation, setSuggestions, debouncedFetchSuggestions]
+    [serviceChosen, locationDispatch, debouncedFetchSuggestions]
   );
 
   const handleSelect = useCallback((event, value) => {
-    if (!value || !value.id || value.id === 'unknown') {
-      setLocation({ lat: '', lng: '', id: '', tz: '' });
-      // setLocationValid(false);
-      setSearchTerm('');
-      setSuggestions([]);
+    if (!value || !value.id || value.id === ADD_UNKNOWN) {
+      locationDispatch({ type: actionTypes.CLEAR_LOCATION });
+      locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: false });
+      locationDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });
+      locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       return;
     }
 
@@ -101,15 +86,15 @@ const AddressInput = ({ setErrorMessage, fieldError, setFieldError }) => {
     );
     if (selectedSuggestion) {
       isSelecting.current = true;
-      setLocation({
+      locationDispatch({ type: actionTypes.SET_LOCATION, payload: {
         lat: selectedSuggestion.lat,
         lng: selectedSuggestion.lng,
         id: selectedSuggestion.id,
-      });
-      setSearchTerm(selectedSuggestion.display_name);
-      setSuggestions([]);
+      } });
+      locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: selectedSuggestion.display_name });
+      locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
     }
-  }, [isSelecting, suggestions, setLocation, setSearchTerm, setSuggestions]);
+  }, [isSelecting, suggestions, locationDispatch]);
 
   const handleKeyDown = useCallback((event) => {
     if (event.key === 'Enter') {
@@ -118,26 +103,26 @@ const AddressInput = ({ setErrorMessage, fieldError, setFieldError }) => {
       /* Select the highlighted suggestion */
       if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
         const highlightedSuggestion = suggestions[highlightedIndex];
-        if (highlightedSuggestion.id && highlightedSuggestion.id !== 'unknown') {
+        if (highlightedSuggestion.id && highlightedSuggestion.id !== ADD_UNKNOWN) {
           isSelecting.current = true;
-          setLocation({
+          locationDispatch({ type: actionTypes.SET_LOCATION, payload: {
             lat: highlightedSuggestion.lat,
             lng: highlightedSuggestion.lng,
             id: highlightedSuggestion.id,
-          });
-          setSearchTerm(highlightedSuggestion.display_name);
-          setSuggestions([]);
+          } });
+          locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: highlightedSuggestion.display_name });
+          locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
         }
       }
     }
-  }, [highlightedIndex, isSelecting, suggestions, setLocation, setSearchTerm, setSuggestions]);
+  }, [highlightedIndex, isSelecting, suggestions, locationDispatch]);
 
   const handleHighlightChange = useCallback((event, option, reason) => {
     if (reason === 'keyboard' || reason === 'mouse') {
       const index = suggestions.findIndex((suggestion) => suggestion.id === option.id);
-      setHighlightedIndex(index);
+      locationDispatch({ type: actionTypes.SET_HIGHLIGHTED_INDEX, payload: index });
     }
-  }, [suggestions, setHighlightedIndex]);
+  }, [suggestions, locationDispatch]);
 
   return (
     <Autocomplete
@@ -153,12 +138,12 @@ const AddressInput = ({ setErrorMessage, fieldError, setFieldError }) => {
       onHighlightChange={handleHighlightChange}
       filterOptions={(x) => x}
       autoHighlight
-      loading={loadingSuggestions}
+      loading={suggestionsLoading}
       renderOption={(props, option) => (
         <li
           {...props}
           key={option.id}
-          style={!option.id || option.id === 'unknown' ? { pointerEvents: 'none', color: 'InactiveCaptionText', fontStyle: 'italic' } : {}}
+          style={!option.id || option.id === ADD_UNKNOWN ? { pointerEvents: 'none', color: 'InactiveCaptionText', fontStyle: 'italic' } : {}}
         >
           <Stack direction="row" spacing={1} sx={{ width: '100%', justifyContent: 'space-between' }}>
             <Typography>
@@ -174,8 +159,8 @@ const AddressInput = ({ setErrorMessage, fieldError, setFieldError }) => {
         <TextField
           {...params}
           required
-          error={!!locationError.address || !!fieldError.address}
-          helperText={locationError.address || fieldError.address}
+          error={!!locationError.address || !!locationNullError.address}
+          helperText={locationError.address || locationNullError.address}
           label="Search address"
           placeholder="Enter a place, city, county, state, or country"
           size="small"
@@ -185,7 +170,7 @@ const AddressInput = ({ setErrorMessage, fieldError, setFieldError }) => {
             ...params.InputProps,
             startAdornment: (
               <InputAdornment position="start" sx={{ ml: 1, mr: -1 }}>
-                {!loadingSuggestions && !loadingLocation ? (
+                {!suggestionsLoading && !locationLoading ? (
                   <Tooltip title="Find My Location">
                     <IconButton aria-label="gps" edge="start" onClick={handleGpsClick}>
                       <GpsFixedIcon size={20} sx={gpsBtnStyle} />

@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import { Stack, Snackbar, Alert } from '@mui/material';
 import Config from '../../../Config';
 import { useLocationInput } from '../../../context/LocationInputContext';
-import { validateLocationSync, clearError } from '../../../utils/locationInputUtils';
+import * as actionTypes from '../../../context/locationInputActionTypes';
+import { TYPE_ADD, TYPE_COORD, ADD_UNKNOWN } from '../../../utils/constants';
+import { validateLocationSync, clearLocationError } from '../../../utils/locationInputUtils';
 import determineService from '../../../utils/determineService';
 import LocationInputTypeToggle from './LocationInputTypeToggle';
 import AddressInput from './AddressInput';
@@ -12,59 +14,59 @@ import CoordinatesInput from './CoordinatesInput';
 import TimezoneFetcher from './TimezoneFetcher';
 import debounce from 'lodash/debounce';
 
-const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fieldError, setFieldError }) => {
+const alertStyle = { width: '100%', textAlign: 'left' };
+
+const LocationInput = ({ setErrorMessage }) => {
   // console.log('Rendering LocationInput');
   const {
+    location,  // id: ''(not-found), 'unknown'
     inputType,  // 'address' or 'coordinates'
-    location, setLocation,  // 0: not-found, -1: unknown
-    searchTerm, setSearchTerm,
-    setSuggestions,
-    setLocationError,
+    searchTerm,
     serviceChosen, setServiceChosen,
     latestTzRequest,
+    locationDispatch,
   } = useLocationInput();
 
   /* Initialize */
   useEffect(() => {
-    clearError(setErrorMessage, setLocationError);
-    // setLoadingLocation(true);
-    // fetchCurrentLocation(serviceChosen, setSearchTerm, setInputType, setLocation, setErrorMessage);
-    // setLoadingLocation(false);
-  }, [setErrorMessage, setLocationError]);
+    clearLocationError(locationDispatch, setErrorMessage);
+    // fetchCurrentLocation(serviceChosen, locationDispatch, setErrorMessage);
+  }, [locationDispatch, setErrorMessage]);
 
-  useEffect(() => {
-    onLocationChange({ ...location, type: inputType });
-  }, [location, inputType, onLocationChange]);
+  // useEffect(() => {
+  //   onLocationChange({ ...location, type: inputType });
+  // }, [location, inputType, onLocationChange]);  // DEPRECATED
 
   /* Reset error when user starts typing */
   useEffect(() => {
-    clearError(setErrorMessage, setLocationError);
+    clearLocationError(locationDispatch, setErrorMessage);
     /* Clear address and tz if lat or lng is empty */
-    if (searchTerm.trim() && inputType === 'coordinates' && (!location.lat || !location.lng)) {
-      setSearchTerm('');
-      setSuggestions([]);
-      setLocation((prev) => ({ ...prev, id: '', tz: '' }));
+    if (searchTerm.trim() && inputType === TYPE_COORD && (!location.lat || !location.lng)) {
+      locationDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });
+      locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+      locationDispatch({ type: actionTypes.SET_ID, payload: '' });
+      locationDispatch({ type: actionTypes.SET_TZ, payload: '' });
     }
-  }, [searchTerm, location, inputType, setLocation, setSearchTerm, setSuggestions, setErrorMessage, setLocationError]);
+  }, [searchTerm, location, inputType, locationDispatch, setErrorMessage]);
 
   /* Clear tz if lat or lng is empty */
   useEffect(() => {
     if (location.tz && (!location.lat || !location.lng)) {
-      setLocation((prev) => ({ ...prev, tz: '' }));
+      locationDispatch({ type: actionTypes.SET_TZ, payload: '' });
     }
-  }, [location, setLocation]);
+  }, [location, locationDispatch]);
 
   useEffect(() => {
-    setFieldError((prev) => ({ ...prev, address: '' }));
-  }, [searchTerm, inputType, setFieldError]);
+    locationDispatch({ type: actionTypes.CLEAR_ADDRESS_NULL_ERROR });
+  }, [searchTerm, inputType, locationDispatch]);
 
   useEffect(() => {
-    setFieldError((prev) => ({ ...prev, lat: '' }));
-  }, [location.lat, inputType, setFieldError]);
+    locationDispatch({ type: actionTypes.CLEAR_LAT_NULL_ERROR });
+  }, [location.lat, inputType, locationDispatch]);
 
   useEffect(() => {
-    setFieldError((prev) => ({ ...prev, lng: '' }));
-  }, [location.lng, inputType, setFieldError]);
+    locationDispatch({ type: actionTypes.CLEAR_LNG_NULL_ERROR });
+  }, [location.lng, inputType, locationDispatch]);
 
   /* Choose geocoding service */
   useEffect(() => {
@@ -80,11 +82,11 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   const debouncedValidateLocation = useMemo(
     () => debounce((inputType, location) => {
       const validationResult = validateLocationSync(inputType, location);
-      const isValid = !Object.values(validationResult).some(item => !!item);
-      setLocationError(validationResult);
-      setLocationValid(isValid);
+      const isValid = !Object.values(validationResult).some((item) => !!item);
+      locationDispatch({ type: actionTypes.SET_LOCATION_ERROR, payload: validationResult });
+      locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: isValid });
     }, Config.TypingDelay / 2),
-    [setLocationValid, setLocationError]
+    [locationDispatch]
   );
 
   useEffect(() => {
@@ -96,41 +98,32 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
   }, [location, inputType, debouncedValidateLocation]);
 
   const handleSnackbarClose = useCallback((event, reason) => {
-    setLocation((prev) => ({ ...prev, id: '' }));
-  }, [setLocation]);
+    locationDispatch({ type: actionTypes.SET_ID, payload: '' });
+  }, [locationDispatch]);
 
   return (
     <Stack direction="column" spacing={2}>
       <LocationInputTypeToggle />
-      {inputType === 'address' ? (
-        <AddressInput
-          setErrorMessage={setErrorMessage}
-          fieldError={fieldError}
-          setFieldError={setFieldError}
-        />
+      {inputType === TYPE_ADD ? (
+        <AddressInput setErrorMessage={setErrorMessage} />
       ) : (
-        <CoordinatesInput
-          fieldError={fieldError}
-          setFieldError={setFieldError}
-        />
+        <CoordinatesInput />
       )}
       <TimezoneFetcher
         lat={location.lat}
         lng={location.lng}
         latestTzRequest={latestTzRequest}
-        setLocation={setLocation}
-        setErrorMessage={setErrorMessage}
       />
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={location.id === 'unknown'}
+        open={location.id === ADD_UNKNOWN}
         autoHideDuration={12000}
         onClose={handleSnackbarClose}
         sx={(theme) => ({
           boxShadow: theme.shadows[2],
         })}
       >
-        <Alert severity="warning" sx={{ width: '100%', textAlign: 'left' }} onClose={handleSnackbarClose}>
+        <Alert severity="warning" sx={alertStyle} onClose={handleSnackbarClose}>
           Sorry, we couldn't fetch the address, but you can use these coordinates for this location.
         </Alert>
       </Snackbar>
@@ -139,15 +132,7 @@ const LocationInput = ({ onLocationChange, setErrorMessage, setLocationValid, fi
 };
 
 LocationInput.propTypes = {
-  onLocationChange: PropTypes.func.isRequired,
   setErrorMessage: PropTypes.func.isRequired,
-  setLocationValid: PropTypes.func.isRequired,
-  fieldError: PropTypes.shape({
-    address: PropTypes.string.isRequired,
-    lat: PropTypes.string.isRequired,
-    lng: PropTypes.string.isRequired,
-  }).isRequired,
-  setFieldError: PropTypes.func.isRequired,
 };
 
 export default React.memo(LocationInput);

@@ -1,25 +1,27 @@
 // src/utils/locationInputUtils.js
 import fetchGeolocation from './fetchGeolocation';
+import * as actionTypes from '../context/locationInputActionTypes';
+import { TYPE_COORD, ADD_UNKNOWN } from './constants';
 
-const fetchCurrentLocation = async (service, setSearchTerm, setLocation, setInputType, setLoadingLocation, setErrorMessage) => {
+const fetchCurrentLocation = async (service, locationDispatch, setErrorMessage) => {
   try {
-    setLoadingLocation(true);
+    locationDispatch({ type: actionTypes.SET_LOCATION_LOADING_ON });
     const locationData = await fetchGeolocation(service);
-    if (locationData.display_name !== 'unknown') {
-      setSearchTerm(locationData.display_name);
+    if (locationData.display_name !== ADD_UNKNOWN) {
+      locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: locationData.display_name });
     }
-    setLocation({
+    locationDispatch({ type: actionTypes.SET_LOCATION, payload: {
       lat: locationData.lat,
       lng: locationData.lng,
       id: locationData.id,
-    });
-    if (locationData.id === 'unknown') {
-      setInputType('coordinates');
+    } });
+    if (locationData.id === ADD_UNKNOWN) {
+      locationDispatch({ type: actionTypes.SET_INPUT_TYPE, payload: TYPE_COORD });
     }
   } catch (error) {
     setErrorMessage((prev) => ({ ...prev, location: error.message }));
   } finally {
-    setLoadingLocation(false);
+    locationDispatch({ type: actionTypes.SET_LOCATION_LOADING_OFF });
   }
 };
 
@@ -28,7 +30,7 @@ const validateLocationSync = (inputType, location) => {
   // console.log(location);
   let newLocationError = { address: '', lat: '', lng: '' };
 
-  if (inputType === 'coordinates') {
+  if (inputType === TYPE_COORD) {
     if (!/^-?\d*(\.\d+)?$/.test(location.lat)) {
       return { ...newLocationError, lat: 'The latitude must be a decimal.' };
     }
@@ -53,13 +55,13 @@ const validateLocationSync = (inputType, location) => {
   return newLocationError;
 };
 
-const clearError = (setErrorMessage, setLocationError) => {
+const clearLocationError = (locationDispatch, setErrorMessage) => {
   setErrorMessage((prev) => ({ ...prev, location: '' }));
-  setLocationError({ address: '', lat: '', lng: '' });
+  locationDispatch({ type: actionTypes.CLEAR_LOCATION_ERROR });
 };
 
 export {
   fetchCurrentLocation,
   validateLocationSync,
-  clearError,
+  clearLocationError,
 };

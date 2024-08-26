@@ -1,37 +1,48 @@
 // src/components/Input/Location/TimezoneFetcher.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Config from '../../../Config';
+import { useLocationInput } from '../../../context/LocationInputContext';
+import * as actionTypes from '../../../context/locationInputActionTypes';
+import debounce from 'lodash/debounce';
 
-const TimezoneFetcher = ({ lat, lng, latestTzRequest, setLocation, setErrorMessage }) => {
-  useEffect(() => {
-    const fetchTimeZone = async () => {
-      const latFloat = parseFloat(lat);
-      const lngFloat = parseFloat(lng);
+const TimezoneFetcher = ({ lat, lng, latestTzRequest }) => {
+  const { locationDispatch } = useLocationInput();
+  
+  const debouncedFetchTimeZone = useMemo(
+    () =>
+      debounce(async (lat, lng) => {
+        const latFloat = parseFloat(lat);
+        const lngFloat = parseFloat(lng);
 
-      if (latFloat >= -90 && latFloat <= 90 && lngFloat >= -180 && lngFloat <= 180) {
-        const requestId = ++latestTzRequest.current; // Increment and capture the current request ID
-        try {
-          const [tz] = await window.GeoTZ.find(latFloat, lngFloat);
-          /* Only update if this request is the latest one */
-          if (requestId === latestTzRequest.current) {
-            setLocation((prev) => ({ ...prev, tz }));
-            // console.log(tz);
-          }
-        } catch (error) {
-          if (requestId === latestTzRequest.current) {
-            setLocation((prev) => ({ ...prev, tz: '' }));
+        if (latFloat >= -90 && latFloat <= 90 && lngFloat >= -180 && lngFloat <= 180) {
+          const requestId = ++latestTzRequest.current;  // Increment and capture the current request ID
+          try {
+            const [tz] = await window.GeoTZ.find(latFloat, lngFloat);
+            /* Only update if this request is the latest one */
+            if (requestId === latestTzRequest.current) {
+              locationDispatch({ type: actionTypes.SET_TZ, payload: tz });
+              console.log(tz);
+            }
+          } catch (error) {
+            if (requestId === latestTzRequest.current) {
+              locationDispatch({ type: actionTypes.SET_TZ, payload: '' });
+            }
           }
         }
-      }
-    };
+      },
+      Config.TypingDelay / 2
+    ),
+    [latestTzRequest, locationDispatch]
+  );
 
-    const debounceTimeout = setTimeout(fetchTimeZone, Config.TypingDelay / 2);
+  useEffect(() => {
+    debouncedFetchTimeZone(lat, lng);
 
-    /* Cleanup timeout on unmount or dependency change */
+    /* Cleanup the debounced function on unmount */
     return () => {
-      clearTimeout(debounceTimeout);
+      debouncedFetchTimeZone.cancel();
     };
-  }, [lat, lng, latestTzRequest, setLocation, setErrorMessage]);
+  }, [lat, lng, debouncedFetchTimeZone]);
 
   return null;
 };

@@ -2,15 +2,17 @@
 import React, { useCallback } from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useLocationInput } from '../../../context/LocationInputContext';
+import * as actionTypes from '../../../context/locationInputActionTypes';
+import { TYPE_ADD, TYPE_COORD } from '../../../utils/constants';
 
 const InputTypeToggle = () => {
-  const { inputType, setInputType } = useLocationInput();
+  const { inputType, locationDispatch } = useLocationInput();
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
-      setInputType(newInputType);
+      locationDispatch({ type: actionTypes.SET_INPUT_TYPE, payload: newInputType });
     }
-  }, [setInputType]);
+  }, [locationDispatch]);
 
   return (
     <ToggleButtonGroup
@@ -22,10 +24,10 @@ const InputTypeToggle = () => {
       aria-label="Input type"
       fullWidth
     >
-      <ToggleButton value="address" aria-label="Search Address">
+      <ToggleButton value={TYPE_ADD} aria-label="Search Address">
         Search Address
       </ToggleButton>
-      <ToggleButton value="coordinates" aria-label="Enter Coordinates">
+      <ToggleButton value={TYPE_COORD} aria-label="Enter Coordinates">
         Enter Coordinates
       </ToggleButton>
     </ToggleButtonGroup>

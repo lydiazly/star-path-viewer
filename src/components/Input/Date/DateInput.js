@@ -40,7 +40,7 @@ const DateInput = ({ setErrorMessage, location }) => {
     // };
     // dateDispatch({ type: actionTypes.SET_DATE, payload: initialDate });
     // dateRef.current = initialDate;
-  }, [setErrorMessage, dateDispatch]);
+  }, [dateDispatch, setErrorMessage]);
 
   // useEffect(() => {
   //   if (!dateAdjusting && !dateFetching) {
@@ -54,7 +54,7 @@ const DateInput = ({ setErrorMessage, location }) => {
     // if (date.year && date.month && date.day) {
     //   dateDispatch({ type: actionTypes.SET_DATE_VALID, payload: true });
     // }
-  }, [date, flag, cal, setErrorMessage, dateDispatch]);
+  }, [date, flag, cal, dateDispatch, setErrorMessage]);
 
   useEffect(() => {
     dateDispatch({ type: actionTypes.CLEAR_YEAR_NULL_ERROR });

@@ -6,7 +6,7 @@ const DateInputContext = createContext();
 
 const initialState = {
   date: { year: '', month: '', day: '' },
-  flag: '',
+  flag: '',  // 've', 'ss', 'ae', 'ws'
   cal: '',  // '': Gregorian, 'j': Julian
   disabledMonths: {},
   lastDay: 31,
@@ -130,7 +130,8 @@ const dateInputReducer = (state, action) => {
       return { ...state, dateFetching: true };
     case actionTypes.SET_DATE_FETCHING_OFF:
       return { ...state, dateFetching: false };
-    case actionTypes.SET_DATE_VALID:
+
+      case actionTypes.SET_DATE_VALID:
       return { ...state, dateValid: action.payload };
 
     default:
