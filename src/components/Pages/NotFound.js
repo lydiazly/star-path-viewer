@@ -1,4 +1,4 @@
-// src/components/NotFound.js
+// src/components/Pages/NotFound.js
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';

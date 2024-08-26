@@ -1,11 +1,12 @@
-// src/components/DateInput.js
+// src/components/Input/Date/DateInput.js
 import React, { useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Stack, Typography } from '@mui/material';
-import Config from '../Config';
-import { useDateInput } from '../context/DateInputContext';
-import { SET_DATE_FETCHING, SET_DATE_ERROR, SET_DATE_VALID } from '../context/dateInputActionTypes';
-import { adjustDate, validateDateSync, fetchDate, clearDateError } from '../utils/dateInputUtils';
+import Config from '../../../Config';
+import { useDateInput } from '../../../context/DateInputContext';
+import * as actionTypes from '../../../context/dateInputActionTypes';
+import useDebouncedFetchDate from '../../../hooks/useDebouncedFetchDate';
+import { adjustDate, validateDateSync, clearDateError } from '../../../utils/dateInputUtils';
 import CalendarToggle from './CalendarToggle';
 import DateFields from './DateFields';
 import QuickEntryAccordion from './QuickEntryAccordion';
@@ -15,7 +16,7 @@ const DateInput = ({ setErrorMessage, location }) => {
   // console.log('Rendering DateInput');
   const {
     date,
-    flag,
+    flag,  // 've', 'ss', 'ae', 'ws'
     cal,  // '': Gregorian, 'j': Julian
     dateAdjusting,
     dateFetching,
@@ -31,8 +32,13 @@ const DateInput = ({ setErrorMessage, location }) => {
 
   /* Initialize */
   useEffect(() => {
-    // clearError(setErrorMessage, setDateError);  // DEPRECATED
     clearDateError(dateDispatch, setErrorMessage);
+    // const initialDate = {
+    //   year: now.getFullYear().toString(),
+    //   month: (now.getMonth() + 1).toString(),
+    //   day: now.getDate().toString(),
+    // };
+    // dateDispatch({ type: actionTypes.SET_DATE, payload: initialDate });
     // dateRef.current = initialDate;
   }, [setErrorMessage, dateDispatch]);
 
@@ -44,12 +50,23 @@ const DateInput = ({ setErrorMessage, location }) => {
 
   /* Reset error when user starts typing */
   useEffect(() => {
-    // clearError(setErrorMessage, setDateError);  // DEPRECATED
     clearDateError(dateDispatch, setErrorMessage);
     // if (date.year && date.month && date.day) {
-    //   dateDispatch({ type: 'SET_DATE_VALID', payload: true });
+    //   dateDispatch({ type: actionTypes.SET_DATE_VALID, payload: true });
     // }
   }, [date, flag, cal, setErrorMessage, dateDispatch]);
+
+  useEffect(() => {
+    dateDispatch({ type: actionTypes.CLEAR_YEAR_NULL_ERROR });
+  }, [date.year, flag, cal, dateDispatch]);
+
+  useEffect(() => {
+    dateDispatch({ type: actionTypes.CLEAR_MONTH_NULL_ERROR });
+  }, [date.month, flag, cal, dateDispatch]);
+
+  useEffect(() => {
+    dateDispatch({ type: actionTypes.CLEAR_DAY_NULL_ERROR });
+  }, [date.day, flag, cal, dateDispatch]);
 
   // useEffect(() => {
   //   dateRef.current = date;
@@ -67,69 +84,28 @@ const DateInput = ({ setErrorMessage, location }) => {
     ) {
       if (flag) {
         queryDateFromRef.current = 'change';
-        // setFetching(true);  // DEPRECATED
-        dateDispatch({ type: SET_DATE_FETCHING, payload: true });
+        dateDispatch({ type: actionTypes.SET_DATE_FETCHING_ON });
       }
       locationRef.current = location;
     }
-  }, [location, locationRef, flag, queryDateFromRef, dateDispatch]);
+  }, [location, flag, queryDateFromRef, dateDispatch]);
 
-  const debouncedFetchDate = useMemo(
-    () =>
-      debounce(
-        async (date, flag, locationRef, dateDispatch, setErrorMessage) => {
-          // console.log("Last controller: ", abortControllerRef.current?.signal);
-          if (abortControllerRef.current) {
-            // console.log("Aborting...");
-            abortControllerRef.current.abort();  // Cancel the previous request
-          }
-          const controller = new AbortController();
-          // console.log("New controller: ", controller?.signal);
-          abortControllerRef.current = controller;
-          const requestId = ++latestDateRequest.current;  // Increment and capture the current request ID
-          await fetchDate(
-            date,
-            flag,
-            locationRef,
-            dateDispatch,
-            setErrorMessage,
-            controller.signal,
-            abortControllerRef,
-            requestId,
-            latestDateRequest
-          );
-          queryDateFromRef.current = '';
-        },
-        Config.TypingDelay
-      ),
-    [abortControllerRef, latestDateRequest, queryDateFromRef]
+  const debouncedFetchDate = useDebouncedFetchDate(
+    abortControllerRef,
+    latestDateRequest,
+    queryDateFromRef,
+    dateDispatch,
+    setErrorMessage,
+    Config.TypingDelay
   );
 
-  const debouncedFetchDateDelayed = useMemo(
-    () =>
-      debounce(
-        async (date, flag, locationRef, dateDispatch, setErrorMessage) => {
-          if (abortControllerRef.current) {
-            abortControllerRef.current.abort();  // Cancel the previous request
-          }
-          const controller = new AbortController();
-          abortControllerRef.current = controller;
-          const requestId = ++latestDateRequest.current;  // Increment and capture the current request ID
-          await fetchDate(
-            date,
-            flag,
-            locationRef,
-            dateDispatch,
-            setErrorMessage,
-            controller.signal,
-            abortControllerRef,
-            requestId,
-            latestDateRequest
-          );
-        },
-        Config.TypingDelay + 300
-      ),
-    [abortControllerRef, latestDateRequest]
+  const debouncedFetchDateDelayed = useDebouncedFetchDate(
+    abortControllerRef,
+    latestDateRequest,
+    queryDateFromRef,
+    dateDispatch,
+    setErrorMessage,
+    Config.TypingDelay + 300
   );
 
   const debouncedAdjustDate = useMemo(
@@ -142,31 +118,31 @@ const DateInput = ({ setErrorMessage, location }) => {
       debounce((date, flag, cal) => {
         const validationResult = validateDateSync(date, flag, cal);
         const isValid = !Object.values(validationResult).some((item) => !!item);
-        // setDateError(validationResult);  // DEPRECATED
-        dateDispatch({ type: SET_DATE_ERROR, payload: validationResult });
+        dateDispatch({ type: actionTypes.SET_DATE_ERROR, payload: validationResult });
         if (!flag || (date.year && locationRef.current.lat && locationRef.current.lng)) {
-          dateDispatch({ type: SET_DATE_VALID, payload: isValid });
+          dateDispatch({ type: actionTypes.SET_DATE_VALID, payload: isValid });
         }
       }, Config.TypingDelay),
-    [locationRef, dateDispatch]
+    [dateDispatch]
   );
 
   useEffect(() => {
-    if (dateFetching) {  // start fetching
+    if (dateFetching) {  // Start fetching
       if (queryDateFromRef.current === 'click') {
-        debouncedFetchDate(date, flag, locationRef, dateDispatch, setErrorMessage);
+        debouncedFetchDate(date, flag, locationRef);
       } else {
-        debouncedFetchDateDelayed(date, flag, locationRef, dateDispatch, setErrorMessage);
+        debouncedFetchDateDelayed(date, flag, locationRef);
       }
     }
     /* Cleanup function */
     return () => {
       debouncedFetchDate.cancel();
+      debouncedFetchDateDelayed.cancel();
     };
-  }, [date, flag, locationRef, dateFetching, queryDateFromRef, debouncedFetchDate, debouncedFetchDateDelayed, setErrorMessage, dateDispatch]);
+  }, [date, flag, dateFetching, queryDateFromRef, debouncedFetchDate, debouncedFetchDateDelayed]);
 
   useEffect(() => {
-    if (dateAdjusting) {  // start adjusting
+    if (dateAdjusting) {  // Start adjusting
       debouncedAdjustDate(date, cal, dateDispatch);
     }
     /* Cleanup function */

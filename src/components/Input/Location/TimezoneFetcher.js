@@ -1,6 +1,6 @@
-// src/components/TimezoneFetcher.js
+// src/components/Input/Location/TimezoneFetcher.js
 import React, { useEffect } from 'react';
-import Config from '../Config';
+import Config from '../../../Config';
 
 const TimezoneFetcher = ({ lat, lng, latestTzRequest, setLocation, setErrorMessage }) => {
   useEffect(() => {

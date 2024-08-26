@@ -1,7 +1,7 @@
-// src/components/LocationInputTypeToggle.js
+// src/components/Input/Location/LocationInputTypeToggle.js
 import React, { useCallback } from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { useLocationInput } from '../context/LocationInputContext';
+import { useLocationInput } from '../../../context/LocationInputContext';
 
 const InputTypeToggle = () => {
   const { inputType, setInputType } = useLocationInput();

@@ -1,9 +1,9 @@
-// src/components/InfoDisplay.js
+// src/components/Output/InfoDisplay.js
 import React, { useMemo } from 'react';
 import { Box, Stack, Grid, Typography } from '@mui/material';
-import CustomDivider from './ui/CustomDivider';
-import { formatDateTime, formatDateTimeISO, decimalToHMS, formatHMS } from '../utils/dateUtils';
-import { formatCoordinate, formatDecimalDgrees } from '../utils/coordUtils';
+import { formatDateTime, formatDateTimeISO, decimalToHMS, formatHMS } from '../../utils/dateUtils';
+import { formatCoordinate, formatDecimalDgrees } from '../../utils/coordUtils';
+import CustomDivider from '../UI/CustomDivider';
 
 const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);

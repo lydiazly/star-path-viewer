@@ -4,14 +4,14 @@ import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline, Container, Box } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ServiceProvider } from './context/ServiceContext';
-import Home from './components/Home';
-import Footer from './components/Footer';
-import About from './components/About';
-import NotFound from './components/NotFound';
-import BackToTopButton from './components/BackToTopButton';
-import CustomAppBar from './components/CustomAppBar';
 import Config from './Config';
+import { ServiceProvider } from './context/ServiceContext';
+import Home from './components/Pages/Home';
+import About from './components/Pages/About';
+import NotFound from './components/Pages/NotFound';
+import BackToTopButton from './components/Navigation/BackToTopButton';
+import CustomAppBar from './components/Navigation/CustomAppBar';
+import Footer from './components/Navigation/Footer';
 
 const theme = createTheme();  // Create the default theme
 

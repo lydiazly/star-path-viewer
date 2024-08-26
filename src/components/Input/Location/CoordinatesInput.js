@@ -1,7 +1,7 @@
-// src/components/CoordinatesInput.js
+// src/components/Input/Location/CoordinatesInput.js
 import React, { useCallback } from 'react';
 import { Grid, TextField, InputAdornment, CircularProgress } from '@mui/material';
-import { useLocationInput } from '../context/LocationInputContext';
+import { useLocationInput } from '../../../context/LocationInputContext';
 
 const CoordinatesInput = ({ fieldError, setFieldError }) => {
   const { location, setLocation, locationError, loadingLocation } = useLocationInput();

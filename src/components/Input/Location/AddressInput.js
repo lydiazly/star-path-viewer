@@ -1,14 +1,13 @@
-// src/components/AddressInput.js
+// src/components/Input/Location/AddressInput.js
 import React, { useEffect, useCallback, useMemo } from 'react';
 import { Autocomplete, TextField, IconButton, Tooltip, CircularProgress, InputAdornment, Typography, Stack, Box, Chip } from '@mui/material';
-// import SearchIcon from '@mui/icons-material/Search';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
-import Config from '../Config';
-import { useLocationInput } from '../context/LocationInputContext';
+import Config from '../../../Config';
+import { useLocationInput } from '../../../context/LocationInputContext';
+import { fetchCurrentLocation } from '../../../utils/locationInputUtils';
+import fetchSuggestions from '../../../utils/fetchSuggestions';
+import { clearError } from '../../../utils/locationInputUtils';
 import debounce from 'lodash/debounce';
-import { fetchCurrentLocation } from '../utils/locationInputUtils';
-import fetchSuggestions from '../utils/fetchSuggestions';
-import { clearError } from '../utils/locationInputUtils';
 
 const gpsBtnStyle = {
   color: "action.active",

@@ -1,11 +1,11 @@
-// src/components/AnnoDisplay.js
+// src/components/Output/AnnoDisplay.js
 import React, { useMemo } from 'react';
 import { Box, Stack, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import CustomDivider from './ui/CustomDivider';
-import { dateTimeToStr, formatTimezone } from '../utils/dateUtils';
-import { formatDecimalDgrees } from '../utils/coordUtils';
-import { PT_DETAIL, LINE_DETAIL } from '../utils/constants';
+import { dateTimeToStr, formatTimezone } from '../../utils/dateUtils';
+import { formatDecimalDgrees } from '../../utils/coordUtils';
+import { PT_DETAIL, LINE_DETAIL } from '../../utils/constants';
+import CustomDivider from '../UI/CustomDivider';
 
 const redAsterisk = <span style={{ color: 'red' }}>*</span>;
 

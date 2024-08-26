@@ -1,8 +1,8 @@
-// src/components/About.js
+// src/components/Pages/About.js
 import React from 'react';
 import { Box, Typography, Link } from '@mui/material';
-import AboutImage from '../assets/about-image.svg';
-import Logo from '../assets/logo.svg';
+import AboutImage from '../../assets/about-image.svg';
+import Logo from '../../assets/logo.svg';
 
 const About = () => {
   return (

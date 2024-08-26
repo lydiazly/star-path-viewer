@@ -1,4 +1,4 @@
-// src/components/BackToTopButton.js
+// src/components/Navigation/BackToTopButton.js
 import React, { useCallback, useMemo } from 'react';
 import { Fab, Tooltip, useScrollTrigger, Zoom } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';

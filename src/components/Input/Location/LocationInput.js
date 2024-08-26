@@ -1,11 +1,11 @@
-// src/components/LocationInput.js
+// src/components/Input/Location/LocationInput.js
 import React, { useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Stack, Snackbar, Alert } from '@mui/material';
-import Config from '../Config';
-import { useLocationInput } from '../context/LocationInputContext';
-import { validateLocationSync, clearError } from '../utils/locationInputUtils';
-import determineService from '../utils/determineService';
+import Config from '../../../Config';
+import { useLocationInput } from '../../../context/LocationInputContext';
+import { validateLocationSync, clearError } from '../../../utils/locationInputUtils';
+import determineService from '../../../utils/determineService';
 import LocationInputTypeToggle from './LocationInputTypeToggle';
 import AddressInput from './AddressInput';
 import CoordinatesInput from './CoordinatesInput';

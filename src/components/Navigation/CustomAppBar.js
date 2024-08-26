@@ -1,4 +1,4 @@
-// src/components/CustomAppBar.js
+// src/components/Navigation/CustomAppBar.js
 import React, { useState, useCallback } from 'react';
 import { Container, Box, IconButton, Tooltip, Snackbar, Alert } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -8,8 +8,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { Link as RouterLink } from 'react-router-dom';
 import { RWebShare } from 'react-web-share';
 import { useLocation } from 'react-router-dom'; // Import the useLocation hook
-import Config from '../Config';
-import LogoText from '../assets/logo-text.svg';
+import Config from '../../Config';
+import LogoText from '../../assets/logo-text.svg';
 
 const baseUrl = `${window.location.origin}${Config.basename}`;
 

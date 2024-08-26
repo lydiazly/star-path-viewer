@@ -1,7 +1,7 @@
-// src/components/Footer.js
+// src/components/Navigation/Footer.js
 import React from 'react';
 import { Container, Box, Typography, Link } from '@mui/material';
-import CustomDivider from './ui/CustomDivider';
+import CustomDivider from '../UI/CustomDivider';
 
 const Footer = () => {
   return (

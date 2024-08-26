@@ -1,35 +1,44 @@
-// src/components/DateFields.js
+// src/components/Input/Date/DateFields.js
 import React, { useCallback } from 'react';
 import { Grid, TextField, MenuItem, InputAdornment, CircularProgress } from '@mui/material';
-import { useDateInput } from '../context/DateInputContext';
-import { SET_DATE, SET_DATE_ADJUSTING, SET_DATE_FETCHING } from '../context/dateInputActionTypes';
-import { MONTHS } from '../utils/constants';
+import { useDateInput } from '../../../context/DateInputContext';
+import * as actionTypes from '../../../context/dateInputActionTypes';
+import { MONTHS } from '../../../utils/constants';
 
 const DateFields = () => {
   const {
     date,
-    flag,
+    flag,  // 've', 'ss', 'ae', 'ws'
     disabledMonths,
     lastDay,
     dateFetching,
-    dateError,
+    dateError, dateNullError,
     queryDateFromRef,
     dateDispatch,
   } = useDateInput();
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    // setDate((prev) => ({ ...prev, [name]: value }));  // DEPRECATED
-    dateDispatch({ type: SET_DATE, payload: { ...date, [name]: value } });
+    switch (name) {
+      case 'year':
+        dateDispatch({ type: actionTypes.SET_YEAR, payload: value });
+        break;
+      case 'month':
+        dateDispatch({ type: actionTypes.SET_MONTH, payload: value });
+        break;
+      case 'day':
+        dateDispatch({ type: actionTypes.SET_DAY, payload: value });
+        break;
+      default:
+        return;
+    }
     if (!flag) {
-      // setAdjusting(true);  // DEPRECATED
-      dateDispatch({ type: SET_DATE_ADJUSTING, payload: true });
+      dateDispatch({ type: actionTypes.SET_DATE_ADJUSTING_ON });
     } else {
       queryDateFromRef.current = 'change';
-      // setFetching(true);  // DEPRECATED
-      dateDispatch({ type: SET_DATE_FETCHING, payload: true });
+      dateDispatch({ type: actionTypes.SET_DATE_FETCHING_ON });
     }
-  }, [date, flag, dateDispatch, queryDateFromRef]);
+  }, [flag, dateDispatch, queryDateFromRef]);
 
   return (
     <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
@@ -45,8 +54,8 @@ const DateFields = () => {
           inputProps={{ min: -5000, max: 5000 }}
           onChange={handleInputChange}
           fullWidth
-          error={!!dateError.year}
-          helperText={dateError.year}
+          error={!!dateError.year || !!dateNullError.year}
+          helperText={dateError.year || dateNullError.year}
         />
       </Grid>
       <Grid item xs={12} sm={4} md={4}>
@@ -63,8 +72,8 @@ const DateFields = () => {
           onChange={handleInputChange}
           disabled={!!flag}
           fullWidth
-          error={!!dateError.month}
-          helperText={dateError.month}
+          error={!!dateError.month || !!dateNullError.month}
+          helperText={dateError.month || dateNullError.month}
           sx={{
             '& .MuiOutlinedInput-root': {
               backgroundColor: !flag ? null : '#f5f5f5',
@@ -99,8 +108,8 @@ const DateFields = () => {
           inputProps={{ min: 1, max: lastDay }}
           disabled={!!flag}
           fullWidth
-          error={!!dateError.day}
-          helperText={dateError.day}
+          error={!!dateError.day || !!dateNullError.day}
+          helperText={dateError.day || dateNullError.day}
           sx={{
             '& .MuiOutlinedInput-root': {
               backgroundColor: !flag ? null : '#f5f5f5',

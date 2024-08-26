@@ -1,12 +1,12 @@
-// src/components/StarInput.js
+// src/components/Input/Star/StarInput.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { TextField, Stack, Grid, ToggleButton, ToggleButtonGroup, MenuItem, RadioGroup, Radio, FormControl, Typography } from '@mui/material';
-import { STARS } from '../utils/constants';
-import { dmsToDecimal } from '../utils/coordUtils';
-import { hmsToDecimal } from '../utils/dateUtils';
-import Config from '../Config';
-import CustomFormControlLabel from './ui/CustomFormControlLabel';
+import Config from '../../../Config';
+import { STARS } from '../../../utils/constants';
+import { dmsToDecimal } from '../../../utils/coordUtils';
+import { hmsToDecimal } from '../../../utils/dateUtils';
+import CustomFormControlLabel from '../../UI/CustomFormControlLabel';
 import debounce from 'lodash/debounce';
 
 /* Validate the star params */

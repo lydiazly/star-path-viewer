@@ -1,4 +1,4 @@
-// src/components/DownloadManager.js
+// src/components/Output/DownloadManager.js
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Stack, Button } from '@mui/material';

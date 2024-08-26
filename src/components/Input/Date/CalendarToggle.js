@@ -1,23 +1,21 @@
-// src/components/CalendarToggle.js
+// src/components/Input/Date/CalendarToggle.js
 import React, { useCallback } from 'react';
 import { FormControl, RadioGroup, Radio } from '@mui/material';
-import { useDateInput } from '../context/DateInputContext';
-import { SET_CAL, SET_DATE_ADJUSTING } from '../context/dateInputActionTypes';
-import CustomFormControlLabel from './ui/CustomFormControlLabel';
+import { useDateInput } from '../../../context/DateInputContext';
+import * as actionTypes from '../../../context/dateInputActionTypes';
+import CustomFormControlLabel from '../../UI/CustomFormControlLabel';
 
 const CalendarToggle = () => {
   const {
-    flag,
-    cal,
+    flag,  // 've', 'ss', 'ae', 'ws'
+    cal,  // '': Gregorian, 'j': Julian
     dateDispatch,
   } = useDateInput();
 
   const handleCalChange = useCallback((event) => {
     /* Keep the date values */
-    // setCal(event.target.value);  // DEPRECATED
-    // setAdjusting(true);  // DEPRECATED
-    dateDispatch({ type: SET_CAL, payload: event.target.value });
-    dateDispatch({ type: SET_DATE_ADJUSTING, payload: true });
+    dateDispatch({ type: actionTypes.SET_CAL, payload: event.target.value });
+    dateDispatch({ type: actionTypes.SET_DATE_ADJUSTING_ON });
   }, [dateDispatch]);
 
   return (

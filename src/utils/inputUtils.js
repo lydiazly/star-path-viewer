@@ -1,17 +1,8 @@
 // src/utils/inputUtils.js
-import { CLEAR_DATE_ERROR } from '../context/dateInputActionTypes';
+import * as actionTypes from '../context/dateInputActionTypes';
 
-/* Validate the input */
-const validateInputSync = (
-  location,
-  date, flag, cal,
-  star,
-  setLocationFieldError,
-  dateError, setDateError,
-  setStarFieldError,
-  setLocationValid, setDateValid, setStarValid
-) => {
-  /* Validate location */
+/* Validate location */
+const validateLocationInputSync = (location, setLocationFieldError, setLocationValid) => {
   if (location.type === 'address' && !location.id) {
     setLocationFieldError((prev) => ({ ...prev, address: 'Please search and select a location.' }));
     setLocationValid(false);
@@ -26,25 +17,35 @@ const validateInputSync = (
     setLocationValid(false);
     return false;
   }
+  return true;
+};
 
-  /* Validate date */
-  let newDateError = dateError;
-  if (flag && !date.year) {
-    setDateError({ ...newDateError, year: 'Please enter a year.' });
-    setDateValid(false);
-    return false;
-  } else if (!date.year || !date.month || !date.day) {
-    for (let key of ['year', 'month', 'day']) {
-      if (!date[key]) {
-        newDateError[key] = `Please enter a ${key}.`;
-      }
+/* Validate date */
+const validateDateInputSync = (date, flag, dateDispatch) => {
+  if (flag) {
+    if (!date.year) {
+      dateDispatch({ type: actionTypes.SET_YEAR_NULL_ERROR });
+      dateDispatch({ type: actionTypes.SET_DATE_VALID, payload: false });
+      return false;
     }
-    setDateError(newDateError);
-    setDateValid(false);
+  } else if (!date.year || !date.month || !date.day) {
+    if (!date.year) {
+      dateDispatch({ type: actionTypes.SET_YEAR_NULL_ERROR });
+    }
+    if (!date.month) {
+      dateDispatch({ type: actionTypes.SET_MONTH_NULL_ERROR });
+    }
+    if (!date.day) {
+      dateDispatch({ type: actionTypes.SET_DAY_NULL_ERROR });
+    }
+    dateDispatch({ type: actionTypes.SET_DATE_VALID, payload: false });
     return false;
   }
+  return true;
+};
 
-  /* Validate star */
+/* Validate star */
+const validateStarInputSync = (star, setStarFieldError, setStarValid) => {
   if (star.type === 'name' && !star.name) {
     setStarFieldError((prev) => ({ ...prev, name: 'Please select a planet.' }));
     setStarValid(false);
@@ -63,19 +64,37 @@ const validateInputSync = (
     setStarValid(false);
     return false;
   }
-
   return true;
+};
+
+/* Validate the input */
+const validateInputSync = (
+  location,
+  date, flag,
+  star,
+  dateDispatch,
+  setLocationFieldError,
+  setStarFieldError,
+  setLocationValid,
+  setStarValid
+) => {
+  const isLocationValid = validateLocationInputSync(location, setLocationFieldError, setLocationValid);
+  const isDateValid = validateDateInputSync(date, flag, dateDispatch);
+  const isStarValid = validateStarInputSync(star, setStarFieldError, setStarValid);
+  return isLocationValid && isDateValid && isStarValid;
 };
 
 /* Clear any field errors */
 const clearFieldError = (dateDispatch, setLocationFieldError, setStarFieldError) => {
   setLocationFieldError({ address: '', lat: '', lng: '' });
-  // setDateError({ general: '', year: '', month: '', day: '' });  // DEPRECATED
-  dateDispatch({ type: CLEAR_DATE_ERROR });
+  dateDispatch({ type: actionTypes.CLEAR_DATE_NULL_ERROR });
   setStarFieldError({ name: '', hip: '', ra: '', dec: '' });
 };
 
 export {
+  validateLocationInputSync,
+  validateDateInputSync,
+  validateStarInputSync,
   validateInputSync,
   clearFieldError,
 };

@@ -1,16 +1,16 @@
-// src/components/Home.js
+// src/components/Pages/Home.js
 import React, { useState, useCallback } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Box, Stack, Typography, Alert } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { LocationInputProvider } from '../context/LocationInputContext';
-import { DateInputProvider } from '../context/DateInputContext';
-import DiagramFetcher from './DiagramFetcher';
-import InfoDisplay from './InfoDisplay';
-import ImageDisplay from './ImageDisplay';
-import DownloadManager from './DownloadManager';
-import AnnoDisplay from './AnnoDisplay';
-import TitleImage from '../assets/title-image.svg';
+import TitleImage from '../../assets/title-image.svg';
+import { LocationInputProvider } from '../../context/LocationInputContext';
+import { DateInputProvider } from '../../context/DateInputContext';
+import DiagramFetcher from '../Input/DiagramFetcher';
+import InfoDisplay from '../Output/InfoDisplay';
+import ImageDisplay from '../Output/ImageDisplay';
+import DownloadManager from '../Output/DownloadManager';
+import AnnoDisplay from '../Output/AnnoDisplay';
 
 const Home = () => {
   // console.log('Rendering Home');

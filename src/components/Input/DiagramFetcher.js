@@ -1,27 +1,25 @@
-// src/components/DiagramFetcher.js
+// src/components/Input/DiagramFetcher.js
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 import { Box, Stack, Alert, Button, Typography, CircularProgress } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import Config from '../Config';
-import { useDateInput } from '../context/DateInputContext';
-import { SET_DATE_ERROR, SET_DATE_VALID } from '../context/dateInputActionTypes';
-import { STARS } from '../utils/constants';
-import { validateInputSync, clearFieldError } from '../utils/inputUtils';
-import LocationInput from './LocationInput';
-import DateInput from './DateInput';
-import StarInput from './StarInput';
-import CustomDivider from './ui/CustomDivider';
+import Config from '../../Config';
+import { useDateInput } from '../../context/DateInputContext';
+import { STARS } from '../../utils/constants';
+import { validateLocationInputSync, validateDateInputSync, validateInputSync, clearFieldError } from '../../utils/inputUtils';
+import { sanitizeSvg } from '../../utils/svgUtils';
+import LocationInput from './Location/LocationInput';
+import DateInput from './Date/DateInput';
+import StarInput from './Star/StarInput';
+import CustomDivider from '../UI/CustomDivider';
 
 const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
   // console.log('Rendering DiagramFetcher');
   const {
     date,
     flag,  // 've', 'ss', 'ae', 'ws'
-    cal,  // '', 'j'
-    dateError,
+    cal,  // '': Gregorian, 'j': Julian
     dateValid,
     dateDispatch,
   } = useDateInput();
@@ -46,24 +44,10 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
 
   useEffect(() => {
     if (flag) {
-      if (!location.lat || !location.lng) {
-        if (location.type === 'address') {
-          setLocationFieldError((prev) => ({ ...prev, address: 'Please search and select a location.' }));
-        } else {
-          if (!location.lat) {
-            setLocationFieldError((prev) => ({ ...prev, lat: 'Please enter a latitude.' }));
-          }
-          if (!location.lng) {
-            setLocationFieldError((prev) => ({ ...prev, lng: 'Please enter a longitude.' }));
-          }
-        }
-      }
-      if (!date.year) {
-        // setDateFieldError((prev) => ({ ...prev, year: 'Please enter a year.' }));  // DEPRECATED
-        dateDispatch({ type: SET_DATE_ERROR, payload: { ...dateError, year: 'Please enter a year.' } });
-      }
+      validateLocationInputSync(location, setLocationFieldError, setLocationValid);
+      validateDateInputSync(date, flag, dateDispatch);
     }
-  }, [date, flag, location, dateError, dateDispatch]);
+  }, [date, flag, location, dateDispatch]);
 
   const handleDraw = useCallback(async () => {
     if (loading) return;
@@ -81,17 +65,17 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     // console.log("Set: ", location, date, star);
     const isValid = validateInputSync(
       location,
-      date, flag, cal,
+      date, flag,
       star,
+      dateDispatch,
       setLocationFieldError,
-      dateError,
-      (dateError) => dateDispatch({ type: SET_DATE_ERROR, payload: dateError }),
       setStarFieldError,
       setLocationValid,
-      (dateValid) => dateDispatch({ type: SET_DATE_VALID, payload: dateValid }),
       setStarValid
     );
-    if (!isValid) return;
+    if (!isValid) {
+      return;
+    }
 
     /* Assign parameters -----------------------------------------------------*/
     const params = {
@@ -151,32 +135,19 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       // console.log("info: ", newInfo);
       // console.log(response.data.annotations);
 
-      const svgBase64 = response.data.svgData;
-      /* Decode base64 to binary string */
-      const svgBinaryString = atob(svgBase64);
-      /* Convert binary string to an array of char codes */
-      const charCodes = new Uint8Array(svgBinaryString.length);
-      for (let i = 0; i < svgBinaryString.length; i++) {
-        charCodes[i] = svgBinaryString.charCodeAt(i);
-      }
-      /* Decode UTF-8 from char codes */
-      const decoder = new TextDecoder('utf-8');
-      const svgDecoded = decoder.decode(charCodes);
-      /* Sanitize the SVG content using DOMPurify */
-      const sanitizedSvg = DOMPurify.sanitize(svgDecoded, {
-        ADD_TAGS: ['use', 'clipPath'],
-        ADD_ATTR: ['id', 'xlink:href', 'clip-path'],
-      });
+      const sanitizedSvg = sanitizeSvg(response.data.svgData);
 
       setDiagramId(response.data.diagramId);
       setSvgData(sanitizedSvg);
       setAnno(response.data.annotations);
+
       /* Clear any previous error message */
       clearFieldError(
         dateDispatch,
         setLocationFieldError,
         setStarFieldError
       );
+
       setSuccess(true);
 
     } catch (error) {
@@ -192,7 +163,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     } finally {
       setLoading(false);
     }
-  }, [location, date, flag, cal, star, loading, dateError, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setErrorMessage, dateDispatch]);
+  }, [location, date, flag, cal, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, setErrorMessage, dateDispatch]);
 
   return (
     <Stack direction="column" spacing={3}>

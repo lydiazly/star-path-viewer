@@ -1,35 +1,29 @@
-// src/components/QuickEntryAccordion.js
+// src/components/Input/Date/QuickEntryAccordion.js
 import React, { useCallback } from 'react';
 import { Box, Grid, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useDateInput } from '../context/DateInputContext';
-import { SET_FLAG, SET_CAL, SET_DATE_FETCHING, SET_DATE_VALID } from '../context/dateInputActionTypes';
-import CustomToggleButton from './ui/CustomToggleButton';
-import { EQX_SOL_NAMES } from '../utils/constants';
+import { useDateInput } from '../../../context/DateInputContext';
+import * as actionTypes from '../../../context/dateInputActionTypes';
+import { EQX_SOL_NAMES } from '../../../utils/constants';
+import CustomToggleButton from '../../UI/CustomToggleButton';
 
 const QuickEntryAccordion = () => {
   const {
-    flag,
+    flag,  // 've', 'ss', 'ae', 'ws'
     queryDateFromRef,
     dateDispatch,
   } = useDateInput();
 
   const handleFlagChange = useCallback((event, newFlag) => {
     if (flag === newFlag) {
-      // setFlag('');  // DEPRECATED
-      dateDispatch({ type: SET_FLAG, payload: '' });  // Deselect
-      // onDateChange({ ...date, flag: '' });
+      dateDispatch({ type: actionTypes.SET_FLAG, payload: '' });  // Deselect
     } else {
-      // setFlag(newFlag);  // DEPRECATED
-      dateDispatch({ type: SET_FLAG, payload: newFlag });  // Select another
+      dateDispatch({ type: actionTypes.SET_FLAG, payload: newFlag });  // Select another
       if (newFlag) {
         queryDateFromRef.current = 'click';
-        // setFetching(true);  // DEPRECATED
-        dateDispatch({ type: SET_DATE_FETCHING, payload: true });
-        // setDateValid(false);  // DEPRECATED
-        dateDispatch({ type: SET_DATE_VALID, payload: false });
-        // setCal('');  // DEPRECATED
-        dateDispatch({ type: SET_CAL, payload: '' });  // Force to use Gregorian
+        dateDispatch({ type: actionTypes.SET_DATE_FETCHING_ON });
+        dateDispatch({ type: actionTypes.SET_DATE_VALID, payload: false });
+        dateDispatch({ type: actionTypes.SET_CAL, payload: '' });  // Force to use Gregorian
       }
     }
   }, [flag, queryDateFromRef, dateDispatch]);
