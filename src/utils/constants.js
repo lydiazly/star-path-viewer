@@ -71,4 +71,13 @@ export const EQX_SOL_KEYS = {
 export const TYPE_ADD = 'address';
 export const TYPE_COORD = 'coordinates';
 
+export const JULIAN = 'j';
+
+export const TYPE_NAME = 'name';
+export const TYPE_HIP = 'hip';
+export const TYPE_RADEC = 'radec';
+
+export const FORMAT_DD = 'decimal';
+export const FORMAT_DMS = 'dms';
+
 export const ADD_UNKNOWN = 'unknown';

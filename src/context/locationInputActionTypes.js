@@ -1,4 +1,4 @@
-// src/context/locationInputActionTypes.jsexport const SET_YEAR = 'SET_YEAR';
+// src/context/locationInputActionTypes.js
 export const SET_ADDRESS = 'SET_ADDRESS';
 export const SET_LAT = 'SET_LAT';
 export const SET_LNG = 'SET_LNG';

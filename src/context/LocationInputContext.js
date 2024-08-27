@@ -8,7 +8,7 @@ const LocationInputContext = createContext();
 
 const initialState = {
   location: { lat: '', lng: '', id: '', tz: '' },  // id: ''(not-found), 'unknown'
-  inputType: TYPE_ADD,  // 'address' or 'coordinates'
+  locationInputType: TYPE_ADD,  // 'address', 'coordinates'
   searchTerm: '',
   suggestions: [],
   highlightedIndex: -1,
@@ -121,7 +121,7 @@ const locationInputReducer = (state, action) => {
       };
 
     case actionTypes.SET_INPUT_TYPE:
-      return { ...state, inputType: action.payload };
+      return { ...state, locationInputType: action.payload };
 
     case actionTypes.SET_SEARCH_TERM:
       return { ...state, searchTerm: action.payload };

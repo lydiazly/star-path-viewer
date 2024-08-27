@@ -5,8 +5,8 @@ import { useLocationInput } from '../../../context/LocationInputContext';
 import * as actionTypes from '../../../context/locationInputActionTypes';
 import { TYPE_ADD, TYPE_COORD } from '../../../utils/constants';
 
-const InputTypeToggle = () => {
-  const { inputType, locationDispatch } = useLocationInput();
+const LocationInputTypeToggle = () => {
+  const { locationInputType, locationDispatch } = useLocationInput();
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
@@ -18,7 +18,7 @@ const InputTypeToggle = () => {
     <ToggleButtonGroup
       color="primary"
       size="small"
-      value={inputType}
+      value={locationInputType}
       exclusive
       onChange={handleInputTypeChange}
       aria-label="Input type"
@@ -34,4 +34,4 @@ const InputTypeToggle = () => {
   );
 };
 
-export default React.memo(InputTypeToggle);
+export default React.memo(LocationInputTypeToggle);

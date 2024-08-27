@@ -1,11 +1,12 @@
 // src/utils/inputUtils.js
 import * as locationActionTypes from '../context/locationInputActionTypes';
 import * as dateActionTypes from '../context/dateInputActionTypes';
-import { TYPE_ADD } from './constants';
+import * as starActionTypes from '../context/starInputActionTypes';
+import { TYPE_ADD, TYPE_NAME, TYPE_HIP, TYPE_RADEC } from './constants';
 
 /* Validate the location */
-const validateLocationInputSync = (location, inputType, locationDispatch) => {
-  if (inputType === TYPE_ADD) {
+const validateLocationInputSync = (location, locationInputType, locationDispatch) => {
+  if (locationInputType === TYPE_ADD) {
     if (!location.id) {
       locationDispatch({ type: locationActionTypes.SET_ADDRESS_NULL_ERROR });
       locationDispatch({ type: locationActionTypes.SET_LOCATION_VALID, payload: false });
@@ -49,23 +50,23 @@ const validateDateInputSync = (date, flag, dateDispatch) => {
 };
 
 /* Validate the star */
-const validateStarInputSync = (star, setStarFieldError, setStarValid) => {
-  if (star.type === 'name' && !star.name) {
-    setStarFieldError((prev) => ({ ...prev, name: 'Please select a planet.' }));
-    setStarValid(false);
+const validateStarInputSync = (starName, starHip, starRadec, starInputType, starDispatch) => {
+  if (starInputType === TYPE_NAME && !starName) {
+    starDispatch({ type: starActionTypes.SET_STAR_NAME_NULL_ERROR });
+    starDispatch({ type: starActionTypes.SET_STAR_VALID, payload: false });
     return false;
-  } else if (star.type === 'hip' && !star.hip) {
-    setStarFieldError((prev) => ({ ...prev, hip: 'Please enter a Hipparchus catalogue number.' }));
-    setStarValid(false);
+  } else if (starInputType === TYPE_HIP && !starHip) {
+    starDispatch({ type: starActionTypes.SET_STAR_HIP_NULL_ERROR });
+    starDispatch({ type: starActionTypes.SET_STAR_VALID, payload: false });
     return false;
-  } else if (star.type === 'radec' && (!star.ra || !star.dec)) {
-    if (!star.ra) {
-      setStarFieldError((prev) => ({ ...prev, ra: 'Please enter a right ascension.' }));
+  } else if (starInputType === TYPE_RADEC && (!starRadec.ra || !starRadec.dec)) {
+    if (!starRadec.ra) {
+      starDispatch({ type: starActionTypes.SET_STAR_RA_NULL_ERROR });
     }
-    if (!star.dec) {
-      setStarFieldError((prev) => ({ ...prev, dec: 'Please enter a declination.' }));
+    if (!starRadec.dec) {
+      starDispatch({ type: starActionTypes.SET_STAR_DEC_NULL_ERROR });
     }
-    setStarValid(false);
+    starInputType({ type: starActionTypes.SET_STAR_VALID, payload: false });
     return false;
   }
   return true;
@@ -73,25 +74,24 @@ const validateStarInputSync = (star, setStarFieldError, setStarValid) => {
 
 /* Validate the input */
 const validateInputSync = (
-  location, inputType,
+  location, locationInputType,
   date, flag,
-  star,
+  starName, starHip, starRadec, starInputType,
   locationDispatch,
   dateDispatch,
-  setStarFieldError,
-  setStarValid
+  starDispatch
 ) => {
-  const isLocationValid = validateLocationInputSync(location, inputType, locationDispatch);
+  const isLocationValid = validateLocationInputSync(location, locationInputType, locationDispatch);
   const isDateValid = validateDateInputSync(date, flag, dateDispatch);
-  const isStarValid = validateStarInputSync(star, setStarFieldError, setStarValid);
+  const isStarValid = validateStarInputSync(starName, starHip, starRadec, starInputType, starDispatch);
   return isLocationValid && isDateValid && isStarValid;
 };
 
 /* Clear any null errors */
-const clearNullError = (locationDispatch, dateDispatch, setStarFieldError) => {
+const clearNullError = (locationDispatch, dateDispatch, starDispatch) => {
   locationDispatch({ type: locationActionTypes.CLEAR_LOCATION_NULL_ERROR });
   dateDispatch({ type: dateActionTypes.CLEAR_DATE_NULL_ERROR });
-  setStarFieldError({ name: '', hip: '', ra: '', dec: '' });
+  starDispatch({ type: starActionTypes.CLEAR_STAR_NULL_ERROR });
 };
 
 export {

@@ -14,15 +14,10 @@ const CoordinatesInput = () => {
 
   const handleInputChange = useCallback((event) => {
     const { name, value } = event.target;
-    switch (name) {
-      case 'lat':
-        locationDispatch({ type: actionTypes.SET_LAT, payload: value });
-        break;
-      case 'lng':
-        locationDispatch({ type: actionTypes.SET_LNG, payload: value });
-        break;
-      default:
-        return;
+    if (name === 'lat') {
+      locationDispatch({ type: actionTypes.SET_LAT, payload: value });
+    } else {
+      locationDispatch({ type: actionTypes.SET_LNG, payload: value });
     }
   }, [locationDispatch]);
 

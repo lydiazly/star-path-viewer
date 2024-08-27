@@ -20,7 +20,7 @@ const LocationInput = ({ setErrorMessage }) => {
   // console.log('Rendering LocationInput');
   const {
     location,  // id: ''(not-found), 'unknown'
-    inputType,  // 'address' or 'coordinates'
+    locationInputType,  // 'address', 'coordinates'
     searchTerm,
     serviceChosen, setServiceChosen,
     latestTzRequest,
@@ -34,20 +34,20 @@ const LocationInput = ({ setErrorMessage }) => {
   }, [locationDispatch, setErrorMessage]);
 
   // useEffect(() => {
-  //   onLocationChange({ ...location, type: inputType });
-  // }, [location, inputType, onLocationChange]);  // DEPRECATED
+  //   onLocationChange({ ...location, type: locationInputType });
+  // }, [location, locationInputType, onLocationChange]);  // DEPRECATED
 
   /* Reset error when user starts typing */
   useEffect(() => {
     clearLocationError(locationDispatch, setErrorMessage);
     /* Clear address and tz if lat or lng is empty */
-    if (searchTerm.trim() && inputType === TYPE_COORD && (!location.lat || !location.lng)) {
+    if (searchTerm.trim() && locationInputType === TYPE_COORD && (!location.lat || !location.lng)) {
       locationDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });
       locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       locationDispatch({ type: actionTypes.SET_ID, payload: '' });
       locationDispatch({ type: actionTypes.SET_TZ, payload: '' });
     }
-  }, [searchTerm, location, inputType, locationDispatch, setErrorMessage]);
+  }, [searchTerm, location, locationInputType, locationDispatch, setErrorMessage]);
 
   /* Clear tz if lat or lng is empty */
   useEffect(() => {
@@ -58,15 +58,15 @@ const LocationInput = ({ setErrorMessage }) => {
 
   useEffect(() => {
     locationDispatch({ type: actionTypes.CLEAR_ADDRESS_NULL_ERROR });
-  }, [searchTerm, inputType, locationDispatch]);
+  }, [searchTerm, locationInputType, locationDispatch]);
 
   useEffect(() => {
     locationDispatch({ type: actionTypes.CLEAR_LAT_NULL_ERROR });
-  }, [location.lat, inputType, locationDispatch]);
+  }, [location.lat, locationInputType, locationDispatch]);
 
   useEffect(() => {
     locationDispatch({ type: actionTypes.CLEAR_LNG_NULL_ERROR });
-  }, [location.lng, inputType, locationDispatch]);
+  }, [location.lng, locationInputType, locationDispatch]);
 
   /* Choose geocoding service */
   useEffect(() => {
@@ -80,8 +80,8 @@ const LocationInput = ({ setErrorMessage }) => {
   }, [serviceChosen, setServiceChosen]);
 
   const debouncedValidateLocation = useMemo(
-    () => debounce((inputType, location) => {
-      const validationResult = validateLocationSync(inputType, location);
+    () => debounce((locationInputType, location) => {
+      const validationResult = validateLocationSync(locationInputType, location);
       const isValid = !Object.values(validationResult).some((item) => !!item);
       locationDispatch({ type: actionTypes.SET_LOCATION_ERROR, payload: validationResult });
       locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: isValid });
@@ -90,12 +90,12 @@ const LocationInput = ({ setErrorMessage }) => {
   );
 
   useEffect(() => {
-    debouncedValidateLocation(inputType, location);
+    debouncedValidateLocation(locationInputType, location);
     /* Cleanup function */
     return () => {
       debouncedValidateLocation.cancel();
     };
-  }, [location, inputType, debouncedValidateLocation]);
+  }, [location, locationInputType, debouncedValidateLocation]);
 
   const handleSnackbarClose = useCallback((event, reason) => {
     locationDispatch({ type: actionTypes.SET_ID, payload: '' });
@@ -104,7 +104,7 @@ const LocationInput = ({ setErrorMessage }) => {
   return (
     <Stack direction="column" spacing={2}>
       <LocationInputTypeToggle />
-      {inputType === TYPE_ADD ? (
+      {locationInputType === TYPE_ADD ? (
         <AddressInput setErrorMessage={setErrorMessage} />
       ) : (
         <CoordinatesInput />

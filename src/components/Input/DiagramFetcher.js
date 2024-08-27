@@ -7,7 +7,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Config from '../../Config';
 import { useLocationInput } from '../../context/LocationInputContext';
 import { useDateInput } from '../../context/DateInputContext';
-import { STARS } from '../../utils/constants';
+import { useStarInput } from '../../context/StarInputContext';
+// import * as dateActionTypes from '../../context/dateInputActionTypes';
+import { STARS, JULIAN, TYPE_NAME, TYPE_HIP, TYPE_RADEC } from '../../utils/constants';
 import { validateLocationInputSync, validateDateInputSync, validateInputSync, clearNullError } from '../../utils/inputUtils';
 import { sanitizeSvg } from '../../utils/svgUtils';
 import LocationInput from './Location/LocationInput';
@@ -21,7 +23,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
   // console.log('Rendering DiagramFetcher');
   const {
     location,  // id: ''(not-found), 'unknown'
-    inputType,  // 'address' or 'coordinates'
+    locationInputType,  // 'address', 'coordinates'
     locationValid,
     locationDispatch,
   } = useLocationInput();
@@ -32,28 +34,27 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     dateValid,
     dateDispatch,
   } = useDateInput();
-  const [star, setStar] = useState({ name: '', hip: '', ra: '', dec: '', type: '' });  // type: 'name', 'hip', 'radec'
+  const {
+    starName, starHip, starRadec,
+    starInputType,  // 'name', 'hip', 'radec'
+    starValid,
+    starDispatch,
+  } = useStarInput();
   const [errorMessage, setErrorMessage] = useState({});
-  const [starFieldError, setStarFieldError] = useState({ name: '', hip: '', ra: '', dec: '' });
   const [loading, setLoading] = useState(false);
-  const [starValid, setStarValid] = useState(true);
 
   /* Reset error when user starts typing */
   useEffect(() => {
-    clearNullError(
-      locationDispatch,
-      dateDispatch,
-      setStarFieldError
-    );
+    clearNullError(locationDispatch, dateDispatch, starDispatch);
     setErrorMessage((prev) => ({ ...prev, draw: '', download: '' }));
-  }, [location, inputType, date, flag, cal, star, locationDispatch, dateDispatch]);
+  }, [location, locationInputType, date, flag, cal, starName, starHip, starRadec, starInputType, locationDispatch, dateDispatch, starDispatch]);
 
   useEffect(() => {
     if (flag) {
-      validateLocationInputSync(location, inputType, locationDispatch);
+      validateLocationInputSync(location, locationInputType, locationDispatch);
       validateDateInputSync(date, flag, dateDispatch);
     }
-  }, [location, inputType, date, flag, locationDispatch, dateDispatch]);
+  }, [location, locationInputType, date, flag, locationDispatch, dateDispatch]);
 
   const handleDraw = useCallback(async () => {
     if (loading) {
@@ -62,23 +63,18 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
 
     clearImage();  // Clear the SVG data before making the API call
     /* Clear any previous error message before making the API call */
-    clearNullError(
-      locationDispatch,
-      dateDispatch,
-      setStarFieldError
-    );
+    clearNullError(locationDispatch, dateDispatch, starDispatch);
     setSuccess(false);
 
     /* Check input values ----------------------------------------------------*/
-    // console.log("Set: ", location, date, star);
+    // console.log("Set: ", location, date, flag, cal, starName, starHip, starRadec, starInputType);
     const isValid = validateInputSync(
-      location, inputType,
+      location, locationInputType,
       date, flag,
-      star,
+      starName, starHip, starRadec, starInputType,
       locationDispatch,
       dateDispatch,
-      setStarFieldError,
-      setStarValid
+      starDispatch
     );
     if (!isValid) {
       return;
@@ -98,15 +94,15 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       params.tz = location.tz;
     }
 
-    if (star.type === 'name') {
-      params.name = STARS[star.name];
-    } else if (star.type === 'hip') {
-      params.hip = parseInt(star.hip).toString();
-    } else if (star.type === 'radec') {
-      params.ra = parseFloat(star.ra).toString();
-      params.dec = parseFloat(star.dec).toString();
+    if (starInputType === TYPE_NAME) {
+      params.name = STARS[starName];
+    } else if (starInputType === TYPE_HIP) {
+      params.hip = parseInt(starHip).toString();
+    } else if (starInputType === TYPE_RADEC) {
+      params.ra = parseFloat(starRadec.ra).toString();
+      params.dec = parseFloat(starRadec.dec).toString();
     }
-    // console.log("params", params);
+    console.log("params", params);
 
     /* Plot ------------------------------------------------------------------*/
     try {
@@ -121,7 +117,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         return info;
       }, {});
 
-      if (cal === 'j') {
+      if (cal === JULIAN) {
         newInfo.dateG = { year: response.data.year, month: response.data.month, day: response.data.day };
         newInfo.dateJ = { year: parseInt(date.year), month: parseInt(date.month), day: parseInt(date.day) };
       } else {
@@ -136,7 +132,8 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       //   newInfo.eqxSolTime = response.data.eqxSolTime;
       //   newInfo.dateG.month = res_month;
       //   newInfo.dateG.day = res_day;
-      //   setDate({ ...date, month: res_month, day: res_day });
+      //   dateDispatch({ type: dateActionTypes.SET_MONTH, payload: res_month });
+      //   dateDispatch({ type: dateActionTypes.SET_DAY, payload: res_day });
       // }
       setInfo(newInfo);
       // console.log("info: ", newInfo);
@@ -149,11 +146,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       setAnno(response.data.annotations);
 
       /* Clear any previous error message */
-      clearNullError(
-        locationDispatch,
-        dateDispatch,
-        setStarFieldError
-      );
+      clearNullError(locationDispatch, dateDispatch, starDispatch);
 
       setSuccess(true);
 
@@ -170,7 +163,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     } finally {
       setLoading(false);
     }
-  }, [location, inputType, date, flag, cal, star, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, locationDispatch, dateDispatch, setErrorMessage]);
+  }, [location, locationInputType, date, flag, cal, starName, starHip, starRadec, starInputType, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, locationDispatch, dateDispatch, starDispatch, setErrorMessage]);
 
   return (
     <Stack direction="column" spacing={3}>
@@ -200,13 +193,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
 
         <Stack id="star" direction="column" spacing={1}>
           <CustomDivider>CELESTIAL OBJECT</CustomDivider>
-          <StarInput
-            onStarChange={setStar}
-            setErrorMessage={setErrorMessage}
-            setStarValid={setStarValid}
-            fieldError={starFieldError}
-            setFieldError={setStarFieldError}
-          />
+          <StarInput setErrorMessage={setErrorMessage} />
           {errorMessage.star && (
             <Alert severity="error" sx={alertStyle} onClose={() => setErrorMessage((prev) => ({ ...prev, star: '' }))}>
               {errorMessage.star}
@@ -230,13 +217,18 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
             </Box>
           }
           sx={{ marginTop: 3 }}
-          disabled={!!errorMessage.location || !!errorMessage.date || !!errorMessage.star || !!errorMessage.draw ||
-            loading || !dateValid || !locationValid || !starValid}
+          disabled={
+            loading ||
+            !dateValid || !locationValid || !starValid ||
+            !!errorMessage.location || !!errorMessage.date || !!errorMessage.star ||
+            !!errorMessage.draw
+          }
           onClick={handleDraw}
           fullWidth
         >
           Draw Star Path
         </Button>
+
         {errorMessage.draw && (
           <Alert
             severity={errorMessage.draw.includes('never rises') ? "warning" : "error"}
@@ -246,6 +238,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
             {errorMessage.draw}
           </Alert>
         )}
+
         {loading && (
           <Typography color="action.active" variant="body1" sx={{ pt: 1, textAlign: 'center' }}>
             <em>Please wait. This may take a few seconds.</em>

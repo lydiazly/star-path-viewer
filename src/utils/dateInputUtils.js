@@ -1,6 +1,7 @@
 // src/utils/dateInputUtils.js
 import { EPH_DATE_MIN, EPH_DATE_MAX, EPH_DATE_MIN_JULIAN, EPH_DATE_MAX_JULIAN } from './constants';
 import * as actionTypes from '../context/dateInputActionTypes';
+import { JULIAN } from './constants';
 import { dateToStr } from './dateUtils';
 import { fetchEquinoxSolstice } from './fetchEquinoxSolstice';
 
@@ -73,8 +74,8 @@ const adjustDate = (date, cal, dateDispatch) => {
   let month = parseInt(date.month) || 1;
   let day = parseInt(date.day) || 1;
 
-  const ephDateMin = cal === 'j' ? EPH_DATE_MIN_JULIAN : EPH_DATE_MIN;
-  const ephDateMax = cal === 'j' ? EPH_DATE_MAX_JULIAN : EPH_DATE_MAX;
+  const ephDateMin = cal === JULIAN ? EPH_DATE_MIN_JULIAN : EPH_DATE_MIN;
+  const ephDateMax = cal === JULIAN ? EPH_DATE_MAX_JULIAN : EPH_DATE_MAX;
   const newDisabledMonths = {};
   let dayMin = 1;
   let dayMax = 31;
@@ -141,8 +142,8 @@ const adjustDate = (date, cal, dateDispatch) => {
 const validateDateSync = (date, flag, cal) => {
   // console.log('Validating...', date);
   let newDateError = { general: '', year: '', month: '', day: '' };
-  const ephDateMin = cal === 'j' ? EPH_DATE_MIN_JULIAN : EPH_DATE_MIN;
-  const ephDateMax = cal === 'j' ? EPH_DATE_MAX_JULIAN : EPH_DATE_MAX;
+  const ephDateMin = cal === JULIAN ? EPH_DATE_MIN_JULIAN : EPH_DATE_MIN;
+  const ephDateMax = cal === JULIAN ? EPH_DATE_MAX_JULIAN : EPH_DATE_MAX;
 
   for (let key of ['year', 'month', 'day']) {
     if (!/^-?\d*$/.test(date[key])) {
@@ -163,7 +164,10 @@ const validateDateSync = (date, flag, cal) => {
         (year === ephDateMax[0] && (flag ||
           month > ephDateMax[1] || (month === ephDateMax[1] && day > ephDateMax[2]))))
     ) {
-      return { ...newDateError, general: `Out of the ephemeris date range: ${dateToStr({ date: ephDateMin })} \u2013 ${dateToStr({ date: ephDateMax })} (${cal === 'j' ? 'Julian' : 'Gregorian'})` };
+      return {
+        ...newDateError,
+        general: `Out of the ephemeris date range: ${dateToStr({ date: ephDateMin })} \u2013 ${dateToStr({ date: ephDateMax })} (${cal === JULIAN ? 'Julian' : 'Gregorian'})`,
+      };
     }
   }
 

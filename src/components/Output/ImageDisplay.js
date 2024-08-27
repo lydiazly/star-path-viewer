@@ -7,7 +7,7 @@ const ImageDisplay = ({ svgData }) => {
   return (
     <Box
       id="svg-container"
-      sx={{
+      sx={{mr: 0.5,
         '& svg': {
           width: '100%',
           height: 'auto',

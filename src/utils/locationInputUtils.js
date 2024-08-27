@@ -26,11 +26,11 @@ const fetchCurrentLocation = async (service, locationDispatch, setErrorMessage) 
 };
 
 /* Validate the location */
-const validateLocationSync = (inputType, location) => {
+const validateLocationSync = (locationInputType, location) => {
   // console.log(location);
   let newLocationError = { address: '', lat: '', lng: '' };
 
-  if (inputType === TYPE_COORD) {
+  if (locationInputType === TYPE_COORD) {
     if (!/^-?\d*(\.\d+)?$/.test(location.lat)) {
       return { ...newLocationError, lat: 'The latitude must be a decimal.' };
     }
