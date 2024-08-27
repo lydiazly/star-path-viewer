@@ -26,6 +26,7 @@ const StarHipInput = () => {
       type="number"
       value={starHip}
       onChange={handleInputChange}
+      onWheel={(event) => event.target.blur()}
       fullWidth
       error={!!starError.hip || !!starNullError.hip}
       helperText={starError.hip || starNullError.hip}

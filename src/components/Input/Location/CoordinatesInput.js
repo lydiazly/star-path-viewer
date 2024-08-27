@@ -32,9 +32,10 @@ const CoordinatesInput = () => {
             size="small"
             variant="outlined"
             name="lat"
+            type="number"
             value={location.lat}
             onChange={handleInputChange}
-            type="number"
+            onWheel={(event) => event.target.blur()}
             inputProps={{ min: -90, max: 90 }}
             fullWidth
             error={!!locationError.lat || !!locationNullError.lat}
@@ -56,9 +57,10 @@ const CoordinatesInput = () => {
             size="small"
             variant="outlined"
             name="lng"
+            type="number"
             value={location.lng}
             onChange={handleInputChange}
-            type="number"
+            onWheel={(event) => event.target.blur()}
             inputProps={{ min: -180, max: 180 }}
             fullWidth
             error={!!locationError.lng || !!locationNullError.lng}

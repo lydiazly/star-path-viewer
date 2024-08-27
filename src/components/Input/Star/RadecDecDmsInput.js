@@ -58,6 +58,7 @@ const RadecDecDmsInput = () => {
           type="number"
           value={starDecDMS.degrees}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           inputProps={{ min: -90, max: 90 }}
           fullWidth
         />
@@ -72,6 +73,7 @@ const RadecDecDmsInput = () => {
           type="number"
           value={starDecDMS.minutes}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           inputProps={{ min: 0, max: 59 }}
           fullWidth
         />
@@ -86,6 +88,7 @@ const RadecDecDmsInput = () => {
           type="number"
           value={starDecDMS.seconds}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           inputProps={{ min: 0, max: 59 }}
           fullWidth
         />

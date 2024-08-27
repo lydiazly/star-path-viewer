@@ -58,6 +58,7 @@ const RadecRaHmsInput = () => {
           type="number"
           value={starRaHMS.hours}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           inputProps={{ min: 0, max: 23 }}
           fullWidth
         />
@@ -72,6 +73,7 @@ const RadecRaHmsInput = () => {
           type="number"
           value={starRaHMS.minutes}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           inputProps={{ min: 0, max: 59 }}
           fullWidth
         />
@@ -86,6 +88,7 @@ const RadecRaHmsInput = () => {
           type="number"
           value={starRaHMS.seconds}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           inputProps={{ min: 0, max: 59 }}
           fullWidth
         />

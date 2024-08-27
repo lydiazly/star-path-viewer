@@ -53,6 +53,7 @@ const DateFields = () => {
           value={date.year}
           inputProps={{ min: -5000, max: 5000 }}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           fullWidth
           error={!!dateError.year || !!dateNullError.year}
           helperText={dateError.year || dateNullError.year}
@@ -105,6 +106,7 @@ const DateFields = () => {
           type="number"
           value={date.day}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           inputProps={{ min: 1, max: lastDay }}
           disabled={!!flag}
           fullWidth

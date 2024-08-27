@@ -52,6 +52,7 @@ const RadecDecimalInput = () => {
           type="number"
           value={starRadec.ra}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           fullWidth
           error={!!starError.ra || !!starNullError.ra}
           helperText={starError.ra || starNullError.ra}
@@ -68,6 +69,7 @@ const RadecDecimalInput = () => {
           type="number"
           value={starRadec.dec}
           onChange={handleInputChange}
+          onWheel={(event) => event.target.blur()}
           fullWidth
           error={!!starError.dec || !!starNullError.dec}
           helperText={starError.dec || starNullError.dec}
