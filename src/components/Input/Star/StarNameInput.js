@@ -35,7 +35,7 @@ const StarNameInput = () => {
       sx={{ marginTop: 2 }}
     >
       <MenuItem key="none" value="" sx={{ color: 'action.active' }}>
-        -- Select a name --
+        -- Select a planet --
       </MenuItem>
       {Object.keys(STARS).map((key) => (
         <MenuItem key={key} value={key}>
