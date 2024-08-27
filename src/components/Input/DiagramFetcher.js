@@ -17,6 +17,8 @@ import DateInput from './Date/DateInput';
 import StarInput from './Star/StarInput';
 import CustomDivider from '../UI/CustomDivider';
 
+const warningPrefix = 'WARNING:';
+
 const alertStyle = { width: '100%', textAlign: 'left' };
 
 const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess, clearImage }) => {
@@ -102,7 +104,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
       params.ra = parseFloat(starRadec.ra).toString();
       params.dec = parseFloat(starRadec.dec).toString();
     }
-    console.log("params", params);
+    // console.log("params", params);
 
     /* Plot ------------------------------------------------------------------*/
     try {
@@ -231,11 +233,14 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
 
         {errorMessage.draw && (
           <Alert
-            severity={errorMessage.draw.includes('never rises') ? "warning" : "error"}
+            severity={errorMessage.draw.startsWith(warningPrefix) ? "warning" : "error"}
             sx={alertStyle}
             onClose={() => setErrorMessage((prev) => ({ ...prev, draw: '' }))}
           >
-            {errorMessage.draw}
+            {errorMessage.draw.startsWith(warningPrefix)
+            ? errorMessage.draw.substring(warningPrefix.length).trim()
+            : errorMessage.draw
+            }
           </Alert>
         )}
 

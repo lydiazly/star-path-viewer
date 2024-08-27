@@ -21,7 +21,7 @@ const TimezoneFetcher = ({ lat, lng, latestTzRequest }) => {
             /* Only update if this request is the latest one */
             if (requestId === latestTzRequest.current) {
               locationDispatch({ type: actionTypes.SET_TZ, payload: tz });
-              console.log(tz);
+              // console.log(tz);
             }
           } catch (error) {
             if (requestId === latestTzRequest.current) {

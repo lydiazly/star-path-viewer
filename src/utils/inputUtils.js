@@ -66,7 +66,7 @@ const validateStarInputSync = (starName, starHip, starRadec, starInputType, star
     if (!starRadec.dec) {
       starDispatch({ type: starActionTypes.SET_STAR_DEC_NULL_ERROR });
     }
-    starInputType({ type: starActionTypes.SET_STAR_VALID, payload: false });
+    starDispatch({ type: starActionTypes.SET_STAR_VALID, payload: false });
     return false;
   }
   return true;
