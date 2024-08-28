@@ -135,6 +135,8 @@ const locationInputReducer = (state, action) => {
 
     case actionTypes.SET_HIGHLIGHTED_INDEX:
       return { ...state, highlightedIndex: action.payload };
+    case actionTypes.CLEAR_HIGHLIGHTED_INDEX:
+      return { ...state, highlightedIndex: -1 };
 
     case actionTypes.SET_LOCATION_LOADING_ON:
       return { ...state, locationLoading: true };

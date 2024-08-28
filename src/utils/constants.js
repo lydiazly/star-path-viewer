@@ -5,6 +5,9 @@ export const EPH_DATE_MAX = [3000, 5, 6];    // 6 May 3000 CE
 export const EPH_DATE_MIN_JULIAN = [-3000, 2, 23];  // 23 February 3001 BCE
 export const EPH_DATE_MAX_JULIAN = [3000, 4, 15];   // 15 April 3000 CE
 
+export const HIP_MIN = 1;
+export const HIP_MAX = 118322;
+
 export const MONTHS = [
   { abbr: '', name: '' },
   { abbr: 'Jan', name: 'January' },
