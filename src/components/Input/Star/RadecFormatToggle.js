@@ -31,6 +31,7 @@ const RadecFormatToggle = () => {
       >
         <CustomFormControlLabel
           size="small"
+          name={FORMAT_DMS}
           value={FORMAT_DMS}
           control={<Radio />}
           label="HMS and DMS"
@@ -38,6 +39,7 @@ const RadecFormatToggle = () => {
         />
         <CustomFormControlLabel
           size="small"
+          name={FORMAT_DD}
           value={FORMAT_DD}
           control={<Radio />}
           label="Decimal Degrees"

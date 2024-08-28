@@ -29,6 +29,7 @@ const CalendarToggle = () => {
       >
         <CustomFormControlLabel
           size="small"
+          name="Gregorian"
           value=""
           control={<Radio />}
           label="Gregorian Calendar"
@@ -36,6 +37,7 @@ const CalendarToggle = () => {
         />
         <CustomFormControlLabel
           size="small"
+          name="Julian"
           value={JULIAN}
           control={<Radio disabled={!!flag} />}
           label="Julian Calendar"
