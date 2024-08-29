@@ -1,12 +1,12 @@
 // src/components/Input/Location/AddressInput.js
 import React, { useEffect, useCallback } from 'react';
-import { Autocomplete, TextField, IconButton, Tooltip, CircularProgress, InputAdornment, Typography, Stack, Box, Chip } from '@mui/material';
+import { Box, Stack, Autocomplete, TextField, IconButton, Tooltip, CircularProgress, InputAdornment, Typography, Chip } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import Config from '../../../Config';
 import { useLocationInput } from '../../../context/LocationInputContext';
 import * as actionTypes from '../../../context/locationInputActionTypes';
 import useDebouncedFetchSuggestions from '../../../hooks/useDebouncedFetchSuggestions';
-import { ADD_UNKNOWN } from '../../../utils/constants';
+import { ADD_UNKNOWN, ADD_NOT_FOUND } from '../../../utils/constants';
 import { fetchCurrentLocation } from '../../../utils/locationInputUtils';
 import { clearLocationError } from '../../../utils/locationInputUtils';
 
@@ -33,10 +33,35 @@ const AddressInput = ({ setErrorMessage }) => {
     locationDispatch,
   } = useLocationInput();
 
+  /* Clear suggestions and reset highlightedIndex */
+  useEffect(() => {
+    if (!searchTerm) {
+      locationDispatch({ type: actionTypes.CLEAR_LOCATION });
+      locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+      locationDispatch({ type: actionTypes.CLEAR_HIGHLIGHTED_INDEX });
+    }
+  }, [searchTerm, locationDispatch]);
+
+  useEffect(() => {
+    if (suggestions.length > 0) {
+      if (suggestions[0].display_name === ADD_NOT_FOUND) {
+        locationDispatch({ type: actionTypes.SET_ADDRESS_ERROR, payload: 'Location not found.' });
+        locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+        locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: false });
+        return;
+      }
+      /* Set highlightedIndex to 0 after fetching suggestions */
+      if (highlightedIndex < 0) {
+        locationDispatch({ type: actionTypes.SET_HIGHLIGHTED_INDEX, payload: 0 });
+      }
+    }
+  }, [suggestions, highlightedIndex, locationDispatch]);
+
   const handleGpsClick = useCallback(
     () => {
       clearLocationError(locationDispatch, setErrorMessage);
       locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+      locationDispatch({ type: actionTypes.CLEAR_HIGHLIGHTED_INDEX });
       fetchCurrentLocation(serviceChosen, locationDispatch, setErrorMessage);
     },
     [serviceChosen, locationDispatch, setErrorMessage]
@@ -60,11 +85,10 @@ const AddressInput = ({ setErrorMessage }) => {
 
   const handleSearchChange = useCallback(
     (event, newSearchTerm) => {
-      const trimmedNewSearchTerm = newSearchTerm.trim() ? newSearchTerm : '';
-      locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: trimmedNewSearchTerm });
-      if (trimmedNewSearchTerm) {
-        debouncedFetchSuggestions(trimmedNewSearchTerm, serviceChosen);
-      } else {
+      locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: newSearchTerm });
+      const trimmedNewSearchTerm = newSearchTerm.trim();
+      debouncedFetchSuggestions(trimmedNewSearchTerm, serviceChosen);
+      if (!trimmedNewSearchTerm) {
         locationDispatch({ type: actionTypes.CLEAR_LOCATION });
         locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       }
@@ -73,11 +97,10 @@ const AddressInput = ({ setErrorMessage }) => {
   );
 
   const handleSelect = useCallback((event, value) => {
-    if (!value || !value.id || value.id === ADD_UNKNOWN) {
+    if (!value || !value.id || value.id === ADD_UNKNOWN || value.id === ADD_NOT_FOUND) {
       locationDispatch({ type: actionTypes.CLEAR_LOCATION });
       locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: false });
       locationDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });
-      locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       return;
     }
 
@@ -128,6 +151,7 @@ const AddressInput = ({ setErrorMessage }) => {
     <Autocomplete
       freeSolo
       clearOnEscape
+      autoHighlight
       disabled={!serviceChosen}
       options={searchTerm.trim() ? suggestions : []}
       getOptionLabel={(option) => option.display_name}
@@ -137,7 +161,6 @@ const AddressInput = ({ setErrorMessage }) => {
       onKeyDown={handleKeyDown}
       onHighlightChange={handleHighlightChange}
       filterOptions={(x) => x}
-      autoHighlight
       loading={suggestionsLoading}
       renderOption={(props, option) => (
         <li
@@ -159,13 +182,13 @@ const AddressInput = ({ setErrorMessage }) => {
         <TextField
           {...params}
           required
-          error={!!locationError.address || !!locationNullError.address}
-          helperText={locationError.address || locationNullError.address}
           label="Search address"
           placeholder="Enter a place, city, county, state, or country"
           size="small"
           variant="outlined"
           fullWidth
+          error={!!locationError.address || !!locationNullError.address}
+          helperText={locationError.address || locationNullError.address}
           InputProps={{
             ...params.InputProps,
             startAdornment: (

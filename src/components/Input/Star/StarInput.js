@@ -21,6 +21,7 @@ const StarInput = ({ setErrorMessage }) => {
     starRadec, starRaHMS, starDecDMS,
     starInputType,  // 'name', 'hip', 'radec'
     radecFormat,  // 'decimal', 'dms'
+    searchTerm,
     starDispatch,
   } = useStarInput();
 
@@ -42,7 +43,7 @@ const StarInput = ({ setErrorMessage }) => {
   /* Reset error when user starts typing */
   useEffect(() => {
     clearStarError(starDispatch, setErrorMessage);
-  }, [starName, starHip, starRadec, starInputType, radecFormat, starDispatch, setErrorMessage]);
+  }, [searchTerm, starName, starHip, starRadec, starInputType, radecFormat, starDispatch, setErrorMessage]);
 
   useEffect(() => {
     starDispatch({ type: actionTypes.CLEAR_STAR_NAME_NULL_ERROR });
@@ -87,7 +88,7 @@ const StarInput = ({ setErrorMessage }) => {
       {starInputType === TYPE_NAME ? (
         <StarNameInput />
       ) : starInputType === TYPE_HIP ? (
-        <StarHipInput />
+        <StarHipInput setErrorMessage={setErrorMessage} />
       ) : (
         <RadecInput />
       )}

@@ -1,5 +1,5 @@
 // src/context/StarInputContext.js
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useRef } from 'react';
 import * as actionTypes from './starInputActionTypes';
 import { TYPE_NAME, FORMAT_DMS } from '../utils/constants';
 
@@ -13,6 +13,10 @@ const initialState = {
   starDecDMS: { degrees: '', minutes: '', seconds: '' },
   starInputType: TYPE_NAME,  // 'name', 'hip', 'radec'
   radecFormat: FORMAT_DMS,  // 'decimal', 'dms'
+  searchTerm: '',
+  suggestions: [],
+  highlightedIndex: -1,
+  cachedNames: null,
   starError: { name: '', hip: '', ra: '', dec: '' },
   starNullError: { name: '', hip: '', ra: '', dec: '' },
   starValid: true,
@@ -103,7 +107,7 @@ const starNullErrorReducer = (state, action) => {
     case actionTypes.SET_STAR_NAME_NULL_ERROR:
       return { ...state, name: 'Please select a planet.' };
     case actionTypes.SET_STAR_HIP_NULL_ERROR:
-      return { ...state, hip: 'Please enter a Hipparchus catalogue number.' };
+      return { ...state, hip: 'Please search and select a Hipparchus catalogue number.' };
     case actionTypes.SET_STAR_RA_NULL_ERROR:
       return { ...state, ra: 'Please enter a right ascension.' };
     case actionTypes.SET_STAR_DEC_NULL_ERROR:
@@ -189,6 +193,24 @@ const starInputReducer = (state, action) => {
     case actionTypes.SET_RADEC_FORMAT:
       return { ...state, radecFormat: action.payload };
 
+    case actionTypes.SET_SEARCH_TERM:
+      return { ...state, searchTerm: action.payload };
+    case actionTypes.CLEAR_SEARCH_TERM:
+      return { ...state, searchTerm: '' };
+
+    case actionTypes.SET_SUGGESTIONS:
+      return { ...state, suggestions: action.payload };
+    case actionTypes.CLEAR_SUGGESTIONS:
+      return { ...state, suggestions: [] };
+
+    case actionTypes.SET_HIGHLIGHTED_INDEX:
+      return { ...state, highlightedIndex: action.payload };
+    case actionTypes.CLEAR_HIGHLIGHTED_INDEX:
+      return { ...state, highlightedIndex: -1 };
+    
+    case actionTypes.SET_CACHED_NAMES:
+      return { ...state, cachedNames: action.payload };
+
     case actionTypes.SET_STAR_VALID:
       return { ...state, starValid: action.payload };
     default:
@@ -198,10 +220,14 @@ const starInputReducer = (state, action) => {
 
 export const StarInputProvider = ({ children }) => {
   const [starState, starDispatch] = useReducer(starInputReducer, initialState);
+  const latestSuggestionRequest = useRef(0);
+  const isSelecting = useRef(false);
 
   return (
     <StarInputContext.Provider value={{
       ...starState,
+      latestSuggestionRequest,
+      isSelecting,
       starDispatch,
     }}>
       {children}

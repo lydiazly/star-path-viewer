@@ -1,6 +1,6 @@
 // src/utils/starInputUtils.js
 import * as actionTypes from '../context/starInputActionTypes';
-import { TYPE_HIP, TYPE_RADEC, FORMAT_DD } from './constants';
+import { HIP_MIN, HIP_MAX, TYPE_HIP, TYPE_RADEC, FORMAT_DD } from './constants';
 
 /* Validate the star */
 const validateStarSync = (
@@ -15,8 +15,8 @@ const validateStarSync = (
     }
     if (starHip) {
       const hip = parseInt(starHip);
-      if (hip < 1 || hip > 118322) {
-        return { ...newStarError, hip: 'The Hipparchus Catalogue Number must be in the range [1, 118322].' };
+      if (hip < HIP_MIN || hip > HIP_MAX) {
+        return { ...newStarError, hip: `The Hipparchus Catalogue Number must be in the range [${HIP_MIN}, ${HIP_MAX}].` };
       }
     }
   } else if (starInputType === TYPE_RADEC) {

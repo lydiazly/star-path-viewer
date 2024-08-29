@@ -84,3 +84,7 @@ export const FORMAT_DD = 'decimal';
 export const FORMAT_DMS = 'dms';
 
 export const ADD_UNKNOWN = 'unknown';
+export const ADD_NOT_FOUND = 'not-found';
+
+export const HIP_OUT_OF_RANGE = 'out-of-range';
+export const HIP_NOT_FOUND = 'not-found';

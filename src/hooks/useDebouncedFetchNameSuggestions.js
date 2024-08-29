@@ -1,12 +1,13 @@
-// src/hooks/useDebouncedFetchSuggestions.js
+// src/hooks/useDebouncedFetchNameSuggestions.js
 import { useMemo } from 'react';
 import fetchNameSuggestions from '../utils/fetchNameSuggestions';
 import debounce from 'lodash/debounce';
 
-const useDebouncedFetchSuggestions = (
+const useDebouncedFetchNameSuggestions = (
   isSelecting,
   latestSuggestionRequest,
   actionTypes,
+  cachedNames,
   dispatch,
   setErrorMessage,
   typingDelay
@@ -14,12 +15,12 @@ const useDebouncedFetchSuggestions = (
   return useMemo(
     () =>
       debounce(
-        async (query, serviceChosen) => {
+        async (query) => {
           if (query && !isSelecting.current) {
             try {
               const requestId = ++latestSuggestionRequest.current;  // Increment and capture the current request ID
 
-              const suggestions = await fetchNameSuggestions(query);
+              const suggestions = await fetchNameSuggestions(query, cachedNames, dispatch);
 
               /* Only update if this request is the latest one */
               if (requestId === latestSuggestionRequest.current) {
@@ -33,8 +34,8 @@ const useDebouncedFetchSuggestions = (
         },
         typingDelay
       ),
-    [isSelecting, latestSuggestionRequest, actionTypes, dispatch, setErrorMessage, typingDelay]
+    [isSelecting, latestSuggestionRequest, actionTypes, cachedNames, dispatch, setErrorMessage, typingDelay]
   );
 };
 
-export default useDebouncedFetchSuggestions;
+export default useDebouncedFetchNameSuggestions;
