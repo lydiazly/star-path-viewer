@@ -11,11 +11,11 @@ const StarInputTypeToggle = () => {
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
       /* Clear the fields */
-      starDispatch({ type: actionTypes.SET_STAR_NAME, payload: '' });
-      starDispatch({ type: actionTypes.SET_STAR_HIP, payload: '' });
-      starDispatch({ type: actionTypes.SET_STAR_RADEC, payload: { ra: '', dec: '' } });
-      starDispatch({ type: actionTypes.SET_STAR_RA_HMS, payload: { hours: '', minutes: '', seconds: '' } });
-      starDispatch({ type: actionTypes.SET_STAR_DEC_DMS, payload: { degrees: '', minutes: '', seconds: '' } });
+      starDispatch({ type: actionTypes.CLEAR_STAR_HIP_AND_NAME });
+      starDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });
+      starDispatch({ type: actionTypes.CLEAR_STAR_RADEC });
+      starDispatch({ type: actionTypes.CLEAR_STAR_RA_HMS });
+      starDispatch({ type: actionTypes.CLEAR_STAR_DEC_DMS });
 
       starDispatch({ type: actionTypes.SET_INPUT_TYPE, payload: newInputType });
     }

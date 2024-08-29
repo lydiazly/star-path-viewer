@@ -37,7 +37,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     dateDispatch,
   } = useDateInput();
   const {
-    starName, starHip, starRadec,
+    starName, starNameZh, starHip, starRadec,
     starInputType,  // 'name', 'hip', 'radec'
     starValid,
     starDispatch,
@@ -127,6 +127,11 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
         newInfo.dateJ = { year: response.data.year, month: response.data.month, day: response.data.day };
       }
 
+      if (newInfo.hip) {
+        newInfo.name = starName;
+        newInfo.nameZh = starNameZh;
+      }
+
       newInfo.eqxSolTime = [];
       // if (response.data.flag && response.data.eqxSolTime.length > 0) {
       //   const res_month = response.data.eqxSolTime[1].toString();
@@ -165,7 +170,7 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
     } finally {
       setLoading(false);
     }
-  }, [location, locationInputType, date, flag, cal, starName, starHip, starRadec, starInputType, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, locationDispatch, dateDispatch, starDispatch, setErrorMessage]);
+  }, [location, locationInputType, date, flag, cal, starName, starNameZh, starHip, starRadec, starInputType, loading, clearImage, setDiagramId, setInfo, setSvgData, setAnno, setSuccess, locationDispatch, dateDispatch, starDispatch, setErrorMessage]);
 
   return (
     <Stack direction="column" spacing={3}>

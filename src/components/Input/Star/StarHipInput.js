@@ -1,11 +1,12 @@
 // src/components/Input/Star/StarHipInput.js
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { Box, Autocomplete, TextField, Typography } from '@mui/material';
 import Config from '../../../Config';
 import { useStarInput } from '../../../context/StarInputContext';
 import * as actionTypes from '../../../context/starInputActionTypes';
 import useDebouncedFetchNameSuggestions from '../../../hooks/useDebouncedFetchNameSuggestions';
 import { HIP_MIN, HIP_MAX, HIP_OUT_OF_RANGE, HIP_NOT_FOUND } from '../../../utils/constants';
+import { fetchAndCacheNames } from '../../../utils/fetchNameSuggestions';
 
 const hipStyle = { textAlign: 'left', mr: 1 };
 const nameStyle = { textAlign: 'left', color: 'primary.main' };
@@ -19,15 +20,28 @@ const StarHipInput = ({ setErrorMessage }) => {
     latestSuggestionRequest,
     isSelecting,
     starError, starNullError,
+    starValid,
     starDispatch,
   } = useStarInput();
+  const [lastSelectedTerm, setLastSelectedTerm] = useState(searchTerm);
+
+  /* Initialize */
+  useEffect(() => {
+    if (!cachedNames) {
+      fetchAndCacheNames(starDispatch)
+        .catch(error => {
+          setErrorMessage((prev) => ({ ...prev, star: error.message }));
+        });
+    }
+  }, [cachedNames, starDispatch, setErrorMessage]);
 
   /* Clear suggestions and reset highlightedIndex */
   useEffect(() => {
     if (!searchTerm) {
-      starDispatch({ type: actionTypes.SET_STAR_HIP, payload: '' });
+      starDispatch({ type: actionTypes.CLEAR_STAR_HIP_AND_NAME });
       starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       starDispatch({ type: actionTypes.CLEAR_HIGHLIGHTED_INDEX });
+      setLastSelectedTerm('');
     }
   }, [searchTerm, starDispatch]);
 
@@ -59,7 +73,7 @@ const StarHipInput = ({ setErrorMessage }) => {
     cachedNames,
     starDispatch,
     setErrorMessage,
-    cachedNames? Config.TypingDelay : Config.TypingDelay + 300
+    cachedNames? Config.TypingDelay + 150 : Config.TypingDelay + 300
   );
 
   /* Cleanup the debounced function on unmount */
@@ -75,7 +89,7 @@ const StarHipInput = ({ setErrorMessage }) => {
       const trimmedNewSearchTerm = newSearchTerm.trim();
       debouncedFetchNameSuggestions(trimmedNewSearchTerm);
       if (!trimmedNewSearchTerm) {
-        starDispatch({ type: actionTypes.SET_STAR_HIP, payload: '' });
+        starDispatch({ type: actionTypes.CLEAR_STAR_HIP_AND_NAME });
         starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       }
     },
@@ -84,7 +98,7 @@ const StarHipInput = ({ setErrorMessage }) => {
 
   const handleSelect = useCallback((event, value) => {
     if (!value || !value.hip || value.display_name === HIP_OUT_OF_RANGE || value.display_name === HIP_NOT_FOUND) {
-      starDispatch({ type: actionTypes.SET_STAR_HIP, payload: '' });
+      starDispatch({ type: actionTypes.CLEAR_STAR_HIP_AND_NAME });
       starDispatch({ type: actionTypes.SET_STAR_VALID, payload: false });
       starDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });
       return;
@@ -96,8 +110,11 @@ const StarHipInput = ({ setErrorMessage }) => {
     if (selectedSuggestion) {
       isSelecting.current = true;
       starDispatch({ type: actionTypes.SET_STAR_HIP, payload: selectedSuggestion.hip });
+      starDispatch({ type: actionTypes.SET_STAR_NAME, payload: selectedSuggestion.name });
+      starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: selectedSuggestion.nameZh });
       starDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: selectedSuggestion.display_name });
       starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+      setLastSelectedTerm(selectedSuggestion.display_name);
     }
   }, [isSelecting, suggestions, starDispatch]);
 
@@ -111,8 +128,11 @@ const StarHipInput = ({ setErrorMessage }) => {
         if (highlightedSuggestion.hip && highlightedSuggestion.display_name !== HIP_OUT_OF_RANGE) {
           isSelecting.current = true;
           starDispatch({ type: actionTypes.SET_STAR_HIP, payload: highlightedSuggestion.hip });
-          starDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: highlightedSuggestion.hip });
+          starDispatch({ type: actionTypes.SET_STAR_NAME, payload: highlightedSuggestion.name });
+          starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: highlightedSuggestion.nameZh });
+          starDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: highlightedSuggestion.display_name });
           starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+          setLastSelectedTerm(highlightedSuggestion.display_name);
         }
       }
     }
@@ -124,6 +144,21 @@ const StarHipInput = ({ setErrorMessage }) => {
       starDispatch({ type: actionTypes.SET_HIGHLIGHTED_INDEX, payload: index });
     }
   }, [suggestions, starDispatch]);
+
+  const handleBlur = useCallback(() => {
+    if (searchTerm !== lastSelectedTerm) {
+      /* If the term is a valid number, set it */
+      if (searchTerm && suggestions.length > 0 && suggestions[0].hip === searchTerm) {
+        starDispatch({ type: actionTypes.SET_STAR_HIP, payload: suggestions[0].hip });
+        starDispatch({ type: actionTypes.SET_STAR_NAME, payload: suggestions[0].name });
+        starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: suggestions[0].nameZh });
+        setLastSelectedTerm(searchTerm);
+        } else if (starValid) {
+        starDispatch({ type: actionTypes.SET_STAR_HIP_ERROR, payload: 'No item selected.' });
+        starDispatch({ type: actionTypes.SET_STAR_VALID, payload: false });
+      }
+    }
+  }, [searchTerm, lastSelectedTerm, suggestions, starValid, starDispatch]);
 
   return (
     <Autocomplete
@@ -137,6 +172,7 @@ const StarHipInput = ({ setErrorMessage }) => {
       onChange={handleSelect}
       onKeyDown={handleKeyDown}
       onHighlightChange={handleHighlightChange}
+      onBlur={handleBlur}
       filterOptions={(x) => x}
       renderOption={(props, option) => (
         <li

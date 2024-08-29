@@ -6,15 +6,24 @@ import { HIP_MIN, HIP_MAX, HIP_OUT_OF_RANGE, HIP_NOT_FOUND } from './constants';
 const starNameUrl = 'https://stardial-astro.github.io/star-path-data/json/hip_ident.json';
 const topN = 10;
 
+const fetchAndCacheNames = async (dispatch) => {
+  try {
+    const timeout = 5000;
+    const response = await axios.get(starNameUrl, { timeout });
+    const data = response.data;
+    dispatch({ type: actionTypes.SET_CACHED_NAMES, payload: data });  // Cache the data
+    return data;
+  } catch (error) {
+    throw new Error('Failed to fetch data.');
+  }
+};
+
 const fetchNameSuggestions = async (query, cachedNames, dispatch) => {
   try {
     let data = cachedNames;
-    const timeout = 5000;
     /* Fetch and set data if cache is empty */
     if (!data) {
-      const response = await axios.get(starNameUrl, { timeout });
-      data = response.data;
-      dispatch({ type: actionTypes.SET_CACHED_NAMES, payload: data });  // Cache the data
+      data = await fetchAndCacheNames(dispatch);
     }
 
     /* Case-insensitive */
@@ -32,7 +41,7 @@ const fetchNameSuggestions = async (query, cachedNames, dispatch) => {
     const hip = parseInt(query, 10);
 
     /* If the query is a number (no matter valid or not) without a name, prepare the entry */
-    const selectedSuggestions = Number.isInteger(hip) && !filteredSuggestions.find((item) => item.hip.toString() === normalizedQuery)
+    const selectedSuggestions = /^\d*$/.test(query) && !filteredSuggestions.find((item) => item.hip.toString() === normalizedQuery)
       ? [{
         hip: query,
         name: '',
@@ -53,8 +62,11 @@ const fetchNameSuggestions = async (query, cachedNames, dispatch) => {
       return [{ hip: '', name: '', name_zh: '', display_name: HIP_NOT_FOUND }];
     }
   } catch (error) {
-    throw new Error('Failed to fetch names.');
+    throw new Error(error.message);
   }
 };
 
-export default fetchNameSuggestions;
+export {
+  fetchAndCacheNames,
+  fetchNameSuggestions,
+};

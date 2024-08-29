@@ -14,9 +14,9 @@ const RadecFormatToggle = () => {
 
   const handleRadecFormatChange = useCallback((event) => {
     /* Clear the fields */
-    starDispatch({ type: actionTypes.SET_STAR_RADEC, payload: { ra: '', dec: '' } });
-    starDispatch({ type: actionTypes.SET_STAR_RA_HMS, payload: { hours: '', minutes: '', seconds: '' } });
-    starDispatch({ type: actionTypes.SET_STAR_DEC_DMS, payload: { degrees: '', minutes: '', seconds: '' } });
+    starDispatch({ type: actionTypes.CLEAR_STAR_RADEC });
+    starDispatch({ type: actionTypes.CLEAR_STAR_RA_HMS });
+    starDispatch({ type: actionTypes.CLEAR_STAR_DEC_DMS });
 
     starDispatch({ type: actionTypes.SET_RADEC_FORMAT, payload: event.target.value });
   }, [starDispatch]);

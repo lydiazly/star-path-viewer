@@ -104,21 +104,30 @@ const InfoDisplay = ({ info }) => {
         </Box>
       ) : info.hip ? (
         <>
-          {info.name && (
+          {(info.name || info.nameZh) && (
             <Box display="flex" alignItems="start" flexWrap="wrap">
-              <Typography variant="subtitle1" sx={labelStyle}>
+              <Typography variant="subtitle1" mr={1} sx={labelStyle}>
                 [Star Name]
               </Typography>
-              <Typography variant="subtitle1" ml={1} sx={detailStyle}>
-                {info.name}
-              </Typography>
+              <Stack direction="column">
+                {info.name && (
+                  <Typography variant="subtitle1" sx={detailStyle}>
+                  {info.name}
+                  </Typography>
+                )}
+                {info.nameZh && (
+                  <Typography variant="subtitle1" sx={detailStyle}>
+                  {info.nameZh}
+                  </Typography>
+                )}
+              </Stack>
             </Box>
           )}
           <Box display="flex" alignItems="start" flexWrap="wrap">
-            <Typography variant="subtitle1" sx={labelStyle}>
+            <Typography variant="subtitle1" mr={1} sx={labelStyle}>
               [Hipparchus Catalogue Number]
             </Typography>
-            <Typography variant="subtitle1" ml={1} sx={detailStyle}>
+            <Typography variant="subtitle1" sx={detailStyle}>
               {info.hip}
             </Typography>
           </Box>
@@ -134,7 +143,7 @@ const InfoDisplay = ({ info }) => {
         </Box>
       )}
     </>
-  ), [info.name, info.hip, raStr, decStr]);
+  ), [info.name, info.nameZh, info.hip, raStr, decStr]);
 
   return (
     <Box mt={1}>

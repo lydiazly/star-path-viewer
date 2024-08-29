@@ -26,7 +26,7 @@ const Home = () => {
     dateG: { year: '', month: '', day: '' },
     dateJ: { year: '', month: '', day: '' },
     flag: '', cal: '',
-    name: '', hip: '', ra: '', dec: '',
+    name: '', nameZh: '', hip: '', ra: '', dec: '',
     eqxSolTime: '',
   });
 

@@ -21,8 +21,6 @@ const initialState = {
 
 const locationReducer = (state, action) => {
   switch (action.type) {
-    case actionTypes.SET_ADDRESS:
-      return { ...state, address: action.payload };
     case actionTypes.SET_LAT:
       return { ...state, lat: action.payload };
     case actionTypes.SET_LNG:
@@ -86,7 +84,6 @@ const locationNullErrorReducer = (state, action) => {
 
 const locationInputReducer = (state, action) => {
   switch (action.type) {
-    case actionTypes.SET_ADDRESS:
     case actionTypes.SET_LAT:
     case actionTypes.SET_LNG:
     case actionTypes.SET_ID:

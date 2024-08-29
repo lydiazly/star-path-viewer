@@ -10,6 +10,12 @@ const LocationInputTypeToggle = () => {
 
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
+      /* Clear the fields */
+      if (newInputType === TYPE_ADD) {
+        locationDispatch({ type: actionTypes.SET_ID, payload: '' });
+        locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: '' });
+      }
+
       locationDispatch({ type: actionTypes.SET_INPUT_TYPE, payload: newInputType });
     }
   }, [locationDispatch]);

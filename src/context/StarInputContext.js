@@ -7,6 +7,7 @@ const StarInputContext = createContext();
 
 const initialState = {
   starName: '',
+  starNameZh: '',
   starHip: '',
   starRadec: { ra: '', dec: '' },
   starRaHMS: { hours: '', minutes: '', seconds: '' },
@@ -131,8 +132,12 @@ const starInputReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.SET_STAR_NAME:
       return { ...state, starName: action.payload };
+    case actionTypes.SET_STAR_NAME_ZH:
+      return { ...state, starNameZh: action.payload };
     case actionTypes.SET_STAR_HIP:
       return { ...state, starHip: action.payload };
+    case actionTypes.CLEAR_STAR_HIP_AND_NAME:
+      return { ...state, starHip: '', starName: '', starNameZh: '' };
 
     case actionTypes.SET_STAR_RA:
     case actionTypes.SET_STAR_DEC:

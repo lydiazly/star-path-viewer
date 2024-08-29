@@ -1,5 +1,5 @@
 // src/components/Input/Location/AddressInput.js
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { Box, Stack, Autocomplete, TextField, IconButton, Tooltip, CircularProgress, InputAdornment, Typography, Chip } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import Config from '../../../Config';
@@ -27,11 +27,13 @@ const AddressInput = ({ setErrorMessage }) => {
     locationLoading,
     suggestionsLoading,
     locationError, locationNullError,
+    locationValid,
     serviceChosen,
     latestSuggestionRequest,
     isSelecting,
     locationDispatch,
   } = useLocationInput();
+  const [lastSelectedTerm, setLastSelectedTerm] = useState(searchTerm);
 
   /* Clear suggestions and reset highlightedIndex */
   useEffect(() => {
@@ -39,6 +41,7 @@ const AddressInput = ({ setErrorMessage }) => {
       locationDispatch({ type: actionTypes.CLEAR_LOCATION });
       locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       locationDispatch({ type: actionTypes.CLEAR_HIGHLIGHTED_INDEX });
+      setLastSelectedTerm('');
     }
   }, [searchTerm, locationDispatch]);
 
@@ -62,7 +65,7 @@ const AddressInput = ({ setErrorMessage }) => {
       clearLocationError(locationDispatch, setErrorMessage);
       locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       locationDispatch({ type: actionTypes.CLEAR_HIGHLIGHTED_INDEX });
-      fetchCurrentLocation(serviceChosen, locationDispatch, setErrorMessage);
+      fetchCurrentLocation(serviceChosen, locationDispatch, setLastSelectedTerm, setErrorMessage);
     },
     [serviceChosen, locationDispatch, setErrorMessage]
   );
@@ -116,6 +119,7 @@ const AddressInput = ({ setErrorMessage }) => {
       } });
       locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: selectedSuggestion.display_name });
       locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+      setLastSelectedTerm(selectedSuggestion.display_name);
     }
   }, [isSelecting, suggestions, locationDispatch]);
 
@@ -135,6 +139,7 @@ const AddressInput = ({ setErrorMessage }) => {
           } });
           locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: highlightedSuggestion.display_name });
           locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+          setLastSelectedTerm(highlightedSuggestion.display_name);
         }
       }
     }
@@ -146,6 +151,28 @@ const AddressInput = ({ setErrorMessage }) => {
       locationDispatch({ type: actionTypes.SET_HIGHLIGHTED_INDEX, payload: index });
     }
   }, [suggestions, locationDispatch]);
+
+  const handleBlur = useCallback(() => {
+    if (searchTerm !== lastSelectedTerm) {
+      /* If the term is a valid address, set it */
+      if (
+        searchTerm && suggestions.length > 0 &&
+        suggestions[0].display_name === searchTerm &&
+        suggestions[0].display_name !== ADD_UNKNOWN &&
+        suggestions[0].display_name !== ADD_NOT_FOUND
+      ) {
+        locationDispatch({ type: actionTypes.SET_LOCATION, payload: {
+          lat: suggestions[0].lat,
+          lng: suggestions[0].lng,
+          id: suggestions[0].id,
+        } });
+        setLastSelectedTerm(searchTerm);
+      } else if (locationValid) {
+        locationDispatch({ type: actionTypes.SET_ADDRESS_ERROR, payload: 'No item selected.' });
+        locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: false });
+      }
+    }
+  }, [searchTerm, lastSelectedTerm, suggestions, locationValid, locationDispatch]);
 
   return (
     <Autocomplete
@@ -160,6 +187,7 @@ const AddressInput = ({ setErrorMessage }) => {
       onChange={handleSelect}
       onKeyDown={handleKeyDown}
       onHighlightChange={handleHighlightChange}
+      onBlur={handleBlur}
       filterOptions={(x) => x}
       loading={suggestionsLoading}
       renderOption={(props, option) => (
