@@ -2,13 +2,13 @@
 import React, { createContext, useContext, useReducer, useRef } from 'react';
 import { useService } from './ServiceContext';
 import * as actionTypes from './locationInputActionTypes';
-import { TYPE_ADD } from '../utils/constants';
+import { TYPE_ADDR } from '../utils/constants';
 
 const LocationInputContext = createContext();
 
 const initialState = {
   location: { lat: '', lng: '', id: '', tz: '' },  // id: ''(not-found), 'unknown'
-  locationInputType: TYPE_ADD,  // 'address', 'coordinates'
+  locationInputType: TYPE_ADDR,  // 'address', 'coordinates'
   searchTerm: '',
   suggestions: [],
   highlightedIndex: -1,

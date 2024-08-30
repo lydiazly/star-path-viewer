@@ -71,7 +71,7 @@ export const EQX_SOL_KEYS = {
   ws: 'winter_time',
 };
 
-export const TYPE_ADD = 'address';
+export const TYPE_ADDR = 'address';
 export const TYPE_COORD = 'coordinates';
 
 export const JULIAN = 'j';
@@ -83,8 +83,8 @@ export const TYPE_RADEC = 'radec';
 export const FORMAT_DD = 'decimal';
 export const FORMAT_DMS = 'dms';
 
-export const ADD_UNKNOWN = 'unknown';
-export const ADD_NOT_FOUND = 'not-found';
+export const ADDR_UNKNOWN = 'unknown';
+export const ADDR_NOT_FOUND = 'not-found';
 
 export const HIP_OUT_OF_RANGE = 'out-of-range';
 export const HIP_NOT_FOUND = 'not-found';

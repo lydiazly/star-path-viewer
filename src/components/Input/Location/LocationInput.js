@@ -5,7 +5,7 @@ import { Stack, Snackbar, Alert } from '@mui/material';
 import Config from '../../../Config';
 import { useLocationInput } from '../../../context/LocationInputContext';
 import * as actionTypes from '../../../context/locationInputActionTypes';
-import { TYPE_ADD, TYPE_COORD, ADD_UNKNOWN } from '../../../utils/constants';
+import { TYPE_ADDR, TYPE_COORD, ADDR_UNKNOWN } from '../../../utils/constants';
 import { validateLocationSync, clearLocationError } from '../../../utils/locationInputUtils';
 import determineService from '../../../utils/determineService';
 import LocationInputTypeToggle from './LocationInputTypeToggle';
@@ -104,7 +104,7 @@ const LocationInput = ({ setErrorMessage }) => {
   return (
     <Stack direction="column" spacing={2}>
       <LocationInputTypeToggle />
-      {locationInputType === TYPE_ADD ? (
+      {locationInputType === TYPE_ADDR ? (
         <AddressInput setErrorMessage={setErrorMessage} />
       ) : (
         <CoordinatesInput />
@@ -116,7 +116,7 @@ const LocationInput = ({ setErrorMessage }) => {
       />
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={location.id === ADD_UNKNOWN}
+        open={location.id === ADDR_UNKNOWN}
         autoHideDuration={12000}
         onClose={handleSnackbarClose}
         sx={(theme) => ({

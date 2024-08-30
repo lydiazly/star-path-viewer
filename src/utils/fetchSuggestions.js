@@ -1,7 +1,7 @@
 // src/utils/fetchSuggestions.js
 import axios from 'axios';
 import fetchJsonp from 'fetch-jsonp';
-import { ADD_NOT_FOUND } from './constants';
+import { ADDR_NOT_FOUND } from './constants';
 
 const nominatimSearchUrl = 'https://nominatim.openstreetmap.org/search';
 const baiduSearchUrl = 'https://api.map.baidu.com/place/v2/suggestion';
@@ -25,7 +25,7 @@ const fetchSuggestionsWithNominatim = async (query) => {
       addresstype: item.addresstype || '',
     }));
   } else {
-    return [{ display_name: ADD_NOT_FOUND, id: '', addresstype: '' }];
+    return [{ display_name: ADDR_NOT_FOUND, id: '', addresstype: '' }];
   }
 };
 
@@ -46,7 +46,7 @@ const fetchSuggestionsWithBaidu = async (query) => {
       addresstype: item.tag || '',
     }));
   } else {
-    return [{ display_name: ADD_NOT_FOUND, id: '', addresstype: '' }];
+    return [{ display_name: ADDR_NOT_FOUND, id: '', addresstype: '' }];
   }
 };
 

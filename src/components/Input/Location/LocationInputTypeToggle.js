@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useLocationInput } from '../../../context/LocationInputContext';
 import * as actionTypes from '../../../context/locationInputActionTypes';
-import { TYPE_ADD, TYPE_COORD } from '../../../utils/constants';
+import { TYPE_ADDR, TYPE_COORD } from '../../../utils/constants';
 
 const LocationInputTypeToggle = () => {
   const { locationInputType, locationDispatch } = useLocationInput();
@@ -11,9 +11,8 @@ const LocationInputTypeToggle = () => {
   const handleInputTypeChange = useCallback((event, newInputType) => {
     if (newInputType !== null) {
       /* Clear the fields */
-      if (newInputType === TYPE_ADD) {
-        locationDispatch({ type: actionTypes.SET_ID, payload: '' });
-        locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: '' });
+      if (newInputType === TYPE_ADDR) {
+        locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: '' });  // This clears the location obj as well
       }
 
       locationDispatch({ type: actionTypes.SET_INPUT_TYPE, payload: newInputType });
@@ -30,7 +29,7 @@ const LocationInputTypeToggle = () => {
       aria-label="Input type"
       fullWidth
     >
-      <ToggleButton value={TYPE_ADD} aria-label="Search Address">
+      <ToggleButton value={TYPE_ADDR} aria-label="Search Address">
         Search Address
       </ToggleButton>
       <ToggleButton value={TYPE_COORD} aria-label="Enter Coordinates">

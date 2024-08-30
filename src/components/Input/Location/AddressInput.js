@@ -6,7 +6,7 @@ import Config from '../../../Config';
 import { useLocationInput } from '../../../context/LocationInputContext';
 import * as actionTypes from '../../../context/locationInputActionTypes';
 import useDebouncedFetchSuggestions from '../../../hooks/useDebouncedFetchSuggestions';
-import { ADD_UNKNOWN, ADD_NOT_FOUND } from '../../../utils/constants';
+import { ADDR_UNKNOWN, ADDR_NOT_FOUND } from '../../../utils/constants';
 import { fetchCurrentLocation } from '../../../utils/locationInputUtils';
 import { clearLocationError } from '../../../utils/locationInputUtils';
 
@@ -47,7 +47,7 @@ const AddressInput = ({ setErrorMessage }) => {
 
   useEffect(() => {
     if (suggestions.length > 0) {
-      if (suggestions[0].display_name === ADD_NOT_FOUND) {
+      if (suggestions[0].display_name === ADDR_NOT_FOUND) {
         locationDispatch({ type: actionTypes.SET_ADDRESS_ERROR, payload: 'Location not found.' });
         locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
         locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: false });
@@ -100,7 +100,7 @@ const AddressInput = ({ setErrorMessage }) => {
   );
 
   const handleSelect = useCallback((event, value) => {
-    if (!value || !value.id || value.id === ADD_UNKNOWN || value.id === ADD_NOT_FOUND) {
+    if (!value || !value.id || value.id === ADDR_UNKNOWN || value.id === ADDR_NOT_FOUND) {
       locationDispatch({ type: actionTypes.CLEAR_LOCATION });
       locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: false });
       locationDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });
@@ -130,7 +130,7 @@ const AddressInput = ({ setErrorMessage }) => {
       /* Select the highlighted suggestion */
       if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
         const highlightedSuggestion = suggestions[highlightedIndex];
-        if (highlightedSuggestion.id && highlightedSuggestion.id !== ADD_UNKNOWN) {
+        if (highlightedSuggestion.id && highlightedSuggestion.id !== ADDR_UNKNOWN) {
           isSelecting.current = true;
           locationDispatch({ type: actionTypes.SET_LOCATION, payload: {
             lat: highlightedSuggestion.lat,
@@ -158,8 +158,8 @@ const AddressInput = ({ setErrorMessage }) => {
       if (
         searchTerm && suggestions.length > 0 &&
         suggestions[0].display_name === searchTerm &&
-        suggestions[0].display_name !== ADD_UNKNOWN &&
-        suggestions[0].display_name !== ADD_NOT_FOUND
+        suggestions[0].display_name !== ADDR_UNKNOWN &&
+        suggestions[0].display_name !== ADDR_NOT_FOUND
       ) {
         locationDispatch({ type: actionTypes.SET_LOCATION, payload: {
           lat: suggestions[0].lat,
@@ -194,7 +194,7 @@ const AddressInput = ({ setErrorMessage }) => {
         <li
           {...props}
           key={option.id}
-          style={!option.id || option.id === ADD_UNKNOWN ? { pointerEvents: 'none', color: 'InactiveCaptionText', fontStyle: 'italic' } : {}}
+          style={!option.id || option.id === ADDR_UNKNOWN ? { pointerEvents: 'none', color: 'InactiveCaptionText', fontStyle: 'italic' } : {}}
         >
           <Stack direction="row" spacing={1} sx={{ width: '100%', justifyContent: 'space-between' }}>
             <Typography>

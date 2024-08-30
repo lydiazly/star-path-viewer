@@ -2,11 +2,11 @@
 import * as locationActionTypes from '../context/locationInputActionTypes';
 import * as dateActionTypes from '../context/dateInputActionTypes';
 import * as starActionTypes from '../context/starInputActionTypes';
-import { TYPE_ADD, TYPE_NAME, TYPE_HIP, TYPE_RADEC } from './constants';
+import { TYPE_ADDR, TYPE_NAME, TYPE_HIP, TYPE_RADEC } from './constants';
 
 /* Validate the location */
 const validateLocationInputSync = (location, locationInputType, locationDispatch) => {
-  if (locationInputType === TYPE_ADD) {
+  if (locationInputType === TYPE_ADDR) {
     if (!location.id) {
       locationDispatch({ type: locationActionTypes.SET_ADDRESS_NULL_ERROR });
       locationDispatch({ type: locationActionTypes.SET_LOCATION_VALID, payload: false });

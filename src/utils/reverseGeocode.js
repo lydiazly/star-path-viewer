@@ -1,7 +1,7 @@
 // src/utils/reverseGeocode.js
 import axios from 'axios';
 import fetchJsonp from 'fetch-jsonp';
-import { ADD_UNKNOWN } from './constants';
+import { ADDR_UNKNOWN } from './constants';
 
 const nominatimReverseUrl = 'https://nominatim.openstreetmap.org/reverse';
 const baiduReverseUrl = 'https://api.map.baidu.com/reverse_geocoding/v3/';
@@ -19,8 +19,8 @@ const reverseGeocodeWithNominatim = async (lat, lng) => {
     timeout,
   });
   return {
-    display_name: response.data?.display_name || ADD_UNKNOWN,
-    id: response.data?.osm_id || ADD_UNKNOWN,
+    display_name: response.data?.display_name || ADDR_UNKNOWN,
+    id: response.data?.osm_id || ADDR_UNKNOWN,
   };
 };
 
@@ -34,8 +34,8 @@ const reverseGeocodeWithBaidu = async (lat, lng) => {
   const data = await response.json();
   const result = data.result || {};
   return {
-    display_name: result.formatted_address || ADD_UNKNOWN,
-    id: result.addressComponent?.adcode || `${lat},${lng}` || ADD_UNKNOWN,
+    display_name: result.formatted_address || ADDR_UNKNOWN,
+    id: result.addressComponent?.adcode || `${lat},${lng}` || ADDR_UNKNOWN,
   };
 };
 
@@ -47,7 +47,7 @@ const reverseGeocode = async (lat, lng, service) => {
       return await reverseGeocodeWithBaidu(lat, lng);
     }
   } catch (error) {
-    return { display_name: ADD_UNKNOWN, id: ADD_UNKNOWN };
+    return { display_name: ADDR_UNKNOWN, id: ADDR_UNKNOWN };
   }
 };
 
