@@ -36,18 +36,18 @@ export const STARS = {
 };
 
 export const PT_DETAIL = {
-  D1: { name: "Nautical Dawn", detail: "The star's position when the sun is 12 degrees below the horizon before sunrise." },
-  D2: { name: "Civil Dawn", detail: "The star's position when the sun is 6 degrees below the horizon before sunrise." },
-  D3: { name: "Sunrise", detail: "The star's position at sunrise." },
-  N1: { name: "Sunset", detail: "The star's position at sunset." },
-  N2: { name: "Civil Dusk", detail: "The star's position when the sun is 6 degrees below the horizon after sunset." },
-  N3: { name: "Nautical Dusk", detail: "The star's position when the sun is 12 degrees below the horizon after sunset." },
+  D1: { name: "Nautical Dawn", detail: "The star's position when the sun is 12 degrees below the horizon before sunrise. At this time, stars brighter than magnitude 4 are visible to the naked eye in most parts of the sky." },
+  D2: { name: "Civil Dawn", detail: "The star's position when the sun is 6 degrees below the horizon before sunrise. At this time, stars brighter than magnitude 1 are visible to the naked eye in most parts of the sky." },
+  D3: { name: "Sunrise", detail: "The star's position at sunrise. At this time, only the brightest stars or planets, such as Venus and Jupiter, may be visible to the naked eye." },
+  N1: { name: "Sunset", detail: "The star's position at sunset. At this time, only the brightest stars or planets, such as Venus and Jupiter, may be visible to the naked eye." },
+  N2: { name: "Civil Dusk", detail: "The star's position when the sun is 6 degrees below the horizon after sunset. At this time, stars brighter than magnitude 1 are visible to the naked eye in most parts of the sky." },
+  N3: { name: "Nautical Dusk", detail: "The star's position when the sun is 12 degrees below the horizon after sunset. At this time, stars brighter than magnitude 4 are visible to the naked eye in most parts of the sky." },
   R: { name: 'Rising Point', detail: 'The point where the star appears to rise above the horizon, despite being 34 arc minutes below it due to atmospheric refraction.' },
   T: { name: 'Meridian Transit', detail: 'The point where the star transits the meridian.' },
   S: { name: 'Setting Point', detail: 'The point where the star appears to dip below the horizon, despite already being 34 arc minutes below it due to atmospheric refraction.' },
   NCP: { name: 'North Celestial Pole', detail: '' },
   SCP: { name: 'South Celestial Pole', detail: '' },
-  Z: { name: 'zenith', detail: '' },
+  Z: { name: 'Zenith', detail: '' },
 };
 
 export const LINE_DETAIL = {

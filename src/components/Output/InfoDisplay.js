@@ -150,14 +150,14 @@ const InfoDisplay = ({ info }) => {
       <CustomDivider sx={{ mb: 0.5 }} />
       <Grid container pr={0.5} rowSpacing={0.5} columnSpacing={0} sx={{ maxWidth: '100%', margin: 'auto' }}>
         <Grid item xs={12} sm={12} md="auto">
-          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: 8 }}>
+          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: 10 }}>
             {dateInfoItem}
             {info.name && info.hip && locationInfoItem}
           </Stack>
         </Grid>
 
         <Grid item xs={12} sm={12} md="auto">
-          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: 8 }}>
+          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: (info.name && info.hip) ? 6 : 12 }}>
             {(!info.name || !info.hip) && locationInfoItem}
             {starInfoItem}
           </Stack>
