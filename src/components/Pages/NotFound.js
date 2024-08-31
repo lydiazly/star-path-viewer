@@ -15,10 +15,10 @@ const NotFound = () => {
         textAlign: 'center',
       }}
     >
-      <Typography variant="subtitle1" component="div" fontSize="2rem" color="action.active" gutterBottom>
+      <Typography variant="subtitle1" component="h1" fontSize="h4.fontSize" color="action.active" gutterBottom>
         404
       </Typography>
-      <Typography variant="body1" component="div" fontSize="1.5rem" color="action.active" gutterBottom>
+      <Typography variant="body1" component="div" fontSize="h5.fontSize" color="action.active" gutterBottom>
         Oops! Page not found :(
       </Typography>
       <Button variant="contained" component={Link} to="/" sx={{ mt: 4 }}>

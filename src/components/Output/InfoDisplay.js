@@ -9,8 +9,8 @@ const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const labelStyle = { textAlign: 'left', minWidth: '5.5rem', fontWeight: 500 };
-const detailStyle = { textAlign: 'left' };
+const labelStyle = { textAlign: 'left', fontSize: { xs: 'body2.fontSize', sm: 'body1.fontSize', md: 'body1.fontSize' }, minWidth: '5.5rem', fontWeight: 500 };
+const detailStyle = { textAlign: 'left', fontSize: { xs: 'body2.fontSize', sm: 'body1.fontSize', md: 'body1.fontSize' } };
 
 const InfoDisplay = ({ info }) => {
   // console.log('Rendering InfoDisplay');
@@ -150,14 +150,14 @@ const InfoDisplay = ({ info }) => {
       <CustomDivider sx={{ mb: 0.5 }} />
       <Grid container pr={0.5} rowSpacing={0.5} columnSpacing={0} sx={{ maxWidth: '100%', margin: 'auto' }}>
         <Grid item xs={12} sm={12} md="auto">
-          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: 10 }}>
+          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: 12 }}>
             {dateInfoItem}
             {info.name && info.hip && locationInfoItem}
           </Stack>
         </Grid>
 
         <Grid item xs={12} sm={12} md="auto">
-          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: (info.name && info.hip) ? 6 : 12 }}>
+          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: (info.name && info.hip) ? 6 : 10 }}>
             {(!info.name || !info.hip) && locationInfoItem}
             {starInfoItem}
           </Stack>

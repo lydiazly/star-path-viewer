@@ -61,6 +61,7 @@ const RadecDecDmsInput = () => {
           onWheel={(event) => event.target.blur()}
           inputProps={{ min: -90, max: 90 }}
           fullWidth
+          error={!!starError.dec || !!starNullError.dec}
         />
       </Grid>
       <Grid item xs={12} sm={3.7} md={3.6}>
@@ -76,6 +77,7 @@ const RadecDecDmsInput = () => {
           onWheel={(event) => event.target.blur()}
           inputProps={{ min: 0, max: 59 }}
           fullWidth
+          error={!!starError.dec || !!starNullError.dec}
         />
       </Grid>
       <Grid item xs={12} sm={3.7} md={3.6}>
@@ -91,11 +93,12 @@ const RadecDecDmsInput = () => {
           onWheel={(event) => event.target.blur()}
           inputProps={{ min: 0, max: 59 }}
           fullWidth
+          error={!!starError.dec || !!starNullError.dec}
         />
       </Grid>
       {(starError.dec || starNullError.dec) && (
         <Grid item xs={12} sm={12} md={12} style={{ paddingTop: 0 }}>
-          <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: '0.85rem', textAlign: 'left' }}>
+          <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: 'caption.fontSize', textAlign: 'left' }}>
             {starError.dec || starNullError.dec}
           </Typography>
         </Grid>

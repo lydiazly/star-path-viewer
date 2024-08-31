@@ -7,14 +7,14 @@ import { styled } from '@mui/system';
 import { PT_DETAIL, LINE_DETAIL } from '../../utils/constants';
 import CustomDivider from '../UI/CustomDivider';
 
-const labelStyle = { textAlign: 'left', fontWeight: 500, minWidth: '2rem' };
+const labelStyle = { textAlign: 'left', fontWeight: 500, minWidth: '1.5rem' };
 const detailStyle = { textAlign: 'left', color: 'text.primary', ml: 1.5 };
 
 const Line = ({ type }) => (
   <Box
     sx={{
       display: 'inline-block',
-      width: '30px',
+      width: '31px',
       height: '0px',
       borderBottom: type === 'dotted' ? '2px dotted rgba(0, 0, 0, 0.35)' :
                     type === 'solid' ? '3px solid black' :
@@ -23,6 +23,7 @@ const Line = ({ type }) => (
                     'none',
       verticalAlign: 'middle',
       mb: '1px',
+      mr: 1,
     }}
   />
 );
@@ -47,7 +48,7 @@ const DetailTooltip = styled(({ className, ...props }) => (
     {...props}
     placement="top-start"
     enterTouchDelay={0}
-    leaveTouchDelay={3000}
+    leaveTouchDelay={15000}
     slotProps={{
       popper: {
         modifiers: [
@@ -67,8 +68,8 @@ const DetailTooltip = styled(({ className, ...props }) => (
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.primary.main,
     maxWidth: 480,
-    fontSize: '0.9rem',
-    fontWeight: 'normal',
+    fontSize: theme.typography.body2.fontSize,
+    fontWeight: 400,
     border: `1px solid ${theme.palette.primary.main}`,
     boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.1)',
   },
@@ -101,9 +102,7 @@ const AnnoLegend = ({ anno }) => {
                   {item.name}
                 </Typography>
                 <Typography variant="body2" sx={detailStyle}>
-                  <Typography variant="body2" component="span" fontWeight={500}>
-                    {PT_DETAIL[item.name].name}
-                  </Typography>
+                  {PT_DETAIL[item.name].name}
                   <DetailTooltip
                     title={PT_DETAIL[item.name].detail}
                   >

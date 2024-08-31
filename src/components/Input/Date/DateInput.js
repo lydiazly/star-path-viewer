@@ -168,7 +168,7 @@ const DateInput = ({ setErrorMessage, location }) => {
         <DateFields />
 
         {dateError.general && (
-          <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: '0.85rem', textAlign: 'left' }}>
+          <Typography color="error" variant="body2" sx={{ marginTop: '4px', marginX: '14px', fontSize: 'caption.fontSize', textAlign: 'left' }}>
             {dateError.general}
           </Typography>
         )}

@@ -74,12 +74,12 @@ const Home = () => {
             sx={{
               mt: 0.5,
               mb: { xs: 1, sm: 2, md: 2 },
-              fontSize: '0.7rem',
+              fontSize: 'caption.fontSize',
               [theme.breakpoints.up('sm')]: {
-                fontSize: '0.85rem',
+                fontSize: 'subtitle2.fontSize',
               },
               [theme.breakpoints.up('md')]: {
-                fontSize: '1rem',
+                fontSize: 'subtitle1.fontSize',
               },
             }}
           >
@@ -99,7 +99,7 @@ const Home = () => {
           
           {success && (
             <Box sx={{ width: '100%', justifyContent: 'center' }}>
-              <Box id="information" mt={1}>
+              <Box id="information" mt={2}>
                 <InfoDisplay info={info} />
               </Box>
           

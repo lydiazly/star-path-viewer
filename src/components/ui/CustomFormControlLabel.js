@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 
 const CustomFormControlLabel = styled(FormControlLabel)(({ theme, checked }) => ({
   '& .MuiSvgIcon-root': {
-    fontSize: '1rem',
+    fontSize: theme.typography.body2.fontSize,
   },
   '& .MuiFormControlLabel-label': {
     fontWeight: checked ? 500 : 'normal',

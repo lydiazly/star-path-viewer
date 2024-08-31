@@ -23,7 +23,7 @@ const CalendarToggle = () => {
     <FormControl>
       <RadioGroup
         row
-        sx={{ marginTop: -1, marginBottom: 1, justifyContent: 'space-around' }}
+        sx={{ mt: -1, mb: 1, justifyContent: 'space-around' }}
         value={cal}
         onChange={handleCalChange}
       >

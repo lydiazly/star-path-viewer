@@ -25,7 +25,7 @@ const RadecFormatToggle = () => {
     <FormControl>
       <RadioGroup
         row
-        sx={{ marginTop: 0.8, marginBottom: 1, justifyContent: 'space-around' }}
+        sx={{ mt: 0.8, mb: 1, justifyContent: 'space-around' }}
         value={radecFormat}
         onChange={handleRadecFormatChange}
       >

@@ -55,7 +55,7 @@ const DateFields = () => {
           onChange={handleInputChange}
           onWheel={(event) => event.target.blur()}
           fullWidth
-          error={!!dateError.year || !!dateNullError.year}
+          error={!!dateError.year || !!dateError.general || !!dateNullError.year}
           helperText={dateError.year || dateNullError.year}
         />
       </Grid>
@@ -73,7 +73,7 @@ const DateFields = () => {
           onChange={handleInputChange}
           disabled={!!flag}
           fullWidth
-          error={!!dateError.month || !!dateNullError.month}
+          error={!!dateError.month || !!dateError.general || !!dateNullError.month}
           helperText={dateError.month || dateNullError.month}
           sx={{
             '& .MuiOutlinedInput-root': {
@@ -110,7 +110,7 @@ const DateFields = () => {
           inputProps={{ min: 1, max: lastDay }}
           disabled={!!flag}
           fullWidth
-          error={!!dateError.day || !!dateNullError.day}
+          error={!!dateError.day || !!dateError.general || !!dateNullError.day}
           helperText={dateError.day || dateNullError.day}
           sx={{
             '& .MuiOutlinedInput-root': {
