@@ -9,8 +9,16 @@ const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const labelStyle = { textAlign: 'left', fontSize: { xs: 'body2.fontSize', sm: 'body1.fontSize', md: 'body1.fontSize' }, minWidth: '5.5rem', fontWeight: 500 };
-const detailStyle = { textAlign: 'left', fontSize: { xs: 'body2.fontSize', sm: 'body1.fontSize', md: 'body1.fontSize' } };
+const labelStyle = {
+  textAlign: 'left',
+  fontSize: { xs: 'body2.fontSize', sm: 'body1.fontSize', md: 'body1.fontSize' },
+  minWidth: { xs: '5.2rem', sm: '6rem', md: '6rem' },
+  fontWeight: 500,
+};
+const detailStyle = {
+  textAlign: 'left',
+  fontSize: { xs: 'body2.fontSize', sm: 'body1.fontSize', md: 'body1.fontSize' },
+};
 
 const InfoDisplay = ({ info }) => {
   // console.log('Rendering InfoDisplay');
@@ -106,7 +114,7 @@ const InfoDisplay = ({ info }) => {
         <>
           {(info.name || info.nameZh) && (
             <Box display="flex" alignItems="start" flexWrap="wrap">
-              <Typography variant="subtitle1" mr={1} sx={labelStyle}>
+              <Typography variant="subtitle1" sx={labelStyle}>
                 [Star Name]
               </Typography>
               <Stack direction="column" spacing={0.5}>
@@ -150,14 +158,23 @@ const InfoDisplay = ({ info }) => {
       <CustomDivider sx={{ mb: 0.5 }} />
       <Grid container pr={0.5} rowSpacing={0.5} columnSpacing={0} sx={{ maxWidth: '100%', margin: 'auto' }}>
         <Grid item xs={12} sm={12} md="auto">
-          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: 12 }}>
+          <Stack
+            direction="column"
+            spacing={0.5}
+            ml={{ xs: '2%', sm: 4, md: (info.name && info.hip) ? 4 : 6 }}
+            sx={{ minWidth: '20rem' }}
+          >
             {dateInfoItem}
             {info.name && info.hip && locationInfoItem}
           </Stack>
         </Grid>
 
         <Grid item xs={12} sm={12} md="auto">
-          <Stack direction="column" spacing={0.5} ml={{ xs: '4%', sm: 4, md: (info.name && info.hip) ? 6 : 10 }}>
+          <Stack
+            direction="column"
+            spacing={0.5}
+            ml={{ xs: '2%', sm: 4, md: (info.name && info.hip) ? 3.5 : 6 }}
+          >
             {(!info.name || !info.hip) && locationInfoItem}
             {starInfoItem}
           </Stack>
