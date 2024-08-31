@@ -1,5 +1,5 @@
 // src/components/Input/Star/StarHipInput.js
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { Box, Autocomplete, TextField, Typography } from '@mui/material';
 import Config from '../../../Config';
 import { useStarInput } from '../../../context/StarInputContext';
@@ -17,22 +17,27 @@ const StarHipInput = ({ setErrorMessage }) => {
     suggestions,
     highlightedIndex,
     cachedNames,
+    starError, starNullError,
     latestSuggestionRequest,
     isSelecting,
-    starError, starNullError,
-    starValid,
+    lastSelectedTerm,
     starDispatch,
   } = useStarInput();
-  const [lastSelectedTerm, setLastSelectedTerm] = useState(searchTerm);
+  const inputRef = useRef(null);
 
   /* Initialize */
   useEffect(() => {
-    if (!cachedNames) {
-      fetchAndCacheNames(starDispatch)
-        .catch(error => {
+    const fetchData = async () => {
+      if (!cachedNames) {
+        try {
+          const data = await fetchAndCacheNames();
+          starDispatch({ type: actionTypes.SET_CACHED_NAMES, payload: data });  // Cache the data
+        } catch (error) {
           setErrorMessage((prev) => ({ ...prev, star: error.message }));
-        });
-    }
+        }
+      }
+    };
+    fetchData();
   }, [cachedNames, starDispatch, setErrorMessage]);
 
   /* Clear suggestions and reset highlightedIndex */
@@ -41,14 +46,14 @@ const StarHipInput = ({ setErrorMessage }) => {
       starDispatch({ type: actionTypes.CLEAR_STAR_HIP_AND_NAME });
       starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       starDispatch({ type: actionTypes.CLEAR_HIGHLIGHTED_INDEX });
-      setLastSelectedTerm('');
+      lastSelectedTerm.current = '';
     }
-  }, [searchTerm, starDispatch]);
+  }, [searchTerm, lastSelectedTerm, starDispatch]);
 
   useEffect(() => {
     if (suggestions.length > 0) {
       if (suggestions[0].display_name === HIP_OUT_OF_RANGE) {
-        starDispatch({ type: actionTypes.SET_STAR_HIP_ERROR, payload: `The Hipparchus Catalogue Number must be in the range [${HIP_MIN}, ${HIP_MAX}].` });
+        starDispatch({ type: actionTypes.SET_STAR_HIP_ERROR, payload: `The Hipparchus Catalogue number must be in the range [${HIP_MIN}, ${HIP_MAX}].` });
         starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
         starDispatch({ type: actionTypes.SET_STAR_VALID, payload: false });
         return;
@@ -59,6 +64,7 @@ const StarHipInput = ({ setErrorMessage }) => {
         starDispatch({ type: actionTypes.SET_STAR_VALID, payload: false });
         return;
       }
+      inputRef.current.focus();
       /* Set highlightedIndex to 0 after fetching suggestions */
       if (highlightedIndex < 0) {
         starDispatch({ type: actionTypes.SET_HIGHLIGHTED_INDEX, payload: 0 });
@@ -67,13 +73,13 @@ const StarHipInput = ({ setErrorMessage }) => {
   }, [suggestions, highlightedIndex, starDispatch]);
 
   const debouncedFetchNameSuggestions = useDebouncedFetchNameSuggestions(
+    cachedNames,
     isSelecting,
     latestSuggestionRequest,
     actionTypes,
-    cachedNames,
     starDispatch,
     setErrorMessage,
-    cachedNames? Config.TypingDelay + 150 : Config.TypingDelay + 300
+    Config.TypingDelay
   );
 
   /* Cleanup the debounced function on unmount */
@@ -87,13 +93,13 @@ const StarHipInput = ({ setErrorMessage }) => {
     (event, newSearchTerm) => {
       starDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: newSearchTerm });
       const trimmedNewSearchTerm = newSearchTerm.trim();
+      isSelecting.current = false;
       debouncedFetchNameSuggestions(trimmedNewSearchTerm);
       if (!trimmedNewSearchTerm) {
-        starDispatch({ type: actionTypes.CLEAR_STAR_HIP_AND_NAME });
-        starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+        starDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });
       }
     },
-    [starDispatch, debouncedFetchNameSuggestions]
+    [isSelecting, starDispatch, debouncedFetchNameSuggestions]
   );
 
   const handleSelect = useCallback((event, value) => {
@@ -114,16 +120,17 @@ const StarHipInput = ({ setErrorMessage }) => {
       starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: selectedSuggestion.nameZh });
       starDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: selectedSuggestion.display_name });
       starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
-      setLastSelectedTerm(selectedSuggestion.display_name);
+      lastSelectedTerm.current = selectedSuggestion.display_name;
     }
-  }, [isSelecting, suggestions, starDispatch]);
+  }, [suggestions, isSelecting, lastSelectedTerm, starDispatch]);
 
   const handleKeyDown = useCallback((event) => {
     if (event.key === 'Enter') {
       /* Prevent default 'Enter' behavior */
       event.defaultMuiPrevented = true;
-      /* Select the highlighted suggestion */
+
       if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
+        /* Select the highlighted suggestion */
         const highlightedSuggestion = suggestions[highlightedIndex];
         if (highlightedSuggestion.hip && highlightedSuggestion.display_name !== HIP_OUT_OF_RANGE) {
           isSelecting.current = true;
@@ -132,11 +139,15 @@ const StarHipInput = ({ setErrorMessage }) => {
           starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: highlightedSuggestion.nameZh });
           starDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: highlightedSuggestion.display_name });
           starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
-          setLastSelectedTerm(highlightedSuggestion.display_name);
+          lastSelectedTerm.current = highlightedSuggestion.display_name;
         }
+      } else if (searchTerm !== lastSelectedTerm.current && searchTerm && suggestions.length === 0) {
+        /* If failed to fetch suggestions due to any unknown reasons last time, fetch again */
+        isSelecting.current = false;
+        debouncedFetchNameSuggestions(searchTerm.trim());
       }
     }
-  }, [highlightedIndex, isSelecting, suggestions, starDispatch]);
+  }, [searchTerm, suggestions, highlightedIndex, isSelecting, lastSelectedTerm, starDispatch, debouncedFetchNameSuggestions]);
 
   const handleHighlightChange = useCallback((event, option, reason) => {
     if (reason === 'keyboard' || reason === 'mouse') {
@@ -146,27 +157,40 @@ const StarHipInput = ({ setErrorMessage }) => {
   }, [suggestions, starDispatch]);
 
   const handleBlur = useCallback(() => {
-    if (searchTerm !== lastSelectedTerm) {
-      /* If the term is a valid number, set it */
-      if (searchTerm && suggestions.length > 0 && suggestions[0].hip === searchTerm) {
+    if (searchTerm !== lastSelectedTerm.current) {
+      if (
+        searchTerm && suggestions.length > 0 &&
+        suggestions[0].hip === searchTerm &&
+        suggestions[0].display_name !== HIP_OUT_OF_RANGE &&  // redundant, suggestions have been cleared already
+        suggestions[0].display_name !== HIP_NOT_FOUND  // redundant, suggestions have been cleared already
+      ) {
+        /* If the search term is a valid Hipparchus Catalogue number, set it */
         starDispatch({ type: actionTypes.SET_STAR_HIP, payload: suggestions[0].hip });
         starDispatch({ type: actionTypes.SET_STAR_NAME, payload: suggestions[0].name });
         starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: suggestions[0].nameZh });
-        setLastSelectedTerm(searchTerm);
-        } else if (starValid) {
-        starDispatch({ type: actionTypes.SET_STAR_HIP_ERROR, payload: 'No item selected.' });
-        starDispatch({ type: actionTypes.SET_STAR_VALID, payload: false });
+        lastSelectedTerm.current = searchTerm;
+      } else if (searchTerm) {
+        if (suggestions.length > 0) {
+          /* If no option has been selected, warn */
+          starDispatch({ type: actionTypes.SET_STAR_HIP_ERROR, payload: 'Please select a star from the suggestions.' });
+          starDispatch({ type: actionTypes.SET_STAR_VALID, payload: false });
+        } else {
+          /* If failed to fetch suggestions due to any unknown reasons last time, fetch again */
+          isSelecting.current = false;
+          debouncedFetchNameSuggestions(searchTerm.trim());
+        }
       }
     }
-  }, [searchTerm, lastSelectedTerm, suggestions, starValid, starDispatch]);
+  }, [searchTerm, lastSelectedTerm, suggestions, isSelecting, starDispatch, debouncedFetchNameSuggestions]);
 
   return (
     <Autocomplete
       freeSolo
       clearOnEscape
       autoHighlight
+      disabled={!cachedNames}
       options={searchTerm.trim() ? suggestions : []}
-      getOptionLabel={(option) => option.hip}
+      getOptionLabel={(option) => option.hip || option.display_name}
       inputValue={searchTerm}
       onInputChange={handleSearchChange}
       onChange={handleSelect}
@@ -174,11 +198,12 @@ const StarHipInput = ({ setErrorMessage }) => {
       onHighlightChange={handleHighlightChange}
       onBlur={handleBlur}
       filterOptions={(x) => x}
+      loading={!cachedNames}
       renderOption={(props, option) => (
         <li
           {...props}
           key={option.hip}
-          style={!option.hip || option.hip === HIP_NOT_FOUND ? { pointerEvents: 'none', color: 'InactiveCaptionText', fontStyle: 'italic' } : {}}
+          style={!option.hip || option.display_name === HIP_NOT_FOUND ? { pointerEvents: 'none', color: 'InactiveCaptionText', fontStyle: 'italic' } : {}}
         >
           <Box display="flex" alignItems="start" flexWrap="wrap">
             <Typography sx={hipStyle}>
@@ -186,7 +211,10 @@ const StarHipInput = ({ setErrorMessage }) => {
             </Typography>
             {option.name && (
               <Typography sx={nameStyle}>
-                {option.name_zh ? `(${option.name}/${option.name_zh})` : `(${option.name})`}
+                {option.name_zh
+                ? `(${option.name}/${option.name_zh})`
+                : `(${option.name})`
+                }
               </Typography>
             )}
           </Box>
@@ -196,13 +224,14 @@ const StarHipInput = ({ setErrorMessage }) => {
         <TextField
           {...params}
           required
-          label="Search Hipparchus Catalogue Number"
+          label="Search Hipparchus Catalogue number"
           placeholder="Enter a number or a name"
           size="small"
           variant="outlined"
           fullWidth
           error={!!starError.hip || !!starNullError.hip}
           helperText={starError.hip || starNullError.hip}
+          inputRef={inputRef}
           InputProps={{
             ...params.InputProps,
           }}

@@ -1,5 +1,5 @@
 // src/components/Input/Location/AddressInput.js
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { Box, Stack, Autocomplete, TextField, IconButton, Tooltip, CircularProgress, InputAdornment, Typography, Chip } from '@mui/material';
 import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import Config from '../../../Config';
@@ -27,13 +27,13 @@ const AddressInput = ({ setErrorMessage }) => {
     locationLoading,
     suggestionsLoading,
     locationError, locationNullError,
-    locationValid,
     serviceChosen,
     latestSuggestionRequest,
     isSelecting,
+    lastSelectedTerm,
     locationDispatch,
   } = useLocationInput();
-  const [lastSelectedTerm, setLastSelectedTerm] = useState(searchTerm);
+  const inputRef = useRef(null);
 
   /* Clear suggestions and reset highlightedIndex */
   useEffect(() => {
@@ -41,9 +41,9 @@ const AddressInput = ({ setErrorMessage }) => {
       locationDispatch({ type: actionTypes.CLEAR_LOCATION });
       locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       locationDispatch({ type: actionTypes.CLEAR_HIGHLIGHTED_INDEX });
-      setLastSelectedTerm('');
+      lastSelectedTerm.current = '';
     }
-  }, [searchTerm, locationDispatch]);
+  }, [searchTerm, lastSelectedTerm, locationDispatch]);
 
   useEffect(() => {
     if (suggestions.length > 0) {
@@ -53,6 +53,7 @@ const AddressInput = ({ setErrorMessage }) => {
         locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: false });
         return;
       }
+      inputRef.current.focus();
       /* Set highlightedIndex to 0 after fetching suggestions */
       if (highlightedIndex < 0) {
         locationDispatch({ type: actionTypes.SET_HIGHLIGHTED_INDEX, payload: 0 });
@@ -65,12 +66,13 @@ const AddressInput = ({ setErrorMessage }) => {
       clearLocationError(locationDispatch, setErrorMessage);
       locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       locationDispatch({ type: actionTypes.CLEAR_HIGHLIGHTED_INDEX });
-      fetchCurrentLocation(serviceChosen, locationDispatch, setLastSelectedTerm, setErrorMessage);
+      fetchCurrentLocation(serviceChosen, lastSelectedTerm, locationDispatch, setErrorMessage);
     },
-    [serviceChosen, locationDispatch, setErrorMessage]
+    [serviceChosen, lastSelectedTerm, locationDispatch, setErrorMessage]
   );
 
   const debouncedFetchSuggestions = useDebouncedFetchSuggestions(
+    serviceChosen,
     isSelecting,
     latestSuggestionRequest,
     actionTypes,
@@ -90,13 +92,13 @@ const AddressInput = ({ setErrorMessage }) => {
     (event, newSearchTerm) => {
       locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: newSearchTerm });
       const trimmedNewSearchTerm = newSearchTerm.trim();
-      debouncedFetchSuggestions(trimmedNewSearchTerm, serviceChosen);
+      isSelecting.current = false;
+      debouncedFetchSuggestions(trimmedNewSearchTerm);
       if (!trimmedNewSearchTerm) {
-        locationDispatch({ type: actionTypes.CLEAR_LOCATION });
-        locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
+        locationDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });
       }
     },
-    [serviceChosen, locationDispatch, debouncedFetchSuggestions]
+    [isSelecting, locationDispatch, debouncedFetchSuggestions]
   );
 
   const handleSelect = useCallback((event, value) => {
@@ -119,16 +121,17 @@ const AddressInput = ({ setErrorMessage }) => {
       } });
       locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: selectedSuggestion.display_name });
       locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
-      setLastSelectedTerm(selectedSuggestion.display_name);
+      lastSelectedTerm.current = selectedSuggestion.display_name;
     }
-  }, [isSelecting, suggestions, locationDispatch]);
+  }, [suggestions, isSelecting, lastSelectedTerm, locationDispatch]);
 
   const handleKeyDown = useCallback((event) => {
     if (event.key === 'Enter') {
       /* Prevent default 'Enter' behavior */
       event.defaultMuiPrevented = true;
-      /* Select the highlighted suggestion */
+
       if (highlightedIndex >= 0 && highlightedIndex < suggestions.length) {
+        /* Select the highlighted suggestion */
         const highlightedSuggestion = suggestions[highlightedIndex];
         if (highlightedSuggestion.id && highlightedSuggestion.id !== ADDR_UNKNOWN) {
           isSelecting.current = true;
@@ -139,11 +142,15 @@ const AddressInput = ({ setErrorMessage }) => {
           } });
           locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: highlightedSuggestion.display_name });
           locationDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
-          setLastSelectedTerm(highlightedSuggestion.display_name);
+          lastSelectedTerm.current = highlightedSuggestion.display_name;
         }
+      } else if (searchTerm !== lastSelectedTerm.current && searchTerm && suggestions.length === 0 && !locationLoading && !suggestionsLoading) {
+        /* If failed to fetch suggestions due to any unknown reasons last time, fetch again */
+        isSelecting.current = false;
+        debouncedFetchSuggestions(searchTerm.trim());
       }
     }
-  }, [highlightedIndex, isSelecting, suggestions, locationDispatch]);
+  }, [searchTerm, suggestions, highlightedIndex, locationLoading, suggestionsLoading, isSelecting, lastSelectedTerm, locationDispatch, debouncedFetchSuggestions]);
 
   const handleHighlightChange = useCallback((event, option, reason) => {
     if (reason === 'keyboard' || reason === 'mouse') {
@@ -153,32 +160,40 @@ const AddressInput = ({ setErrorMessage }) => {
   }, [suggestions, locationDispatch]);
 
   const handleBlur = useCallback(() => {
-    if (searchTerm !== lastSelectedTerm) {
-      /* If the term is a valid address, set it */
+    if (searchTerm !== lastSelectedTerm.current) {
       if (
         searchTerm && suggestions.length > 0 &&
         suggestions[0].display_name === searchTerm &&
         suggestions[0].display_name !== ADDR_UNKNOWN &&
-        suggestions[0].display_name !== ADDR_NOT_FOUND
+        suggestions[0].display_name !== ADDR_NOT_FOUND  // redundant, suggestions have been cleared already
       ) {
+        /* If the search term is a valid address, set it */
         locationDispatch({ type: actionTypes.SET_LOCATION, payload: {
           lat: suggestions[0].lat,
           lng: suggestions[0].lng,
           id: suggestions[0].id,
         } });
-        setLastSelectedTerm(searchTerm);
-      } else if (locationValid) {
-        locationDispatch({ type: actionTypes.SET_ADDRESS_ERROR, payload: 'No item selected.' });
-        locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: false });
+        lastSelectedTerm.current = searchTerm;
+      } else if (searchTerm) {
+        if (suggestions.length > 0) {
+          /* If no option has been selected, warn */
+          locationDispatch({ type: actionTypes.SET_ADDRESS_ERROR, payload: 'Please select a location from the suggestions.' });
+          locationDispatch({ type: actionTypes.SET_LOCATION_VALID, payload: false });
+        } else {
+          /* If failed to fetch suggestions due to any unknown reasons last time, fetch again */
+          isSelecting.current = false;
+          debouncedFetchSuggestions(searchTerm.trim());
+        }
       }
     }
-  }, [searchTerm, lastSelectedTerm, suggestions, locationValid, locationDispatch]);
+  }, [searchTerm, suggestions, isSelecting, lastSelectedTerm, locationDispatch, debouncedFetchSuggestions]);
 
   return (
     <Autocomplete
       freeSolo
       clearOnEscape
       autoHighlight
+      openOnFocus
       disabled={!serviceChosen}
       options={searchTerm.trim() ? suggestions : []}
       getOptionLabel={(option) => option.display_name}
@@ -217,6 +232,7 @@ const AddressInput = ({ setErrorMessage }) => {
           fullWidth
           error={!!locationError.address || !!locationNullError.address}
           helperText={locationError.address || locationNullError.address}
+          inputRef={inputRef}
           InputProps={{
             ...params.InputProps,
             startAdornment: (

@@ -4,7 +4,7 @@ import { FormControl, RadioGroup, Radio } from '@mui/material';
 import { useDateInput } from '../../../context/DateInputContext';
 import * as actionTypes from '../../../context/dateInputActionTypes';
 import CustomFormControlLabel from '../../UI/CustomFormControlLabel';
-import { JULIAN } from '../../../utils/constants';
+import { GREGORIAN, JULIAN } from '../../../utils/constants';
 
 const CalendarToggle = () => {
   const {
@@ -33,7 +33,7 @@ const CalendarToggle = () => {
           value=""
           control={<Radio />}
           label="Gregorian Calendar"
-          checked={cal === ''}
+          checked={cal === GREGORIAN}
         />
         <CustomFormControlLabel
           size="small"

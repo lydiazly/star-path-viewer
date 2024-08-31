@@ -7,6 +7,7 @@ import TitleImage from '../../assets/title-image.svg';
 import { LocationInputProvider } from '../../context/LocationInputContext';
 import { DateInputProvider } from '../../context/DateInputContext';
 import { StarInputProvider } from '../../context/StarInputContext';
+import { GREGORIAN } from '../../utils/constants';
 import DiagramFetcher from '../Input/DiagramFetcher';
 import InfoDisplay from '../Output/InfoDisplay';
 import ImageDisplay from '../Output/ImageDisplay';
@@ -25,7 +26,7 @@ const Home = () => {
     lat: '', lng: '',
     dateG: { year: '', month: '', day: '' },
     dateJ: { year: '', month: '', day: '' },
-    flag: '', cal: '',
+    flag: '', cal: GREGORIAN,
     name: '', nameZh: '', hip: '', ra: '', dec: '',
     eqxSolTime: '',
   });

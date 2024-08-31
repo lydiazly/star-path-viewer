@@ -108,7 +108,7 @@ const starNullErrorReducer = (state, action) => {
     case actionTypes.SET_STAR_NAME_NULL_ERROR:
       return { ...state, name: 'Please select a planet.' };
     case actionTypes.SET_STAR_HIP_NULL_ERROR:
-      return { ...state, hip: 'Please search and select a Hipparchus catalogue number.' };
+      return { ...state, hip: 'Please search and select a Hipparchus Catalogue number.' };
     case actionTypes.SET_STAR_RA_NULL_ERROR:
       return { ...state, ra: 'Please enter a right ascension.' };
     case actionTypes.SET_STAR_DEC_NULL_ERROR:
@@ -227,12 +227,14 @@ export const StarInputProvider = ({ children }) => {
   const [starState, starDispatch] = useReducer(starInputReducer, initialState);
   const latestSuggestionRequest = useRef(0);
   const isSelecting = useRef(false);
+  const lastSelectedTerm = useRef(null);
 
   return (
     <StarInputContext.Provider value={{
       ...starState,
       latestSuggestionRequest,
       isSelecting,
+      lastSelectedTerm,
       starDispatch,
     }}>
       {children}

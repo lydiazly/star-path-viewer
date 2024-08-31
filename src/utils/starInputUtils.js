@@ -11,12 +11,12 @@ const validateStarSync = (
 
   if (starInputType === TYPE_HIP) {
     if (!/^\d*$/.test(starHip)) {
-      return { ...newStarError, hip: 'Invalid Hipparchus catalogue number.' };
+      return { ...newStarError, hip: 'Invalid Hipparchus Catalogue number.' };
     }
     if (starHip) {
       const hip = parseInt(starHip);
       if (hip < HIP_MIN || hip > HIP_MAX) {
-        return { ...newStarError, hip: `The Hipparchus Catalogue Number must be in the range [${HIP_MIN}, ${HIP_MAX}].` };
+        return { ...newStarError, hip: `The Hipparchus Catalogue number must be in the range [${HIP_MIN}, ${HIP_MAX}].` };
       }
     }
   } else if (starInputType === TYPE_RADEC) {

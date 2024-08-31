@@ -3,13 +3,13 @@ import fetchGeolocation from './fetchGeolocation';
 import * as actionTypes from '../context/locationInputActionTypes';
 import { TYPE_COORD, ADDR_UNKNOWN } from './constants';
 
-const fetchCurrentLocation = async (service, locationDispatch, setLastSelectedTerm, setErrorMessage) => {
+const fetchCurrentLocation = async (service, lastSelectedTerm, locationDispatch, setErrorMessage) => {
   try {
     locationDispatch({ type: actionTypes.SET_LOCATION_LOADING_ON });
     const locationData = await fetchGeolocation(service);
     if (locationData.display_name !== ADDR_UNKNOWN) {
       locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: locationData.display_name });
-      setLastSelectedTerm(locationData.display_name);
+      lastSelectedTerm.current = locationData.display_name;
     }
     locationDispatch({ type: actionTypes.SET_LOCATION, payload: {
       lat: locationData.lat,

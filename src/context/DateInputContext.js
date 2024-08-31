@@ -1,13 +1,14 @@
 // src/context/DateInputContext.js
 import React, { createContext, useContext, useReducer, useRef } from 'react';
 import * as actionTypes from './dateInputActionTypes';
+import { GREGORIAN } from '../utils/constants';
 
 const DateInputContext = createContext();
 
 const initialState = {
   date: { year: '', month: '', day: '' },
   flag: '',  // 've', 'ss', 'ae', 'ws'
-  cal: '',  // '': Gregorian, 'j': Julian
+  cal: GREGORIAN,  // '': Gregorian, 'j': Julian
   disabledMonths: {},
   lastDay: 31,
   dateAdjusting: false,

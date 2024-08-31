@@ -157,6 +157,7 @@ export const LocationInputProvider = ({ children }) => {
   const latestTzRequest = useRef(0);
   const latestSuggestionRequest = useRef(0);
   const isSelecting = useRef(false);
+  const lastSelectedTerm = useRef(null);
 
   return (
     <LocationInputContext.Provider value={{
@@ -164,6 +165,7 @@ export const LocationInputProvider = ({ children }) => {
       serviceChosen, setServiceChosen,
       latestTzRequest, latestSuggestionRequest,
       isSelecting,
+      lastSelectedTerm,
       locationDispatch,
     }}>
       {children}

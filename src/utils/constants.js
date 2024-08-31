@@ -74,6 +74,7 @@ export const EQX_SOL_KEYS = {
 export const TYPE_ADDR = 'address';
 export const TYPE_COORD = 'coordinates';
 
+export const GREGORIAN = '';
 export const JULIAN = 'j';
 
 export const TYPE_NAME = 'name';

@@ -4,6 +4,7 @@ import fetchSuggestions from '../utils/fetchSuggestions';
 import debounce from 'lodash/debounce';
 
 const useDebouncedFetchSuggestions = (
+  serviceChosen,
   isSelecting,
   latestSuggestionRequest,
   actionTypes,
@@ -14,7 +15,7 @@ const useDebouncedFetchSuggestions = (
   return useMemo(
     () =>
       debounce(
-        async (query, serviceChosen) => {
+        async (query) => {
           if (query && !isSelecting.current) {
             try {
               dispatch({ type: actionTypes.SET_SUGGESTIONS_LOADING_ON });
@@ -36,7 +37,7 @@ const useDebouncedFetchSuggestions = (
         },
         typingDelay
       ),
-    [isSelecting, latestSuggestionRequest, actionTypes, dispatch, setErrorMessage, typingDelay]
+    [serviceChosen, isSelecting, latestSuggestionRequest, actionTypes, dispatch, setErrorMessage, typingDelay]
   );
 };
 

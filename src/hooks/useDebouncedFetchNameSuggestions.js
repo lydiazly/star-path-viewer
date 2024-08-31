@@ -4,10 +4,10 @@ import { fetchNameSuggestions } from '../utils/fetchNameSuggestions';
 import debounce from 'lodash/debounce';
 
 const useDebouncedFetchNameSuggestions = (
+  cachedNames,
   isSelecting,
   latestSuggestionRequest,
   actionTypes,
-  cachedNames,
   dispatch,
   setErrorMessage,
   typingDelay
@@ -34,7 +34,7 @@ const useDebouncedFetchNameSuggestions = (
         },
         typingDelay
       ),
-    [isSelecting, latestSuggestionRequest, actionTypes, cachedNames, dispatch, setErrorMessage, typingDelay]
+    [cachedNames, isSelecting, latestSuggestionRequest, actionTypes, dispatch, setErrorMessage, typingDelay]
   );
 };
 

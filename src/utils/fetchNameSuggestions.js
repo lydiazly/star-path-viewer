@@ -6,15 +6,14 @@ import { HIP_MIN, HIP_MAX, HIP_OUT_OF_RANGE, HIP_NOT_FOUND } from './constants';
 const starNameUrl = 'https://stardial-astro.github.io/star-path-data/json/hip_ident.json';
 const topN = 10;
 
-const fetchAndCacheNames = async (dispatch) => {
+const fetchAndCacheNames = async () => {
   try {
     const timeout = 5000;
     const response = await axios.get(starNameUrl, { timeout });
     const data = response.data;
-    dispatch({ type: actionTypes.SET_CACHED_NAMES, payload: data });  // Cache the data
     return data;
   } catch (error) {
-    throw new Error('Failed to fetch data.');
+    throw new Error('Failed to fetch the Hipparchus Catalogue data.');
   }
 };
 
@@ -23,7 +22,8 @@ const fetchNameSuggestions = async (query, cachedNames, dispatch) => {
     let data = cachedNames;
     /* Fetch and set data if cache is empty */
     if (!data) {
-      data = await fetchAndCacheNames(dispatch);
+      data = await fetchAndCacheNames();
+      dispatch({ type: actionTypes.SET_CACHED_NAMES, payload: data });  // Cache the data
     }
 
     /* Case-insensitive */

@@ -29,9 +29,17 @@ const LocationInput = ({ setErrorMessage }) => {
 
   /* Initialize */
   useEffect(() => {
+    /* Choose geocoding service */
+    const setService = async () => {
+      if (serviceChosen === null) {
+        const service = await determineService();
+        setServiceChosen(service);
+      }
+    };
     clearLocationError(locationDispatch, setErrorMessage);
-    // fetchCurrentLocation(serviceChosen, locationDispatch, setErrorMessage);
-  }, [locationDispatch, setErrorMessage]);
+    // fetchCurrentLocation(serviceChosen, locationDispatch, lastSelectedTerm, setErrorMessage);
+    setService();
+  }, [serviceChosen, setServiceChosen, locationDispatch, setErrorMessage]);
 
   // useEffect(() => {
   //   onLocationChange({ ...location, type: locationInputType });
@@ -67,17 +75,6 @@ const LocationInput = ({ setErrorMessage }) => {
   useEffect(() => {
     locationDispatch({ type: actionTypes.CLEAR_LNG_NULL_ERROR });
   }, [location.lng, locationInputType, locationDispatch]);
-
-  /* Choose geocoding service */
-  useEffect(() => {
-    const setService = async () => {
-      if (serviceChosen === null) {
-          const service = await determineService();
-          setServiceChosen(service);
-      }
-    };
-    setService();
-  }, [serviceChosen, setServiceChosen]);
 
   const debouncedValidateLocation = useMemo(
     () => debounce((locationInputType, location) => {
@@ -124,7 +121,7 @@ const LocationInput = ({ setErrorMessage }) => {
         })}
       >
         <Alert severity="warning" sx={alertStyle} onClose={handleSnackbarClose}>
-          Sorry, we couldn't fetch the address, but you can use these coordinates for this location.
+          Sorry, we couldn't fetch the address, but you can use these GPS coordinates of this location. ↓
         </Alert>
       </Snackbar>
     </Stack>
