@@ -18,7 +18,7 @@ const RadecInput = () => {
       {radecFormat === FORMAT_DD ? (
         <RadecDecimalInput />
       ) : (
-        <Grid container spacing={{ xs: 3, sm: 2, md: 3 }} alignItems="flex-start">
+        <Grid container spacing={{ xs: 2, sm: 2, md: 3 }} alignItems="flex-start">
           <RadecRaHmsInput />
           <RadecDecDmsInput />
         </Grid>

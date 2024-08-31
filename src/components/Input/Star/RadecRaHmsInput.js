@@ -42,13 +42,13 @@ const RadecRaHmsInput = () => {
   }, [starRaHMS, starDispatch]);
 
   return (
-    <Grid container item xs={12} sm={12} md={6} rowSpacing={2} columnSpacing={1} alignItems="center" justifyContent="space-between">
-      <Grid item xs={12} sm="auto" md="auto">
+    <Grid container item xs={12} sm={12} md={6} rowSpacing={2} columnSpacing={1.5} alignItems="center" justifyContent="space-between">
+      <Grid item xs={12} sm={0.9} md={1.2} mr={{ xs: 0, sm: -0.5, md: -0.5 }} my={{ xs: -1, sm: 0, md: 0 }}>
         <Typography variant="body1">
           RA
-      </Typography>
+        </Typography>
       </Grid>
-      <Grid item xs={12} sm={3.5} md={3.5}>
+      <Grid item xs={12} sm={3.7} md={3.6}>
         <TextField
           required
           label="Hours"
@@ -63,7 +63,7 @@ const RadecRaHmsInput = () => {
           fullWidth
         />
       </Grid>
-      <Grid item xs={12} sm={3.5} md={3.5}>
+      <Grid item xs={12} sm={3.7} md={3.6}>
         <TextField
           required
           label="Minutes"
@@ -78,7 +78,7 @@ const RadecRaHmsInput = () => {
           fullWidth
         />
       </Grid>
-      <Grid item xs={12} sm={3.5} md={3.5}>
+      <Grid item xs={12} sm={3.7} md={3.6}>
         <TextField
           required
           label="Seconds"
