@@ -168,6 +168,7 @@ const AddressInput = ({ setErrorMessage }) => {
         suggestions[0].display_name !== ADDR_NOT_FOUND  // redundant, suggestions have been cleared already
       ) {
         /* If the search term is a valid address, set it */
+        isSelecting.current = true;
         locationDispatch({ type: actionTypes.SET_LOCATION, payload: {
           lat: suggestions[0].lat,
           lng: suggestions[0].lng,

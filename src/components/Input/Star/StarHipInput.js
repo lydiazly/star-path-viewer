@@ -165,6 +165,7 @@ const StarHipInput = ({ setErrorMessage }) => {
         suggestions[0].display_name !== HIP_NOT_FOUND  // redundant, suggestions have been cleared already
       ) {
         /* If the search term is a valid Hipparchus Catalogue number, set it */
+        isSelecting.current = true;
         starDispatch({ type: actionTypes.SET_STAR_HIP, payload: suggestions[0].hip });
         starDispatch({ type: actionTypes.SET_STAR_NAME, payload: suggestions[0].name });
         starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: suggestions[0].nameZh });
