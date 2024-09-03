@@ -46,10 +46,10 @@ const Home = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              paddingX: 1,
-              marginX: 'auto',
-              marginTop: { xs: 3, sm: 5, md: 5 },
-              marginBottom: { xs: 1, sm: 2, md: 2 },
+              px: 1,
+              mx: 'auto',
+              mt: { xs: 3, sm: 5, md: 5 },
+              mb: { xs: 1, sm: 2, md: 2 },
               width: '100%',
             }}
           >
@@ -74,7 +74,7 @@ const Home = () => {
             sx={{
               mt: 0.5,
               mb: { xs: 1, sm: 2, md: 2 },
-              fontSize: 'caption.fontSize',
+              fontSize: '0.7rem',
               [theme.breakpoints.up('sm')]: {
                 fontSize: 'subtitle2.fontSize',
               },
@@ -83,7 +83,7 @@ const Home = () => {
               },
             }}
           >
-            &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from -3000-01-29 to 3000-05-06&nbsp;&mdash;
+            &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from &#8209;3000&#8209;01&#8209;29 to 3000&#8209;05&#8209;06&nbsp;&mdash;
           </Typography>
           
           <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>

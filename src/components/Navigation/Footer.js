@@ -9,7 +9,7 @@ const Footer = () => {
       maxWidth="md"
       sx={{
         flexShrink: 0,
-        paddingX: 0,
+        px: 0,
       }}
     >
       <CustomDivider sx={{ mt: 4, mb: 1 }} />

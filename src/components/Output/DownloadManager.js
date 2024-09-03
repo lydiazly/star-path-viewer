@@ -103,7 +103,7 @@ const DownloadManager = ({ svgData, filenameBase, dpi = 300, setErrorMessage }) 
           key={format}
           onClick={() => handleDownload(format)}
           startIcon={<DownloadIcon />}
-          sx={{ minWidth: '15%' }}
+          sx={{ minWidth: '15%', py: { xs: 0.55, sm: 0.75 } }}
         >
           {format}
         </Button>
