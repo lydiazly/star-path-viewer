@@ -48,17 +48,23 @@ const DetailTooltip = styled(({ className, ...props }) => (
     {...props}
     placement="top-start"
     enterTouchDelay={0}
-    leaveTouchDelay={15000}
+    leaveTouchDelay={20000}
     slotProps={{
       popper: {
         modifiers: [
           {
             name: 'offset',
             options: {
-              offset: [0, -8],
+              offset: [0, -5],
             },
           },
         ],
+        sx: {
+          [`&.${tooltipClasses.popper}[data-popper-placement*="top"] .${tooltipClasses.tooltip}`]:
+            {
+              marginBottom: 2,
+            },
+        }
       },
     }}
     classes={{ popper: className }}

@@ -8,7 +8,6 @@ import Config from '../../Config';
 import { useLocationInput } from '../../context/LocationInputContext';
 import { useDateInput } from '../../context/DateInputContext';
 import { useStarInput } from '../../context/StarInputContext';
-// import * as dateActionTypes from '../../context/dateInputActionTypes';
 import { STARS, JULIAN, TYPE_NAME, TYPE_HIP, TYPE_RADEC } from '../../utils/constants';
 import { validateLocationInputSync, validateDateInputSync, validateInputSync, clearNullError } from '../../utils/inputUtils';
 import { sanitizeSvg } from '../../utils/svgUtils';
@@ -46,10 +45,10 @@ const DiagramFetcher = ({ setDiagramId, setInfo, setSvgData, setAnno, setSuccess
   const [loading, setLoading] = useState(false);
 
   /* Reset error when user starts typing */
-  useEffect(() => {
-    clearNullError(locationDispatch, dateDispatch, starDispatch);
-    setErrorMessage((prev) => ({ ...prev, draw: '', download: '' }));
-  }, [location, locationInputType, date, flag, cal, starName, starHip, starRadec, starInputType, locationDispatch, dateDispatch, starDispatch]);
+  // useEffect(() => {
+  //   clearNullError(locationDispatch, dateDispatch, starDispatch);
+  //   setErrorMessage((prev) => ({ ...prev, draw: '', download: '' }));
+  // }, [location, locationInputType, date, flag, cal, starName, starHip, starRadec, starInputType, locationDispatch, dateDispatch, starDispatch]);
 
   useEffect(() => {
     if (flag) {

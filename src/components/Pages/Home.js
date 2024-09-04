@@ -13,6 +13,8 @@ import InfoDisplay from '../Output/InfoDisplay';
 import ImageDisplay from '../Output/ImageDisplay';
 import DownloadManager from '../Output/DownloadManager';
 import AnnoDisplay from '../Output/AnnoDisplay';
+import Notice from '../Navigation/Notice';
+import Config from '../../Config';
 
 const Home = () => {
   // console.log('Rendering Home');
@@ -41,6 +43,9 @@ const Home = () => {
     <LocationInputProvider>
       <DateInputProvider>
         <StarInputProvider>
+          {Config.notice && (
+            <Notice />
+          )}
           <Box
             sx={{
               display: 'flex',
@@ -117,7 +122,7 @@ const Home = () => {
                       setErrorMessage={setErrorMessage}
                     />
                     {errorMessage.download && (
-                      <Alert severity="error" sx={{ width: '100%', paddingTop: 1, textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, download: '' }))}>
+                      <Alert severity="error" sx={{ width: '100%', mt: 1, textAlign: 'left' }} onClose={() => setErrorMessage((prev) => ({ ...prev, download: '' }))}>
                         {errorMessage.download}
                       </Alert>
                     )}
