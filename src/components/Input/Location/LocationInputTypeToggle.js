@@ -12,7 +12,7 @@ const LocationInputTypeToggle = () => {
     if (newInputType !== null) {
       /* Clear the fields */
       if (newInputType === TYPE_ADDR) {
-        locationDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: '' });  // This clears the location obj as well
+        locationDispatch({ type: actionTypes.CLEAR_SEARCH_TERM });  // This clears the location obj as well
       }
 
       locationDispatch({ type: actionTypes.SET_INPUT_TYPE, payload: newInputType });

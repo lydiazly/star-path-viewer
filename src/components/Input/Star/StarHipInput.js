@@ -1,15 +1,21 @@
 // src/components/Input/Star/StarHipInput.js
 import React, { useEffect, useCallback, useRef } from 'react';
-import { Box, Autocomplete, TextField, Typography } from '@mui/material';
+import { Box, Autocomplete, TextField, InputAdornment, Typography } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import Config from '../../../Config';
 import { useStarInput } from '../../../context/StarInputContext';
 import * as actionTypes from '../../../context/starInputActionTypes';
 import useDebouncedFetchNameSuggestions from '../../../hooks/useDebouncedFetchNameSuggestions';
 import { HIP_MIN, HIP_MAX, HIP_OUT_OF_RANGE, HIP_NOT_FOUND } from '../../../utils/constants';
 import { fetchAndCacheNames } from '../../../utils/fetchNameSuggestions';
+import { constructNameZh } from '../../../utils/starInputUtils';
 
 const hipStyle = { textAlign: 'left', mr: 1 };
 const nameStyle = { textAlign: 'left', color: 'primary.main' };
+const searchIconStyle = {
+  color: "action.active",
+  p: '2px',
+};
 
 const StarHipInput = ({ setErrorMessage }) => {
   const {
@@ -117,7 +123,7 @@ const StarHipInput = ({ setErrorMessage }) => {
       isSelecting.current = true;
       starDispatch({ type: actionTypes.SET_STAR_HIP, payload: selectedSuggestion.hip });
       starDispatch({ type: actionTypes.SET_STAR_NAME, payload: selectedSuggestion.name });
-      starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: selectedSuggestion.nameZh });
+      starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: constructNameZh(selectedSuggestion) });
       starDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: selectedSuggestion.display_name });
       starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
       lastSelectedTerm.current = selectedSuggestion.display_name;
@@ -136,7 +142,7 @@ const StarHipInput = ({ setErrorMessage }) => {
           isSelecting.current = true;
           starDispatch({ type: actionTypes.SET_STAR_HIP, payload: highlightedSuggestion.hip });
           starDispatch({ type: actionTypes.SET_STAR_NAME, payload: highlightedSuggestion.name });
-          starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: highlightedSuggestion.nameZh });
+          starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: constructNameZh(highlightedSuggestion) });
           starDispatch({ type: actionTypes.SET_SEARCH_TERM, payload: highlightedSuggestion.display_name });
           starDispatch({ type: actionTypes.CLEAR_SUGGESTIONS });
           lastSelectedTerm.current = highlightedSuggestion.display_name;
@@ -168,7 +174,7 @@ const StarHipInput = ({ setErrorMessage }) => {
         isSelecting.current = true;
         starDispatch({ type: actionTypes.SET_STAR_HIP, payload: suggestions[0].hip });
         starDispatch({ type: actionTypes.SET_STAR_NAME, payload: suggestions[0].name });
-        starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: suggestions[0].nameZh });
+        starDispatch({ type: actionTypes.SET_STAR_NAME_ZH, payload: constructNameZh(suggestions[0]) });
         lastSelectedTerm.current = searchTerm;
       } else if (searchTerm) {
         if (suggestions.length > 0) {
@@ -235,6 +241,11 @@ const StarHipInput = ({ setErrorMessage }) => {
           inputRef={inputRef}
           InputProps={{
             ...params.InputProps,
+            startAdornment: (
+              <InputAdornment position="start" sx={{ ml: 0.5, mr: 0 }}>
+                <SearchIcon size={20} sx={searchIconStyle} />
+              </InputAdornment>
+            ),
           }}
           InputLabelProps={{ shrink: true }}
           sx={{ marginTop: 2 }}

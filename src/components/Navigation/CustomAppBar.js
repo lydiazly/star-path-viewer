@@ -110,7 +110,7 @@ const CustomAppBar = () => {
           </Tooltip>
           <RWebShare
             data={{
-              text: "Star Path Viewer: Trace a star's path on any date from -3000-01-29 to 3000-05-06.",
+              text: "Star Path Viewer: Trace a star on any date within a time span of millennia.",
               url: baseUrl,
               title: "Share Star Path Viewer",
             }}

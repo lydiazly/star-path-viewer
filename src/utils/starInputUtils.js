@@ -2,6 +2,18 @@
 import * as actionTypes from '../context/starInputActionTypes';
 import { HIP_MIN, HIP_MAX, TYPE_HIP, TYPE_RADEC, FORMAT_DD } from './constants';
 
+const constructNameZh = (item) => {
+  if (item.name_zh) {
+    return (
+      item.name_zh === item.name_zh_hk
+        ? `${item.name_zh}, ${item.pinyin}`
+        : `${item.name_zh}, ${item.name_zh_hk}, ${item.pinyin}`
+    );
+  } else {
+    return '';
+  }
+};
+
 /* Validate the star */
 const validateStarSync = (
   starInputType, radecFormat,
@@ -79,6 +91,7 @@ const clearStarError = (starDispatch, setErrorMessage) => {
 };
 
 export {
+  constructNameZh,
   validateStarSync,
   clearStarError,
 };

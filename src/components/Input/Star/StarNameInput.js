@@ -21,7 +21,7 @@ const StarNameInput = () => {
       required
       select
       autoComplete="off"
-      label="Planet Name"
+      label="Planet name"
       InputLabelProps={{ htmlFor: 'star-select' }}
       inputProps={{ id: 'star-select' }}
       size="small"

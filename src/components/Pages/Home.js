@@ -13,8 +13,8 @@ import InfoDisplay from '../Output/InfoDisplay';
 import ImageDisplay from '../Output/ImageDisplay';
 import DownloadManager from '../Output/DownloadManager';
 import AnnoDisplay from '../Output/AnnoDisplay';
-import Notice from '../Navigation/Notice';
-import Config from '../../Config';
+// import Notice from '../Navigation/Notice';
+// import Config from '../../Config';
 
 const Home = () => {
   // console.log('Rendering Home');
@@ -43,9 +43,9 @@ const Home = () => {
     <LocationInputProvider>
       <DateInputProvider>
         <StarInputProvider>
-          {Config.notice && (
+          {/* {Config.notice && (
             <Notice />
-          )}
+          )} */}
           <Box
             sx={{
               display: 'flex',
