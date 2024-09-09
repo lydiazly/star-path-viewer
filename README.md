@@ -1,19 +1,22 @@
 # Star Path Viewer
 
-Trace a star on any date within a time span of millennia.
+Trace a star on any date between 3001 BCE and 3000 CE.
 [→ Go to website](https://stardial-astro.github.io/star-path-viewer)
 
 [![Version](https://img.shields.io/badge/version-v1.0-blue)](#features) [![npm](https://img.shields.io/badge/npm-10.2.4-CB3837?logo=npm&logoColor=white)](https://www.npmjs.com) [![react](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react&logoColor=white)](https://react.dev) [![mui](https://img.shields.io/badge/MUI-5.16.6-007FFF?logo=mui&logoColor=white)](https://mui.com)
 
-## Description
+## Description<!-- omit in toc -->
 
-[Star Path Viewer](https://stardial-astro.github.io/star-path-viewer) is a [React](https://react.dev) web application of [this project](https://github.com/claude-hao/star-path-calculator) as a RESTful client for [this Flask server](https://github.com/lydiazly/star-path-calculator-flask).
+[Star Path Viewer](https://stardial-astro.github.io/star-path-viewer) is a [React](https://react.dev) web application developed by [Stardial](https://github.com/stardial-astro).
 
-Input the date, location, and a celestial object's infomation to view the star path and rising/setting details.
+[→ Source code](https://github.com/claude-hao/star-path-calculator)
+
+[→ Flask server](https://github.com/lydiazly/star-path-calculator-flask)
+
+[→ Hosted data (star names)](https://github.com/stardial-astro/star-path-data)
 
 ## Table of Contents<!-- omit in toc -->
 
-- [Description](#description)
 - [Features](#features)
   - [Main Functions](#main-functions)
   - [User Interface](#user-interface)
@@ -25,21 +28,21 @@ Input the date, location, and a celestial object's infomation to view the star p
 
 ### Main Functions
 
-:stars: Plots the star path and calculates the rising/setting times based on the provided date, location, and star information.
-:calendar: Covers a wide time span, from **3001 BCE to 3000 CE**.
-:ringed_planet: Uses the [JPL DE406 ephemeris and Hipparchus Catelogue](#resources) to calculate the planet and star positions for any given time.
-:telescope: Accounts for the **proper motion** of a star if the Hipparcos Catalogue number is provided.
-:night_with_stars: Displays star paths with distinct line styles for daytime, twilight, and nighttime.
-:clock1: Offers both [local time](#resources) and UT1 time in output details (*Daylight Saving Time is not included*).
+- :dizzy: Plots the star path and calculates the rising/setting times based on the provided date, location, and star information.
+- :calendar: Covers a wide time span, from **3001 BCE to 3000 CE**.
+- :ringed_planet: Uses the [JPL DE406 ephemeris and Hipparchus Catelogue](#resources) to calculate the planet and star positions for any given time.
+- :telescope: Accounts for the [proper motion](https://en.wikipedia.org/wiki/Proper_motion) of a star if the Hipparcos Catalogue number is provided.
+- :night_with_stars: Displays star paths with distinct line styles for daytime, twilight, and nighttime.
+- :clock1: Offers both [local time](#resources) and [UT1](https://en.wikipedia.org/wiki/Universal_Time) time in output details (*Daylight Saving Time is not included*).
 
 ### User Interface
 
-:round_pushpin: Offers flexible location input options, including location search, geographical position lookup, or manual latitude and longitude entry.
-:calendar: Accepts both **Gregorian** and **Julian** calendar date inputs.
-:spiral_calendar_pad: Allows users to quickly retrieve equinox or solstice dates by specifying just the year and location, instead of a full date.
-:star: Supports star or planet input by name, Hipparcos Catalogue number, or ICRS coordinates (RA, Dec).
-:mag: Allows searching for Hipparcos Catalogue numbers by integers or strings of names, supporting Bayer designations, proper names, and [Chinese names (traditional, simplified, and pinyin)](#resources).
-:framed_picture: SVG diagrams are available for download in SVG, PNG, or PDF formats.
+- :round_pushpin: Offers flexible location input options, including location search, geographical position lookup, or manual latitude and longitude entry.
+- :calendar: Accepts both **Gregorian** and **Julian** calendar date inputs.
+- :spiral_calendar_pad: Allows users to quickly retrieve equinox or solstice dates by specifying just the year and location, instead of a full date.
+- :star: Supports star or planet input by name, Hipparcos Catalogue number, or ICRS coordinates (RA, Dec).
+- :mag: Allows searching for Hipparcos Catalogue numbers by integers or strings of names, supporting Bayer designations, proper names, and [Chinese names (traditional, simplified, and pinyin)](#resources).
+- :framed_picture: SVG diagrams are available for download in SVG, PNG, or PDF formats.
 
 ## Services
 
@@ -49,11 +52,11 @@ This app relies on the following services:
 
 2. **[Nominatim API](https://nominatim.org/release-docs/latest/api/Overview)** - An API to search [OSM](www.openstreetmap.org) data by name and address (geocoding) and to generate synthetic addresses of OSM points (reverse geocoding).
 
-3. **[Baidu Web Service API](https://lbsyun.baidu.com/faq/api?title=webapi)** - Only if unable to connect to Nominatim, fallback to this geocoding service.
+3. **[Baidu Web Service API](https://lbsyun.baidu.com/faq/api?title=webapi)** - If a connection to Nominatim cannot be established, the system will switch to this alternative geocoding service.
+
+> :bulb: The geocoding service is selected when the website loads. If you are outside mainland China but notice that Baidu is being used, refreshing the page should resolve it and select Nominatim as intended.
 
 ## Resources
-
-This React client uses the following external resources:
 
 - Hipparchus Catalogue
 

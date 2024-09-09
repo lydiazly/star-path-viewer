@@ -88,7 +88,8 @@ const Home = () => {
               },
             }}
           >
-            &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from &#8209;3000&#8209;01&#8209;29 to 3000&#8209;05&#8209;06&nbsp;&mdash;
+            {/* &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date from &#8209;3000&#8209;01&#8209;29 to 3000&#8209;05&#8209;06&nbsp;&mdash; */}
+            &mdash;&nbsp;Trace a&nbsp;star&nbsp;on any&nbsp;date between 3001&nbsp;BCE and 3000&nbsp;CE&nbsp;&mdash;
           </Typography>
           
           <Box id="draw" sx={{ width: '100%', justifyContent: 'center' }}>

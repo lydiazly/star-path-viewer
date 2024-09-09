@@ -5,7 +5,7 @@ import { JULIAN } from './constants';
 import { dateToStr } from './dateUtils';
 import { fetchEquinoxSolstice } from './fetchEquinoxSolstice';
 
-/* Fetch the date for the equinox/solstice of the given year */
+/* Fetch the date of the equinox/solstice in the given year */
 const fetchDate = async (date, flag, locationRef, dateDispatch, setErrorMessage, signal, abortControllerRef, requestId, latestDateRequest) => {
   // console.log('Fetching date...', date.year, locationRef.current, flag);
   // const date = dateRef.current;
